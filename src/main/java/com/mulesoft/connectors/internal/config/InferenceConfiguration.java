@@ -5,6 +5,7 @@ import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
@@ -29,17 +30,18 @@ public class InferenceConfiguration {
     private String apiKey;
 
     @Parameter
+	@Placement(order = 1, tab = "Inference Parameters")
     @Optional(defaultValue = "Valid-for-portkey-only")
     @Expression(ExpressionSupport.SUPPORTED)
     @DisplayName("Virtual Key")
     private String virtualKey;
 
-    public String getApiKey() {
-        return apiKey;
-    }
-
     public String getVirtualKey() {
         return virtualKey;
+    }
+
+    public String getApiKey() {
+        return apiKey;
     }
 
     public String getInferenceType() {
@@ -49,7 +51,7 @@ public class InferenceConfiguration {
 	@Parameter
 	@Expression(ExpressionSupport.SUPPORTED)
 	@OfValues(ModelNameProvider.class)
-	@Optional(defaultValue = "LLaMA3 70b")
+	@Optional(defaultValue = "gpt-3.5-turbo")
 	private String modelName;
 
 	public String getModelName() {
@@ -83,6 +85,16 @@ public class InferenceConfiguration {
 		return topP;
 	}
 
+    @Parameter
+	@Placement(order = 2, tab = "Inference Parameters")
+	@Expression(ExpressionSupport.SUPPORTED)
+	@Optional(defaultValue = "http://localhost:11434/api")
+    @DisplayName("Ollama Base URL")
+	private String ollamaUrl;
+
+	public String getOllamaUrl() {
+		return ollamaUrl;
+	}
 
 }
 

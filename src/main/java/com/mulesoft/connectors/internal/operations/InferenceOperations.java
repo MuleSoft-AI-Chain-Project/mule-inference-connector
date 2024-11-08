@@ -20,6 +20,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,30 +52,35 @@ public class InferenceOperations {
 @Alias("Chat-completions")
 @OutputJsonType(schema = "api/response/Response.json")
 public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> chatCompletion(
-                            @Config InferenceConfiguration configuration,
+                            @Config InferenceConfiguration configuration, 
                             @Content InputStream messages) throws Exception {
    try {
       JSONArray messagesArray = getInputString(messages);
       URL chatCompUrl = getConnectionURLChatCompletion(configuration);
 
-      JSONObject payload = new JSONObject();
-      payload.put(InferenceConstants.MODEL, configuration.getModelName());
-      payload.put(InferenceConstants.MESSAGES, messagesArray);
-      payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
-      payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
-      payload.put(InferenceConstants.TOP_P, configuration.getTopP());
+      JSONObject payload = getPayload(configuration, messagesArray, null);
 
       String response = executeREST(chatCompUrl,configuration, payload.toString());
 
-
       JSONObject root = new JSONObject(response);
       String model = root.getString("model");      
-      String id = root.getString("id");
-      JSONArray choicesArray = root.getJSONArray("choices");
-      JSONObject firstChoice = choicesArray.getJSONObject(0);
-      String finishReason = firstChoice.getString("finish_reason");
-      JSONObject message = firstChoice.getJSONObject("message");
+      String id = !"OLLAMA".equals(configuration.getInferenceType()) ? root.getString("id") : null;
+      JSONObject message;
+      String finishReason;
+
+      if (!"OLLAMA".equals(configuration.getInferenceType())) {
+        JSONArray choicesArray = root.getJSONArray("choices");
+        JSONObject firstChoice = choicesArray.getJSONObject(0);
+        finishReason = firstChoice.getString("finish_reason");
+        message = firstChoice.getJSONObject("message");
+
+      } else {
+        message = root.getJSONObject("message");
+        finishReason = root.getString("done_reason");
+      }
+
       String content = message.getString("content");
+
 
       TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
       JSONObject jsonObject = new JSONObject();
@@ -89,8 +95,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       return createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
      } catch (Exception e) {
       //throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
+      LOGGER.debug("Error in chat completions {}", e.getMessage());
       System.out.println(e.getMessage());
-
       return null;
 
     }
@@ -115,23 +121,28 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
 
       URL chatCompUrl = getConnectionURLChatCompletion(configuration);
 
-      JSONObject payload = new JSONObject();
-      payload.put(InferenceConstants.MODEL, configuration.getModelName());
-      payload.put(InferenceConstants.MESSAGES, messagesArray);
-      payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
-      payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
-      payload.put(InferenceConstants.TOP_P, configuration.getTopP());
+      JSONObject payload = getPayload(configuration, messagesArray, null);
 
       String response = executeREST(chatCompUrl,configuration, payload.toString());
 
 
       JSONObject root = new JSONObject(response);
       String model = root.getString("model");      
-      String id = root.getString("id");
-      JSONArray choicesArray = root.getJSONArray("choices");
-      JSONObject firstChoice = choicesArray.getJSONObject(0);
-      String finishReason = firstChoice.getString("finish_reason");
-      JSONObject message = firstChoice.getJSONObject("message");
+      String id = !"OLLAMA".equals(configuration.getInferenceType()) ? root.getString("id") : null;
+      JSONObject message;
+      String finishReason;
+
+      if (!"OLLAMA".equals(configuration.getInferenceType())) {
+        JSONArray choicesArray = root.getJSONArray("choices");
+        JSONObject firstChoice = choicesArray.getJSONObject(0);
+        finishReason = firstChoice.getString("finish_reason");
+        message = firstChoice.getJSONObject("message");
+
+      } else {
+        message = root.getJSONObject("message");
+        finishReason = root.getString("done_reason");
+      }
+
       String content = message.getString("content");
 
       TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
@@ -142,12 +153,12 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       responseAttributes.put(InferenceConstants.MODEL, model); 
       responseAttributes.put(InferenceConstants.ID_STRING, id); 
 
-      LOGGER.debug("Chat completions result {}", response);
+      LOGGER.debug("Chat answer prompt result {}", response);
 
       return createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
      } catch (Exception e) {
       //throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
-      System.out.println(e.getMessage());
+      LOGGER.debug("Error in chat answer prompt {}", e.getMessage());
 
       return null;
 
@@ -171,31 +182,38 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       JSONObject systemMessage = new JSONObject();
       systemMessage.put("role", "system");
       systemMessage.put("content", template + " - " + instructions);
+      messagesArray.put(systemMessage);
 
       JSONObject usersPrompt = new JSONObject();
       usersPrompt.put("role", "user");
       usersPrompt.put("content", data);
       messagesArray.put(usersPrompt);
 
+
       URL chatCompUrl = getConnectionURLChatCompletion(configuration);
 
-      JSONObject payload = new JSONObject();
-      payload.put(InferenceConstants.MODEL, configuration.getModelName());
-      payload.put(InferenceConstants.MESSAGES, messagesArray);
-      payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
-      payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
-      payload.put(InferenceConstants.TOP_P, configuration.getTopP());
+      JSONObject payload = getPayload(configuration, messagesArray, null);
 
       String response = executeREST(chatCompUrl,configuration, payload.toString());
 
 
       JSONObject root = new JSONObject(response);
       String model = root.getString("model");      
-      String id = root.getString("id");
-      JSONArray choicesArray = root.getJSONArray("choices");
-      JSONObject firstChoice = choicesArray.getJSONObject(0);
-      String finishReason = firstChoice.getString("finish_reason");
-      JSONObject message = firstChoice.getJSONObject("message");
+      String id = !"OLLAMA".equals(configuration.getInferenceType()) ? root.getString("id") : null;
+      JSONObject message;
+      String finishReason;
+
+      if (!"OLLAMA".equals(configuration.getInferenceType())) {
+        JSONArray choicesArray = root.getJSONArray("choices");
+        JSONObject firstChoice = choicesArray.getJSONObject(0);
+        finishReason = firstChoice.getString("finish_reason");
+        message = firstChoice.getJSONObject("message");
+
+      } else {
+        message = root.getJSONObject("message");
+        finishReason = root.getString("done_reason");
+      }
+
       String content = message.getString("content");
 
       TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
@@ -206,17 +224,89 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       responseAttributes.put(InferenceConstants.MODEL, model); 
       responseAttributes.put(InferenceConstants.ID_STRING, id); 
 
-      LOGGER.debug("Chat completions result {}", response);
+      LOGGER.debug("Agent define prompt template result {}", response);
 
       return createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
      } catch (Exception e) {
       //throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
-      System.out.println(e.getMessage());
+      LOGGER.debug("Error in Agent define prompt template {}", e.getMessage());
 
       return null;
 
     }
   }
+
+  /**
+ * Define a tools template
+ * @throws Exception 
+*/
+@MediaType(value = APPLICATION_JSON, strict = false)
+@Alias("Tools-native-template")
+@OutputJsonType(schema = "api/response/Response.json")
+public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMResponseAttributes> toolsTemplate(
+                            @Config InferenceConfiguration configuration,
+                            @Content String template, @Content String instructions, 
+                            @Content(primary = true) String data, @Content InputStream tools) 
+                            throws Exception {
+   try {
+      JSONArray toolsArray = getInputString(tools);
+
+      JSONArray messagesArray = new JSONArray();
+      JSONObject systemMessage = new JSONObject();
+      systemMessage.put("role", "system");
+      systemMessage.put("content", template + " - " + instructions);
+      messagesArray.put(systemMessage);
+
+      JSONObject usersPrompt = new JSONObject();
+      usersPrompt.put("role", "user");
+      usersPrompt.put("content", data);
+      messagesArray.put(usersPrompt);
+
+      URL chatCompUrl = getConnectionURLChatCompletion(configuration);
+      JSONObject payload = getPayload(configuration, messagesArray, toolsArray);
+      String response = executeREST(chatCompUrl,configuration, payload.toString());
+
+      JSONObject root = new JSONObject(response);
+      String model = root.getString("model");      
+      String id = !"OLLAMA".equals(configuration.getInferenceType()) ? root.getString("id") : null;
+      JSONObject message;
+      String finishReason;
+
+      if (!"OLLAMA".equals(configuration.getInferenceType())) {
+        JSONArray choicesArray = root.getJSONArray("choices");
+        JSONObject firstChoice = choicesArray.getJSONObject(0);
+        finishReason = firstChoice.getString("finish_reason");
+        message = firstChoice.getJSONObject("message");
+
+      } else {
+        message = root.getJSONObject("message");
+        finishReason = root.getString("done_reason");
+      }
+
+      String content = message.has("content") && !message.isNull("content") ? message.getString("content") : null;
+      JSONArray tool_calls = message.has("tool_calls") ? message.getJSONArray("tool_calls") : null;
+
+      TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
+      JSONObject jsonObject = new JSONObject();
+      jsonObject.put(InferenceConstants.RESPONSE, content);
+      jsonObject.put(InferenceConstants.TOOLS, tool_calls);
+      Map<String, String> responseAttributes = new HashMap<>();;
+      responseAttributes.put(InferenceConstants.FINISH_REASON, finishReason); 
+      responseAttributes.put(InferenceConstants.MODEL, model); 
+      responseAttributes.put(InferenceConstants.ID_STRING, id); 
+
+      LOGGER.debug("Agent define prompt template result {}", response);
+
+      return createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
+     } catch (Exception e) {
+      //throw new ModuleException("Unable to perform toxicity detection", MuleChainErrorType.AI_SERVICES_FAILURE, e);
+      LOGGER.debug("Error in Agent define prompt template {}", e.getMessage());
+
+      return null;
+
+    }
+  }
+
 
   private static HttpURLConnection getConnectionObject(URL url, InferenceConfiguration configuration) throws IOException {
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -245,9 +335,29 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
             return new URL(InferenceConstants.GROQ_URL + InferenceConstants.CHAT_COMPLETIONS);
         case "HUGGING_FACE": 
             return new URL(InferenceConstants.HUGGINGFACE_URL + "/models/" + configuration.getModelName() + "/v1" + InferenceConstants.CHAT_COMPLETIONS);
+        case "OPENROUTER": 
+            return new URL(InferenceConstants.OPENROUTER_URL + InferenceConstants.CHAT_COMPLETIONS);
+        case "GITHUB": 
+            return new URL(InferenceConstants.GITHUB_MODELS_URL + InferenceConstants.CHAT_COMPLETIONS);
+        case "OLLAMA": 
+            return new URL(configuration.getOllamaUrl() + InferenceConstants.CHAT_COMPLETIONS_OLLAMA);
         default:
             return new URL ("");
         }
+  }
+
+  private static JSONObject getPayload(InferenceConfiguration configuration, JSONArray messagesArray, JSONArray toolsArray){
+    JSONObject payload = new JSONObject();
+    payload.put(InferenceConstants.MODEL, configuration.getModelName());
+    payload.put(InferenceConstants.MESSAGES, messagesArray);
+    payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
+    payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
+    payload.put(InferenceConstants.TOP_P, configuration.getTopP());
+    payload.put(InferenceConstants.TOOLS, toolsArray != null ? toolsArray : null);
+    payload.put("stream", "OLLAMA".equals(configuration.getInferenceType()) ? false : null);
+
+    return payload;
+
   }
 
   private static JSONArray getInputString(InputStream inputString) throws IOException {
