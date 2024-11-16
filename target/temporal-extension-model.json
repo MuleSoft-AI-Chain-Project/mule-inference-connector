@@ -1,14 +1,14 @@
 {
   "name": "MAC Inference",
   "description": "This is the main class of an extension, is the entry point from which configurations, connection providers, operations and sources are going to be declared.",
-  "version": "0.0.59-SNAPSHOT",
+  "version": "0.0.62-SNAPSHOT",
   "vendor": "Mulesoft",
   "category": "COMMUNITY",
   "xmlDsl": {
     "prefix": "mac-inference",
     "namespace": "http://www.mulesoft.org/schema/mule/mac-inference",
     "schemaLocation": "http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd",
-    "schemaVersion": "0.0.59-SNAPSHOT",
+    "schemaVersion": "0.0.62-SNAPSHOT",
     "xsdFileName": "mule-mac-inference.xsd"
   },
   "resources": [],

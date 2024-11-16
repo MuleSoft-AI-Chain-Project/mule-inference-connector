@@ -286,10 +286,30 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       String content = message.has("content") && !message.isNull("content") ? message.getString("content") : null;
       JSONArray tool_calls = message.has("tool_calls") ? message.getJSONArray("tool_calls") : null;
 
+
+      JSONArray toolCalls = new JSONArray();
+      if (tool_calls != null) {
+        for (int i = 0; i < tool_calls.length(); i++) {
+            JSONObject toolCall = tool_calls.getJSONObject(i);
+    
+            // Check if "function" and "arguments" are present in each tool call
+            if (toolCall.has("function")) {
+                JSONObject functionObject = toolCall.getJSONObject("function");
+    
+                if (functionObject.has("arguments")) {
+                    // Convert "arguments" from a string to a JSON object
+                    JSONObject arguments = new JSONObject(functionObject.getString("arguments"));
+                    functionObject.put("arguments", arguments);
+                }
+            }
+      
+              toolCalls.put(toolCall);
+          }
+      }
       TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
       JSONObject jsonObject = new JSONObject();
       jsonObject.put(InferenceConstants.RESPONSE, content);
-      jsonObject.put(InferenceConstants.TOOLS, tool_calls);
+      jsonObject.put(InferenceConstants.TOOLS, toolCalls);
       Map<String, String> responseAttributes = new HashMap<>();;
       responseAttributes.put(InferenceConstants.FINISH_REASON, finishReason); 
       responseAttributes.put(InferenceConstants.MODEL, model); 
