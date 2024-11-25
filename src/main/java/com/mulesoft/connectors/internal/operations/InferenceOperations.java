@@ -336,7 +336,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
     HttpURLConnection conn = (HttpURLConnection) url.openConnection();
     conn.setDoOutput(true);
     conn.setRequestMethod("POST");
-    conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+    //conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+    conn.setRequestProperty("Content-Type", "application/json");
     conn.setRequestProperty("User-Agent", "Mozilla/5.0");  
     conn.setRequestProperty("Accept", "application/json");  
     switch (configuration.getInferenceType()) {
