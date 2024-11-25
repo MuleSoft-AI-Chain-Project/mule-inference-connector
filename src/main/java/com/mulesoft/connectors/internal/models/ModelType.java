@@ -17,7 +17,7 @@ public enum ModelType {
        OPENROUTER("OPENROUTER", getOpenRouterModelNameStream()),
        GITHUB("GITHUB", getGithubModelNameStream()),
        OLLAMA("OLLAMA", getOllamaModelNameStream()),
-       CEREBRAS("CEREBRAS", getCerebrasModelNameStream());
+       CEREBRAS("CEREBRAS", getCerebrasModelNameStream()),
        NIM("NIM", getNIMModelNameStream());
   private final String value;
   private final Stream<String> modelNameStream;
