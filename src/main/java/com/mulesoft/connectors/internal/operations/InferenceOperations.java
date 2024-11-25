@@ -71,7 +71,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       if (!"OLLAMA".equals(configuration.getInferenceType())) {
         JSONArray choicesArray = root.getJSONArray("choices");
         JSONObject firstChoice = choicesArray.getJSONObject(0);
-        finishReason = firstChoice.getString("finish_reason");
+        // aw add/nim finishReason = firstChoice.getString("finish_reason");
+        finishReason = !"NIM".equals(configuration.getInferenceType()) ? firstChoice.getString("finish_reason") : "";
         message = firstChoice.getJSONObject("message");
 
       } else {
@@ -135,7 +136,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       if (!"OLLAMA".equals(configuration.getInferenceType())) {
         JSONArray choicesArray = root.getJSONArray("choices");
         JSONObject firstChoice = choicesArray.getJSONObject(0);
-        finishReason = firstChoice.getString("finish_reason");
+        // aw add/nim finishReason = firstChoice.getString("finish_reason");
+        finishReason = !"NIM".equals(configuration.getInferenceType()) ? firstChoice.getString("finish_reason") : "";
         message = firstChoice.getJSONObject("message");
 
       } else {
@@ -206,7 +208,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       if (!"OLLAMA".equals(configuration.getInferenceType())) {
         JSONArray choicesArray = root.getJSONArray("choices");
         JSONObject firstChoice = choicesArray.getJSONObject(0);
-        finishReason = firstChoice.getString("finish_reason");
+        // aw add/nim finishReason = firstChoice.getString("finish_reason");
+        finishReason = !"NIM".equals(configuration.getInferenceType()) ? firstChoice.getString("finish_reason") : "";
         message = firstChoice.getJSONObject("message");
 
       } else {
@@ -275,7 +278,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
       if (!"OLLAMA".equals(configuration.getInferenceType())) {
         JSONArray choicesArray = root.getJSONArray("choices");
         JSONObject firstChoice = choicesArray.getJSONObject(0);
-        finishReason = firstChoice.getString("finish_reason");
+        // aw add/nim finishReason = firstChoice.getString("finish_reason");
+        finishReason = !"NIM".equals(configuration.getInferenceType()) ? firstChoice.getString("finish_reason") : "";
         message = firstChoice.getJSONObject("message");
 
       } else {
@@ -363,6 +367,8 @@ public org.mule.runtime.extension.api.runtime.operation.Result<InputStream, LLMR
             return new URL(configuration.getOllamaUrl() + InferenceConstants.CHAT_COMPLETIONS_OLLAMA);
         case "CEREBRAS": 
             return new URL(InferenceConstants.CEREBRAS_URL + InferenceConstants.CHAT_COMPLETIONS);
+        case "NIM": 
+            return new URL(InferenceConstants.NIM_URL + InferenceConstants.CHAT_COMPLETIONS);
         default:
             return new URL ("");
         }

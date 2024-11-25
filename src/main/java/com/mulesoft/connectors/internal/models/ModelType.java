@@ -9,6 +9,7 @@ import java.util.stream.Stream;
 
 import com.mulesoft.connectors.internal.exception.error.ConfigValidationException;
 
+
 public enum ModelType {
        HUGGING_FACE("HUGGING_FACE", getHuggingFaceModelNameStream()),
        GROQ("GROQ", getGroqModelNameStream()),
@@ -17,6 +18,7 @@ public enum ModelType {
        GITHUB("GITHUB", getGithubModelNameStream()),
        OLLAMA("OLLAMA", getOllamaModelNameStream()),
        CEREBRAS("CEREBRAS", getCerebrasModelNameStream());
+       NIM("NIM", getNIMModelNameStream());
   private final String value;
   private final Stream<String> modelNameStream;
 
@@ -64,6 +66,10 @@ public enum ModelType {
   }
 
 
+  private static Stream<String> getNIMModelNameStream() {
+    return Arrays.stream(NIMModelName.values()).map(String::valueOf);
+  }
+
 
   public static ModelType fromValue(String value) {
     return Arrays.stream(ModelType.values())
@@ -72,6 +78,26 @@ public enum ModelType {
         .orElseThrow(() -> new ConfigValidationException("Unsupported LLM Type: " + value));
   }
 
+  enum NIMModelName {
+    THUDM_Chatglm3_6b("thudm/chatglm3-6b"),
+    MISTRALAI_MISTRAL_7B_INSTRUCT_V03C("mistralai/mistral-7b-instruct-v0.3"),
+    YI_LARGE("01-ai/yi-large"),
+    SEA_LION_7B_Instruct("aisingapore/sea-lion-7b-instruct"),
+    Granite_3_0_3B_A800M_Instruct("ibm/granite-3.0-3b-a800m-instruct"),
+    LLAMA_3_1_8B_INSTRUCTlama("meta/llama-3.1-8b-instruct");
+    
+    private final String value;
+  
+    NIMModelName(String value) {
+      this.value = value;
+    }
+  
+    @Override
+    public String toString() {
+      return this.value;
+    }
+  }
+  
   enum GroqModelName {
     MIXTRAL_8x7b_32768("mixtral-8x7b-32768"),
     LLAMA_3_2_3b_PREVIEW("llama-3.2-3b-preview"),
