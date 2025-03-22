@@ -2,16 +2,22 @@ package com.mulesoft.connectors.internal.utils;
 
 import com.mulesoft.connectors.internal.config.InferenceConfiguration;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.internal.operations.InferenceOperations;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +26,9 @@ import org.slf4j.LoggerFactory;
  * Utility class for HTTP connection operations.
  */
 public class ConnectionUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionUtils.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(InferenceOperations.class);
+
+    //private static final java.util.logging.Logger LOGGER = LoggerFactory.getLogger(ConnectionUtils.class);
 
     /**
      * Build the HTTP connection for the API request
@@ -30,7 +38,25 @@ public class ConnectionUtils {
      * @throws IOException if an error occurs during connection setup
      */
     public static HttpURLConnection getConnectionObject(URL url, InferenceConfiguration configuration) throws IOException {
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+    	
+        HttpURLConnection conn;
+
+        if ("VERTEX_AI_EXPRESS".equalsIgnoreCase(configuration.getInferenceType())) {
+        	Map<String, String> queryParams = new HashMap<>();
+        	queryParams.put("key", configuration.getApiKey());
+        	
+        	// Append query parameters to the base URL
+            String fullUrl = url.toString() + "?" + getQueryParams(queryParams);
+         
+            // Open connection with the modified URL
+            conn = (HttpURLConnection) new URL(fullUrl).openConnection();
+        } else {
+            conn = (HttpURLConnection) url.openConnection();
+        }
+
+        LOGGER.debug("path : ", conn.getURL().getPath());
+        
+        //HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setDoOutput(true);
         conn.setRequestMethod("POST");
         conn.setRequestProperty("Content-Type", "application/json");
@@ -48,6 +74,9 @@ public class ConnectionUtils {
                 break;
             case "AZURE_OPENAI":
                 conn.setRequestProperty("api-key", configuration.getApiKey());
+                break;
+            case "VERTEX_AI_EXPRESS":
+                //do nothing for Vertex AI
                 break;
             default:
                 conn.setRequestProperty("Authorization", "Bearer " + configuration.getApiKey());
@@ -109,6 +138,11 @@ public class ConnectionUtils {
                     .replace("{resource-name}", configuration.getAzureOpenaiResourceName())
                     .replace("{deployment-id}", configuration.getAzureOpenaiDeploymentId());
                 return new URL(urlStr);
+            case "VERTEX_AI_EXPRESS":
+                String vertexAIUrlStr = InferenceConstants.VERTEX_AI_EXPRESS_URL + InferenceConstants.GENERATE_CONTENT_VERTEX_AI;
+                vertexAIUrlStr = vertexAIUrlStr
+                    .replace("{MODEL_ID}", configuration.getModelName());
+                return new URL(vertexAIUrlStr);
             default:
                 throw new MalformedURLException("Unsupported inference type: " + configuration.getInferenceType());
         }
@@ -183,5 +217,21 @@ public class ConnectionUtils {
             }
             return response.toString();
         }
+    }
+    
+    /**
+     * Utility method to encode query parameters
+     */
+    public static String getQueryParams(Map<String, String> params) throws UnsupportedEncodingException {
+        StringBuilder query = new StringBuilder();
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            if (query.length() > 0) {
+                query.append("&");
+            }
+            query.append(URLEncoder.encode(entry.getKey(), "UTF-8"))
+                 .append("=")
+                 .append(URLEncoder.encode(entry.getValue(), "UTF-8"));
+        }
+        return query.toString();
     }
 } 

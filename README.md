@@ -30,10 +30,20 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [Cohere](https://cohere.com/)
 - [Xinference](https://inference.readthedocs.io/)
 - [Azure OpenAI](https://learn.microsoft.com/en-us/azure/ai-services/openai/)
+- [Google Vertex AI](https://cloud.google.com/vertex-ai?hl=en)
 
 ## Supported Moderation Providers
 - [OpenAI](https://openai.com/)
 - [Mistral AI](https://docs.mistral.ai/capabilities/guardrailing/)
+
+## Supported Vision Model Providers
+- [OpenAI](https://platform.openai.com/docs/guides/images?api-mode=chat)
+- [Anthropic](https://www.anthropic.com/)
+- [XAI](https://x.ai/)
+- [Mistral](https://docs.mistral.ai/capabilities/vision/)
+- [OpenRouter](https://openrouter.ai/)
+- [Groq AI](https://console.groq.com/)
+- [Portkey](https://portkey.ai/)
 
 ### Requirements
 

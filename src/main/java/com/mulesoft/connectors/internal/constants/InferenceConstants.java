@@ -26,12 +26,14 @@ public class InferenceConstants {
   public static final String AI21LABS_URL = "https://api.ai21.com/studio/v1";
   public static final String COHERE_URL = "https://api.cohere.com/v2";
   public static final String AZURE_OPENAI_URL = "https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}";
+  public static final String VERTEX_AI_EXPRESS_URL = "https://aiplatform.googleapis.com/v1/publishers/google/models/{MODEL_ID}:";
 
   // Resources
   public static final String CHAT_COMPLETIONS = "/chat/completions";
   public static final String CHAT_COMPLETIONS_AZURE = "/chat/completions?api-version=2024-10-21";
   public static final String CHAT_COMPLETIONS_OLLAMA = "/chat";
   public static final String GENERATION_OLLAMA = "/generate";
+  public static final String GENERATE_CONTENT_VERTEX_AI = "generateContent";
 
   // Configuration Parameters
   public static final String MAX_TOKENS = "max_tokens";
@@ -50,6 +52,10 @@ public class InferenceConstants {
   public static final String ASSISTANT = "assistant";
   public static final String SYSTEM = "system";
   public static final String MODERATIONS = "moderations";
+  public static final String CONTENTS = "contents";
+  public static final String SYSTEM_INSTRUCTION = "systemInstruction";
+  public static final String GENERATION_CONFIG = "generationConfig";
+  public static final String SAFETY_SETTINGS = "safetySettings";
 
   public static final String MODERATIONS_PATH = "/moderations";
 

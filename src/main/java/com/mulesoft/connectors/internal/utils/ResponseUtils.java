@@ -44,11 +44,23 @@ public class ResponseUtils {
             toolCalls = processToolCalls(responseInfo.message.getJSONArray("tool_calls"));
         }
 
+      if (isToolsResponse && root.has("tool_calls")) {
+          toolCalls = processToolCalls(root.getJSONArray("tool_calls"));
+      }
+
         // Handle Anthropic tool_use for tools responses
         if (isToolsResponse && ProviderUtils.isAnthropic(configuration)) {
             JSONArray toolsCallAnthropic = extractAnthropicToolCalls(root.getJSONArray("content"));
             if (!toolsCallAnthropic.isEmpty()) {
                 responseInfo.message.put("tool_calls", toolsCallAnthropic);
+            }
+        }
+
+        // Handle Vertex AI tools responses (functionCall)
+        if (isToolsResponse && ProviderUtils.isVertexAIExpress(configuration)) {
+            JSONArray functionCalls = extractVertexAIFunctionCalls(root);
+            if (!functionCalls.isEmpty()) {
+                responseInfo.message.put("tool_calls", functionCalls);
             }
         }
 
@@ -63,6 +75,10 @@ public class ResponseUtils {
                     content = firstContent.getString("text"); // Extract the "text" field
                 }
             }
+        } else if (ProviderUtils.isVertexAIExpress(configuration)) {
+            content = responseInfo.message.has("text") && !responseInfo.message.isNull("text")
+                    ? responseInfo.message.getString("text") : null;
+
         } else {
             content = responseInfo.message.has("content") && !responseInfo.message.isNull("content")
                     ? responseInfo.message.getString("content") : null;
@@ -133,11 +149,19 @@ public class ResponseUtils {
     private static ResponseInfo extractResponseInfo(JSONObject root, InferenceConfiguration configuration) {
         ResponseInfo info = new ResponseInfo();
         info.model = !("AI21LABS".equals(configuration.getInferenceType())
-                || "COHERE".equals(configuration.getInferenceType()))
-                ? root.getString("model")
+                || "COHERE".equals(configuration.getInferenceType())
+                || "VERTEX_AI_EXPRESS".equals(configuration.getInferenceType()))
+                ? root.getString("model")   //if model is notAI21LABS or COHERE or VERTEX_AI_EXPRESS
                 : configuration.getModelName();
 
-        info.id = ProviderUtils.isOllama(configuration) ? null : root.getString("id");
+        if (ProviderUtils.isOllama(configuration)) {
+            info.id = null;
+        } else if (ProviderUtils.isVertexAIExpress(configuration)) {
+        	info.id = root.getString("responseId");
+        } else {
+        	info.id = root.getString("id");
+        }
+
         info.message = new JSONObject();
 
         if (ProviderUtils.isOllama(configuration)) {
@@ -163,6 +187,27 @@ public class ResponseUtils {
 
             info.message = new JSONObject();
             info.message.put("content", info.text);
+        } else if (ProviderUtils.isVertexAIExpress(configuration)) {
+        	// Extract candidates array
+            JSONArray candidatesArray = root.getJSONArray("candidates");
+
+            // Ensure at least one candidate exists
+            if (candidatesArray.length() > 0) {
+                JSONObject firstCandidate = candidatesArray.getJSONObject(0);
+
+                // Extract finishReason
+                info.finishReason = firstCandidate.optString("finishReason", "Unknown");
+
+                // Extract text from content.parts array
+                JSONObject content = firstCandidate.getJSONObject("content");
+                JSONArray partsArray = content.getJSONArray("parts");
+                info.message = partsArray.getJSONObject(0);
+                
+            } else {
+                System.out.println("No candidates found in the response.");
+            }
+        	
+        	
         } else {
             // Default case for other models (OpenAI, etc.)
             JSONArray choicesArray = root.getJSONArray("choices");
@@ -173,6 +218,42 @@ public class ResponseUtils {
 
         return info;
     }
+    
+    
+    /**
+     * Extract function calls from Vertex AI format response
+     * @param root the JSONObject from Vertex AI response
+     * @return JSONArray of function calls in a standardized format
+     */
+    private static JSONArray extractVertexAIFunctionCalls(JSONObject root) {
+        JSONArray functionCalls = new JSONArray();
+        
+        if (!root.has("candidates")) {
+            return functionCalls; // Return empty array if no candidates
+        }
+
+        JSONArray candidates = root.getJSONArray("candidates");
+
+        for (int i = 0; i < candidates.length(); i++) {
+            JSONObject candidate = candidates.getJSONObject(i);
+            if (!candidate.has("content")) continue;
+
+            JSONObject content = candidate.getJSONObject("content");
+            if (!content.has("parts")) continue;
+
+            JSONArray parts = content.getJSONArray("parts");
+
+            for (int j = 0; j < parts.length(); j++) {
+                JSONObject part = parts.getJSONObject(j);
+                if (part.has("functionCall")) {
+                    functionCalls.put(part.getJSONObject("functionCall"));
+                }
+            }
+        }
+
+        return functionCalls;
+
+     }
 
     /**
      * Extract tool calls from Anthropic format response
@@ -226,8 +307,9 @@ public class ResponseUtils {
                         LOGGER.warn("Failed to parse function arguments as JSON: {}", e.getMessage());
                     }
                 }
+                
             }
-
+            
             processedToolCalls.put(toolCall);
         }
 

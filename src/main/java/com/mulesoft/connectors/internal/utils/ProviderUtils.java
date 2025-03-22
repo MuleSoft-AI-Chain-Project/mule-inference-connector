@@ -44,6 +44,15 @@ public class ProviderUtils {
         return "COHERE".equals(configuration.getInferenceType());
     }
 
+    /**
+     * Check if the inference type is VERTEX_AI_EXPRESS
+     * @param configuration the connector configuration
+     * @return true if the inference type is Cohere, false otherwise
+     */
+    public static boolean isVertexAIExpress(InferenceConfiguration configuration) {
+        return "VERTEX_AI_EXPRESS".equals(configuration.getInferenceType());
+    }
+
     // Add this utility method to your class or to a utility class
     public static InferenceConfiguration convertToInferenceConfig(VisionConfiguration visionConfig) {
         // Create a new instance of InferenceConfiguration

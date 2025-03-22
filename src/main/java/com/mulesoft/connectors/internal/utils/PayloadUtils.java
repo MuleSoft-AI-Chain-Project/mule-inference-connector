@@ -60,6 +60,64 @@ public class PayloadUtils {
 
         return payload;
     }
+    
+    /**
+     * Build the payload for the Vertex AI API request
+     * @param configuration the connector configuration
+     * @param prompt the prompt
+     * @param toolsArray the tools array (can be null)
+     * @return the payload as a JSON object
+     */
+    public static JSONObject buildVertexAIPayload(InferenceConfiguration configuration, String prompt, 
+    		JSONArray safetySettings, JSONObject systemInstruction, JSONArray tools) {
+        JSONObject payload = new JSONObject();
+        
+        //create the parts of the contents
+        JSONArray partsArray = new JSONArray();
+        JSONObject usersPrompt = new JSONObject();
+        usersPrompt.put("text", prompt);
+        partsArray.put(usersPrompt);
+        
+        // Create the user role object
+        JSONObject userContent = new JSONObject();
+        userContent.put("role", "user");
+        userContent.put("parts", partsArray);
+        
+        // Create the contents array and add the user content
+        JSONArray contentsArray = new JSONArray();
+        contentsArray.put(userContent);
+
+        //add contents to the payload
+        payload.put(InferenceConstants.CONTENTS, contentsArray);
+
+        //add system instruction if provided
+        if (systemInstruction != null) {
+            payload.put(InferenceConstants.SYSTEM_INSTRUCTION, systemInstruction);
+        }
+
+        //create the generationConfig
+        JSONObject generationConfig = new JSONObject();
+        generationConfig.put("responseModalities", new String[]{"TEXT"});
+        generationConfig.put("temperature", configuration.getTemperature());
+        generationConfig.put("maxOutputTokens", configuration.getMaxTokens());
+        generationConfig.put("topP", configuration.getTopP());
+        
+        //add generationConfig to the payload
+        payload.put(InferenceConstants.GENERATION_CONFIG, generationConfig);
+
+        //add safety settings if provided
+        if (safetySettings != null && !safetySettings.isEmpty()) {
+            payload.put(InferenceConstants.SAFETY_SETTINGS, safetySettings);
+        }
+        
+        //add tools if provided
+        if (tools != null && !tools.isEmpty()) {
+            payload.put(InferenceConstants.TOOLS, tools);
+        }
+
+        return payload;
+    }
+
 
     /**
      * Parse an input stream to a JSON array

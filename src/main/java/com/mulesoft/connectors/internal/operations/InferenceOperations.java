@@ -20,8 +20,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
-
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
@@ -78,14 +80,25 @@ public class InferenceOperations {
             @Config InferenceConfiguration configuration,
             @Content String prompt) throws ModuleException {
         try {
-            JSONArray messagesArray = new JSONArray();
-            JSONObject usersPrompt = new JSONObject();
-            usersPrompt.put("role", "user");
-            usersPrompt.put("content", prompt);
-            messagesArray.put(usersPrompt);
+        	
+        	JSONObject payload;
 
+        	
+        	if ("VERTEX_AI_EXPRESS".equalsIgnoreCase(configuration.getInferenceType())) {
+            	JSONArray safetySettings = new JSONArray(); // Empty array
+            	JSONObject systemInstruction = new JSONObject(); // Empty object
+            	JSONArray tools = new JSONArray(); // Empty array
+        		payload = PayloadUtils.buildVertexAIPayload(configuration, prompt, safetySettings, systemInstruction, tools);
+        	} else {
+	            JSONArray messagesArray = new JSONArray();
+	            JSONObject usersPrompt = new JSONObject();
+	            usersPrompt.put("role", "user");
+	            usersPrompt.put("content", prompt);
+	            messagesArray.put(usersPrompt);
+	            payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
+        	}
+        	
             URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(configuration);
-            JSONObject payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
             String response = ConnectionUtils.executeREST(chatCompUrl, configuration, payload.toString());
 
             LOGGER.debug("Chat answer prompt result {}", response);
@@ -115,11 +128,38 @@ public class InferenceOperations {
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
         try {
-            JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
-                    configuration, template + " - " + instructions, data);
+        	
+        	JSONObject payload;
+
+        	
+        	if ("VERTEX_AI_EXPRESS".equalsIgnoreCase(configuration.getInferenceType())) {
+            	JSONArray safetySettings = new JSONArray(); // Empty array
+            	
+            	//Create systemInstruction object
+            	//Step 1: Wrap text in a part object
+                JSONObject part = new JSONObject();
+                part.put("text", template + " - " + instructions);
+
+                //Step 2: Create parts array
+                JSONArray parts = new JSONArray();
+                parts.put(part);
+
+                //Step 3: Create systemInstruction object
+                JSONObject systemInstruction = new JSONObject();
+                systemInstruction.put("parts", parts);
+            	
+            	JSONArray tools = new JSONArray(); // Empty array
+        		payload = PayloadUtils.buildVertexAIPayload(configuration, data, safetySettings, systemInstruction, tools);
+        	} else {
+                JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
+                        configuration, template + " - " + instructions, data);
+
+                payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
+
+        	}
+        	
 
             URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(configuration);
-            JSONObject payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
             String response = ConnectionUtils.executeREST(chatCompUrl, configuration, payload.toString());
 
             LOGGER.debug("Agent define prompt template result {}", response);
@@ -152,12 +192,39 @@ public class InferenceOperations {
             @Content(primary = true) String data,
             @Content @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools) throws ModuleException {
         try {
-            JSONArray toolsArray = PayloadUtils.parseInputStreamToJsonArray(tools);
-            JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
-                    configuration, template + " - " + instructions, data);
+        	
+        	
+        	JSONObject payload;
 
+        	
+        	if ("VERTEX_AI_EXPRESS".equalsIgnoreCase(configuration.getInferenceType())) {
+            	JSONArray safetySettings = new JSONArray(); // Empty array
+            	
+            	//Create systemInstruction object
+            	//Step 1: Wrap text in a part object
+                JSONObject part = new JSONObject();
+                part.put("text", template + " - " + instructions);
+
+                //Step 2: Create parts array
+                JSONArray parts = new JSONArray();
+                parts.put(part);
+
+                //Step 3: Create systemInstruction object
+                JSONObject systemInstruction = new JSONObject();
+                systemInstruction.put("parts", parts);
+            	
+            	JSONArray toolsArray = PayloadUtils.parseInputStreamToJsonArray(tools); 
+        		payload = PayloadUtils.buildVertexAIPayload(configuration, data, safetySettings, systemInstruction, toolsArray);
+        	} else {
+        	
+        	
+        		JSONArray toolsArray = PayloadUtils.parseInputStreamToJsonArray(tools);
+        		JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
+        				configuration, template + " - " + instructions, data);
+        		payload = PayloadUtils.buildPayload(configuration, messagesArray, toolsArray);
+            }
+        	
             URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(configuration);
-            JSONObject payload = PayloadUtils.buildPayload(configuration, messagesArray, toolsArray);
             String response = ConnectionUtils.executeREST(chatCompUrl, configuration, payload.toString());
 
             LOGGER.debug("Tools use native template result {}", response);

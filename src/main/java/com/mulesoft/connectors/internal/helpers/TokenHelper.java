@@ -33,6 +33,13 @@ public class TokenHelper {
                 completionTokens = usageNode.getInt("completion_tokens");
                 totalTokens = usageNode.getInt("total_tokens");
             }
+        } else if (root.has("usageMetadata")) {
+        	//for Vertex AI
+            JSONObject usageMetadataNode = root.getJSONObject("usageMetadata");
+            promptTokens = usageMetadataNode.getInt("promptTokenCount");
+            completionTokens = usageMetadataNode.getInt("candidatesTokenCount");
+            totalTokens = usageMetadataNode.getInt("totalTokenCount");
+        	
         } else {
             // Handle the case without a usage object
             promptTokens = root.getInt("prompt_eval_count");
