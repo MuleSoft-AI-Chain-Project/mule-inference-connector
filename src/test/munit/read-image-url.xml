@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd    http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd    http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<munit:config name="read-image-url.xml">
+		<munit:parameterizations >
+			<munit:parameterization name="config-openai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIVision" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14178" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="MistralAIVision" />
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="449" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read_image_url_operation_test">
+		<munit:execution>
+			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
+			<logger level="INFO" message="#[payload]"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Eiffel Tower')]" message="Payload response is wrong answer"/>
+			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow name="read_image_url_operation" doc:id="df9ead27-c4c2-4b35-87d7-0437bb2316d2">
+		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value='#[%dw 2.0    output application/json    ---    &#10;{&#10;    "prompt":"What do you see",&#10;    "imageUrl": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"&#10;}]' variableName="testPayload"/>
+		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+			<mac-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></mac-inference:image-url>
+		</mac-inference:read-image>
+		<ee:transform doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" doc:name="Transform Message">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -15,7 +15,7 @@
         http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
 
     <configuration-properties file="automation-credentials.properties"/>
-    <mac-inference:text-generation-config name="OpenAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="8314fbd7-1eb7-4d2e-867f-39373c3d9755" >
+    <mac-inference:text-generation-config name="OpenAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="73a1249d-f001-4edd-91af-64589ba79877" >
         <mac-inference:llm-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}"
                                       modelName="${openai.llmModel}" timeout="60000"
                                       openCompatibleURL="https://api.openai.com/v1" ibmWatsonApiVersion="2024-05-31"
@@ -28,7 +28,7 @@
         </mac-inference:llm-connection>
     </mac-inference:text-generation-config>
 
-    <mac-inference:text-generation-config name="MistralAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="8314fbd7-1eb7-4d2e-867f-39373c3d9755" >
+    <mac-inference:text-generation-config name="MistralAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="301a5c80-8f8c-4121-81ce-8c0c723f235b" >
         <mac-inference:llm-connection inferenceType="${mistral.inferenceType}" apiKey="${mistral.apiKey}"
                                       modelName="${mistral.llmModel}" timeout="60000"
                                       openCompatibleURL="https://api.openai.com/v1" ibmWatsonApiVersion="2024-05-31"
@@ -41,7 +41,7 @@
         </mac-inference:llm-connection>
     </mac-inference:text-generation-config>
 
-    <mac-inference:text-generation-config name="OpenrouterConfig" doc:name="MuleSoft Inference Text generation config" doc:id="8314fbd7-1eb7-4d2e-867f-39373c3d9755" >
+    <mac-inference:text-generation-config name="OpenrouterConfig" doc:name="MuleSoft Inference Text generation config" doc:id="76664fbc-dbf7-481c-922e-b469bb85807a" >
         <mac-inference:llm-connection inferenceType="${openrouter.inferenceType}" apiKey="${openrouter.apiKey}"
                                       modelName="${openrouter.llmModel}" timeout="60000"
                                       openCompatibleURL="https://api.openai.com/v1" ibmWatsonApiVersion="2024-05-31"
@@ -53,4 +53,19 @@
             </mac-inference:mcp-sse-servers>
         </mac-inference:llm-connection>
     </mac-inference:text-generation-config>
+    <mac-inference:moderation-config name="OpenAIModeration" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
+        <mac-inference:moderation-model-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.llmModel}"/>
+    </mac-inference:moderation-config>
+    <mac-inference:moderation-config name="MistralAIModeration" doc:name="MuleSoft Inference Moderation config" doc:id="81c94800-d1ef-417f-a084-3052a907abc6" >
+        <mac-inference:moderation-model-connection inferenceType="${mistral.inferenceType}" apiKey="${mistral.apiKey}" modelName="mistral-moderation-latest"/>
+    </mac-inference:moderation-config>
+    <mac-inference:vision-config name="OpenAIVision" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <mac-inference:vision-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.llmModel}" />
+    </mac-inference:vision-config>
+    <mac-inference:vision-config name="MistralAIVision" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
+        <mac-inference:vision-connection inferenceType="${mistral.inferenceType}" apiKey="${mistral.apiKey}" modelName="${mistral.llmModel}" />
+    </mac-inference:vision-config>
+    <mac-inference:image-generation-config name="OpenAIImageGen" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
+        <mac-inference:image-generation-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.imageGenModel}" />
+    </mac-inference:image-generation-config>
 </mule>

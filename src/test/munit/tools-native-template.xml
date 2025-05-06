@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
-		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
-http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
-		<munit:config name="agent-define-prompt-template.xml">
-		<munit:parameterizations >
-			<munit:parameterization name="config-openai" >
-				<munit:parameters >
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<munit:config name="agent-define-prompt-template.xml">
+		<munit:parameterizations>
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18" />
 					<munit:parameter propertyName="inputCount" value="207" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai" >
-				<munit:parameters >
+			<munit:parameterization name="config-mistralai">
+				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="335" />
@@ -27,39 +32,149 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
-	<munit:test name="tools-native-template-PROMPT_TEMPLATE_OPERATIONTest" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
-		<munit:execution >
+
+	<munit:test name="TOOLS_NATIVE_TEMPLATE_OPERATION-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
+		<munit:execution>
 			<flow-ref doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="tools_native_template"/>
-			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]" />
+			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]"/>
 		</munit:execution>
-		<munit:validation >
-			<munit-tools:assert-that doc:name="payload.response" doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('function')]" />
-			<munit-tools:assert-that doc:name="get_current_temperature check" doc:id="e4d91583-7548-4cd4-b827-2815a511e8b3" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('get_current_temperature')]" />
-			<munit-tools:assert-that doc:name="get_rain_probability check" doc:id="581e3dc2-6040-48c4-adf5-403149ce2fbe" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('get_rain_probability')]" />
-			<munit-tools:assert-equals doc:name="Input Token" doc:id="a3e4733f-65fe-4d4e-ad9c-7e4d4bf1442d" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="1a76fb4e-eda2-4fbd-8a43-0838582ba3f0" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538" actual="#[attributes.additionalAttributes.finish_reason]" expected="tool_calls" message="Incorrect finish reason" />
+		<munit:validation>
+			<logger level="INFO" doc:name="Log payload" message="#[payload]"/>
+			<logger level="INFO" doc:name="Log payload.tools" message="#[payload.payload.tools default 'null']"/>
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-that
+					doc:name="payload.tools"
+					doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e"
+					message="The tools array should contain an item with a function field"
+					expression="#[(sizeOf((payload.payload.tools default []) filter (tool) -> tool.function != null) > 0) as Boolean]"
+					is="#[MunitTools::equalTo(true)]" />
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-that
+					doc:name="get_current_temperature check"
+					doc:id="e4d91583-7548-4cd4-b827-2815a511e8b3"
+					message="The tools array should contain an item with function.name 'get_current_temperature'"
+					expression="#[(sizeOf((payload.payload.tools default []) filter (tool) -> (tool.function.name default '') == 'get_current_temperature') > 0) as Boolean]"
+					is="#[MunitTools::equalTo(true)]" />
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-that
+					doc:name="get_rain_probability check"
+					doc:id="581e3dc2-6040-48c4-adf5-403149ce2fbe"
+					message="The tools array should contain an item with function.name 'get_rain_probability'"
+					expression="#[(sizeOf((payload.payload.tools default []) filter (tool) -> (tool.function.name default '') == 'get_rain_probability') > 0) as Boolean]"
+					is="#[MunitTools::equalTo(true)]" />
+			<munit-tools:assert-equals
+					doc:name="Input Token"
+					doc:id="a3e4733f-65fe-4d4e-ad9c-7e4d4bf1442d"
+					actual="#[attributes.tokenUsage.inputCount as String]"
+					expected="${inputCount}"
+					message="Incorrect Input Token" />
+			<munit-tools:assert-equals
+					doc:name="model Info"
+					doc:id="1a76fb4e-eda2-4fbd-8a43-0838582ba3f0"
+					actual="#[attributes.additionalAttributes.model]"
+					expected="${llmModel}"
+					message="Incorrect Model Info" />
+			<munit-tools:assert-equals
+					doc:name="finish reason"
+					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"
+					actual="#[attributes.additionalAttributes.finish_reason]"
+					expected="tool_calls"
+					message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>
-	<sub-flow name="tools_native_template" doc:id="a474f4ff-286c-4810-bb5e-8cd5a3f643bf" >
-		<set-variable value="#[%dw 2.0&#10;   output application/json&#10;   ---&#10;   {&#10;    &quot;template&quot;: &quot;You are an helpful assistant&quot;,&#10;    &quot;instructions&quot;:&quot;Answer the request with politeness.&quot;,&#10;    &quot;dataset&quot;: &quot;What is the temperature in Zurich in Celcius, and the probability for raining&quot;,&#10;    &quot;tools&quot;: [&#10;            {&#10;            &quot;type&quot;: &quot;function&quot;,&#10;            &quot;function&quot;: {&#10;                &quot;name&quot;: &quot;get_current_temperature&quot;,&#10;                &quot;description&quot;: &quot;Get the current temperature for a specific location&quot;,&#10;                &quot;parameters&quot;: {&#10;                &quot;type&quot;: &quot;object&quot;,&#10;                &quot;properties&quot;: {&#10;                    &quot;location&quot;: {&#10;                    &quot;type&quot;: &quot;string&quot;,&#10;                    &quot;description&quot;: &quot;The city and state, e.g., San Francisco, CA&quot;&#10;                    },&#10;                    &quot;unit&quot;: {&#10;                    &quot;type&quot;: &quot;string&quot;,&#10;                    &quot;enum&quot;: [&quot;Celsius&quot;, &quot;Fahrenheit&quot;],&#10;                    &quot;description&quot;: &quot;The temperature unit to use. Infer this from the user's location.&quot;&#10;                    }&#10;                },&#10;                &quot;required&quot;: [&quot;location&quot;, &quot;unit&quot;]&#10;                }&#10;            }&#10;            },&#10;            {&#10;            &quot;type&quot;: &quot;function&quot;,&#10;            &quot;function&quot;: {&#10;                &quot;name&quot;: &quot;get_rain_probability&quot;,&#10;                &quot;description&quot;: &quot;Get the probability of rain for a specific location&quot;,&#10;                &quot;parameters&quot;: {&#10;                &quot;type&quot;: &quot;object&quot;,&#10;                &quot;properties&quot;: {&#10;                    &quot;location&quot;: {&#10;                    &quot;type&quot;: &quot;string&quot;,&#10;                    &quot;description&quot;: &quot;The city and state, e.g., San Francisco, CA&quot;&#10;                    }&#10;                },&#10;                &quot;required&quot;: [&quot;location&quot;]&#10;                }&#10;            }&#10;            },&#10;            {&#10;        &quot;type&quot;: &quot;function&quot;,&#10;        &quot;function&quot;: {&#10;            &quot;name&quot;: &quot;get_delivery_date&quot;,&#10;            &quot;description&quot;: &quot;Get the delivery date for a customer's order. Call this whenever you need to know the delivery date, for example when a customer asks 'Where is my package'&quot;,&#10;            &quot;parameters&quot;: {&#10;                &quot;type&quot;: &quot;object&quot;,&#10;                &quot;properties&quot;: {&#10;                    &quot;order_id&quot;: {&#10;                        &quot;type&quot;: &quot;string&quot;,&#10;                        &quot;description&quot;: &quot;The customer's order ID.&quot;&#10;                    }&#10;                },&#10;                &quot;required&quot;: [&quot;order_id&quot;]&#10;                }&#10;        }&#10;    }&#10;        ]&#10;}]" doc:name="Set Variable" doc:id="e06c8f7b-0310-401c-a556-3cf46551bb7e" variableName="testPayload" />
-		<mac-inference:tools-native-template doc:name="[Tools] Native Template (Reasoning only)" doc:id="fecbf1b9-366a-4164-baa4-56ded458b607" config-ref="GeneralConfig">
-			<mac-inference:template ><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
-			<mac-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
-			<mac-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
-			<mac-inference:tools ><![CDATA[#[vars.testPayload.tools]]]></mac-inference:tools>
+
+	<sub-flow name="tools_native_template" doc:id="a474f4ff-286c-4810-bb5e-8cd5a3f643bf">
+		<set-variable
+				value="#[%dw 2.0
+            output application/json
+            ---
+            {
+                'template': 'You are an helpful assistant',
+                'instructions': 'Answer the request with politeness.',
+                'dataset': 'What is the temperature in Zurich in Celcius, and the probability for raining',
+                'tools': [
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_current_temperature',
+                            'description': 'Get the current temperature for a specific location',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'location': {
+                                        'type': 'string',
+                                        'description': 'The city and state, e.g., San Francisco, CA'
+                                    },
+                                    'unit': {
+                                        'type': 'string',
+                                        'enum': ['Celsius', 'Fahrenheit'],
+                                        'description': 'The temperature unit to use. Infer this from the user\'s location.'
+                                    }
+                                },
+                                'required': ['location', 'unit']
+                            }
+                        }
+                    },
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_rain_probability',
+                            'description': 'Get the probability of rain for a specific location',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'location': {
+                                        'type': 'string',
+                                        'description': 'The city and state, e.g., San Francisco, CA'
+                                    }
+                                },
+                                'required': ['location']
+                            }
+                        }
+                    },
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_delivery_date',
+                            'description': 'Get the delivery date for a customer\'s order. Call this whenever you need to know the delivery date, for example when a customer asks \'Where is my package\'',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'order_id': {
+                                        'type': 'string',
+                                        'description': 'The customer\'s order ID.'
+                                    }
+                                },
+                                'required': ['order_id']
+                            }
+                        }
+                    }
+                ]
+            }]"
+				doc:name="Set Variable"
+				doc:id="e06c8f7b-0310-401c-a556-3cf46551bb7e"
+				variableName="testPayload" />
+		<mac-inference:tools-native-template
+				doc:name="[Tools] Native Template (Reasoning only)"
+				doc:id="fecbf1b9-366a-4164-baa4-56ded458b607"
+				config-ref="${config}">
+			<mac-inference:template><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+			<mac-inference:tools><![CDATA[#[vars.testPayload.tools]]]></mac-inference:tools>
 		</mac-inference:tools-native-template>
-		<ee:transform doc:name="Transform Message" doc:id="bba2fcbe-2617-497f-898f-b4b2e94c8c6f" >
-			<ee:message >
-				<ee:set-payload ><![CDATA[%dw 2.0
-					output application/json
-					---
-					{
-						payload: payload,
-						attributes: attributes
-					}]]></ee:set-payload>
+		<ee:transform
+				doc:name="Transform Message"
+				doc:id="bba2fcbe-2617-497f-898f-b4b2e94c8c6f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+                output application/json
+                ---
+                {
+                    payload: payload,
+                    attributes: attributes
+                }]]></ee:set-payload>
 			</ee:message>
 		</ee:transform>
 	</sub-flow>
-
 </mule>

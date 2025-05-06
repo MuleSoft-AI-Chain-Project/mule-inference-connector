@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd         http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd         http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd         http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd         http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<munit:config name="tools-native-template.xml">
+		<munit:parameterizations>
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18"/>
+					<munit:parameter propertyName="inputCount" value="412"/>
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="MistralAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="634"/>
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test description="Test" doc:id="da368b58-d280-4c01-975a-f443d8038e53" name="MCP_TOOLING_OPERATION-Test">
+		<munit:execution>
+			<flow-ref doc:id="857e9da2-0d1d-45ca-bd2f-3909efff3841" doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" name="mcp_tooling"/>
+			<logger doc:id="afa15bb1-3ba6-430d-b3ed-81103128695d" doc:name="Logger" level="INFO" message="#[payload]"/>
+		</munit:execution>
+		<munit:validation>
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-that doc:id="034ef6d8-64a0-4be0-b441-7d80c059f748" doc:name="payload.tools" expression="#[(sizeOf((payload.payload.tools default [])) == 0) as Boolean]" is="#[MunitTools::equalTo(false)]" message="The tools array should not be empty"/>
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-that doc:name="payload.toolExecutionReport" doc:id="701a8e8c-1286-4ce5-a050-53f5c22fc480" message="The tools array should contain a tool exeuction report" expression="#[(sizeOf(payload.payload.toolsExecutionReport default []) == 0) as Boolean]" is="#[MunitTools::equalTo(false)]" />
+			<munit-tools:assert-that doc:id="cb23f789-4c28-446c-9ee1-343c443d1636" doc:name="get_current_temperature check" expression="#[(sizeOf((payload.payload.tools default []) filter (tool) -&gt; (tool.function.name default '') == 'get_inventory') &gt; 0) as Boolean]" is="#[MunitTools::equalTo(true)]" message="The tools array should contain an item with function.name 'get_inventory'"/>
+			<!-- Fixed: Use payload.payload.tools -->
+			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="8a3d65aa-b548-44cf-a627-82c7d0580659" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="521e3135-5c80-4521-abdd-11877c8e8189" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="tool_calls" message="Incorrect finish reason"/>
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow doc:id="71465f76-1597-41ec-bcb7-3d4aa45c3cac" name="mcp_tooling">
+		<set-variable doc:id="7edeecec-4d47-4bfe-a699-23987b60ac14" doc:name="Set Variable" value='#[%dw 2.0             &#10;output application/json&#10;---&#10;{&#10;    "template": "You are an helpful assistant",&#10;    "instructions":"Answer the request with politeness.",&#10;    "dataset": "Check Inventory for MULETEST0"&#10;&#10;}]' variableName="testPayload"/>
+		<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9" config-ref="${config}">
+			<mac-inference:template ><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+		</mac-inference:mcp-tools-native-template>
+		<ee:transform doc:id="8eda33bd-db2f-412a-b448-dc633d326a39" doc:name="Transform Message">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+                output application/json
+                ---
+                {
+                    payload: payload,
+                    attributes: attributes
+                }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

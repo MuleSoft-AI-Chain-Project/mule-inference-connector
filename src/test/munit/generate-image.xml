@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<munit:config name="generate-image.xml" >
+		<munit:parameterizations >
+			<munit:parameterization name="openai-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIImageGen" />
+					<munit:parameter propertyName="imageGenModel" value="${openai.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+	<munit:test name="generate-image-operations-Test" doc:id="dd7abf89-e3c7-466f-8977-1209c1f69150" >
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to image-gen" doc:id="18071295-7596-44d3-ab7e-168f5d95a85d" name="generate-image-operation"/>
+			<logger level="INFO" doc:name="Logger" doc:id="288eb5f8-0683-46b8-baf5-53ce542d4885" message="#[payload]"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="payload.response" doc:id="82bcc94c-6021-485f-8c63-40b56a9524c5" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="1eca8cf2-65ae-4bdc-8bf1-6aed45d3ab1f" actual="#[attributes.additionalAttributes.model]" expected="${openai.imageGenModel}" message="Incorrect Model Info" />
+		</munit:validation>
+	</munit:test>
+	<sub-flow name="generate-image-operation" doc:id="3ff94cc9-278c-41f1-bafc-9da783016dd9" >
+		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;{&#10;    "prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."&#10;}]' doc:name="testPayload" doc:id="3483351f-7708-4ddc-8dca-ed09e13c1bc5" variableName="testPayload"/>
+		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="1e7f063a-6418-4c42-b2ee-7dd372f24d83" config-ref="${config}">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+		</mac-inference:generate-image>
+		<ee:transform doc:name="Transform Message" doc:id="1b42e80a-3268-4250-a4ca-9170841cf164" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	payload: payload,
+	attributes: attributes
+}]]></ee:set-payload>
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable variableName="payload" ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	payload: payload,
+	attributes: attributes
+}]]></ee:set-variable>
+			</ee:variables>
+		</ee:transform>
+	</sub-flow>
+
+</mule>

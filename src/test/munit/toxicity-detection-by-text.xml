@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd    http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd    http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<munit:config name="toxicity-detection-by-text.xml">
+
+		<munit:parameterizations >
+			<munit:parameterization name="config-openai-moderation" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIModeration" />
+					<munit:parameter propertyName="llmModel" value="omni-moderation-latest" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai-moderation" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="MistralAIModeration" />
+					<munit:parameter propertyName="llmModel" value="${mistral.moderation}" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="toxicity_detection_operation_test">
+		<munit:execution>
+			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="toxicity_detection_operation"/>
+			<logger level="INFO" message="#[payload]"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="Flagged" expression="#[payload.payload.flagged]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6" name="toxicity_detection_operation">
+		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value='#[%dw 2.0&#10;   output application/json&#10;   ---&#10;   {&#10;    "prompt": "You are fat"&#10;   }]' variableName="testPayload"/>
+		<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection by Text" doc:id="a1c83599-a970-45a6-8ad2-1edc992e2aed" config-ref="${config}">
+			<mac-inference:text ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:text>
+		</mac-inference:toxicity-detection-text>
+		<ee:transform doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" doc:name="Transform Message">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
