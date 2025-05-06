@@ -6,7 +6,7 @@
 			<munit:parameterization name="config-openai-moderation" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIModeration" />
-					<munit:parameter propertyName="llmModel" value="omni-moderation-latest" />
+					<munit:parameter propertyName="llmModel" value="${openai.moderation}" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai-moderation" >
