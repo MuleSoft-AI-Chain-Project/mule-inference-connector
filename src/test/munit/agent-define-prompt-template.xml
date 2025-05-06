@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
+		<munit:config name="agent-define-prompt-template.xml">
+		<munit:parameterizations>
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18"/>
+					<munit:parameter propertyName="inputCount" value="123"/>
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="MistralAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="119"/>
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+	<munit:test name="agent-define-prompt-template-PROMPT_TEMPLATE_OPERATIONTest" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to PROMPT_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="agent_define_prompt_template"/>
+			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]" />
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="payload.response" doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('positive')]" />
+			<munit-tools:assert-equals doc:name="Input Token" doc:id="a3e4733f-65fe-4d4e-ad9c-7e4d4bf1442d" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="1a76fb4e-eda2-4fbd-8a43-0838582ba3f0" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+		</munit:validation>
+	</munit:test>
+	<sub-flow name="agent_define_prompt_template" doc:id="a474f4ff-286c-4810-bb5e-8cd5a3f643bf" >
+		<set-variable value="#[%dw 2.0&#10;   output application/json&#10;   ---&#10;   {&#10;    &quot;template&quot;: &quot;You are a customer satisfaction agent, who analyses the customer feedback in the dataset. Answer via json output and add a type for the result only with positive or negative as well as the complete answer&quot;,&#10;    &quot;instructions&quot;:&quot;If the customer feedback in the dataset is negative, open a service satisfaction case and apologize to the customer. If the customer feedback in the dataset is positive, thank the customer and wish them a nice day. Don't repeat the feedback and be more direct starting the conversation with formal greetings&quot;,&#10;    &quot;dataset&quot;: &quot;The training last week was amazing, we learned so much and the trainer was very friendly.&quot;&#10;	}]" doc:name="Set Variable" doc:id="e06c8f7b-0310-401c-a556-3cf46551bb7e" variableName="testPayload" />
+		<mac-inference:agent-define-prompt-template doc:name="[Agent] Define Prompt Template" doc:id="d4f74b68-3202-4154-b0ee-1489ef42e870" config-ref="${config}">
+			<mac-inference:template ><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+		</mac-inference:agent-define-prompt-template>
+		<ee:transform doc:name="Transform Message" doc:id="bba2fcbe-2617-497f-898f-b4b2e94c8c6f" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+
+</mule>

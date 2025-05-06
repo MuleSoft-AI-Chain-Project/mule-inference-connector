@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<munit:config name="chat_completion.xml">
+		<munit:parameterizations>
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18"/>
+					<munit:parameter propertyName="inputCount" value="14"/>
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="MistralAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="10"/>
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_answer_prompt_operation_test">
+		<munit:execution>
+			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
+			<logger level="INFO" message="#[payload]"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
+			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow name="chat_answer_prompt_operation" doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6">
+		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;			{&#10;			    "prompt": "What is the capital of Germany?"&#10;			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
+		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+		</mac-inference:chat-answer-prompt>
+		<ee:transform doc:name="Transform Message" doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>
