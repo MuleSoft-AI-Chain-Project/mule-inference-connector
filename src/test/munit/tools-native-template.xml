@@ -19,7 +19,7 @@
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
-					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="207" />
 				</munit:parameters>
 			</munit:parameterization>

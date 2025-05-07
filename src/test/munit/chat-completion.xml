@@ -12,26 +12,26 @@
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
 	<munit:config name="chat_completion.xml">
-		<munit:parameterizations>
-			<munit:parameterization name="config-openai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="OpenAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18"/>
-					<munit:parameter propertyName="inputCount" value="24"/>
+		<munit:parameterizations >
+			<munit:parameterization name="config-openai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="24" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="MistralAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="17"/>
+			<munit:parameterization name="config-mistralai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="MistralAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="OpenrouterConfig"/>
-					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="19"/>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="19" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

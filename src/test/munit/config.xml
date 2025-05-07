@@ -60,12 +60,15 @@
         <mac-inference:moderation-model-connection inferenceType="${mistral.inferenceType}_AI" apiKey="${mistral.apiKey}" modelName="${mistral.moderation}"/>
     </mac-inference:moderation-config>
     <mac-inference:vision-config name="OpenAIVision" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
-        <mac-inference:vision-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.llmModel}" />
+        <mac-inference:vision-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.visionModel}" />
     </mac-inference:vision-config>
     <mac-inference:vision-config name="MistralAIVision" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
-        <mac-inference:vision-connection inferenceType="${mistral.inferenceType}" apiKey="${mistral.apiKey}" modelName="${mistral.llmModel}" />
+        <mac-inference:vision-connection inferenceType="${mistral.inferenceType}" apiKey="${mistral.apiKey}" modelName="${mistral.visionModel}" />
     </mac-inference:vision-config>
     <mac-inference:image-generation-config name="OpenAIImageGen" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
         <mac-inference:image-generation-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.imageGenModel}" />
     </mac-inference:image-generation-config>
+	<mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
+		<mac-inference:vision-connection inferenceType="${openrouter.inferenceType}" apiKey="${openrouter.apiKey}" modelName="${openrouter.visionModel}" />
+	</mac-inference:vision-config>
 </mule>

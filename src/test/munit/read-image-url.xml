@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd    http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd    http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
 	<munit:config name="read-image-url.xml">
-		<munit:parameterizations >
+		<munit:parameterizations>
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIVision" />
-					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="llmModel" value="${openai.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="14178" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
-					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
+					<munit:parameter propertyName="llmModel" value="${mistral.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="449" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterVision" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="15" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

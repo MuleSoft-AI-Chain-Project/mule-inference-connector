@@ -10,24 +10,24 @@
 http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
 		<munit:config name="agent-define-prompt-template.xml">
-		<munit:parameterizations>
-			<munit:parameterization name="config-openai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="OpenAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="gpt-4o-mini-2024-07-18"/>
-					<munit:parameter propertyName="inputCount" value="123"/>
+		<munit:parameterizations >
+			<munit:parameterization name="config-openai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="123" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="MistralAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="119"/>
+			<munit:parameterization name="config-mistralai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="MistralAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="119" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
-	<munit:test name="agent-define-prompt-template-PROMPT_TEMPLATE_OPERATIONTest" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
+	<munit:test name="agent-define-prompt-template-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
 		<munit:execution >
 			<flow-ref doc:name="Flow-ref to PROMPT_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="agent_define_prompt_template"/>
 			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]" />
