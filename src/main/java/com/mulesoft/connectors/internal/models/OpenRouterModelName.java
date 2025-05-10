@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.internal.models;
 
-enum OpenRouterModelName {
+public enum OpenRouterModelName {
     ANTHROPIC_CLAUDE_3_5_SONNET("anthropic/claude-3.5-sonnet"),
     ANTHROPIC_CLAUDE_3_5_SONNET_SELF_MODERATED("anthropic/claude-3.5-sonnet:beta"),
     MINISTRAL_8B("mistralai/ministral-8b"),

@@ -1,12 +1,12 @@
 package com.mulesoft.connectors.internal.models;
 
-enum OpenAIModelName {
+public enum OpenAIModelName {
 
-    gpt_4_5_preview("gpt-4.5-preview"),
-    o1_mini("o1-mini"),
-    chatgpt_4o_latest("chatgpt-4o-latest"),
-    gpt_4o("gpt-4o"),
-    gpt_4o_mini("gpt-4o-mini");
+    GPT_4_5_PREVIEW("gpt-4.5-preview"),
+    O1_MINI("o1-mini"),
+    CHATGPT_4O_LATEST("chatgpt-4o-latest"),
+    GPT_4O("gpt-4o"),
+    GPT_4O_MINI("gpt-4o-mini");
 
     private final String value;
 

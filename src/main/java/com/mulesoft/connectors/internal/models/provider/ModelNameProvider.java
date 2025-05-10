@@ -3,26 +3,28 @@
  */
 package com.mulesoft.connectors.internal.models.provider;
 
+import java.util.Arrays;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import com.mulesoft.connectors.internal.models.ModelType;
+import com.mulesoft.connectors.internal.models.OpenAIModelName;
 import org.mule.runtime.api.value.Value;
-import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
 import org.mule.runtime.extension.api.values.ValueResolvingException;
 
+@Deprecated
 public class ModelNameProvider implements ValueProvider {
 
-  @Parameter
+ /* @Parameter
   @Placement(order = 1)
   private String inferenceType;
-
+*/
 
   @Override
   public Set<Value> resolve() throws ValueResolvingException {
-    return ValueBuilder.getValuesFor(ModelType.fromValue(inferenceType).getModelNameStream());
+    return ValueBuilder.getValuesFor(ModelType.fromValue("openAI").getModelNameStream());
   }
 
 }

@@ -29,6 +29,7 @@ import java.util.Map;
 
 @Alias("llm")
 @DisplayName("Text Generation LLM")
+@Deprecated
 public class TextGenerationProvider implements CachedConnectionProvider<TextGeneration>, Startable, Stoppable {
 
   private HttpClient httpClient;

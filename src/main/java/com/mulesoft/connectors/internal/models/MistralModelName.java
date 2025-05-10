@@ -1,11 +1,11 @@
 package com.mulesoft.connectors.internal.models;
 
-enum MistralModelName {
+public enum MistralModelName {
 
-    mistral_large_latest("mistral-large-latest"),
-    mistral_small_latest("mistral-small-latest"),
-    open_mistral_nemo("open-mistral-nemo"),
-    pixtral_large_latest("pixtral-large-latest");
+    MISTRAL_LARGE_LATEST("mistral-large-latest"),
+    MISTRAL_SMALL_LATEST("mistral-small-latest"),
+    OPEN_MISTRAL_NEMO("open-mistral-nemo"),
+    PIXTRAL_LARGE_LATEST("pixtral-large-latest");
 
     private final String value;
 

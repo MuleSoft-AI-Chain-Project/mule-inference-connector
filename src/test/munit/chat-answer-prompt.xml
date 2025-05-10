@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
-	<munit:config name="chat_completion.xml">
+	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>

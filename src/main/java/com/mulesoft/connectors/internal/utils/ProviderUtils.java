@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.utils;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
 
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.jetbrains.annotations.NotNull;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -332,6 +333,48 @@ public class ProviderUtils {
     }
 
     public static JSONArray getMcpToolsFromMultiple(ChatCompletionBase connection) {
+        if (!mcpToolsLoaded) {
+            mcpToolsArrayByServer = new JSONArray();
+            mcpTools = new JSONArray();
+
+            Map<String, String> mcpServers = connection.getMcpSseServers();
+            String httpPattern = "^https?://.*";
+
+            for (Map.Entry<String, String> entry : mcpServers.entrySet()) {
+                String url = entry.getValue();
+                String key = entry.getKey();
+                if (url != null && url.matches(httpPattern)) {
+                    JSONArray tools = getMcpTools(url);
+                    if (tools != null) {
+                        for (int i = 0; i < tools.length(); i++) {
+                            mcpTools.put(tools.get(i));
+                        }
+
+                        JSONObject mcpServerInfo = new JSONObject();
+                        mcpServerInfo.put("serverUrl", url);
+                        mcpServerInfo.put("serverName", key);
+                        mcpServerInfo.put("serverTools", tools);
+
+                        boolean exists = false;
+                        for (int i = 0; i < mcpToolsArrayByServer.length(); i++) {
+                            JSONObject existing = mcpToolsArrayByServer.getJSONObject(i);
+                            if (existing.getString("serverUrl").equals(url)) {
+                                exists = true;
+                                break;
+                            }
+                        }
+                        if (!exists) {
+                            mcpToolsArrayByServer.put(mcpServerInfo);
+                        }
+                    }
+                }
+            }
+            mcpToolsLoaded = true;
+        }
+        return mcpTools;
+    }
+
+    public static JSONArray getMcpToolsFromMultiple(TextGenerationConnection connection) {
         if (!mcpToolsLoaded) {
             mcpToolsArrayByServer = new JSONArray();
             mcpTools = new JSONArray();
