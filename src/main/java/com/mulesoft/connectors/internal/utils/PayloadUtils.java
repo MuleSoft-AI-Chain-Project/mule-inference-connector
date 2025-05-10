@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.utils;
 import com.mulesoft.connectors.internal.config.TextGenerationConfig;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,79 +37,104 @@ public class PayloadUtils {
      */
     public static JSONObject buildPayload(ChatCompletionBase configuration, JSONArray messagesArray, JSONArray toolsArray) {
         JSONObject payload = new JSONObject();
-        
+
         String inferenceType = configuration.getInferenceType();
-    	
-    	String provider = ProviderUtils.getProviderByModel(configuration.getModelName());
-            	
-    	LOGGER.debug("provider {} inferenceType {}", provider, inferenceType);
-    	
-    	
-        
-    	if ("Google".equalsIgnoreCase(provider)) {
-			//add contents to the payload
-        
-	        payload.put(InferenceConstants.CONTENTS, messagesArray);
-	        
-	        JSONObject generationConfig = buildVertexAIGenerationConfig(configuration);
-	        
-	        payload.put(InferenceConstants.GENERATION_CONFIG, generationConfig);
 
-		} else {
-			if ("Anthropic".equalsIgnoreCase(provider) && inferenceType.toUpperCase().contains("VERTEX_AI")) {
-                    payload.put(InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION, InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION_VALUE);
-			}
-			
-			if (!"AZURE_OPENAI".equalsIgnoreCase(inferenceType) &&
-				    !"IBM_WATSON".equalsIgnoreCase(inferenceType) &&
-				    (!inferenceType.toUpperCase().contains("VERTEX_AI") || "META".equalsIgnoreCase(provider))) {
+        String provider = ProviderUtils.getProviderByModel(configuration.getModelName());
 
-				    // Set the model only if:
-				    // - The inference type is not "AZURE_OPENAI"
-				    // - The inference type is not "IBM_WATSON"
-				    // - The inference type is not "VERTEX_AI" (unless the provider is "META")
-				    
-				    payload.put(InferenceConstants.MODEL, configuration.getModelName());
-				}
+        LOGGER.debug("provider {} inferenceType {}", provider, inferenceType);
 
 
-			if ("IBM_WATSON".equals(configuration.getInferenceType())) {
+
+        if ("Google".equalsIgnoreCase(provider)) {
+            //add contents to the payload
+
+            payload.put(InferenceConstants.CONTENTS, messagesArray);
+
+            JSONObject generationConfig = buildVertexAIGenerationConfig(configuration);
+
+            payload.put(InferenceConstants.GENERATION_CONFIG, generationConfig);
+
+        } else {
+            if ("Anthropic".equalsIgnoreCase(provider) && inferenceType.toUpperCase().contains("VERTEX_AI")) {
+                payload.put(InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION, InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION_VALUE);
+            }
+
+            if (!"AZURE_OPENAI".equalsIgnoreCase(inferenceType) &&
+                    !"IBM_WATSON".equalsIgnoreCase(inferenceType) &&
+                    (!inferenceType.toUpperCase().contains("VERTEX_AI") || "META".equalsIgnoreCase(provider))) {
+
+                // Set the model only if:
+                // - The inference type is not "AZURE_OPENAI"
+                // - The inference type is not "IBM_WATSON"
+                // - The inference type is not "VERTEX_AI" (unless the provider is "META")
+
+                payload.put(InferenceConstants.MODEL, configuration.getModelName());
+            }
+
+
+            if ("IBM_WATSON".equals(configuration.getInferenceType())) {
                 payload.put("model_id", configuration.getModelName());
                 payload.put("project_id", configuration.getibmWatsonProjectID());
             }
-	        payload.put(InferenceConstants.MESSAGES, messagesArray);
-	
-	        // Different max token parameter names for different providers
-	        if ("GROQ".equalsIgnoreCase(configuration.getInferenceType()) ||
-	                "OPENAI".equalsIgnoreCase(configuration.getInferenceType())) {
-	            payload.put(InferenceConstants.MAX_COMPLETION_TOKENS, configuration.getMaxTokens());
-	        } else {
-	            payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
-	        }
-	
-	        // Some models don't support temperature/top_p parameters
-	        String modelName = configuration.getModelName();
-	        if (!Arrays.asList(NO_TEMPERATURE_MODELS).contains(modelName)) {
-	            payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
-	            payload.put(InferenceConstants.TOP_P, configuration.getTopP());
-	        }
-	
-	        // Add tools array if provided
-	        if (toolsArray != null && !toolsArray.isEmpty()) {
-	            payload.put(InferenceConstants.TOOLS, toolsArray);
-	        }
-	
-	        // Special handling for Ollama's and Azure OpenAI's stream parameter
-	        if ("OLLAMA".equals(configuration.getInferenceType()) || "AZURE_OPENAI".equals(configuration.getInferenceType()) || "Meta".equalsIgnoreCase(provider)) {
-	            payload.put("stream", false);
-	        }
+            payload.put(InferenceConstants.MESSAGES, messagesArray);
+
+            // Different max token parameter names for different providers
+            if ("GROQ".equalsIgnoreCase(configuration.getInferenceType()) ||
+                    "OPENAI".equalsIgnoreCase(configuration.getInferenceType())) {
+                payload.put(InferenceConstants.MAX_COMPLETION_TOKENS, configuration.getMaxTokens());
+            } else {
+                payload.put(InferenceConstants.MAX_TOKENS, configuration.getMaxTokens());
+            }
+
+            // Some models don't support temperature/top_p parameters
+            String modelName = configuration.getModelName();
+            if (!Arrays.asList(NO_TEMPERATURE_MODELS).contains(modelName)) {
+                payload.put(InferenceConstants.TEMPERATURE, configuration.getTemperature());
+                payload.put(InferenceConstants.TOP_P, configuration.getTopP());
+            }
+
+            // Add tools array if provided
+            if (toolsArray != null && !toolsArray.isEmpty()) {
+                payload.put(InferenceConstants.TOOLS, toolsArray);
+            }
+
+            // Special handling for Ollama's and Azure OpenAI's stream parameter
+            if ("OLLAMA".equals(configuration.getInferenceType()) || "AZURE_OPENAI".equals(configuration.getInferenceType()) || "Meta".equalsIgnoreCase(provider)) {
+                payload.put("stream", false);
+            }
 
             if ("COHERE".equals(configuration.getInferenceType())) {
                 payload.remove(InferenceConstants.TOP_P);
             }
-		}
-    	
-		
+        }
+        return payload;
+    }
+
+    public static JSONObject buildPayload(TextGenerationConnection connection, JSONArray messagesArray, JSONArray toolsArray) {
+        JSONObject payload = new JSONObject();
+
+        payload.put(InferenceConstants.MESSAGES, messagesArray);
+
+        // Different max token parameter names for different providers
+        if ("GROQ".equalsIgnoreCase(connection.getInferenceType()) ||
+                "OPENAI".equalsIgnoreCase(connection.getInferenceType())) {
+            payload.put(InferenceConstants.MAX_COMPLETION_TOKENS, connection.getMaxTokens());
+        } else {
+            payload.put(InferenceConstants.MAX_TOKENS, connection.getMaxTokens());
+        }
+        // Some models don't support temperature/top_p parameters
+        String modelName = connection.getModelName();
+        payload.put(InferenceConstants.MODEL, modelName);
+
+        if (!Arrays.asList(NO_TEMPERATURE_MODELS).contains(modelName)) {
+            payload.put(InferenceConstants.TEMPERATURE, connection.getTemperature());
+            payload.put(InferenceConstants.TOP_P, connection.getTopP());
+        }
+        // Add tools array if provided
+        if (toolsArray != null && !toolsArray.isEmpty()) {
+            payload.put(InferenceConstants.TOOLS, toolsArray);
+        }
         return payload;
     }
 
@@ -227,6 +253,25 @@ public class PayloadUtils {
         // Create system/assistant message based on provider
         JSONObject systemMessage = new JSONObject();
         systemMessage.put("role", "ANTHROPIC".equals(configuration.getInferenceType()) ? "assistant" : "system");
+        systemMessage.put("content", systemContent);
+        messagesArray.put(systemMessage);
+
+        // Create user message
+        JSONObject userMessage = new JSONObject();
+        userMessage.put("role", "user");
+        userMessage.put("content", userContent);
+        messagesArray.put(userMessage);
+
+        return messagesArray;
+    }
+
+    public static JSONArray createMessagesArrayWithSystemPrompt(
+            TextGenerationConnection connection, String systemContent, String userContent) {
+        JSONArray messagesArray = new JSONArray();
+
+        // Create system/assistant message based on provider
+        JSONObject systemMessage = new JSONObject();
+        systemMessage.put("role", "ANTHROPIC".equals(connection.getInferenceType()) ? "assistant" : "system");
         systemMessage.put("content", systemContent);
         messagesArray.put(systemMessage);
 
@@ -424,8 +469,8 @@ public class PayloadUtils {
     
     /**
      * Build the payload for the chatAnswerPrompt request
-     * @param configuration The connector configuration
      * @param prompt The prompt
+     * @param configuration The connector configuration
      * @return The payload as a JSON object
      */
     public static JSONObject buildChatAnswerPromptPayload(ChatCompletionBase configuration, String prompt) {
@@ -469,6 +514,48 @@ public class PayloadUtils {
     	
 
     }
+
+    public static JSONObject buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+        JSONObject payload;
+
+        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+
+        /*if ("Google".equalsIgnoreCase(provider)) {
+            JSONArray safetySettings = new JSONArray(); // Empty array
+            JSONObject systemInstruction = new JSONObject(); // Empty object
+            JSONArray tools = new JSONArray(); // Empty array
+            payload = PayloadUtils.buildVertexAIPayload(connection, prompt, safetySettings, systemInstruction, tools);
+        } else if ("Anthropic".equalsIgnoreCase(provider)) {
+            //for ANthropic
+
+            JSONObject textObject = new JSONObject()
+                    .put("type", "text")
+                    .put("text", prompt);
+
+            JSONArray contentArray = new JSONArray()
+                    .put(textObject);
+
+            JSONObject messageObject = new JSONObject()
+                    .put("role", "user")
+                    .put("content", contentArray);
+
+            JSONArray messagesArray = new JSONArray()
+                    .put(messageObject);
+            payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
+
+        } else {*/
+            JSONArray messagesArray = new JSONArray();
+            JSONObject usersPrompt = new JSONObject();
+            usersPrompt.put("role", "user");
+            usersPrompt.put("content", prompt);
+            messagesArray.put(usersPrompt);
+            payload = PayloadUtils.buildPayload(connection, messagesArray, null);
+        //}
+
+        return payload;
+
+
+    }
     
     /**
      * Build the payload for the promptTemplate request
@@ -482,7 +569,6 @@ public class PayloadUtils {
     	JSONObject payload;
     	
     	String provider = ProviderUtils.getProviderByModel(configuration.getModelName());
-
 
        	if ("Google".equalsIgnoreCase(provider)) {
     		//for google/gemini
@@ -524,20 +610,24 @@ public class PayloadUtils {
 	        
 	        //add the template+instructions to "system" field
 	        payload.put(InferenceConstants.SYSTEM, template + " - " + instructions);	    
-	        
-		
 		} else {
 	        JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
 	                configuration, template + " - " + instructions, data);
 	
 	        payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
-	
 		}
-
 		return payload;
-
     }
 
+    public static JSONObject buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
+        JSONObject payload;
+
+            JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
+                    connection, template + " - " + instructions, data);
+
+            payload = PayloadUtils.buildPayload(connection, messagesArray, null);
+        return payload;
+    }
     /**
      * Build the payload for the toolsTemplate request
      * @param configuration The connector configuration
@@ -609,12 +699,7 @@ public class PayloadUtils {
             //add the template+instructions to "system" field
             //payload.put(InferenceConstants.SYSTEM, template + " - " + instructions);
             //payload = PayloadUtils.buildPayload(configuration, messagesArray, toolsArray);*/
-
-
         } else {
-
-
-
             JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
                     configuration, template + " - " + instructions, data);
             if ("ANTHROPIC".equalsIgnoreCase(configuration.getInferenceType())) {
@@ -622,7 +707,28 @@ public class PayloadUtils {
             }
             payload = PayloadUtils.buildPayload(configuration, messagesArray, toolsArray);
         }
+        return payload;
+    }
 
+    public static JSONObject buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                       String instructions, String data, InputStream tools) throws IOException {
+        JSONObject payload;
+
+        String provider = "";
+        if (connection.getInferenceType().contains("VERTEX")) {
+            provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        }
+
+        JSONArray toolsArray = PayloadUtils.parseInputStreamToJsonArray(tools);
+
+        LOGGER.debug("provider: {} toolsArray: {}", provider, toolsArray.toString());
+
+            JSONArray messagesArray = PayloadUtils.createMessagesArrayWithSystemPrompt(
+                    connection, template + " - " + instructions, data);
+            if ("ANTHROPIC".equalsIgnoreCase(connection.getInferenceType())) {
+                toolsArray = convertAnthropicTools(toolsArray);
+            }
+            payload = PayloadUtils.buildPayload(connection, messagesArray, toolsArray);
         return payload;
     }
 

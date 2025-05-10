@@ -2,12 +2,10 @@ package com.mulesoft.connectors.internal.operations;
 
 import com.mulesoft.connectors.internal.api.delegate.Moderation;
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.internal.config.ModerationConfig;
-import com.mulesoft.connectors.internal.connection.types.ModerationBase;
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
@@ -32,11 +30,10 @@ public class ModerationOperations {
     @OutputJsonType(schema = "api/response/ResponseModeration.json")
     @Summary("Detects toxic input by text and classifies it into categories.")
     public Result<InputStream, LLMResponseAttributes> textModeration(
-            @Config ModerationConfig configuration,
-            @Connection ModerationBase connection,
+            @Connection BaseConnection connection,
             @Content(primary = true) @Summary("Text to moderate. Can be a single string or an array of strings") InputStream text) throws ModuleException {
         try {
-            Moderation moderation = Moderation.getInstance(configuration, connection);
+            Moderation moderation = Moderation.getInstance(connection);
             return moderation.moderate(text);
         } catch (Exception e) {
             LOGGER.error("Error in moderation: {}", e.getMessage(), e);

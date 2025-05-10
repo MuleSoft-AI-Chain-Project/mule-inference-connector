@@ -8,6 +8,7 @@ import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
 import org.mule.runtime.extension.api.values.ValueResolvingException;
 
+@Deprecated
 public class ModerationTypeProvider implements ValueProvider {
 
   @Override

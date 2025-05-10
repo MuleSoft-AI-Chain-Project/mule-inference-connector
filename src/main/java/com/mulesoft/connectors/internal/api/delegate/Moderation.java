@@ -2,6 +2,7 @@ package com.mulesoft.connectors.internal.api.delegate;
 
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.internal.config.ModerationConfig;
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.types.ModerationBase;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.internal.utils.ConnectionUtils;
@@ -28,17 +29,32 @@ import static org.apache.commons.io.IOUtils.toInputStream;
 public abstract class Moderation {
     private static final Logger LOGGER = LoggerFactory.getLogger(Moderation.class);
     protected final ModerationConfig configuration;
-    protected final ModerationBase connection; // Use provided Moderation connection
+    protected ModerationBase connection; // Use provided Moderation connection
+    protected BaseConnection baseConnection;
     private static Moderation instance;
 
     protected Moderation(ModerationConfig configuration, ModerationBase connection) {
         this.configuration = configuration;
         this.connection = connection;
     }
+    protected Moderation(ModerationConfig configuration, BaseConnection connection) {
+        this.configuration = configuration;
+        this.baseConnection = connection;
+    }
 
     public static Moderation getInstance(ModerationConfig configuration, ModerationBase connection) {
         if (instance == null) {
             instance = findInstance(configuration, connection);
+        }
+        if (instance == null) {
+            throw new IllegalArgumentException("No moderation provider found for the given configuration");
+        }
+        return instance;
+    }
+
+    public static Moderation getInstance(BaseConnection connection) {
+        if (instance == null) {
+            instance = findInstance(connection);
         }
         if (instance == null) {
             throw new IllegalArgumentException("No moderation provider found for the given configuration");
@@ -52,6 +68,18 @@ public abstract class Moderation {
                 return new MistralAIModeration(configuration, connection);
             case "OPENAI":
                 return new OpenAIModeration(configuration, connection);
+            default:
+                return null;
+        }
+    }
+
+    private static Moderation findInstance(BaseConnection connection) {
+
+        switch (connection.getInferenceType()) {
+            case "MistralAI":
+                return new MistralAIModeration(connection);
+            case "OpenAI":
+                return new OpenAIModeration(connection);
             default:
                 return null;
         }
@@ -106,10 +134,10 @@ public abstract class Moderation {
     protected String getResponsePayload(String requestPayload) {
         try {
             URL moderationURL = new URL(this.getAPIUrl());
-            if (connection == null) {
+            if (baseConnection == null) {
                 throw new IllegalStateException("Moderation connection is not initialized");
             }
-            return ConnectionUtils.executeREST(moderationURL, connection, requestPayload);
+            return ConnectionUtils.executeREST(moderationURL, baseConnection, requestPayload);
         } catch (Exception e) {
             LOGGER.error("Error in moderation: {}", e.getMessage(), e);
             throw new ModuleException("MODERATION ERROR", InferenceErrorType.TEXT_MODERATION, e);

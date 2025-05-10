@@ -9,6 +9,7 @@ import com.mulesoft.connectors.internal.exception.error.ConfigValidationExceptio
 import java.util.Arrays;
 import java.util.stream.Stream;
 
+@Deprecated
 public enum ModerationModelType {
     OPENAI("OPENAI", getOpenAIModerationModelNameStream()),
     MISTRAL_AI("MISTRAL_AI", getMistralAIModerationModelNameStream());

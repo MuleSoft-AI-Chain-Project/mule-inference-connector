@@ -5,6 +5,7 @@ import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
 
+@Deprecated
 public interface ChatCompletionBase {
     HttpClient getHttpClient();
     String getInferenceType();

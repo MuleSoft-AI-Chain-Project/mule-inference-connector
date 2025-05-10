@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.operations;
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.internal.config.TextGenerationConfig;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.internal.utils.*;
 import org.codehaus.plexus.interpolation.PrefixAwareRecursionInterceptor;
@@ -40,7 +41,6 @@ public class TextGenerationOperations {
 
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history
-     * @param configuration the connector configuration
      * @param messages the conversation history as a JSON array
      * @return result containing the LLM response
      * @throws ModuleException if an error occurs during the operation
@@ -51,13 +51,12 @@ public class TextGenerationOperations {
     @OutputJsonType(schema = "api/response/Response.json")
     @Summary("Native chat completion operation")
     public Result<InputStream, LLMResponseAttributes> chatCompletion(
-            @Config TextGenerationConfig configuration, @Connection ChatCompletionBase connection,
-            @Content InputStream messages) throws ModuleException {
+            @Connection TextGenerationConnection connection, @Content InputStream messages)
+            throws ModuleException {
         try {
-
             JSONArray messagesArray = PayloadUtils.parseInputStreamToJsonArray(messages);
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = connection.getConnectionURL();
             LOGGER.debug("Chatting with {}", chatCompUrl);
 
             JSONObject payload = PayloadUtils.buildPayload(connection, messagesArray, null);
@@ -75,7 +74,6 @@ public class TextGenerationOperations {
 
     /**
      * Simple chat answer for a single prompt
-     * @param configuration the connector configuration
      * @param prompt the user's prompt
      * @return result containing the LLM response
      * @throws ModuleException if an error occurs during the operation
@@ -86,14 +84,13 @@ public class TextGenerationOperations {
     @OutputJsonType(schema = "api/response/Response.json")
     @Summary("Simple chat answer prompt")
     public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
-            @Config TextGenerationConfig configuration, @Connection ChatCompletionBase connection,
-            @Content String prompt) throws ModuleException {
-        try {        
+            @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
+        try {
         	JSONObject payload = PayloadUtils.buildChatAnswerPromptPayload(connection, prompt);
             LOGGER.debug("payload sent to the LLM {}", payload.toString());
 
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = connection.getConnectionURL();//ConnectionUtils.getConnectionURLChatCompletion(connection);
             LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl.toString());
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
@@ -110,7 +107,7 @@ public class TextGenerationOperations {
 
     /**
      * Define a prompt template with instructions and data
-     * @param configuration the connector configuration
+     * @param connection LLM specific connector connection
      * @param template the template string
      * @param instructions instructions for the LLM
      * @param data the primary data content
@@ -123,7 +120,7 @@ public class TextGenerationOperations {
     @OutputJsonType(schema = "api/response/Response.json")
     @Summary("Define a prompt template with instructions, and data ")
     public Result<InputStream, LLMResponseAttributes> promptTemplate(
-            @Config TextGenerationConfig configuration, @Connection ChatCompletionBase connection,
+            @Connection TextGenerationConnection connection,
             @Content String template,
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
@@ -133,7 +130,7 @@ public class TextGenerationOperations {
             LOGGER.debug("payload sent to the LLM {}", payload.toString());
 
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = connection.getConnectionURL();
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("Agent define prompt template result {}", response);
@@ -144,7 +141,6 @@ public class TextGenerationOperations {
                     InferenceErrorType.CHAT_COMPLETION, e);
         }
     }
-
     /**
      * Define a tools template with instructions, data and tools
      * @param configuration the connector configuration
@@ -161,7 +157,7 @@ public class TextGenerationOperations {
     @OutputJsonType(schema = "api/response/Response.json")
     @Summary("Define a prompt template with instructions, data and tools")
     public Result<InputStream, LLMResponseAttributes> toolsTemplate(
-            @Config TextGenerationConfig configuration, @Connection ChatCompletionBase connection,
+            @Connection TextGenerationConnection connection,
             @Content String template,
             @Content String instructions,
             @Content(primary = true) String data,
@@ -169,10 +165,10 @@ public class TextGenerationOperations {
         
     	try {
 
-        	JSONObject payload = PayloadUtils.buildToolsTemplatePayload(configuration, connection, template, instructions, data, tools);
-            LOGGER.debug("payload sent to the LLM {}", payload.toString());
+        	JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
+            LOGGER.debug("payload sent to the LLM {}", payload);
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = connection.getConnectionURL();
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("Tools use native template result {}", response);
@@ -183,7 +179,6 @@ public class TextGenerationOperations {
                     InferenceErrorType.CHAT_COMPLETION, e);
         }
     }
-
 
     /**
      * Define a tools template with instructions, data and tools
@@ -200,7 +195,7 @@ public class TextGenerationOperations {
     @OutputJsonType(schema = "api/response/Response.json")
     @Summary("Define a prompt template with instructions and data")
     public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(
-            @Config TextGenerationConfig configuration, @Connection ChatCompletionBase connection,
+            @Connection TextGenerationConnection connection,
             @Content String template,
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
@@ -209,10 +204,10 @@ public class TextGenerationOperations {
 
             InputStream tools = new ByteArrayInputStream(getMcpToolsFromMultiple(connection).toString().getBytes(StandardCharsets.UTF_8));
 
-            JSONObject payload = PayloadUtils.buildToolsTemplatePayload(configuration, connection, template, instructions, data, tools);
-            LOGGER.debug("payload sent to the LLM {}", payload.toString());
+            JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
+            LOGGER.debug("payload sent to the LLM {}", payload);
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = connection.getConnectionURL();
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("MCP Tooling result {}", response);
@@ -228,5 +223,4 @@ public class TextGenerationOperations {
                     InferenceErrorType.CHAT_COMPLETION, e);
         }
     }
-
 }

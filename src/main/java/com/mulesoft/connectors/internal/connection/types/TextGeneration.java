@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+@Deprecated
 public class TextGeneration implements ChatCompletionBase {
 
   private static Logger LOGGER = LoggerFactory.getLogger(TextGeneration.class);

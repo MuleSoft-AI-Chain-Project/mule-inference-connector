@@ -2,8 +2,8 @@ package com.mulesoft.connectors.internal.connection.types;
 
 import com.mulesoft.connectors.internal.api.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.internal.models.ModelNameProvider;
-import com.mulesoft.connectors.internal.models.ModelTypeProvider;
+import com.mulesoft.connectors.internal.models.provider.ModelNameProvider;
+import com.mulesoft.connectors.internal.models.provider.ModelTypeProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -29,6 +29,7 @@ import java.util.Map;
 
 @Alias("llm")
 @DisplayName("Text Generation LLM")
+@Deprecated
 public class TextGenerationProvider implements CachedConnectionProvider<TextGeneration>, Startable, Stoppable {
 
   private HttpClient httpClient;

@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.utils;
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.internal.api.metadata.TokenUsage;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.internal.helpers.TokenHelper;
@@ -113,6 +114,84 @@ public class ResponseUtils {
     }
 
     public static Result<InputStream, LLMResponseAttributes> processResponse(
+            String response, TextGenerationConnection connection, boolean isToolsResponse) throws Exception {
+
+        JSONObject root = new JSONObject(response);
+        ResponseInfo responseInfo = extractResponseInfo(root, connection);
+        String content = null;
+
+        // Process tool calls if needed
+        JSONArray toolCalls = new JSONArray();
+        if (isToolsResponse && responseInfo.message.has("tool_calls") && !responseInfo.message.isNull("tool_calls")) {
+            toolCalls = processToolCalls(responseInfo.message.getJSONArray("tool_calls"));
+        }
+
+        if (isToolsResponse && root.has("tool_calls") && !root.isNull("tool_calls")) {
+            toolCalls = processToolCalls(root.getJSONArray("tool_calls"));
+        }
+
+  /*      // Handle Anthropic tool_use for tools responses
+        if (isToolsResponse && ProviderUtils.isAnthropic(connection)) {
+            JSONArray toolsCallAnthropic = extractAnthropicToolCalls(root.getJSONArray("content"));
+            if (!toolsCallAnthropic.isEmpty()) {
+                responseInfo.message.put("tool_calls", toolsCallAnthropic);
+            }
+        }
+
+        // Handle Vertex AI tools responses (functionCall)
+        if (isToolsResponse && ("Google".equalsIgnoreCase(provider))) {
+            //for Google/Gemini
+            JSONArray functionCalls = extractVertexAIFunctionCalls(root);
+            if (!functionCalls.isEmpty()) {
+                responseInfo.message.put("tool_calls", functionCalls);
+            }
+        }
+
+        if (ProviderUtils.isCohere(connection)) {
+            JSONArray contentArray = responseInfo.message.has("content") && !responseInfo.message.isNull("content")
+                    ? responseInfo.message.getJSONArray("content")
+                    : null;
+
+            if (contentArray != null && contentArray.length() > 0) {
+                JSONObject firstContent = contentArray.getJSONObject(0); // Get the first item in the array
+                if (firstContent.has("text") && !firstContent.isNull("text")) {
+                    content = firstContent.getString("text"); // Extract the "text" field
+                }
+            }
+        } else if (("Google".equalsIgnoreCase(provider))) {
+            //for google/gemini
+            content = responseInfo.message.has("text") && !responseInfo.message.isNull("text")
+                    ? responseInfo.message.getString("text") : null;
+
+        } else {*/
+            content = responseInfo.message.has("content") && !responseInfo.message.isNull("content")
+                    ? responseInfo.message.getString("content") : null;
+       // }
+
+        TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(InferenceConstants.RESPONSE, content);
+
+        if (isToolsResponse) {
+            JSONArray finalToolCalls = toolCalls;
+            if (responseInfo.message.has("tool_calls")
+                    && !responseInfo.message.isNull("tool_calls")) {
+                if (!responseInfo.message.getJSONArray("tool_calls").isEmpty()) {
+                    finalToolCalls = responseInfo.message.getJSONArray("tool_calls");
+                }
+            }
+            jsonObject.put(InferenceConstants.TOOLS, finalToolCalls);
+        }
+
+        Map<String, String> responseAttributes = new HashMap<>();
+        responseAttributes.put(InferenceConstants.FINISH_REASON, responseInfo.finishReason);
+        responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
+        responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
+
+        return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
+    }
+
+    public static Result<InputStream, LLMResponseAttributes> processResponse(
             String response, ChatCompletionBase configuration, boolean isToolsResponse, JSONArray toolExecutionResult) throws Exception {
 
         String provider = ProviderUtils.getProviderByModel(configuration.getModelName());
@@ -196,6 +275,90 @@ public class ResponseUtils {
         return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
     }
 
+    public static Result<InputStream, LLMResponseAttributes> processResponse(
+            String response, TextGenerationConnection connection, boolean isToolsResponse, JSONArray toolExecutionResult) throws Exception {
+
+        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+
+        JSONObject root = new JSONObject(response);
+        ResponseInfo responseInfo = extractResponseInfo(root, connection);
+        String content = null;
+
+        // Process tool calls if needed
+        JSONArray toolCalls = new JSONArray();
+        if (isToolsResponse && responseInfo.message.has("tool_calls") && !responseInfo.message.isNull("tool_calls")) {
+            toolCalls = processToolCalls(responseInfo.message.getJSONArray("tool_calls"));
+        }
+
+        if (isToolsResponse && root.has("tool_calls") && !root.isNull("tool_calls")) {
+            toolCalls = processToolCalls(root.getJSONArray("tool_calls"));
+        }
+
+        // Handle Anthropic tool_use for tools responses
+       /* if (isToolsResponse && ProviderUtils.isAnthropic(connection)) {
+            JSONArray toolsCallAnthropic = extractAnthropicToolCalls(root.getJSONArray("content"));
+            if (!toolsCallAnthropic.isEmpty()) {
+                responseInfo.message.put("tool_calls", toolsCallAnthropic);
+            }
+        }*/
+
+        // Handle Vertex AI tools responses (functionCall)
+        if (isToolsResponse && ("Google".equalsIgnoreCase(provider))) {
+            // for Google/Gemini
+            JSONArray functionCalls = extractVertexAIFunctionCalls(root);
+            if (!functionCalls.isEmpty()) {
+                responseInfo.message.put("tool_calls", functionCalls);
+            }
+        }
+
+       /* if (ProviderUtils.isCohere(connection)) {
+            JSONArray contentArray = responseInfo.message.has("content") && !responseInfo.message.isNull("content")
+                    ? responseInfo.message.getJSONArray("content")
+                    : null;
+
+            if (contentArray != null && contentArray.length() > 0) {
+                JSONObject firstContent = contentArray.getJSONObject(0); // Get the first item in the array
+                if (firstContent.has("text") && !firstContent.isNull("text")) {
+                    content = firstContent.getString("text"); // Extract the "text" field
+                }
+            }
+        } else*/ if (("Google".equalsIgnoreCase(provider))) {
+            // for google/gemini
+            content = responseInfo.message.has("text") && !responseInfo.message.isNull("text")
+                    ? responseInfo.message.getString("text") : null;
+        } else {
+            content = responseInfo.message.has("content") && !responseInfo.message.isNull("content")
+                    ? responseInfo.message.getString("content") : null;
+        }
+
+        TokenUsage tokenUsage = TokenHelper.parseUsageFromResponse(response);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put(InferenceConstants.RESPONSE, content);
+
+        if (isToolsResponse) {
+            JSONArray finalToolCalls = toolCalls;
+            // Check if we have tool calls in the message from Anthropic
+            if (responseInfo.message.has("tool_calls") && !responseInfo.message.isNull("tool_calls")) {
+                if (!responseInfo.message.getJSONArray("tool_calls").isEmpty()){
+                    finalToolCalls = responseInfo.message.getJSONArray("tool_calls");
+                }
+            }
+            jsonObject.put(InferenceConstants.TOOLS, finalToolCalls);
+
+            // Add toolsExecutionReport if toolExecutionResult is provided
+            if (toolExecutionResult != null && !toolExecutionResult.isEmpty()) {
+                jsonObject.put("toolsExecutionReport", toolExecutionResult);
+            }
+        }
+
+        Map<String, String> responseAttributes = new HashMap<>();
+        responseAttributes.put(InferenceConstants.FINISH_REASON, responseInfo.finishReason);
+        responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
+        responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
+
+        return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
+    }
+
     /**
      * Process the response from the LLM API for standard chat operations
      * @param response the response string from the API
@@ -206,6 +369,11 @@ public class ResponseUtils {
     public static Result<InputStream, LLMResponseAttributes> processLLMResponse(
             String response, ChatCompletionBase configuration) throws Exception {
         return processResponse(response, configuration, false);
+    }
+
+    public static Result<InputStream, LLMResponseAttributes> processLLMResponse(
+            String response, TextGenerationConnection connection) throws Exception {
+        return processResponse(response, connection, false);
     }
 
     /**
@@ -221,8 +389,18 @@ public class ResponseUtils {
     }
 
     public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
+            String response, TextGenerationConnection connection) throws Exception {
+        return processResponse(response, connection, true);
+    }
+
+    public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
             String response, ChatCompletionBase configuration, JSONArray toolExecutionResult) throws Exception {
         return processResponse(response, configuration, true, toolExecutionResult);
+    }
+
+    public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
+            String response, TextGenerationConnection connection, JSONArray toolExecutionResult) throws Exception {
+        return processResponse(response, connection, true, toolExecutionResult);
     }
 
     /**
@@ -234,6 +412,91 @@ public class ResponseUtils {
         JSONObject message;
         String finishReason;
         String text = "";
+    }
+
+    private static ResponseInfo extractResponseInfo(JSONObject root, TextGenerationConnection connection) {
+        ResponseInfo info = new ResponseInfo();
+
+        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+
+        info.model = /*!("AI21LABS".equals(configuration.getInferenceType())
+
+                || "COHERE".equals(configuration.getInferenceType())
+                || "VERTEX_AI_EXPRESS".equals(configuration.getInferenceType())
+                || "VERTEX_AI".equals(configuration.getInferenceType())
+                || ("VERTEX_AI".equals(configuration.getInferenceType()) && "Anthropic".equalsIgnoreCase(provider))
+        )
+                ? root.getString("model")   //if model is not AI21LABS or COHERE or VERTEX_AI_EXPRESS or VERTEX_AI AND provider is Anthropic
+                : */connection.getModelName();
+
+        /*if (ProviderUtils.isOllama(configuration) || ProviderUtils.isllamaAPI(configuration)) {
+            info.id = null;
+        } else if ((ProviderUtils.isVertexAIExpress(configuration) || ProviderUtils.isVertexAI(configuration)) &&
+                !"Anthropic".equalsIgnoreCase(provider) &&
+                !"Meta".equalsIgnoreCase(provider)) {
+
+            info.id = root.getString("responseId");
+        } else {*/
+            info.id = root.getString("id");
+       // }
+
+        info.message = new JSONObject();
+
+       /* if (ProviderUtils.isOllama(connection)) {
+            info.message = root.getJSONObject("message");
+            info.finishReason = root.getString("done_reason");
+        } else if (ProviderUtils.isCohere(connection)) {
+            info.message = root.getJSONObject("message");
+            info.finishReason = root.getString("finish_reason");
+        } else if (ProviderUtils.isAnthropic(connection) || "Anthropic".equalsIgnoreCase(provider)) {
+            info.finishReason = root.getString("stop_reason");
+
+            // Extract text from content array
+            if (root.has("content") && root.getJSONArray("content").length() > 0) {
+                JSONArray contentArray = root.getJSONArray("content");
+                for (int i = 0; i < contentArray.length(); i++) {
+                    JSONObject contentItem = contentArray.getJSONObject(i);
+                    if ("text".equals(contentItem.getString("type")) && info.text.isEmpty()) {
+                        info.text = contentItem.getString("text");
+                        break;
+                    }
+                }
+            }
+
+            info.message = new JSONObject();
+            info.message.put("content", info.text);
+        } else if ((ProviderUtils.isVertexAIExpress(configuration) || ProviderUtils.isVertexAI(configuration)) && !"Meta".equalsIgnoreCase(provider)) {
+            //for google models
+            // Extract candidates array
+            JSONArray candidatesArray = root.getJSONArray("candidates");
+
+            // Ensure at least one candidate exists
+            if (candidatesArray.length() > 0) {
+                JSONObject firstCandidate = candidatesArray.getJSONObject(0);
+
+                // Extract finishReason
+                info.finishReason = firstCandidate.optString("finishReason", "Unknown");
+
+                // Extract text from content.parts array
+                JSONObject content = firstCandidate.getJSONObject("content");
+                JSONArray partsArray = content.getJSONArray("parts");
+                info.message = partsArray.getJSONObject(0);
+
+            } else {
+                LOGGER.debug("No candidates found in the response from provider: {}", configuration.getInferenceType());
+            }
+
+
+        } else {*/
+            // Default case for other models (OpenAI, etc.)
+            JSONArray choicesArray = root.getJSONArray("choices");
+            JSONObject firstChoice = choicesArray.getJSONObject(0);
+
+
+            info.finishReason = /*ProviderUtils.isNvidia(connection) ? "" :*/ firstChoice.getString("finish_reason");
+            info.message = firstChoice.getJSONObject("message");
+       // }
+        return info;
     }
 
     /**
@@ -324,8 +587,6 @@ public class ResponseUtils {
             info.finishReason = ProviderUtils.isNvidia(configuration) ? "" : firstChoice.getString("finish_reason");
             info.message = firstChoice.getJSONObject("message");
         }
-
-
         return info;
     }
     

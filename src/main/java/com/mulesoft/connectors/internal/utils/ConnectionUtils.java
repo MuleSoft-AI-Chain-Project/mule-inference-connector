@@ -2,17 +2,20 @@ package com.mulesoft.connectors.internal.utils;
 
 import com.google.auth.oauth2.GoogleCredentials;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
 
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,7 +33,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.TimeoutException;
 
 import static com.mulesoft.connectors.internal.utils.ResponseUtils.encodeImageToBase64;
@@ -111,8 +118,87 @@ public class ConnectionUtils {
                 requestBuilder.addHeader("Authorization", "Bearer " + connection.getApiKey());
                 break;
         }
+        return requestBuilder.build();
+    }
+
+    public static HttpRequest buildHttpRequest(URL url, BaseConnection connection) {
+        HttpRequestBuilder requestBuilder = HttpRequest.builder();
+        String finalUri = url.toString();
+
+        LOGGER.debug("Request path: {}", finalUri);
+
+        requestBuilder
+                .uri(finalUri)
+                .method("POST")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "Mozilla/5.0")
+                .addHeader("Accept", "application/json");
+
+        requestBuilder.addHeader("Authorization", "Bearer " + connection.getApiKey());
+
+       /* switch (connection.getInferenceType()) {
+            case "ANTHROPIC":
+                requestBuilder
+                        .addHeader("x-api-key", connection.getApiKey())
+                        .addHeader("anthropic-version", "2023-06-01");
+                break;
+            case "PORTKEY":
+                requestBuilder
+                        .addHeader("x-portkey-api-key", connection.getApiKey())
+                        .addHeader("x-portkey-virtual-key", connection.getVirtualKey());
+                break;
+            case "AZURE_OPENAI":
+                requestBuilder.addHeader("api-key", connection.getApiKey());
+                break;
+            case "VERTEX_AI_EXPRESS":
+                //do nothing for Vertex AI Express
+                // Query param already added
+                break;
+            case "AZURE_AI_FOUNDRY":
+                requestBuilder.addHeader("api-key", connection.getApiKey());
+                break;
+            case "IBM_WATSON":
+                // Obtain access token
+                Map<String, String> params = new HashMap<>();
+                params.put("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
+                params.put("apikey", connection.getApiKey()); // Use connection.getApiKey() instead of hardcoded
+                URL tokenUrl = new URL(InferenceConstants.IBM_WATSON_Token_URL);
+                String response = executeTokenRequest(tokenUrl, connection, params);
+                // Parse the JSON response
+                JSONObject jsonResponse = new JSONObject(response);
+                String accessToken = jsonResponse.getString("access_token");
+                requestBuilder.addHeader("Authorization", "Bearer " + accessToken);
+                break;
+            case "VERTEX_AI":
+                requestBuilder.addHeader("Authorization", "Bearer " + getAccessTokenFromServiceAccountKey(connection));
+                break;
+            default:
+                requestBuilder.addHeader("Authorization", "Bearer " + connection.getApiKey());
+                break;
+        }*/
 
         return requestBuilder.build();
+    }
+
+    public static HttpRequest buildHttpRequest(URL url, TextGenerationConnection connection) {
+
+        HttpRequestBuilder requestBuilder = HttpRequest.builder();
+
+        String finalUri = url.toString();
+        Optional.ofNullable(connection.getQueryParams())
+                .ifPresent(map -> map.forEach(requestBuilder::addQueryParam));
+        Optional.ofNullable(connection.getAdditionalHeaders())
+                .ifPresent(map -> map.forEach(requestBuilder::addHeader));
+
+        LOGGER.debug("Request path: {}", finalUri);
+
+        return requestBuilder
+                .uri(finalUri)
+                .method("POST")
+                .addHeader("Content-Type", "application/json")
+                .addHeader("User-Agent", "Mozilla/5.0")
+                .addHeader("Accept", "application/json")
+                .build();
     }
 
     /**
@@ -121,6 +207,13 @@ public class ConnectionUtils {
      * @return the configured HttpRequestOptions
      */
     public static HttpRequestOptions getRequestOptions( ChatCompletionBase connection) {
+        return HttpRequestOptions.builder()
+                .responseTimeout(String.valueOf(connection.getTimeout()) != null ? Integer.parseInt(String.valueOf(connection.getTimeout())) : 600000)
+                .followsRedirect(true)
+                .build();
+    }
+
+    public static HttpRequestOptions getRequestOptions( TextGenerationConnection connection) {
         return HttpRequestOptions.builder()
                 .responseTimeout(String.valueOf(connection.getTimeout()) != null ? Integer.parseInt(String.valueOf(connection.getTimeout())) : 600000)
                 .followsRedirect(true)
@@ -343,6 +436,77 @@ public class ConnectionUtils {
         headersMap.forEach(builder::addHeader);
         HttpRequest finalRequest = builder.build();
         HttpRequestOptions options = getRequestOptions(baseConnection);
+
+        HttpClient httpClient = connection.getHttpClient();
+        if (httpClient == null) {
+            throw new IllegalStateException("HttpClient is not initialized");
+        }
+        HttpResponse response = httpClient.send(finalRequest, options);
+        return processResponse(response);
+    }
+
+    public static String executeREST(URL resourceUrl, BaseConnection connection, String payload) throws IOException, TimeoutException {
+        if (resourceUrl == null) {
+            throw new IllegalArgumentException("Resource URL cannot be null");
+        }
+
+        ChatCompletionBase baseConnection = ProviderUtils.convertToBaseConnection(connection);
+        //TextGenerationConfig inferenceConfig = ProviderUtils.convertToInferenceConfig(configuration);
+
+        // Build initial request for headers and URI
+        HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
+        // Convert MultiMap to Map
+        MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
+        Map<String, String> headersMap = new HashMap<>();
+        headersMultiMap.forEach((key, values) -> {
+            // Take the first value or concatenate if multiple values exist
+            headersMap.put(key, String.join(",", values));
+        });
+        // Build final request with payload
+        HttpRequestBuilder builder = HttpRequest.builder()
+                .uri(initialRequest.getUri())
+                .method(initialRequest.getMethod())
+                .entity(new ByteArrayHttpEntity(payload.getBytes(StandardCharsets.UTF_8)));
+        // Add headers individually
+        headersMap.forEach(builder::addHeader);
+        HttpRequest finalRequest = builder.build();
+        HttpRequestOptions options = getRequestOptions(baseConnection);
+
+        HttpClient httpClient = connection.getHttpClient();
+        if (httpClient == null) {
+            throw new IllegalStateException("HttpClient is not initialized");
+        }
+        HttpResponse response = httpClient.send(finalRequest, options);
+        return processResponse(response);
+    }
+
+    /**
+     * Execute a REST API call.
+     * @param resourceUrl the URL to call
+     * @param connection the connector configuration
+     * @param payload the payload to send
+     * @return the response string
+     * @throws IOException if an error occurs during the API call
+     */
+    public static String executeREST(URL resourceUrl, TextGenerationConnection connection, String payload) throws IOException, TimeoutException {
+        if (resourceUrl == null) {
+            throw new IllegalArgumentException("Resource URL cannot be null");
+        }
+        LOGGER.debug("Sending request to URL: {}", resourceUrl);
+        LOGGER.trace("Payload: {} ", payload);
+        HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
+        MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
+        Map<String, String> headersMap = new HashMap<>();
+        headersMultiMap.forEach((key, values) -> {
+            headersMap.put(key, String.join(",", values));
+        });
+        HttpRequestBuilder builder = HttpRequest.builder()
+                .uri(initialRequest.getUri())
+                .method(initialRequest.getMethod())
+                .entity(new ByteArrayHttpEntity(payload.getBytes(StandardCharsets.UTF_8)));
+        headersMap.forEach(builder::addHeader);
+        HttpRequest finalRequest = builder.build();
+        HttpRequestOptions options = getRequestOptions(connection);
 
         HttpClient httpClient = connection.getHttpClient();
         if (httpClient == null) {
