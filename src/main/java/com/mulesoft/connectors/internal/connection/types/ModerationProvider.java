@@ -25,6 +25,7 @@ import org.mule.runtime.http.api.client.HttpClientConfiguration;
 
 import javax.inject.Inject;
 
+@Deprecated
 @Alias("moderation-model")
 @DisplayName("Moderation Model")
 public class ModerationProvider implements CachedConnectionProvider<ModerationBase>, Startable, Stoppable {
@@ -43,34 +44,21 @@ public class ModerationProvider implements CachedConnectionProvider<ModerationBa
   @OfValues(ModerationTypeProvider.class)
   private String inferenceType;
 
-  public void setInferenceType() {
-    this.inferenceType= inferenceType;
-  }
-
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("API Key")
   private String apiKey;
-
-  public void setApiKey() {
-    this.apiKey =  apiKey;
-  }
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(ModerationNameProvider.class)
   private String modelName;
 
-  public void setModelName() { this.modelName = modelName; }
-
-
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("Timeout (milliseconds)")
   @Optional(defaultValue = "#['600000']")
   private int timeout;
-
-  public void setTimeout(int timeout) { this.timeout = timeout; }
 
   @Parameter
   @Placement(order = 2, tab = "Advanced")

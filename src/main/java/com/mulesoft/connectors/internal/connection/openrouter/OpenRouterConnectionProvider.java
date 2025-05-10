@@ -24,6 +24,7 @@ public class OpenRouterConnectionProvider extends TextGenerationConnectionProvid
 
   @Override
   public OpenRouterTextGenerationConnection connect() throws ConnectionException {
+      logger.debug("OpenRouterTextGenerationConnection connect ...");
       try {
           return new OpenRouterTextGenerationConnection(httpClient, openRouterConnectionParameters.getOpenRouterModelName(),
                   openRouterConnectionParameters.getApiKey(),
@@ -36,12 +37,12 @@ public class OpenRouterConnectionProvider extends TextGenerationConnectionProvid
   }
 
   @Override
-  public void disconnect(TextGenerationConnection textGenerationConnection) {
-    logger.debug("Disconnected ...");
+  public void disconnect(TextGenerationConnection baseConnection) {
+    logger.debug(" OpenRouterTextGenerationConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(TextGenerationConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
 
     logger.debug("Validating connection... ");
     try {

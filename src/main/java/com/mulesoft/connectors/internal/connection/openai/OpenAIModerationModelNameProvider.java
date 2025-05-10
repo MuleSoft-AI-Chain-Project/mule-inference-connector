@@ -11,11 +11,11 @@ import org.mule.runtime.extension.api.values.ValueProvider;
 import java.util.Arrays;
 import java.util.Set;
 
-public class OpenAIModelNameProvider implements ValueProvider {
+public class OpenAIModerationModelNameProvider implements ValueProvider {
 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenAIModelName.values())
-            .filter(OpenAIModelName::isTextGenerationSupport).map(String::valueOf));
+            .filter(OpenAIModelName::isModerationSupport).map(String::valueOf));
   }
 }

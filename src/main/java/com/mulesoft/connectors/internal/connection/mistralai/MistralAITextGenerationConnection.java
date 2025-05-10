@@ -18,7 +18,7 @@ public class MistralAITextGenerationConnection extends TextGenerationConnection 
                                            Number temperature, Number topP,
                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout)
           throws MalformedURLException {
-    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers);
+    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,fetchApiURL(),"MISTRALAI");
     this.connectionURL = new URL(MISTRAL_AI_URL + URI_CHAT_COMPLETIONS);
   }
 
@@ -37,8 +37,7 @@ public class MistralAITextGenerationConnection extends TextGenerationConnection 
     return Map.of("Authorization", "Bearer " + this.getApiKey());
   }
 
-  @Override
-  public String getInferenceType() {
-    return "MistralAI";
+  private static String fetchApiURL() {
+    return MISTRAL_AI_URL + URI_CHAT_COMPLETIONS;
   }
 }

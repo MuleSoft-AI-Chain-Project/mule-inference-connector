@@ -22,9 +22,9 @@ import javax.inject.Inject;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 
-public abstract class TextGenerationConnectionProvider implements CachedConnectionProvider<TextGenerationConnection>, Initialisable, Disposable {
+public abstract class BaseConnectionProvider implements CachedConnectionProvider<BaseConnection>, Initialisable, Disposable {
 
-    private static final Logger logger = LoggerFactory.getLogger(TextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(BaseConnectionProvider.class);
 
     @RefName
     private String configName;

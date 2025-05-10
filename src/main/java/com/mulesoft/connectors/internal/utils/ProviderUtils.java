@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.utils;
 
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
 
@@ -153,7 +154,17 @@ public class ProviderUtils {
         return baseConnection;
     }
 
+    public static @NotNull ChatCompletionBase convertToBaseConnection(BaseConnection connection) {
+        BaseConnectionImpl baseConnectionImpl = new BaseConnectionImpl();
 
+        baseConnectionImpl.setHttpClient(connection.getHttpClient());
+//        baseConnectionImpl.setInferenceType(connection.getInferenceType());
+        baseConnectionImpl.setApiKey(connection.getApiKey());
+        baseConnectionImpl.setModelName(connection.getModelName());
+        baseConnectionImpl.setTimeout(connection.getTimeout());
+
+        return baseConnectionImpl;
+    }
 
     private static class BaseConnectionImpl implements ChatCompletionBase {
         private HttpClient httpClient;

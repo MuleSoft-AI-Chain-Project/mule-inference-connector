@@ -19,7 +19,7 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
                                          Number temperature, Number topP,
                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
           throws MalformedURLException {
-    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers);
+    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,fetchApiURL(),"OPENAI");
     this.connectionURL = new URL(OPEN_AI_URL + URI_CHAT_COMPLETIONS);//getOpenCompatibleURL() + URI_CHAT_COMPLETIONS);
   }
 
@@ -38,8 +38,7 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
     return Map.of("Authorization", "Bearer " + this.getApiKey());
   }
 
-  @Override
-  public String getInferenceType() {
-    return "OpenAI";
+  private static String fetchApiURL() {
+    return OPEN_AI_URL + URI_CHAT_COMPLETIONS;
   }
 }

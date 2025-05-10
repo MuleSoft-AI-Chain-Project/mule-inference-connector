@@ -3,9 +3,7 @@ package com.mulesoft.connectors.internal.connection.mistralai;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
-import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
@@ -16,16 +14,6 @@ public class MistralAIConnectionParameters extends TextGenerationConnectionParam
     @Expression(ExpressionSupport.SUPPORTED)
     @OfValues(MistralAIModelNameProvider.class)
     private String mistralAIModelName;
-
-    @Parameter
-    @Placement(order = 2)
-    @Expression(ExpressionSupport.SUPPORTED)
-    @DisplayName("API Key")
-    private String apiKey;
-
-    public String getApiKey() {
-        return apiKey;
-    }
 
     public String getMistralAIModelName() {
         return mistralAIModelName;

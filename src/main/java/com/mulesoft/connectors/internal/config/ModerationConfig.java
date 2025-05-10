@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.internal.config;
 
-import com.mulesoft.connectors.internal.connection.types.ModerationProvider;
+import com.mulesoft.connectors.internal.connection.mistralai.MistralAIModerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openai.OpenAIModerationConnectionProvider;
 import com.mulesoft.connectors.internal.operations.ModerationOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
@@ -8,7 +9,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
 
 
 @Configuration(name="moderation-config")
-@ConnectionProviders({ModerationProvider.class})
+@ConnectionProviders({OpenAIModerationConnectionProvider.class, MistralAIModerationConnectionProvider.class})
 @Operations(ModerationOperations.class)
 public class ModerationConfig {
 }

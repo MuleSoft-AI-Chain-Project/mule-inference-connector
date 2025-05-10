@@ -26,6 +26,7 @@ public class MistralAIConnectionProvider extends TextGenerationConnectionProvide
 
   @Override
   public MistralAITextGenerationConnection connect() throws ConnectionException {
+      logger.debug("OpenRouterTextGenerationConnection connect ...");
       try {
           return new MistralAITextGenerationConnection(httpClient, mistralAIConnectionParameters.getMistralAIModelName(),
                   mistralAIConnectionParameters.getApiKey(),
@@ -38,12 +39,12 @@ public class MistralAIConnectionProvider extends TextGenerationConnectionProvide
   }
 
   @Override
-  public void disconnect(TextGenerationConnection textGenerationConnection) {
-    logger.debug("Disconnected ...");
+  public void disconnect(TextGenerationConnection baseConnection) {
+    logger.debug("OpenRouterTextGenerationConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(TextGenerationConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
 
     logger.debug("Validating connection... ");
     try {

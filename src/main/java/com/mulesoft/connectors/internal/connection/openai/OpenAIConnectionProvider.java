@@ -24,6 +24,7 @@ public class OpenAIConnectionProvider extends TextGenerationConnectionProvider {
 
   @Override
   public OpenAITextGenerationConnection connect() throws ConnectionException {
+      logger.debug("OpenAITextGenerationConnection connect ...");
       try {
           return new OpenAITextGenerationConnection(httpClient,openAIConnectionParameters.getOpenAIModelName(),
                   openAIConnectionParameters.getApiKey(),
@@ -36,12 +37,12 @@ public class OpenAIConnectionProvider extends TextGenerationConnectionProvider {
   }
 
   @Override
-  public void disconnect(TextGenerationConnection textGenerationConnection) {
-    logger.debug("Disconnected ...");
+  public void disconnect(TextGenerationConnection baseConnection) {
+    logger.debug(" OpenAITextGenerationConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(TextGenerationConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
 
     logger.debug("Validating connection... ");
     try {

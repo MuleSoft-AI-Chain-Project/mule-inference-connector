@@ -8,7 +8,7 @@ import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 
 import java.util.Map;
 
-public abstract class TextGenerationConnectionParameters {
+public class TextGenerationConnectionParameters extends BaseConnectionParameters{
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
@@ -27,12 +27,6 @@ public abstract class TextGenerationConnectionParameters {
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
-    @DisplayName("Timeout (milliseconds)")
-    @Optional(defaultValue = "#['60000']")
-    private int timeout;
-
-    @Parameter
-    @Expression(ExpressionSupport.SUPPORTED)
     //@Placement(tab = "MCP Servers")
     @Optional
     @DisplayName("MCP Server Urls (SSE over HTTP)")
@@ -48,10 +42,6 @@ public abstract class TextGenerationConnectionParameters {
 
     public Number getTopP() {
         return topP;
-    }
-
-    public int getTimeout() {
-        return timeout;
     }
 
     public Map<String, String> getMcpSseServers() {
