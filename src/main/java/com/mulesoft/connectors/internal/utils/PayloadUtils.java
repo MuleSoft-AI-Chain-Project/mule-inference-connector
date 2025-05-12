@@ -296,7 +296,6 @@ public class PayloadUtils {
         return messagesArray;
     }
 
-
     public static JSONArray createRequestImageURL(ChatCompletionBase connection, String prompt, String imageUrl) throws IOException {
     	
     	String inferenceTyupe = connection.getInferenceType();
@@ -311,11 +310,28 @@ public class PayloadUtils {
         		//for Google/Gemini
         		return createVertexAIImageURLRequest(prompt, imageUrl);
         }
-        
         //default
         return createImageURLRequest(prompt, imageUrl);
-        	    	
     }
+
+    public static JSONArray createRequestImageURL(TextGenerationConnection connection, String prompt, String imageUrl) throws IOException {
+
+        String inferenceTyupe = connection.getInferenceType();
+
+        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+
+        if (inferenceTyupe.equalsIgnoreCase("ANTHROPIC") || ("Anthropic".equalsIgnoreCase(provider))) {
+            return createAnthropicImageURLRequest(prompt, imageUrl);
+        } else if (inferenceTyupe.equalsIgnoreCase("OLLAMA")) {
+            return createOllamaImageURLRequest(prompt, imageUrl);
+        } else if (("Google".equalsIgnoreCase(provider))) {
+            //for Google/Gemini
+            return createVertexAIImageURLRequest(prompt, imageUrl);
+        }
+        //default
+        return createImageURLRequest(prompt, imageUrl);
+    }
+
 
     /**
      * Creates a messages array with system prompt and user message

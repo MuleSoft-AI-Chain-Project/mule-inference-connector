@@ -1,16 +1,15 @@
 package com.mulesoft.connectors.internal.connection.openai.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.openai.OpenAITextGenerationConnection;
-import com.mulesoft.connectors.internal.models.openai.providers.OpenAITextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.internal.connection.openai.OpenAIVisionConnection;
+import com.mulesoft.connectors.internal.models.openai.providers.OpenAIVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -21,31 +20,31 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@Alias("openai")
+@Alias("openai-vision")
 @DisplayName("OpenAI")
-public class OpenAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
+public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(OpenAITextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(OpenAIVisionConnectionProvider.class);
 
     @Parameter
     @Placement(tab = Placement.CONNECTION_TAB, order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(OpenAITextGenerationModelNameProvider.class)
-    @Optional(defaultValue = "gpt-4o-mini")
+    @OfValues(OpenAIVisionModelNameProvider.class)
     private String openAIModelName;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
-    private TextGenerationConnectionParameters openAITextGenerationConnectionParameters;
+    private VisionConnectionParameters visionConnectionParameters;
 
     @Override
-    public OpenAITextGenerationConnection connect() throws ConnectionException {
+    public OpenAIVisionConnection connect() throws ConnectionException {
         logger.debug("OpenAITextGenerationConnection connect ...");
         try {
-            return new OpenAITextGenerationConnection(httpClient, openAIModelName,
-                    openAITextGenerationConnectionParameters.getApiKey(),
-                    openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
-                    openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),
-                    openAITextGenerationConnectionParameters.getTimeout());
+            return new OpenAIVisionConnection(httpClient, openAIModelName,
+                    visionConnectionParameters.getApiKey(),
+                    visionConnectionParameters.getTemperature(),
+                    visionConnectionParameters.getTopP(),
+                    visionConnectionParameters.getMaxTokens(),
+                    visionConnectionParameters.getTimeout());
         } catch (MalformedURLException e) {
             throw new ConnectionException("Invalid Open Compatible URL",e);
         }

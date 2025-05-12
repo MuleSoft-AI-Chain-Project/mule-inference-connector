@@ -1,16 +1,13 @@
 package com.mulesoft.connectors.internal.operations;
 
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.internal.config.TextGenerationConfig;
-import com.mulesoft.connectors.internal.config.VisionConfig;
-import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.internal.utils.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
@@ -38,7 +35,7 @@ public class VisionModelOperations {
 
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history
-     * @param configuration the connector configuration
+     * @param connection the connector connection
      * @param prompt the users prompt
      * @param imageUrl the image Url to be sent to the Vision Model
      * @return result containing the LLM response
@@ -49,18 +46,18 @@ public class VisionModelOperations {
     @DisplayName("[Image] Read by (Url or Base64)")
     @OutputJsonType(schema = "api/response/Response.json")
     public Result<InputStream, LLMResponseAttributes> readImage(
-            @Config VisionConfig configuration, @Connection ChatCompletionBase connection,
+            @Connection TextGenerationConnection connection,
             @Content String prompt,
             @Content(primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl) throws ModuleException {
         try { 
 
             JSONArray messagesArray = createRequestImageURL(connection, prompt, imageUrl);
 
-            URL chatCompUrl = ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = new URL(connection.getApiURL());
             LOGGER.debug("Read Image with {}", chatCompUrl);
 
             JSONObject payload = PayloadUtils.buildPayload(connection, messagesArray, null);
-            LOGGER.debug("payload sent to the LLM {}", payload.toString());
+            LOGGER.debug("payload sent to the LLM {}", payload);
             
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
