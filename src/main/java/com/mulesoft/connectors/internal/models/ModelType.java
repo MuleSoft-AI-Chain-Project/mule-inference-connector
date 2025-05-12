@@ -5,6 +5,8 @@ package com.mulesoft.connectors.internal.models;
 
 
 import com.mulesoft.connectors.internal.exception.error.ConfigValidationException;
+import com.mulesoft.connectors.internal.models.mistral.MistralModelName;
+import com.mulesoft.connectors.internal.models.openai.OpenAIModelName;
 
 import java.util.Arrays;
 import java.util.stream.Stream;

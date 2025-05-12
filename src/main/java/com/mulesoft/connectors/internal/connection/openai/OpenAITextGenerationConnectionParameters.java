@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.internal.connection.openai;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.internal.models.openai.providers.OpenAITextGenerationModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Optional;

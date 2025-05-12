@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.internal.models;
+package com.mulesoft.connectors.internal.models.openai;
 
 public enum OpenAIModelName {
 

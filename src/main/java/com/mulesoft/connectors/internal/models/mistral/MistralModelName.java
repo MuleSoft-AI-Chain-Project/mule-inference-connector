@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.internal.models;
+package com.mulesoft.connectors.internal.models.mistral;
 
 public enum MistralModelName {
 
