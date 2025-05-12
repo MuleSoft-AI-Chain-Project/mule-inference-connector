@@ -1,15 +1,20 @@
 package com.mulesoft.connectors.internal.connection.openrouter.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.openrouter.OpenRouterTextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.openrouter.OpenRouterTextGenerationConnection;
+import com.mulesoft.connectors.internal.models.openrouter.providers.OpenRouterTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,18 +26,24 @@ public class OpenRouterTextGenerationConnectionProvider extends TextGenerationCo
 
   private static final Logger logger = LoggerFactory.getLogger(OpenRouterTextGenerationConnectionProvider.class);
 
-  @ParameterGroup(name = Placement.CONNECTION_TAB)
-  private OpenRouterTextGenerationConnectionParameters openRouterTextGenerationConnectionParameters;
+    @Parameter
+    @Placement(order = 1)
+    @Expression(ExpressionSupport.SUPPORTED)
+    @OfValues(OpenRouterTextGenerationModelNameProvider.class)
+    private String openRouterModelName;
+
+    @ParameterGroup(name = Placement.CONNECTION_TAB)
+  private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
   @Override
   public OpenRouterTextGenerationConnection connect() throws ConnectionException {
       logger.debug("OpenRouterTextGenerationConnection connect ...");
       try {
-          return new OpenRouterTextGenerationConnection(httpClient, openRouterTextGenerationConnectionParameters.getOpenRouterModelName(),
-                  openRouterTextGenerationConnectionParameters.getApiKey(),
-                  openRouterTextGenerationConnectionParameters.getTemperature(), openRouterTextGenerationConnectionParameters.getTopP(),
-                  openRouterTextGenerationConnectionParameters.getMaxTokens(), openRouterTextGenerationConnectionParameters.getMcpSseServers(),
-                  openRouterTextGenerationConnectionParameters.getTimeout());
+          return new OpenRouterTextGenerationConnection(httpClient, openRouterModelName,
+                  textGenerationConnectionParameters.getApiKey(),
+                  textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                  textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                  textGenerationConnectionParameters.getTimeout());
       } catch (MalformedURLException e) {
           throw new ConnectionException("Invalid Open Compatible URL",e);
       }

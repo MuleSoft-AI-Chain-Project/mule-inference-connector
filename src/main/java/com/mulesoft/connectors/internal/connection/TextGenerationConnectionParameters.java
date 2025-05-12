@@ -27,7 +27,6 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
-    //@Placement(tab = "MCP Servers")
     @Optional
     @DisplayName("MCP Server Urls (SSE over HTTP)")
     private Map<String, String> mcpSseServers;
