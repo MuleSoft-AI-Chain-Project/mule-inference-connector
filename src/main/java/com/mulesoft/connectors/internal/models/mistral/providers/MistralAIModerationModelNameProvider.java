@@ -3,7 +3,7 @@
  */
 package com.mulesoft.connectors.internal.models.mistral.providers;
 
-import com.mulesoft.connectors.internal.models.mistral.MistralModelName;
+import com.mulesoft.connectors.internal.models.mistral.MistralAIModelName;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
@@ -15,7 +15,7 @@ public class MistralAIModerationModelNameProvider implements ValueProvider {
 
   @Override
   public Set<Value> resolve() {
-    return ValueBuilder.getValuesFor(Arrays.stream(MistralModelName.values())
-            .filter(MistralModelName::isModerationSupport).map(String::valueOf));
+    return ValueBuilder.getValuesFor(Arrays.stream(MistralAIModelName.values())
+            .filter(MistralAIModelName::isModerationSupport).map(String::valueOf));
   }
 }

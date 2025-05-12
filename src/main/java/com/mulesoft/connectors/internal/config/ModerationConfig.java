@@ -9,7 +9,8 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
 
 
 @Configuration(name="moderation-config")
-@ConnectionProviders({OpenAIModerationConnectionProvider.class, MistralAIModerationConnectionProvider.class})
+@ConnectionProviders({OpenAIModerationConnectionProvider.class,
+        MistralAIModerationConnectionProvider.class})
 @Operations(ModerationOperations.class)
 public class ModerationConfig {
 }

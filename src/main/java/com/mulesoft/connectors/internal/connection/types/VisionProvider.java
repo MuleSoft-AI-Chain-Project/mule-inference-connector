@@ -26,6 +26,7 @@ import org.mule.runtime.http.api.client.HttpClientConfiguration;
 
 import javax.inject.Inject;
 
+@Deprecated
 @Alias("vision")
 @DisplayName("Vision Models")
 public class VisionProvider implements CachedConnectionProvider<Vision>, Startable, Stoppable {

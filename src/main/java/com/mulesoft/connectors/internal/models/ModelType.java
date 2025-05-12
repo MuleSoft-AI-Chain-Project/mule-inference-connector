@@ -5,7 +5,7 @@ package com.mulesoft.connectors.internal.models;
 
 
 import com.mulesoft.connectors.internal.exception.error.ConfigValidationException;
-import com.mulesoft.connectors.internal.models.mistral.MistralModelName;
+import com.mulesoft.connectors.internal.models.mistral.MistralAIModelName;
 import com.mulesoft.connectors.internal.models.openai.OpenAIModelName;
 import com.mulesoft.connectors.internal.models.openrouter.OpenRouterModelName;
 
@@ -137,7 +137,7 @@ public enum ModelType {
   }
 
   private static Stream<String> getMistralModelNameStream() {
-    return Arrays.stream(MistralModelName.values()).map(String::valueOf);
+    return Arrays.stream(MistralAIModelName.values()).map(String::valueOf);
   }
 
   private static Stream<String> getAnthropicModelNameStream() {

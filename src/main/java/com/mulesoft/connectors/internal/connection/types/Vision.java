@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Map;
 
+@Deprecated
 public class Vision implements ChatCompletionBase {
 
   private static Logger LOGGER = LoggerFactory.getLogger(Vision.class);

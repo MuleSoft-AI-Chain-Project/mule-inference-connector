@@ -11,11 +11,11 @@ import org.mule.runtime.extension.api.values.ValueProvider;
 import java.util.Arrays;
 import java.util.Set;
 
-public class OpenRouterTextGenerationModelNameProvider implements ValueProvider {
+public class OpenRouterVisionModelNameProvider implements ValueProvider {
 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenRouterModelName.values())
-            .filter(OpenRouterModelName::isTextGenerationSupport).map(String::valueOf));
+            .filter(OpenRouterModelName::isVisionSupport).map(String::valueOf));
   }
 }

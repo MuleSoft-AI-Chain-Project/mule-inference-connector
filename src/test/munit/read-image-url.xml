@@ -9,7 +9,7 @@
 					<munit:parameter propertyName="inputCount" value="14178" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!--<munit:parameterization name="config-mistralai" >
+			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
 					<munit:parameter propertyName="llmModel" value="${mistral.visionModel}" />
@@ -22,7 +22,7 @@
 					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="15" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 

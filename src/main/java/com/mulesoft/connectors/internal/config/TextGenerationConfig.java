@@ -10,7 +10,9 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
 
 
 @Configuration(name="text-generation-config")
-@ConnectionProviders({OpenAITextGenerationConnectionProvider.class, MistralAITextGenerationConnectionProvider.class, OpenRouterTextGenerationConnectionProvider.class})
+@ConnectionProviders({OpenAITextGenerationConnectionProvider.class,
+        MistralAITextGenerationConnectionProvider.class,
+        OpenRouterTextGenerationConnectionProvider.class})
 @Operations(TextGenerationOperations.class)
 public class TextGenerationConfig {
 }

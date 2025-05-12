@@ -57,11 +57,11 @@
         <mac-inference:openai-vision-connection apiKey="${openai.apiKey}" openAIModelName="${openai.visionModel}" />
     </mac-inference:vision-config>
 
-<!--    <mac-inference:vision-config name="MistralAIVision" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
-        <mac-inference:vision-connection apiKey="${mistral.apiKey}" modelName="${mistral.visionModel}" />
+    <mac-inference:vision-config name="MistralAIVision" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
+        <mac-inference:mistralai-vision-connection apiKey="${mistral.apiKey}" mistralAIModelName="${mistral.visionModel}" />
     </mac-inference:vision-config>
 
     <mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
-		<mac-inference:vision-connection inferenceType="${openrouter.inferenceType}" apiKey="${openrouter.apiKey}" modelName="${openrouter.visionModel}" />
-	</mac-inference:vision-config>-->
+        <mac-inference:openrouter-vision-connection apiKey="${openrouter.apiKey}" openRouterModelName="${openrouter.visionModel}" />
+    </mac-inference:vision-config>
 </mule>
