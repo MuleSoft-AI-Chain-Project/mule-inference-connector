@@ -27,7 +27,7 @@ public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProv
     private static final Logger logger = LoggerFactory.getLogger(OpenAIVisionConnectionProvider.class);
 
     @Parameter
-    @Placement(tab = Placement.CONNECTION_TAB, order = 1)
+    @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
     @OfValues(OpenAIVisionModelNameProvider.class)
     private String openAIModelName;

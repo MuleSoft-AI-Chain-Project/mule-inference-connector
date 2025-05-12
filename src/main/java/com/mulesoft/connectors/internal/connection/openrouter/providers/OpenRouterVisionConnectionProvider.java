@@ -28,7 +28,7 @@ public class OpenRouterVisionConnectionProvider extends TextGenerationConnection
     private static final Logger logger = LoggerFactory.getLogger(OpenRouterVisionConnectionProvider.class);
 
     @Parameter
-    @Placement(tab = Placement.CONNECTION_TAB, order = 1)
+    @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
     @OfValues(OpenRouterVisionModelNameProvider.class)
     private String openRouterModelName;

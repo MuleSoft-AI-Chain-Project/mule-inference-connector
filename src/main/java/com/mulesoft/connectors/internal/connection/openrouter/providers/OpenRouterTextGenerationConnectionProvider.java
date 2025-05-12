@@ -24,7 +24,7 @@ import java.net.MalformedURLException;
 @DisplayName("OpenRouter")
 public class OpenRouterTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(OpenRouterTextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(OpenRouterTextGenerationConnectionProvider.class);
 
     @Parameter
     @Placement(order = 1)
@@ -33,40 +33,40 @@ public class OpenRouterTextGenerationConnectionProvider extends TextGenerationCo
     private String openRouterModelName;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
-  private TextGenerationConnectionParameters textGenerationConnectionParameters;
+    private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
-  @Override
-  public OpenRouterTextGenerationConnection connect() throws ConnectionException {
-      logger.debug("OpenRouterTextGenerationConnection connect ...");
-      try {
-          return new OpenRouterTextGenerationConnection(httpClient, openRouterModelName,
-                  textGenerationConnectionParameters.getApiKey(),
-                  textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                  textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                  textGenerationConnectionParameters.getTimeout());
-      } catch (MalformedURLException e) {
-          throw new ConnectionException("Invalid Open Compatible URL",e);
-      }
-  }
+    @Override
+    public OpenRouterTextGenerationConnection connect() throws ConnectionException {
+        logger.debug("OpenRouterTextGenerationConnection connect ...");
+        try {
+            return new OpenRouterTextGenerationConnection(httpClient, openRouterModelName,
+                    textGenerationConnectionParameters.getApiKey(),
+                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                    textGenerationConnectionParameters.getTimeout());
+        } catch (MalformedURLException e) {
+            throw new ConnectionException("Invalid Open Compatible URL",e);
+        }
+    }
 
-  @Override
-  public void disconnect(TextGenerationConnection baseConnection) {
-    logger.debug(" OpenRouterTextGenerationConnection disconnected ...");
-  }
+    @Override
+    public void disconnect(TextGenerationConnection baseConnection) {
+        logger.debug(" OpenRouterTextGenerationConnection disconnected ...");
+    }
 
-  @Override
-  public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    @Override
+    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
 
-    logger.debug("Validating connection... ");
-    try {
-      //TODO implement proper call to validate connection is valid
-      // if (textGenerationConnection.isValid()) {
-      return ConnectionValidationResult.success();
+        logger.debug("Validating connection... ");
+        try {
+            //TODO implement proper call to validate connection is valid
+            // if (textGenerationConnection.isValid()) {
+            return ConnectionValidationResult.success();
      /* } else {
         return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
       }*/
-    } catch (Exception e) {
-      return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
+        } catch (Exception e) {
+            return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
+        }
     }
-  }
 }

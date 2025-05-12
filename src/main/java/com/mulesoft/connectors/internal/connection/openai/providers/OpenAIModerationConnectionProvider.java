@@ -26,7 +26,7 @@ public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(OpenAIModerationModelNameProvider.class)
-  @Placement(tab = Placement.CONNECTION_TAB, order = 1)
+  @Placement(order = 1)
   private String openAIModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)

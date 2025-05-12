@@ -27,7 +27,7 @@ public class MistralAIVisionConnectionProvider extends TextGenerationConnectionP
     private static final Logger logger = LoggerFactory.getLogger(MistralAIVisionConnectionProvider.class);
 
     @Parameter
-    @Placement(tab = Placement.CONNECTION_TAB, order = 1)
+    @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
     @OfValues(MistralAIVisionModelNameProvider.class)
     private String mistralAIModelName;

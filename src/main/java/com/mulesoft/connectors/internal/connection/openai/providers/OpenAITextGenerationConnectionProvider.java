@@ -28,7 +28,7 @@ public class OpenAITextGenerationConnectionProvider extends TextGenerationConnec
     private static final Logger logger = LoggerFactory.getLogger(OpenAITextGenerationConnectionProvider.class);
 
     @Parameter
-    @Placement(tab = Placement.CONNECTION_TAB, order = 1)
+    @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
     @OfValues(OpenAITextGenerationModelNameProvider.class)
     @Optional(defaultValue = "gpt-4o-mini")
