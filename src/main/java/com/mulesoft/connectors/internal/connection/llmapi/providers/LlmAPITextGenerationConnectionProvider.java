@@ -1,10 +1,10 @@
-package com.mulesoft.connectors.internal.connection.llamaapi.providers;
+package com.mulesoft.connectors.internal.connection.llmapi.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.llamaapi.LlamaAPITextGenerationConnection;
-import com.mulesoft.connectors.internal.models.llamaapi.providers.LlamaAPITextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.connection.llmapi.LlmAPITextGenerationConnection;
+import com.mulesoft.connectors.internal.models.llamaapi.providers.LlmAPITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -20,26 +20,26 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@Alias("llamaapi")
-@DisplayName("Llama API")
-public class LlamaAPITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
+@Alias("llmapi")
+@DisplayName("Llm API")
+public class LlmAPITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(LlamaAPITextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(LlmAPITextGenerationConnectionProvider.class);
 
     @Parameter
     @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(LlamaAPITextGenerationModelNameProvider.class)
-    private String llamaAPIModelName;
+    @OfValues(LlmAPITextGenerationModelNameProvider.class)
+    private String llmAPIModelName;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
     private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
     @Override
-    public LlamaAPITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("LlamaAPITextGenerationConnection connect ...");
+    public LlmAPITextGenerationConnection connect() throws ConnectionException {
+        logger.debug("LlmAPITextGenerationConnection connect ...");
         try {
-            return new LlamaAPITextGenerationConnection(httpClient, llamaAPIModelName,
+            return new LlmAPITextGenerationConnection(httpClient, llmAPIModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
@@ -51,7 +51,7 @@ public class LlamaAPITextGenerationConnectionProvider extends TextGenerationConn
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("LlamaAPITextGenerationConnection disconnected ...");
+        logger.debug("LlmAPITextGenerationConnection disconnected ...");
     }
 
     @Override
