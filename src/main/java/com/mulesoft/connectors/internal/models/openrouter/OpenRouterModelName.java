@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.internal.models;
+package com.mulesoft.connectors.internal.models.openrouter;
 
 public enum OpenRouterModelName {
     ANTHROPIC_CLAUDE_3_5_SONNET("anthropic/claude-3.5-sonnet"),

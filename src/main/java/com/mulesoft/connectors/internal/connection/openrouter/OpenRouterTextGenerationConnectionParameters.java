@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.internal.connection.openrouter;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.internal.models.openrouter.providers.OpenRouterTextGenerationModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
