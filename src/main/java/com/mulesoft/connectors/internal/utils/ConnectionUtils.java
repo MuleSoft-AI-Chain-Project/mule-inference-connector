@@ -410,6 +410,7 @@ public class ConnectionUtils {
      * @return the response string
      * @throws IOException if an error occurs during the API call
      */
+    @Deprecated
     public static String executeREST(URL resourceUrl, ModerationImageGenerationBase connection, String payload) throws IOException, TimeoutException {
         if (resourceUrl == null) {
             throw new IllegalArgumentException("Resource URL cannot be null");

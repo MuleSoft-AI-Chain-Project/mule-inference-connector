@@ -58,7 +58,7 @@
     </mac-inference:vision-config>
 
     <mac-inference:image-generation-config name="OpenAIImageGen" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
-        <mac-inference:image-generation-connection inferenceType="${openai.inferenceType}" apiKey="${openai.apiKey}" modelName="${openai.imageGenModel}" />
+        <mac-inference:openai-image-connection apiKey="${openai.apiKey}" openAIModelName="${openai.imageGenModel}" />
     </mac-inference:image-generation-config>
 
     <mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >

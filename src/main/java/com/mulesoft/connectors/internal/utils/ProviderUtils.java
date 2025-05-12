@@ -142,6 +142,7 @@ public class ProviderUtils {
         return "XAI".equals(configuration.getInferenceType());
     }
 
+    @Deprecated
     public static @NotNull ChatCompletionBase convertToBaseConnection(ModerationImageGenerationBase imageGenerationBase) {
         BaseConnectionImpl baseConnection = new BaseConnectionImpl();
 
@@ -158,7 +159,7 @@ public class ProviderUtils {
         BaseConnectionImpl baseConnectionImpl = new BaseConnectionImpl();
 
         baseConnectionImpl.setHttpClient(connection.getHttpClient());
-//        baseConnectionImpl.setInferenceType(connection.getInferenceType());
+        baseConnectionImpl.setInferenceType(connection.getInferenceType());
         baseConnectionImpl.setApiKey(connection.getApiKey());
         baseConnectionImpl.setModelName(connection.getModelName());
         baseConnectionImpl.setTimeout(connection.getTimeout());

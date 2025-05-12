@@ -25,6 +25,7 @@ import org.mule.runtime.http.api.client.HttpClientConfiguration;
 
 import javax.inject.Inject;
 
+@Deprecated
 @Alias("image-generation")
 @DisplayName("Image Generation Model")
 public class ImageGenerationProvider implements CachedConnectionProvider<ImageGeneration>, Startable, Stoppable {

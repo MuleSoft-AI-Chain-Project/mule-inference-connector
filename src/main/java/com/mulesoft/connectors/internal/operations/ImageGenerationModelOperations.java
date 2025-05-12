@@ -1,16 +1,13 @@
 package com.mulesoft.connectors.internal.operations;
 
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.internal.config.ImageGenerationConfig;
-import com.mulesoft.connectors.internal.config.TextGenerationConfig;
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
-import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.internal.utils.*;
 import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
@@ -37,7 +34,7 @@ public class ImageGenerationModelOperations {
 
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history
-     * @param configuration the connector configuration
+     * @param connection the connector connection
      * @param prompt the users prompt
      * @return result containing the LLM response
      * @throws ModuleException if an error occurs during the operation
@@ -47,7 +44,7 @@ public class ImageGenerationModelOperations {
     @DisplayName("[Image] Generate (only Base64)")
     @OutputJsonType(schema = "api/response/Response.json")
     public Result<InputStream, LLMResponseAttributes> generateImage(
-            @Config ImageGenerationConfig configuration, @Connection ModerationImageGenerationBase connection,
+            @Connection BaseConnection connection,
             @Content String prompt) throws ModuleException {
         try {
 

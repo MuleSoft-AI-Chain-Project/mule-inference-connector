@@ -6,6 +6,7 @@ import org.mule.runtime.http.api.client.HttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Deprecated
 public class ImageGeneration implements ModerationImageGenerationBase {
 
   private static Logger LOGGER = LoggerFactory.getLogger(ImageGeneration.class);

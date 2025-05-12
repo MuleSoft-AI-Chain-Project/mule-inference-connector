@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.internal.utils;
 
 import com.mulesoft.connectors.internal.config.TextGenerationConfig;
+import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.ModerationImageGenerationBase;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
@@ -144,6 +145,7 @@ public class PayloadUtils {
      * @param requestJson the payload with prompt
      * @return the payload as a JSON object
      */
+    @Deprecated
     public static JSONObject buildPayloadImageGeneration(ModerationImageGenerationBase connection, JSONObject requestJson) {
         JSONObject payload = requestJson;
 
@@ -152,6 +154,16 @@ public class PayloadUtils {
             payload.put("model", connection.getModelName());
         }
 
+        return payload;
+    }
+
+    public static JSONObject buildPayloadImageGeneration(BaseConnection connection, JSONObject requestJson) {
+        JSONObject payload = requestJson;
+
+        if (("OpenAI".equalsIgnoreCase(connection.getInferenceType()))
+                || ("XAI".equalsIgnoreCase(connection.getInferenceType()))){
+            payload.put("model", connection.getModelName());
+        }
         return payload;
     }
     
