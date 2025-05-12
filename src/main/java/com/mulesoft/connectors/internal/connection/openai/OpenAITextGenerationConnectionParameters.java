@@ -8,12 +8,12 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
-public class OpenAIConnectionParameters extends TextGenerationConnectionParameters {
+public class OpenAITextGenerationConnectionParameters extends TextGenerationConnectionParameters {
 
     @Parameter
     @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(OpenAIModelNameProvider.class)
+    @OfValues(OpenAITextGenerationModelNameProvider.class)
     @Optional(defaultValue = "gpt-3.5-turbo")
     private String openAIModelName;
 

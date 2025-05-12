@@ -42,6 +42,7 @@ public abstract class Moderation {
         this.baseConnection = connection;
     }
 
+    @Deprecated
     public static Moderation getInstance(ModerationConfig configuration, ModerationBase connection) {
         if (instance == null) {
             instance = findInstance(configuration, connection);

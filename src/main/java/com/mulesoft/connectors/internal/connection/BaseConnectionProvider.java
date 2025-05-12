@@ -61,6 +61,10 @@ public abstract class BaseConnectionProvider implements CachedConnectionProvider
         ofNullable(httpClient).ifPresent(HttpClient::stop);
     }
 
+    public HttpClient getHttpClient() {
+        return httpClient;
+    }
+
     public HttpProxyConfig getProxyConfig() {
         return proxyConfig;
     }

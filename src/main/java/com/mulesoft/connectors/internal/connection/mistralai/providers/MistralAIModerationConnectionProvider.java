@@ -1,6 +1,9 @@
-package com.mulesoft.connectors.internal.connection.openai;
+package com.mulesoft.connectors.internal.connection.mistralai.providers;
 
-import com.mulesoft.connectors.internal.connection.*;
+import com.mulesoft.connectors.internal.connection.BaseConnection;
+import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.internal.connection.mistralai.MistralAIModerationModelNameProvider;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -14,19 +17,19 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("openai-moderation")
+@Alias("mistralai-moderation")
 @DisplayName("OpenAI")
-public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
+public class MistralAIModerationConnectionProvider extends BaseConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(OpenAIModerationConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(MistralAIModerationConnectionProvider.class);
 
-  public static final String OPEN_AI_URL = "https://api.openai.com/v1";
+  public static final String MISTRAL_AI_URL = "https://api.mistral.ai/v1";
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(OpenAIModerationModelNameProvider.class)
+  @OfValues(MistralAIModerationModelNameProvider.class)
   @Placement(tab = Placement.CONNECTION_TAB, order = 1)
-  private String openAIModelName;
+  private String mistralAIModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private BaseConnectionParameters baseConnectionParameters;
@@ -35,8 +38,8 @@ public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(httpClient, openAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
+    return new BaseConnection(getHttpClient(), mistralAIModelName, baseConnectionParameters.getApiKey(),
+            baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
   }
 
   @Override
@@ -61,7 +64,6 @@ public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
   }
 
   private String getModerationAPIURL() {
-    return OPEN_AI_URL + InferenceConstants.MODERATIONS_PATH;
+    return MISTRAL_AI_URL + InferenceConstants.MODERATIONS_PATH;
   }
-
 }

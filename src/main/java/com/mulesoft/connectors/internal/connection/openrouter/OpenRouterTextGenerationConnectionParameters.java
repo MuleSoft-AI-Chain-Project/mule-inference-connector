@@ -7,12 +7,12 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
-public class OpenRouterConnectionParameters extends TextGenerationConnectionParameters {
+public class OpenRouterTextGenerationConnectionParameters extends TextGenerationConnectionParameters {
 
     @Parameter
     @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(OpenRouterModelNameProvider.class)
+    @OfValues(OpenRouterTextGenerationModelNameProvider.class)
     private String openRouterModelName;
 
     public String getOpenRouterModelName() {

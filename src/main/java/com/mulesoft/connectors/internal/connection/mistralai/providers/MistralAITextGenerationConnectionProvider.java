@@ -1,7 +1,9 @@
-package com.mulesoft.connectors.internal.connection.mistralai;
+package com.mulesoft.connectors.internal.connection.mistralai.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.mistralai.MistralAITextGenerationConnectionParameters;
+import com.mulesoft.connectors.internal.connection.mistralai.MistralAITextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -15,24 +17,22 @@ import java.net.MalformedURLException;
 
 @Alias("mistralai")
 @DisplayName("MistralAI")
-public class MistralAIConnectionProvider extends TextGenerationConnectionProvider {
+public class MistralAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(MistralAIConnectionProvider.class);
-
-  public static final String OPENAI_COMPATIBLE_ENDPOINT = "https://server.endpoint.com";
+  private static final Logger logger = LoggerFactory.getLogger(MistralAITextGenerationConnectionProvider.class);
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
-  private MistralAIConnectionParameters mistralAIConnectionParameters;
+  private MistralAITextGenerationConnectionParameters mistralAITextGenerationConnectionParameters;
 
   @Override
   public MistralAITextGenerationConnection connect() throws ConnectionException {
       logger.debug("OpenRouterTextGenerationConnection connect ...");
       try {
-          return new MistralAITextGenerationConnection(httpClient, mistralAIConnectionParameters.getMistralAIModelName(),
-                  mistralAIConnectionParameters.getApiKey(),
-                  mistralAIConnectionParameters.getTemperature(), mistralAIConnectionParameters.getTopP(),
-                  mistralAIConnectionParameters.getMaxTokens(), mistralAIConnectionParameters.getMcpSseServers(),
-                  mistralAIConnectionParameters.getTimeout());
+          return new MistralAITextGenerationConnection(httpClient, mistralAITextGenerationConnectionParameters.getMistralAIModelName(),
+                  mistralAITextGenerationConnectionParameters.getApiKey(),
+                  mistralAITextGenerationConnectionParameters.getTemperature(), mistralAITextGenerationConnectionParameters.getTopP(),
+                  mistralAITextGenerationConnectionParameters.getMaxTokens(), mistralAITextGenerationConnectionParameters.getMcpSseServers(),
+                  mistralAITextGenerationConnectionParameters.getTimeout());
       } catch (MalformedURLException e) {
           throw new ConnectionException("Invalid Open Compatible URL",e);
       }

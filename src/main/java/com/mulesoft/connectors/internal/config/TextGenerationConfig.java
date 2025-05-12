@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.internal.config;
 
-import com.mulesoft.connectors.internal.connection.mistralai.MistralAIConnectionProvider;
-import com.mulesoft.connectors.internal.connection.openai.OpenAIConnectionProvider;
-import com.mulesoft.connectors.internal.connection.openrouter.OpenRouterConnectionProvider;
+import com.mulesoft.connectors.internal.connection.mistralai.providers.MistralAITextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openai.providers.OpenAITextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openrouter.providers.OpenRouterTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.operations.TextGenerationOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
@@ -10,7 +10,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
 
 
 @Configuration(name="text-generation-config")
-@ConnectionProviders({OpenAIConnectionProvider.class, MistralAIConnectionProvider.class, OpenRouterConnectionProvider.class})
+@ConnectionProviders({OpenAITextGenerationConnectionProvider.class, MistralAITextGenerationConnectionProvider.class, OpenRouterTextGenerationConnectionProvider.class})
 @Operations(TextGenerationOperations.class)
 public class TextGenerationConfig {
 }

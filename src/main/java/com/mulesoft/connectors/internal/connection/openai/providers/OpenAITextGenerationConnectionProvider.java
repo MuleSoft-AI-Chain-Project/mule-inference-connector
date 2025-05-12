@@ -1,7 +1,9 @@
-package com.mulesoft.connectors.internal.connection.openai;
+package com.mulesoft.connectors.internal.connection.openai.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openai.OpenAITextGenerationConnectionParameters;
+import com.mulesoft.connectors.internal.connection.openai.OpenAITextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -15,22 +17,22 @@ import java.net.MalformedURLException;
 
 @Alias("openai")
 @DisplayName("OpenAI")
-public class OpenAIConnectionProvider extends TextGenerationConnectionProvider {
+public class OpenAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(OpenAIConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(OpenAITextGenerationConnectionProvider.class);
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
-  private OpenAIConnectionParameters openAIConnectionParameters;
+  private OpenAITextGenerationConnectionParameters openAITextGenerationConnectionParameters;
 
   @Override
   public OpenAITextGenerationConnection connect() throws ConnectionException {
       logger.debug("OpenAITextGenerationConnection connect ...");
       try {
-          return new OpenAITextGenerationConnection(httpClient,openAIConnectionParameters.getOpenAIModelName(),
-                  openAIConnectionParameters.getApiKey(),
-                  openAIConnectionParameters.getTemperature(),openAIConnectionParameters.getTopP(),
-                  openAIConnectionParameters.getMaxTokens(),openAIConnectionParameters.getMcpSseServers(),
-                  openAIConnectionParameters.getTimeout());
+          return new OpenAITextGenerationConnection(httpClient, openAITextGenerationConnectionParameters.getOpenAIModelName(),
+                  openAITextGenerationConnectionParameters.getApiKey(),
+                  openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
+                  openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),
+                  openAITextGenerationConnectionParameters.getTimeout());
       } catch (MalformedURLException e) {
           throw new ConnectionException("Invalid Open Compatible URL",e);
       }

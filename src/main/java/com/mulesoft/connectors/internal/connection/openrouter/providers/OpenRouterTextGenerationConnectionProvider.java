@@ -1,7 +1,9 @@
-package com.mulesoft.connectors.internal.connection.openrouter;
+package com.mulesoft.connectors.internal.connection.openrouter.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openrouter.OpenRouterTextGenerationConnectionParameters;
+import com.mulesoft.connectors.internal.connection.openrouter.OpenRouterTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -15,22 +17,22 @@ import java.net.MalformedURLException;
 
 @Alias("openrouter")
 @DisplayName("OpenRouter")
-public class OpenRouterConnectionProvider extends TextGenerationConnectionProvider {
+public class OpenRouterTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(OpenRouterConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(OpenRouterTextGenerationConnectionProvider.class);
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
-  private OpenRouterConnectionParameters openRouterConnectionParameters;
+  private OpenRouterTextGenerationConnectionParameters openRouterTextGenerationConnectionParameters;
 
   @Override
   public OpenRouterTextGenerationConnection connect() throws ConnectionException {
       logger.debug("OpenRouterTextGenerationConnection connect ...");
       try {
-          return new OpenRouterTextGenerationConnection(httpClient, openRouterConnectionParameters.getOpenRouterModelName(),
-                  openRouterConnectionParameters.getApiKey(),
-                  openRouterConnectionParameters.getTemperature(), openRouterConnectionParameters.getTopP(),
-                  openRouterConnectionParameters.getMaxTokens(), openRouterConnectionParameters.getMcpSseServers(),
-                  openRouterConnectionParameters.getTimeout());
+          return new OpenRouterTextGenerationConnection(httpClient, openRouterTextGenerationConnectionParameters.getOpenRouterModelName(),
+                  openRouterTextGenerationConnectionParameters.getApiKey(),
+                  openRouterTextGenerationConnectionParameters.getTemperature(), openRouterTextGenerationConnectionParameters.getTopP(),
+                  openRouterTextGenerationConnectionParameters.getMaxTokens(), openRouterTextGenerationConnectionParameters.getMcpSseServers(),
+                  openRouterTextGenerationConnectionParameters.getTimeout());
       } catch (MalformedURLException e) {
           throw new ConnectionException("Invalid Open Compatible URL",e);
       }
