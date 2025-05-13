@@ -3,28 +3,19 @@ package com.mulesoft.connectors.internal.connection.docker;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 public class DockerTextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/engines/llama.cpp/v1/chat/completions";
 
-  private final URL connectionURL;
 
   public DockerTextGenerationConnection(HttpClient httpClient, String dockerModelName, String dockerModelUrl, String apiKey,
                                         Number temperature, Number topP,
                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
-          throws MalformedURLException {
+  {
     super(httpClient, apiKey, dockerModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
             fetchApiURL(dockerModelUrl), "DOCKER");
-    this.connectionURL = new URL(fetchApiURL(dockerModelUrl));
-  }
-
-  @Override
-  public URL getConnectionURL() {
-    return connectionURL;
   }
 
   @Override

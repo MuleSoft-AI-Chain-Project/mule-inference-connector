@@ -1,18 +1,16 @@
 package com.mulesoft.connectors.internal.operations;
 
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.internal.config.TextGenerationConfig;
-import com.mulesoft.connectors.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.internal.utils.*;
-import org.codehaus.plexus.interpolation.PrefixAwareRecursionInterceptor;
-import java.io.ByteArrayInputStream;
+import com.mulesoft.connectors.internal.utils.ConnectionUtils;
+import com.mulesoft.connectors.internal.utils.PayloadUtils;
+import com.mulesoft.connectors.internal.utils.ProviderUtils;
+import com.mulesoft.connectors.internal.utils.ResponseUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
-import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
@@ -23,11 +21,11 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
-import static com.mulesoft.connectors.internal.utils.ProviderUtils.getMcpTools;
 import static com.mulesoft.connectors.internal.utils.ProviderUtils.getMcpToolsFromMultiple;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
@@ -56,7 +54,7 @@ public class TextGenerationOperations {
         try {
             JSONArray messagesArray = PayloadUtils.parseInputStreamToJsonArray(messages);
 
-            URL chatCompUrl = connection.getConnectionURL();
+            URL chatCompUrl = new URL(connection.getApiURL());
             LOGGER.debug("Chatting with {}", chatCompUrl);
 
             JSONObject payload = PayloadUtils.buildPayload(connection, messagesArray, null);
@@ -90,7 +88,7 @@ public class TextGenerationOperations {
             LOGGER.debug("payload sent to the LLM {}", payload.toString());
 
 
-            URL chatCompUrl = connection.getConnectionURL();//ConnectionUtils.getConnectionURLChatCompletion(connection);
+            URL chatCompUrl = new URL(connection.getApiURL());//ConnectionUtils.getConnectionURLChatCompletion(connection);
             LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl.toString());
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
@@ -130,7 +128,7 @@ public class TextGenerationOperations {
             LOGGER.debug("payload sent to the LLM {}", payload.toString());
 
 
-            URL chatCompUrl = connection.getConnectionURL();
+            URL chatCompUrl = new URL(connection.getApiURL());
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("Agent define prompt template result {}", response);
@@ -143,7 +141,7 @@ public class TextGenerationOperations {
     }
     /**
      * Define a tools template with instructions, data and tools
-     * @param configuration the connector configuration
+     * @param connection the connector connection
      * @param template the template string
      * @param instructions instructions for the LLM
      * @param data the primary data content
@@ -168,7 +166,7 @@ public class TextGenerationOperations {
         	JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
             LOGGER.debug("payload sent to the LLM {}", payload);
 
-            URL chatCompUrl = connection.getConnectionURL();
+            URL chatCompUrl = new URL(connection.getApiURL());
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("Tools use native template result {}", response);
@@ -182,7 +180,7 @@ public class TextGenerationOperations {
 
     /**
      * Define a tools template with instructions, data and tools
-     * @param configuration the connector configuration
+     * @param connection the connector connection
      * @param template the template string
      * @param instructions instructions for the LLM
      * @param data the primary data content
@@ -207,7 +205,7 @@ public class TextGenerationOperations {
             JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
             LOGGER.debug("payload sent to the LLM {}", payload);
 
-            URL chatCompUrl = connection.getConnectionURL();
+            URL chatCompUrl = new URL(connection.getApiURL());
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
 
             LOGGER.debug("MCP Tooling result {}", response);

@@ -12,20 +12,12 @@ public class DatabricksTextGenerationConnection extends TextGenerationConnection
 
   private static final String URI_CHAT_COMPLETIONS = "/serving-endpoints/{model_name}/invocations";
 
-  private final URL connectionURL;
-
   public DatabricksTextGenerationConnection(HttpClient httpClient, String databricksModelName, String databricksModelURL, String apiKey,
                                             Number temperature, Number topP,
                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout)
           throws MalformedURLException {
     super(httpClient, apiKey, databricksModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
             fetchApiURL(databricksModelURL,databricksModelName), "DATABRICKS");
-    this.connectionURL = new URL(fetchApiURL(databricksModelURL,databricksModelName));
-  }
-
-  @Override
-  public URL getConnectionURL() {
-    return connectionURL;
   }
 
   @Override

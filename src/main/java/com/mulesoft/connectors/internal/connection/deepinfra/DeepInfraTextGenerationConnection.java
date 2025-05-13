@@ -1,11 +1,8 @@
 package com.mulesoft.connectors.internal.connection.deepinfra;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 public class DeepInfraTextGenerationConnection extends TextGenerationConnection {
@@ -13,19 +10,10 @@ public class DeepInfraTextGenerationConnection extends TextGenerationConnection 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String DEEPINFRA_URL = "https://api.deepinfra.com/v1/openai";
 
-  private final URL connectionURL;
-
   public DeepInfraTextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
                                          Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
-          throws MalformedURLException {
+                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "DEEPINFRA");
-    this.connectionURL = new URL(DEEPINFRA_URL + URI_CHAT_COMPLETIONS);
-  }
-
-  @Override
-  public URL getConnectionURL() {
-    return connectionURL;
   }
 
   @Override

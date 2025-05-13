@@ -2,7 +2,6 @@ package com.mulesoft.connectors.internal.connection;
 
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.URL;
 import java.util.Map;
 
 public abstract class TextGenerationConnection extends BaseConnection{
@@ -21,7 +20,6 @@ public abstract class TextGenerationConnection extends BaseConnection{
     this.mcpSseServers = mcpSseServers;
   }
 
-  public abstract URL getConnectionURL();
   public abstract Map<String,String> getQueryParams();
   public abstract Map<String,String> getAdditionalHeaders();
 

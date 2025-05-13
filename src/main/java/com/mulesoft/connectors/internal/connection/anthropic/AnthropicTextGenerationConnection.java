@@ -1,11 +1,8 @@
 package com.mulesoft.connectors.internal.connection.anthropic;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 public class AnthropicTextGenerationConnection extends TextGenerationConnection {
@@ -13,19 +10,10 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   private static final String URI_CHAT_COMPLETIONS = "/messages";
   public static final String ANTHROPIC_URL = "https://api.anthropic.com/v1";
 
-  private final URL connectionURL;
-
   public AnthropicTextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
                                          Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
-          throws MalformedURLException {
+                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "ANTHROPIC");
-    this.connectionURL = new URL(ANTHROPIC_URL + URI_CHAT_COMPLETIONS);
-  }
-
-  @Override
-  public URL getConnectionURL() {
-    return connectionURL;
   }
 
   @Override

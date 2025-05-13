@@ -12,19 +12,11 @@ public class XAITextGenerationConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String XAI_URL = "https://api.x.ai/v1";
 
-  private final URL connectionURL;
-
   public XAITextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout)
           throws MalformedURLException {
     super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "XAI");
-    this.connectionURL = new URL(XAI_URL + URI_CHAT_COMPLETIONS);
-  }
-
-  @Override
-  public URL getConnectionURL() {
-    return connectionURL;
   }
 
   @Override
