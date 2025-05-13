@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("groq-vision")
 @DisplayName("Groq")
 public class GroqVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class GroqVisionConnectionProvider extends TextGenerationConnectionProvid
     @Override
     public GroqVisionConnection connect() throws ConnectionException {
         logger.debug("GroqVisionConnection connect ...");
-        try {
-            return new GroqVisionConnection(httpClient, groqModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Groq URL", e);
-        }
+        return new GroqVisionConnection(httpClient, groqModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

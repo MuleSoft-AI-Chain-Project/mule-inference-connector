@@ -3,8 +3,6 @@ package com.mulesoft.connectors.internal.connection.xai;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 public class XAITextGenerationConnection extends TextGenerationConnection {
@@ -14,8 +12,7 @@ public class XAITextGenerationConnection extends TextGenerationConnection {
 
   public XAITextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
                                          Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
-          throws MalformedURLException {
+                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "XAI");
   }
 

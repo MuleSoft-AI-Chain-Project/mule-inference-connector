@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("groq")
 @DisplayName("Groq")
 public class GroqTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class GroqTextGenerationConnectionProvider extends TextGenerationConnecti
     @Override
     public GroqTextGenerationConnection connect() throws ConnectionException {
         logger.debug("GroqTextGenerationConnection connect ...");
-        try {
-            return new GroqTextGenerationConnection(httpClient, groqModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Groq URL", e);
-        }
+        return new GroqTextGenerationConnection(httpClient, groqModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

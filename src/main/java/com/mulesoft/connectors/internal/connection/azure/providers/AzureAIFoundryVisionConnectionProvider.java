@@ -4,7 +4,6 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.VisionConnectionParameters;
 import com.mulesoft.connectors.internal.connection.azure.AzureAIFoundryVisionConnection;
-import com.mulesoft.connectors.internal.connection.openai.OpenAIVisionConnection;
 import com.mulesoft.connectors.internal.models.azure.providers.AzureAIFoundryVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.net.MalformedURLException;
 
 @Alias("azure-ai-foundry-vision")
 @DisplayName("Azure AI Foundry")
@@ -52,7 +49,6 @@ public class AzureAIFoundryVisionConnectionProvider extends TextGenerationConnec
     @Override
     public AzureAIFoundryVisionConnection connect() throws ConnectionException {
         logger.debug("AzureAIFoundryVisionConnection connect ...");
-        try {
             return new AzureAIFoundryVisionConnection(httpClient, azureAIFoundryModelName,
                     azureAIFoundryResourceName, azureAIFoundryApiVersion,
                     visionConnectionParameters.getApiKey(),
@@ -60,9 +56,6 @@ public class AzureAIFoundryVisionConnectionProvider extends TextGenerationConnec
                     visionConnectionParameters.getTopP(),
                     visionConnectionParameters.getMaxTokens(),
                     visionConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
     }
 
     @Override

@@ -19,8 +19,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("openrouter-vision")
 @DisplayName("OpenRouter")
 public class OpenRouterVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,22 +36,18 @@ public class OpenRouterVisionConnectionProvider extends TextGenerationConnection
 
     @Override
     public OpenRouterVisionConnection connect() throws ConnectionException {
-        logger.debug("OpenAITextGenerationConnection connect ...");
-        try {
+        logger.debug("OpenRouterVisionConnection connect ...");
             return new OpenRouterVisionConnection(httpClient, openRouterModelName,
                     visionConnectionParameters.getApiKey(),
                     visionConnectionParameters.getTemperature(),
                     visionConnectionParameters.getTopP(),
                     visionConnectionParameters.getMaxTokens(),
                     visionConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
     }
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug(" OpenAITextGenerationConnection disconnected ...");
+        logger.debug(" OpenRouterVisionConnection disconnected ...");
     }
 
     @Override

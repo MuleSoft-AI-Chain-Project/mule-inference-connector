@@ -20,8 +20,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("ollama-vision")
 @DisplayName("Ollama")
 public class OllamaVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -47,15 +45,11 @@ public class OllamaVisionConnectionProvider extends TextGenerationConnectionProv
     @Override
     public OllamaVisionConnection connect() throws ConnectionException {
         logger.debug("OllamaVisionConnection connect ...");
-        try {
             return new OllamaVisionConnection(httpClient, ollamaModelName, ollamaUrl,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(),
                     textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Ollama URL", e);
-        }
     }
 
     @Override

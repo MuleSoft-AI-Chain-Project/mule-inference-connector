@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("deepseek")
 @DisplayName("Deepseek")
 public class DeepseekTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class DeepseekTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public DeepseekTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DeepseekTextGenerationConnection connect ...");
-        try {
-            return new DeepseekTextGenerationConnection(httpClient, deepseekModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Deepseek URL", e);
-        }
+        return new DeepseekTextGenerationConnection(httpClient, deepseekModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

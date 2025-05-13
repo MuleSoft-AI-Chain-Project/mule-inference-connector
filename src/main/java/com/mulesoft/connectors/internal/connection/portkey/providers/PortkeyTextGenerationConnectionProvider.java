@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("portkey")
 @DisplayName("Portkey")
 public class PortkeyTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
     @Override
     public PortkeyTextGenerationConnection connect() throws ConnectionException {
         logger.debug("PortkeyTextGenerationConnection connect ...");
-        try {
-            return new PortkeyTextGenerationConnection(httpClient, portkeyModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Portkey URL", e);
-        }
+        return new PortkeyTextGenerationConnection(httpClient, portkeyModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

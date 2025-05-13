@@ -20,8 +20,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("gpt4all")
 @DisplayName("GPT4All")
 public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -47,15 +45,11 @@ public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConne
     @Override
     public GPT4AllTextGenerationConnection connect() throws ConnectionException {
         logger.debug("GPT4AllTextGenerationConnection connect ...");
-        try {
             return new GPT4AllTextGenerationConnection(httpClient, gpt4allModelName,gpt4AllBaseURL,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                     textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid GPT4All URL", e);
-        }
     }
 
     @Override

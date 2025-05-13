@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("perplexity")
 @DisplayName("Perplexity")
 public class PerplexityTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class PerplexityTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public PerplexityTextGenerationConnection connect() throws ConnectionException {
         logger.debug("PerplexityTextGenerationConnection connect ...");
-        try {
-            return new PerplexityTextGenerationConnection(httpClient, perplexityModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Perplexity URL", e);
-        }
+        return new PerplexityTextGenerationConnection(httpClient, perplexityModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

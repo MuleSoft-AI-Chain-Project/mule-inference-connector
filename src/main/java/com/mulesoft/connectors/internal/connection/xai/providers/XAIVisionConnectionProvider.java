@@ -20,8 +20,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("xai-vision")
 @DisplayName("xAI")
 public class XAIVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -40,15 +38,11 @@ public class XAIVisionConnectionProvider extends TextGenerationConnectionProvide
     @Override
     public XAIVisionConnection connect() throws ConnectionException {
         logger.debug("XAIVisionConnection connect ...");
-        try {
-            return new XAIVisionConnection(httpClient, xaiModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid XAI URL", e);
-        }
+        return new XAIVisionConnection(httpClient, xaiModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

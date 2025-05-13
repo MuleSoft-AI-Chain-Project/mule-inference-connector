@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("cohere")
 @DisplayName("Cohere")
 public class CohereTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class CohereTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public CohereTextGenerationConnection connect() throws ConnectionException {
         logger.debug("CohereTextGenerationConnection connect ...");
-        try {
-            return new CohereTextGenerationConnection(httpClient, cohereModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Cohere URL", e);
-        }
+        return new CohereTextGenerationConnection(httpClient, cohereModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

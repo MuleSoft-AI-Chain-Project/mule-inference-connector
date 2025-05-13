@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("anthropic-vision")
 @DisplayName("Anthropic")
 public class AnthropicVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,16 +36,12 @@ public class AnthropicVisionConnectionProvider extends TextGenerationConnectionP
     @Override
     public AnthropicVisionConnection connect() throws ConnectionException {
         logger.debug("AnthropicVisionConnection connect ...");
-        try {
-            return new AnthropicVisionConnection(httpClient, anthropicModelName,
-                    visionConnectionParameters.getApiKey(),
-                    visionConnectionParameters.getTemperature(),
-                    visionConnectionParameters.getTopP(),
-                    visionConnectionParameters.getMaxTokens(),
-                    visionConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
+        return new AnthropicVisionConnection(httpClient, anthropicModelName,
+                visionConnectionParameters.getApiKey(),
+                visionConnectionParameters.getTemperature(),
+                visionConnectionParameters.getTopP(),
+                visionConnectionParameters.getMaxTokens(),
+                visionConnectionParameters.getTimeout());
     }
 
     @Override

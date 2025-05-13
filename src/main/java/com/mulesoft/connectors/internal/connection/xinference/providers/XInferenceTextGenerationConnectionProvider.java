@@ -19,8 +19,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("xinference")
 @DisplayName("XInference")
 public class XInferenceTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -46,15 +44,11 @@ public class XInferenceTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public XInferenceTextGenerationConnection connect() throws ConnectionException {
         logger.debug("XInferenceTextGenerationConnection connect ...");
-        try {
             return new XInferenceTextGenerationConnection(httpClient, xInferenceModelName,xInferenceUrl,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                     textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid XInference URL", e);
-        }
     }
 
     @Override

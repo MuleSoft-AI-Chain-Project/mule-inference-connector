@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("openai-vision")
 @DisplayName("OpenAI")
 public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -37,17 +35,13 @@ public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProv
 
     @Override
     public OpenAIVisionConnection connect() throws ConnectionException {
-        logger.debug("OpenAITextGenerationConnection connect ...");
-        try {
-            return new OpenAIVisionConnection(httpClient, openAIModelName,
-                    visionConnectionParameters.getApiKey(),
-                    visionConnectionParameters.getTemperature(),
-                    visionConnectionParameters.getTopP(),
-                    visionConnectionParameters.getMaxTokens(),
-                    visionConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
+        logger.debug("OpenAIVisionConnection connect ...");
+        return new OpenAIVisionConnection(httpClient, openAIModelName,
+                visionConnectionParameters.getApiKey(),
+                visionConnectionParameters.getTemperature(),
+                visionConnectionParameters.getTopP(),
+                visionConnectionParameters.getMaxTokens(),
+                visionConnectionParameters.getTimeout());
     }
 
     @Override

@@ -20,8 +20,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("docker")
 @DisplayName("Docker")
 public class DockerTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -46,15 +44,11 @@ public class DockerTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public DockerTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DockerTextGenerationConnection connect ...");
-        try {
-            return new DockerTextGenerationConnection(httpClient, dockerModelName,dockerModelUrl,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Docker URL", e);
-        }
+        return new DockerTextGenerationConnection(httpClient, dockerModelName, dockerModelUrl,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("deepinfra")
 @DisplayName("DeepInfra")
 public class DeepInfraTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class DeepInfraTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public DeepInfraTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DeepInfraTextGenerationConnection connect ...");
-        try {
             return new DeepInfraTextGenerationConnection(httpClient, deepInfraModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                     textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid DeepInfra URL", e);
-        }
     }
 
     @Override

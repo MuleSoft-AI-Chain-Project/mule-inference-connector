@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("mistralai")
 @DisplayName("Mistral AI")
 public class MistralAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -37,21 +35,17 @@ public class MistralAITextGenerationConnectionProvider extends TextGenerationCon
 
     @Override
     public MistralAITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("OpenRouterTextGenerationConnection connect ...");
-        try {
-            return new MistralAITextGenerationConnection(httpClient, mistralAIModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
+        logger.debug("MistralAITextGenerationConnection connect ...");
+        return new MistralAITextGenerationConnection(httpClient, mistralAIModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("OpenRouterTextGenerationConnection disconnected ...");
+        logger.debug("MistralAITextGenerationConnection disconnected ...");
     }
 
     @Override

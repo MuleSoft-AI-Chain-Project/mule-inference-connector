@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("ai21labs")
 @DisplayName("AI21Labs")
 public class AI21LabsTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class AI21LabsTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public AI21LabsTextGenerationConnection connect() throws ConnectionException {
         logger.debug("AI21LabsTextGenerationConnection connect ...");
-        try {
-            return new AI21LabsTextGenerationConnection(httpClient, ai21LabsModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid AI21Labs URL", e);
-        }
+        return new AI21LabsTextGenerationConnection(httpClient, ai21LabsModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

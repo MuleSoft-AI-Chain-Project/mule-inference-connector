@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("github-vision")
 @DisplayName("GitHub")
 public class GithubVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,12 @@ public class GithubVisionConnectionProvider extends TextGenerationConnectionProv
     @Override
     public GithubVisionConnection connect() throws ConnectionException {
         logger.debug("GithubVisionConnection connect ...");
-        try {
-            return new GithubVisionConnection(httpClient, gitHubModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid GitHub URL", e);
-        }
+        return new GithubVisionConnection(httpClient, gitHubModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(),
+                textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

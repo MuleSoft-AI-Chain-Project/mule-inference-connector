@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("hugging-face-vision")
 @DisplayName("Hugging Face")
 public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,12 @@ public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectio
     @Override
     public HuggingFaceVisionConnection connect() throws ConnectionException {
         logger.debug("HuggingFaceVisionConnection connect ...");
-        try {
-            return new HuggingFaceVisionConnection(httpClient, huggingFaceModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid HuggingFace URL", e);
-        }
+        return new HuggingFaceVisionConnection(httpClient, huggingFaceModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(),
+                textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

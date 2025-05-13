@@ -3,8 +3,6 @@ package com.mulesoft.connectors.internal.connection.openai;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Map;
 
 public class OpenAIVisionConnection extends TextGenerationConnection {
@@ -14,8 +12,7 @@ public class OpenAIVisionConnection extends TextGenerationConnection {
 
   public OpenAIVisionConnection(HttpClient httpClient, String modelName, String apiKey,
                                 Number temperature, Number topP,
-                                Number maxTokens, int timeout)
-          throws MalformedURLException {
+                                Number maxTokens, int timeout) {
     super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"OPENAI");
   }
 

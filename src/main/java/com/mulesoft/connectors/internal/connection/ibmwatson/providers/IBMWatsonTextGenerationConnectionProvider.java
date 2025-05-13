@@ -19,8 +19,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("ibmwatson")
 @DisplayName("IBM Watson")
 public class IBMWatsonTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -46,15 +44,11 @@ public class IBMWatsonTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public IBMWatsonTextGenerationConnection connect() throws ConnectionException {
         logger.debug("IBMWatsonTextGenerationConnection connect ...");
-        try {
-            return new IBMWatsonTextGenerationConnection(httpClient, ibmWatsonModelName, ibmWatsonApiVersion,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid IBM Watson URL", e);
-        }
+        return new IBMWatsonTextGenerationConnection(httpClient, ibmWatsonModelName, ibmWatsonApiVersion,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

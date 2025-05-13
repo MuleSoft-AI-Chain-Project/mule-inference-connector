@@ -19,8 +19,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 import static com.mulesoft.connectors.internal.connection.openaicompatible.OpenAICompatibleTextGenerationConnection.OPENAI_COMPATIBLE_ENDPOINT;
 
 @Alias("openai-compatible")
@@ -49,15 +47,11 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
     @Override
     public OpenAICompatibleTextGenerationConnection connect() throws ConnectionException {
         logger.debug("OpenAITextGenerationConnection connect ...");
-        try {
-            return new OpenAICompatibleTextGenerationConnection(httpClient, openAICompatibleModelName, openAICompatibleURL,
-                    openAITextGenerationConnectionParameters.getApiKey(),
-                    openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
-                    openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),
-                    openAITextGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Open Compatible URL",e);
-        }
+        return new OpenAICompatibleTextGenerationConnection(httpClient, openAICompatibleModelName, openAICompatibleURL,
+                openAITextGenerationConnectionParameters.getApiKey(),
+                openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
+                openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),
+                openAITextGenerationConnectionParameters.getTimeout());
     }
 
     @Override

@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("zhipu-ai")
 @DisplayName("ZHIPU_AI")
 public class ZhipuAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -37,21 +35,17 @@ public class ZhipuAITextGenerationConnectionProvider extends TextGenerationConne
 
     @Override
     public ZhipuAITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("CHATGLMTextGenerationConnection connect ...");
-        try {
-            return new ZhipuAITextGenerationConnection(httpClient, zhipuAIModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid CHATGLM URL", e);
-        }
+        logger.debug("ZhipuAITextGenerationConnection connect ...");
+        return new ZhipuAITextGenerationConnection(httpClient, zhipuAIModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("CHATGLMTextGenerationConnection disconnected ...");
+        logger.debug("ZhipuAITextGenerationConnection disconnected ...");
     }
 
     @Override

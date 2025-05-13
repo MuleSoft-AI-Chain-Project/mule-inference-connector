@@ -20,8 +20,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("lmstudio")
 @DisplayName("LM Studio")
 public class LMStudioTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -47,15 +45,11 @@ public class LMStudioTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public LMStudioTextGenerationConnection connect() throws ConnectionException {
         logger.debug("LMStudioTextGenerationConnection connect ...");
-        try {
-            return new LMStudioTextGenerationConnection(httpClient, lmStudioModelName, lmStudioBaseURL,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid LM Studio URL", e);
-        }
+        return new LMStudioTextGenerationConnection(httpClient, lmStudioModelName, lmStudioBaseURL,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override

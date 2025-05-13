@@ -18,8 +18,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.MalformedURLException;
-
 @Alias("vertexai-express")
 @DisplayName("Vertex AI Express")
 public class VertexAIExpressTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
@@ -38,15 +36,11 @@ public class VertexAIExpressTextGenerationConnectionProvider extends TextGenerat
     @Override
     public VertexAIExpressTextGenerationConnection connect() throws ConnectionException {
         logger.debug("VertexAIExpressTextGenerationConnection connect ...");
-        try {
-            return new VertexAIExpressTextGenerationConnection(httpClient, vertexAIExpressModelName,
-                    textGenerationConnectionParameters.getApiKey(),
-                    textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                    textGenerationConnectionParameters.getTimeout());
-        } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Vertex AI URL", e);
-        }
+        return new VertexAIExpressTextGenerationConnection(httpClient, vertexAIExpressModelName,
+                textGenerationConnectionParameters.getApiKey(),
+                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
+                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                textGenerationConnectionParameters.getTimeout());
     }
 
     @Override
