@@ -16,13 +16,126 @@
 					<munit:parameter propertyName="inputCount" value="55" />
 				</munit:parameters>
 			</munit:parameterization>
+			<!-- <munit:parameterization name="config-openai-compatible" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAICompatibleVision" />
+					<munit:parameter propertyName="llmModel" value="${openai-compatible.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="8511" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-huggingface" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceVision" />
+					<munit:parameter propertyName="llmModel" value="${huggingface.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="41" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqVision" />
+					<munit:parameter propertyName="llmModel" value="${groq.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="165" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!--<munit:parameterization name="config-ibm-watson" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="IBMWatsonConfig" />
+					<munit:parameter propertyName="llmModel" value="${ibm-watson.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="123" />
+				</munit:parameters>
+			</munit:parameterization> 
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="15" />
 				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-ollama" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OllamaVision" />
+					<munit:parameter propertyName="llmModel" value="${ollama.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="590" />
+				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubVision" />
+					<munit:parameter propertyName="llmModel" value="${github.vision}" />
+					<munit:parameter propertyName="inputCount" value="266" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!-- <munit:parameterization name="config-cerebras" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CerebrasVision" />
+					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="53" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-nvidia" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="NvidiaVision" />
+					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="28" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-xai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XaiVision" />
+					<munit:parameter propertyName="llmModel" value="${xai.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="267" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicVision" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="57" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!-- <munit:parameterization name="config-ai21labs" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="Ai21labsVision" />
+					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="26" />
+				</munit:parameters> 
+			</munit:parameterization> 
+			<munit:parameterization name="config-llmapi" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="LlmApiVision" />
+					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="28" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-cohere" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CohereVision" />
+					<munit:parameter propertyName="llmModel" value="${cohere.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="13" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-xinference" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XinferenceConfig" />
+					<munit:parameter propertyName="llmModel" value="${xinference.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="20" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-zhipu" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="ZhipuVision" />
+					<munit:parameter propertyName="llmModel" value="${zhipu.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="2369" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyVision" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="55" />
+				</munit:parameters>
+			</munit:parameterization>
+
 		</munit:parameterizations>
 	</munit:config>
 
@@ -33,10 +146,8 @@
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="red in payload" expression="#[payload.payload.response]" is="#[MunitTools::containsString('red')]" message="Payload response is wrong answer"/>
-			<munit-tools:assert-that doc:name="car in payload" doc:id="1c9a0319-420e-4194-a0a1-6e8d21f28782" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('car')]" />
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
 

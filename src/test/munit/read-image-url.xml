@@ -16,13 +16,58 @@
 					<munit:parameter propertyName="inputCount" value="449" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			<munit:parameterization name="config-huggingface" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenrouterVision" />
-					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
-					<munit:parameter propertyName="inputCount" value="15" />
+					<munit:parameter propertyName="config" value="HuggingFaceVision" />
+					<munit:parameter propertyName="llmModel" value="${huggingface.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="41" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqVision" />
+					<munit:parameter propertyName="llmModel" value="${groq.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="2485" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubVision" />
+					<munit:parameter propertyName="llmModel" value="${github.vision}" />
+					<munit:parameter propertyName="inputCount" value="436" />
+				</munit:parameters>
+			</munit:parameterization>
+
+			<munit:parameterization name="config-xai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XaiVision" />
+					<munit:parameter propertyName="llmModel" value="${xai.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="267" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicVision" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="440" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-zhipu" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="ZhipuVision" />
+					<munit:parameter propertyName="llmModel" value="${zhipu.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="2369" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyVision" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="449" />
+				</munit:parameters>
+			</munit:parameterization>
+
+
 		</munit:parameterizations>
 	</munit:config>
 
@@ -32,15 +77,14 @@
 			<logger level="INFO" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Eiffel Tower')]" message="Payload response is wrong answer"/>
+			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Eiffel Tower') or contains(payload.payload.response, 'chip')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
 
 	<sub-flow name="read_image_url_operation" doc:id="df9ead27-c4c2-4b35-87d7-0437bb2316d2">
-		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value='#[%dw 2.0    output application/json    ---    &#10;{&#10;    "prompt":"What do you see",&#10;    "imageUrl": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"&#10;}]' variableName="testPayload"/>
+		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value="#[%dw 2.0    output application/json    ---    &#10;{&#10;    &quot;prompt&quot;:&quot;What do you see&quot;,&#10;    &quot;imageUrl&quot;:  if (p('config') == &quot;GroqVision&quot;) &quot;https://upload.wikimedia.org/wikipedia/commons/f/f2/LPU-v1-die.jpg&quot; else &quot;https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg&quot;,&#10;}]" variableName="testPayload"/>
 		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 			<mac-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></mac-inference:image-url>

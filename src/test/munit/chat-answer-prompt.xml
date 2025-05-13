@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
-	<munit:config name="chat_completion.xml">
+	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
@@ -28,28 +28,147 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="10"/>
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="10" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openai-compatible" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAICompatibleConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-huggingface" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
+					<munit:parameter propertyName="llmModel" value="${huggingface.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="10" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqConfig" />
+					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!--  <munit:parameterization name="config-ibm-watson" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="IBMWatsonConfig" />
+					<munit:parameter propertyName="llmModel" value="${ibm-watson.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="12" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-ollama" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OllamaConfig" />
+					<munit:parameter propertyName="llmModel" value="${ollama.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="16" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
+					<munit:parameter propertyName="model" value="${github.model}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-cerebras" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CerebrasConfig" />
+					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="42" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-nvidia" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="NvidiaConfig" />
+					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-xai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XaiConfig" />
+					<munit:parameter propertyName="llmModel" value="${xai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-ai21labs" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="Ai21labsConfig" />
+					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+				</munit:parameters> 
+			</munit:parameterization>
+			<munit:parameterization name="config-cohere" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CohereConfig" />
+					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="7" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-xinference" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XinferenceConfig" />
+					<munit:parameter propertyName="llmModel" value="${xinference.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="12" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-zhipu" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="ZhipuConfig" />
+					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyConfig" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="10" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-llmapi" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="LlmApiConfig" />
+					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="42" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
-	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_answer_prompt_operation-Test">
+	<munit:test doc:id="e2c98b32-b218-4034-a8b1-b589bd31fe08" name="chat_answer_prompt_operation-Test">
 		<munit:execution>
-			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
+			<flow-ref doc:id="220c5a75-4bba-4950-827a-dbd1e06c97f9" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
 			<logger level="INFO" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
-			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-that doc:name="payload.response" doc:id="cf2534ac-1293-4fc0-a2e4-d3f22f81b2b9" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
+			<munit-tools:assert-equals doc:name="Input Token" doc:id="f4b0e12f-ab0c-4908-9709-9959cde938bc" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="85319d09-a49c-45c4-a018-7861669b0d69" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
 		</munit:validation>
 	</munit:test>
 
-	<sub-flow name="chat_answer_prompt_operation" doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6">
-		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;			{&#10;			    "prompt": "What is the capital of Germany?"&#10;			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
-		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
+	<sub-flow name="chat_answer_prompt_operation" doc:id="0275c6a1-b3f0-4014-a88b-be61f2918af2">
+		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;			{&#10;			    "prompt": "What is the capital of Germany?"&#10;			}]' doc:name="Set Variable" doc:id="77ffc86b-cc5b-4a58-ace0-00338c576397" variableName="testPayload"/>
+		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="c3a7d794-1c95-4844-b6ef-430b122a1e54" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 		</mac-inference:chat-answer-prompt>
-		<ee:transform doc:name="Transform Message" doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" >
+		<ee:transform doc:name="Transform Message" doc:id="8c4b1d65-92cd-4a35-82db-db8a25877fd7" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 					output application/json

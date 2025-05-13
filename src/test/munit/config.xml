@@ -71,4 +71,299 @@
 	<mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
 		<mac-inference:vision-connection inferenceType="${openrouter.inferenceType}" apiKey="${openrouter.apiKey}" modelName="${openrouter.visionModel}" />
 	</mac-inference:vision-config>
+	<mac-inference:text-generation-config name="OpenAICompatibleConfig" doc:name="MuleSoft Inference Text generation config" doc:id="195e5441-3480-4fe9-8b8f-d41403861128" >
+		<mac-inference:llm-connection inferenceType="${openai-compatible.inferenceType}" apiKey="${openai-compatible.apiKey}" modelName="${openai-compatible.llmModel}" openCompatibleURL="${openai-compatible.baseUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="HuggingFaceConfig" doc:name="MuleSoft Inference Text generation config" doc:id="c62192ca-1253-4b9b-a828-476457afd768" >
+		<mac-inference:llm-connection inferenceType="${huggingface.inferenceType}" apiKey="${huggingface.apiKey}" modelName="${huggingface.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="GroqConfig" doc:name="MuleSoft Inference Text generation config" doc:id="124d73c2-8ad2-4daf-a74e-9c9835cf8dd8" >
+		<mac-inference:llm-connection inferenceType="${groq.inferenceType}" apiKey="${groq.apiKey}" modelName="${groq.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="IBMWatsonConfig" doc:name="MuleSoft Inference Text generation config" doc:id="0cbbf2d8-f7b7-4b87-a9c9-340d8b085b57" >
+		<mac-inference:llm-connection inferenceType="${ibm-watson.inferenceType}" apiKey="${ibm-watson.apiKey}" modelName="${ibm-watson.llmModel}" ibmWatsonApiVersion="${ibm-watson.apiVersion}" ibmWatsonProjectID="${ibm-watson.projectId}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="OllamaConfig" doc:name="MuleSoft Inference Text generation config" doc:id="627af8a5-956d-4a0b-aa93-e29e1e8bba61" >
+		<mac-inference:llm-connection inferenceType="${ollama.inferenceType}" apiKey="${ollama.apiKey}" modelName="${ollama.llmModel}" ollamaUrl="${ollama.baseUrl}" timeout="600000">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="GithubConfig" doc:name="MuleSoft Inference Text generation config" doc:id="463c9ff4-daf7-4e9e-8254-bcc7bb453d9a" >
+		<mac-inference:llm-connection inferenceType="${github.inferenceType}" apiKey="${github.apiKey}" modelName="${github.model}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="CerebrasConfig" doc:name="MuleSoft Inference Text generation config" doc:id="017d4ce2-6f11-485e-bc60-4ba50b26c8b6" >
+		<mac-inference:llm-connection inferenceType="${cerebras.inferenceType}" apiKey="${cerebras.apiKey}" modelName="${cerebras.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="NvidiaConfig" doc:name="MuleSoft Inference Text generation config" doc:id="cd9f05ad-1f37-4575-94f5-44e1ff6c8c09" >
+		<mac-inference:llm-connection inferenceType="${nvidia.inferenceType}" apiKey="${nvidia.apiKey}" modelName="${nvidia.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+		<mac-inference:text-generation-config name="XaiConfig" doc:name="MuleSoft Inference Text generation config" doc:id="496d8798-0870-4db8-a4a7-3c73b99f33b7" >
+		<mac-inference:llm-connection inferenceType="${xai.inferenceType}" apiKey="${xai.apiKey}" modelName="${xai.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="AnthropicConfig" doc:name="MuleSoft Inference Text generation config" doc:id="6fdbe1c2-d942-4e09-99c5-662579b87458" >
+		<mac-inference:llm-connection inferenceType="${anthropic.inferenceType}" apiKey="${anthropic.apiKey}" modelName="${anthropic.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="Ai21labsConfig" doc:name="MuleSoft Inference Text generation config" doc:id="421860ec-d394-4b92-bc57-1e836c5b6674" >
+		<mac-inference:llm-connection inferenceType="${ai21labs.inferenceType}" apiKey="${ai21labs.apiKey}" modelName="${ai21labs.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="CohereConfig" doc:name="MuleSoft Inference Text generation config" doc:id="559a569f-c83f-4fdb-9399-ab7613e3cff4" >
+		<mac-inference:llm-connection inferenceType="${cohere.inferenceType}" apiKey="${cohere.apiKey}" modelName="${cohere.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="XinferenceConfig" doc:name="MuleSoft Inference Text generation config" doc:id="1468ccc6-7afa-4364-a81f-406cfaeeca9e" >
+		<mac-inference:llm-connection inferenceType="${xinference.inferenceType}" apiKey="${xinference.apiKey}" modelName="${xinference.model}" xnferenceUrl="${xinference.baseUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="ZhipuConfig" doc:name="MuleSoft Inference Text generation config" doc:id="fec3399f-4457-4c97-881d-89143dbe5859" >
+		<mac-inference:llm-connection inferenceType="${zhipu.inferenceType}" apiKey="${zhipu.apiKey}" modelName="${zhipu.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="PortkeyConfig" doc:name="MuleSoft Inference Text generation config" doc:id="c3f978ee-98fa-4176-8a14-b29679705ed6" >
+		<mac-inference:llm-connection inferenceType="${portkey.inferenceType}" apiKey="${portkey.apiKey}" modelName="${portkey.llmModel}" virtualKey="${portkey.virtualKey}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="gpt4AllConfig" doc:name="MuleSoft Inference Text generation config" doc:id="c703a33c-553b-42e5-b4c1-ed68fa5d320a" >
+		<mac-inference:llm-connection inferenceType="${gpt4all.inferenceType}" apiKey="${gpt4all.apiKey}" modelName="${gpt4all.llmModel}" gpt4All="${gpt4all.baseUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="LMStudioConfig" doc:name="MuleSoft Inference Text generation config" doc:id="678fddf9-39f6-4e17-9cb7-0f9d5a6c9073" >
+		<mac-inference:llm-connection inferenceType="${lmstudio.inferenceType}" apiKey="${lmstudio.apiKey}" modelName="${lmstudio.llmModel}" lmStudio="${lmstudio.baseUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="LlmApiConfig" doc:name="MuleSoft Inference Text generation config" doc:id="7624f051-9ea1-4390-b635-82eeb67339f5" >
+		<mac-inference:llm-connection inferenceType="${llmapi.inferenceType}" apiKey="${llmapi.apiKey}" modelName="${llmapi.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="azureAiFoundryConfig" doc:name="MuleSoft Inference Text generation config" doc:id="9d6a6703-45e0-4cba-92e9-b479535128e3" >
+		<mac-inference:llm-connection inferenceType="${azure-ai-foundry.inferenceType}" apiKey="${azure-ai-foundry.apiKey}" modelName="${azure-ai-foundry.llmModel}" azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}" azureAIFoundryResourceName="${azure-ai-foundry.resource}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="azureOpenAiConfig" doc:name="MuleSoft Inference Text generation config" doc:id="9e5a24c3-665b-4c12-b4fd-c94b22778e1f" >
+		<mac-inference:llm-connection inferenceType="${azure-openai.inferenceType}" apiKey="${azure-openai.apiKey}" modelName="${azure-openai.llmModel}" azureOpenaiDeploymentId="${azure-openai.deploymentId}" azureOpenaiResourceName="${azure-openai.resource}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="databricksConfig" doc:name="MuleSoft Inference Text generation config" doc:id="d0479ede-7a53-4b16-8c44-c6c5ef67f893" >
+		<mac-inference:llm-connection inferenceType="${databricks.inferenceType}" apiKey="${databricks.apiKey}" modelName="${databricks.llmModel}" dataBricksModelUrl="${databricks.modelUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="deepinfraConfig" doc:name="MuleSoft Inference Text generation config" doc:id="1dd19de4-bdc1-4f11-88d6-aa23a9bc983b" >
+		<mac-inference:llm-connection inferenceType="${deepinfra.inferenceType}" apiKey="${deepinfra.apiKey}" modelName="${deepinfra.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="deepseekConfig" doc:name="MuleSoft Inference Text generation config" doc:id="dec55a3a-69c2-4a86-9063-d48146f56f37" >
+		<mac-inference:llm-connection inferenceType="${deepseek.inferenceType}" apiKey="${deepseek.apiKey}" modelName="${deepseek.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="dockerModelConfig" doc:name="MuleSoft Inference Text generation config" doc:id="791dde8e-d3d3-43a7-9501-6bba98b83dd6" >
+		<mac-inference:llm-connection inferenceType="${dockerModel.inferenceType}" apiKey="${dockerModel.apiKey}" modelName="${dockerModel.llmModel}" dockerModelUrl="${dockerModel.baseUrl}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="fireworksConfig" doc:name="MuleSoft Inference Text generation config" doc:id="7257fcc9-54a5-41c9-87c7-5f3950fd16bf" >
+		<mac-inference:llm-connection inferenceType="${fireworks.inferenceType}" apiKey="${fireworks.apiKey}" modelName="${fireworks.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="perplexityConfig" doc:name="MuleSoft Inference Text generation config" doc:id="f8d73d21-9c64-4f3a-97b8-f236a613c17d" >
+		<mac-inference:llm-connection inferenceType="${perplexity.inferenceType}" apiKey="${perplexity.apiKey}" modelName="${perplexity.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="togetherConfig" doc:name="MuleSoft Inference Text generation config" doc:id="adeed5a3-0df6-452a-a283-c0266d0f7977" >
+		<mac-inference:llm-connection inferenceType="${together.inferenceType}" apiKey="${together.apiKey}" modelName="${together.llmModel}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+		<mac-inference:text-generation-config name="vertexAiExpressConfig" doc:name="MuleSoft Inference Text generation config" doc:id="72f4e5af-a05c-44bf-9c68-c82fbe80be16" >
+		<mac-inference:llm-connection inferenceType="${vertexAIexpress.inferenceType}" apiKey="${vertexAiexpress.apiKey}" modelName="${vertexAiexpress.llmModel}" vertexAILocationId="${vertexAIexpress.location}" vertexAIProjectId="${vertexAIexpress.project}" vertexAIServiceAccountKey="${vertexAIexpress.serviceKey}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+		<mac-inference:text-generation-config name="vertexAiStandardConfig" doc:name="MuleSoft Inference Text generation config" doc:id="7837adba-d115-4cef-bff4-22946d56639b" >
+		<mac-inference:llm-connection inferenceType="${vertexAIstandard.inferenceType}" apiKey="${vertexAIstandard.apiKey}" modelName="${vertexAIstandard.llmModel}" vertexAILocationId="${vertexAIstandard.location}" vertexAIProjectId="${vertexAIstandard.project}" vertexAIServiceAccountKey="${vertexAIstandard.serviceKey}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+	<mac-inference:image-generation-config name="StabilityImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="b892d83d-9228-45ce-85c7-3923f8a48c63" >
+		<mac-inference:image-generation-connection inferenceType="${stability.inferenceType}" apiKey="${stability.apiKey}" modelName="${stability.imageGenModel}" />
+	</mac-inference:image-generation-config>
+	<mac-inference:image-generation-config name="XAIImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="8c182c1e-6ea8-4b97-ae5f-d4ad34411e62" >
+		<mac-inference:image-generation-connection inferenceType="${xai.inferenceType}" apiKey="${xai.apiKey}" modelName="${xai.imageGenModel}" />
+	</mac-inference:image-generation-config>
+	<mac-inference:image-generation-config name="HuggingFaceImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="69e3fed1-8055-44a3-898f-8f40cc40e184" >
+		<mac-inference:image-generation-connection inferenceType="${huggingface.inferenceType}" apiKey="${huggingface.apiKey}" modelName="${huggingface.imageGenModel}" />
+	</mac-inference:image-generation-config>
+
+	<mac-inference:vision-config name="AnthropicVision" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
+		<mac-inference:vision-connection inferenceType="${anthropic.inferenceType}" apiKey="${anthropic.apiKey}" modelName="${anthropic.llmModel}" />
+	</mac-inference:vision-config>
+	<mac-inference:vision-config name="Ai21labsVision" doc:name="MuleSoft Inference Vision config" doc:id="9dd2ab03-42c3-48fa-9661-cff7136f1889" >
+		<mac-inference:vision-connection inferenceType="${ai21labs.inferenceType}" apiKey="${ai21labs.apiKey}" modelName="${ai21labs.llmModel}" />
+	</mac-inference:vision-config>
+	<mac-inference:vision-config name="GroqVision" doc:name="MuleSoft Inference Vision config" doc:id="249c7f56-3d4b-40d5-8c17-266b2f02be13" >
+		<mac-inference:vision-connection inferenceType="${groq.inferenceType}" apiKey="${groq.apiKey}" modelName="${groq.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="GithubVision" doc:name="MuleSoft Inference Vision config" doc:id="59f1e1f5-c5f5-4a6e-b280-c38d7bd9d145" >
+		<mac-inference:vision-connection inferenceType="${github.inferenceType}" apiKey="${github.apiKey}" modelName="gpt-4o" />
+	</mac-inference:vision-config>
+	<mac-inference:vision-config name="OllamaVision" doc:name="MuleSoft Inference Vision config" doc:id="d46842b1-6b46-49f7-87fd-746598cf77dd" >
+		<mac-inference:vision-connection inferenceType="${ollama.inferenceType}" apiKey="${ollama.apiKey}" modelName="${ollama.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="CerebrasVision" doc:name="MuleSoft Inference Vision config" doc:id="064b5c1f-f779-447f-a242-af4523428229" >
+		<mac-inference:vision-connection inferenceType="${cerebras.inferenceType}" apiKey="${cerebras.apiKey}" modelName="${cerebras.llmModel}" />
+	</mac-inference:vision-config>
+	<mac-inference:vision-config name="OpenAICompatibleVision" doc:name="MuleSoft Inference Vision config" doc:id="e1cb445a-35cd-4660-ba15-31c1fa427b7d" >
+		<mac-inference:vision-connection inferenceType="${openai-compatible.inferenceType}" apiKey="${openai-compatible.apiKey}" modelName="${openai-compatible.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="LlmApiVision" doc:name="MuleSoft Inference Vision config" doc:id="d7564e61-9c22-4fe7-87b3-ce90bf710e8d" >
+		<mac-inference:vision-connection inferenceType="${llmapi.inferenceType}" apiKey="${llmapi.apiKey}" modelName="${llmapi.llmModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="ZhipuVision" doc:name="MuleSoft Inference Vision config" doc:id="78237fdb-1f3b-4763-b37b-5ad5676ec2cd" >
+		<mac-inference:vision-connection inferenceType="${zhipu.inferenceType}" apiKey="${zhipu.apiKey}" modelName="${zhipu.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="XaiVision" doc:name="MuleSoft Inference Vision config" doc:id="31b27665-a279-4a11-ace8-eab2346e9043" >
+		<mac-inference:vision-connection inferenceType="${xai.inferenceType}" apiKey="${xai.apiKey}" modelName="${xai.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="HuggingFaceVision" doc:name="MuleSoft Inference Vision config" doc:id="86ed4e51-335e-4a85-9fd0-b1ec7f2e9f7f" >
+		<mac-inference:vision-connection inferenceType="${huggingface.inferenceType}" apiKey="${huggingface.apiKey}" modelName="${huggingface.visionModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="CohereVision" doc:name="MuleSoft Inference Vision config" doc:id="696fb253-f521-4370-8ee0-f17dc83df3ef" >
+		<mac-inference:vision-connection inferenceType="${cohere.inferenceType}" apiKey="${cohere.apiKey}" modelName="${cohere.llmModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="NvidiaVision" doc:name="MuleSoft Inference Vision config" doc:id="46677d6d-3c77-4a70-9513-0dfdd89b18b1" >
+		<mac-inference:vision-connection inferenceType="${nvidia.inferenceType}" apiKey="${nvidia.apiKey}" modelName="${nvidia.llmModel}" />
+	</mac-inference:vision-config>
+
+	<mac-inference:vision-config name="PortkeyVision" doc:name="MuleSoft Inference Vision config" doc:id="c200a558-8ae4-449e-82d3-68aa499a7d01" >
+		<mac-inference:vision-connection inferenceType="${portkey.inferenceType}" apiKey="${portkey.apiKey}" modelName="${portkey.llmModel}" virtualKey="${portkey.virtualKey}"/>
+	</mac-inference:vision-config>
+
+
 </mule>

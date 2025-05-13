@@ -17,24 +17,42 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="imageGenModel" value="${openai.imageGenModel}" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="xai-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XAIImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${xai.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="stability-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="StabilityImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${stability.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="huggingface-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${huggingface.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
-	<munit:test name="generate-image-operations-Test" doc:id="dd7abf89-e3c7-466f-8977-1209c1f69150" >
+	<munit:test name="generate-image-operations-Test" doc:id="760d7463-26ea-4153-907c-8aba1322df2d" >
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to image-gen" doc:id="18071295-7596-44d3-ab7e-168f5d95a85d" name="generate-image-operation"/>
-			<logger level="INFO" doc:name="Logger" doc:id="288eb5f8-0683-46b8-baf5-53ce542d4885" message="#[payload]"/>
+			<flow-ref doc:name="Flow-ref to image-gen" doc:id="8d683a76-2c57-4140-bd1f-1b2abb132f7d" name="generate-image-operation"/>
+			<logger level="INFO" doc:name="Logger" doc:id="ab7328c0-166d-4e28-92df-bdc09d9e266b" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation >
-			<munit-tools:assert-that doc:name="payload.response" doc:id="82bcc94c-6021-485f-8c63-40b56a9524c5" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::notNullValue()]" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="1eca8cf2-65ae-4bdc-8bf1-6aed45d3ab1f" actual="#[attributes.additionalAttributes.model]" expected="${openai.imageGenModel}" message="Incorrect Model Info" />
+			<munit-tools:assert-that doc:name="payload.response" doc:id="fae1084b-46e2-4292-8de9-d52db5479b1a" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::notNullValue()]" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="0d983fa9-11ae-49b2-8218-fd1e9a29d294" actual="#[attributes.additionalAttributes.model]" expected="${imageGenModel}" message="Incorrect Model Info" />
 		</munit:validation>
 	</munit:test>
-	<sub-flow name="generate-image-operation" doc:id="3ff94cc9-278c-41f1-bafc-9da783016dd9" >
-		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;{&#10;    "prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."&#10;}]' doc:name="testPayload" doc:id="3483351f-7708-4ddc-8dca-ed09e13c1bc5" variableName="testPayload"/>
-		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="1e7f063a-6418-4c42-b2ee-7dd372f24d83" config-ref="${config}">
+	<sub-flow name="generate-image-operation" doc:id="d9e66d71-b2ee-42d9-b17c-40b759bb13d1" >
+		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;{&#10;    "prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."&#10;}]' doc:name="testPayload" doc:id="fde09a29-ef05-4e33-a5d1-76981b451f60" variableName="testPayload"/>
+		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="5ae95a27-ee79-4f85-b022-dd10ec6c4bbf" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 		</mac-inference:generate-image>
-		<ee:transform doc:name="Transform Message" doc:id="1b42e80a-3268-4250-a4ca-9170841cf164" >
+		<ee:transform doc:name="Transform Message" doc:id="fe77a21c-cf8a-4b6e-ae56-61cdc932ea2b" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 output application/json

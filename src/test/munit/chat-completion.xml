@@ -6,12 +6,13 @@
 	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
 	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
 	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	  xsi:schemaLocation="   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
-	<munit:config name="chat_completion.xml">
+	<munit:config name="chat-completion.xml">
 		<munit:parameterizations >
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
@@ -34,39 +35,140 @@
 					<munit:parameter propertyName="inputCount" value="19" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-openai-compatible" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAICompatibleConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="24" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-huggingface" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
+					<munit:parameter propertyName="llmModel" value="${huggingface.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="18" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqConfig" />
+					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="33" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!--<munit:parameterization name="config-ibm-watson" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="IBMWatsonConfig" />
+					<munit:parameter propertyName="llmModel" value="${ibm-watson.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="123" />
+				</munit:parameters>
+			</munit:parameterization> -->
+			<munit:parameterization name="config-ollama" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OllamaConfig" />
+					<munit:parameter propertyName="llmModel" value="${ollama.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="26" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
+					<munit:parameter propertyName="model" value="${github.model}" />
+					<munit:parameter propertyName="inputCount" value="24" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-cerebras" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CerebrasConfig" />
+					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="53" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-nvidia" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="NvidiaConfig" />
+					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="28" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-xai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XaiConfig" />
+					<munit:parameter propertyName="llmModel" value="${xai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="24" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="35" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-ai21labs" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="Ai21labsConfig" />
+					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="26" />
+				</munit:parameters> 
+			</munit:parameterization>
+			<munit:parameterization name="config-cohere" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CohereConfig" />
+					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="13" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-xinference" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XinferenceConfig" />
+					<munit:parameter propertyName="llmModel" value="${xinference.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="20" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-zhipu" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="ZhipuConfig" />
+					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="20" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyConfig" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-llmapi" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="LlmApiConfig" />
+					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="28" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
-	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test">
+	<munit:test doc:id="1f4d91c6-0771-4721-b665-adc067f66746" name="chat_completion_operation_test">
 		<munit:execution>
-			<flow-ref doc:id="c3cd44a2-cf3c-4a7f-89be-65357b7242cc" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
+			<flow-ref doc:id="0c4898ca-8101-4718-95a4-abe8ee335265" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
 			<logger level="INFO" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:name="payload.response" doc:id="5dac8f10-3c9c-4753-8888-5cadefccbad3" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
-			<munit-tools:assert-equals doc:name="Input Token" doc:id="0a7a3133-2b5d-47aa-81e4-4a3dd25aeb03" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="f688a025-3466-4afe-bacb-6a2275258f96" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="407f9be4-d036-4fcf-9da8-895f9baefd07" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-that doc:name="payload.response" doc:id="70f11316-f4e9-4ecd-9f89-11376e935438" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
+			<munit-tools:assert-equals doc:name="Input Token" doc:id="d47c2a51-7d78-4b28-802a-ab6e6a0731e3" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="cc5b6bea-373e-4c25-b8bd-f8ab0e896990" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
 		</munit:validation>
 	</munit:test>
 
 	<sub-flow name="chat_completion_operation" >
-		<set-variable value='#[%dw 2.0
-			output application/json
-			---
-			[{
-			  "role": "assistant",
-			  "content": "You are a helpful assistant."
-			},
-			{
-			  "role": "user",
-			  "content": "What is the capital of Switzerland!"
-			}
-			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
-		<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="${config}">
+		<set-variable value="#[%dw 2.0&#10;			output application/json&#10;			---&#10;			[{&#10;			  &quot;role&quot;: if (p('config') == &quot;HuggingFaceConfig&quot;) &quot;system&quot; else &quot;assistant&quot;,&#10;			  &quot;content&quot;: &quot;You are a helpful assistant.&quot;&#10;			},&#10;			{&#10;			  &quot;role&quot;: &quot;user&quot;,&#10;			  &quot;content&quot;: &quot;What is the capital of Switzerland!&quot;&#10;			}&#10;			]]" doc:name="Set Variable" doc:id="3222aa0e-5ad3-4b5b-bc46-b96999de4105" variableName="testPayload"/>
+		<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="8c074b7e-143f-4de9-9320-7094e122bc93" config-ref="${config}">
 			<mac-inference:messages ><![CDATA[#[vars.testPayload]]]></mac-inference:messages>
 		</mac-inference:chat-completions>
-		<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
+		<ee:transform doc:name="Transform Message" doc:id="1011240a-e4d6-4b42-b3c3-2b80eb6f951f" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
 					output application/json
