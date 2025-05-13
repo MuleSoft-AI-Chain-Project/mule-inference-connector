@@ -12,6 +12,7 @@ import org.mule.runtime.extension.api.values.ValueResolvingException;
 
 import java.util.Set;
 
+@Deprecated
 public class ModelNameProvider implements ValueProvider {
 
   @Parameter

@@ -16,7 +16,7 @@ import com.mulesoft.connectors.internal.connection.gpt4all.providers.GPT4AllText
 import com.mulesoft.connectors.internal.connection.groq.providers.GroqTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.huggingface.providers.HuggingFaceTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.ibmwatson.providers.IBMWatsonTextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.llamaapi.providers.LlamaAPITextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.llmapi.providers.LlmAPITextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.lmstudio.providers.LMStudioTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.mistralai.providers.MistralAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.nvidia.providers.NvidiaTextGenerationConnectionProvider;
@@ -53,7 +53,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
         GroqTextGenerationConnectionProvider.class,
         HuggingFaceTextGenerationConnectionProvider.class,
         IBMWatsonTextGenerationConnectionProvider.class,
-        LlamaAPITextGenerationConnectionProvider.class,
+        LlmAPITextGenerationConnectionProvider.class,
         LMStudioTextGenerationConnectionProvider.class,
         MistralAITextGenerationConnectionProvider.class,
         NvidiaTextGenerationConnectionProvider.class,

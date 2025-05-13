@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 @Alias("xai")
-@DisplayName("XAI")
+@DisplayName("xAI")
 public class XAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(XAITextGenerationConnectionProvider.class);

@@ -1,9 +1,9 @@
-package com.mulesoft.connectors.internal.connection.openai.providers;
+package com.mulesoft.connectors.internal.connection.huggingface.providers;
 
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.openai.providers.OpenAIImageModelNameProvider;
+import com.mulesoft.connectors.internal.models.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -16,20 +16,20 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("openai-image")
-@DisplayName("OpenAI")
-public class OpenAIImageConnectionProvider extends BaseConnectionProvider {
+@Alias("hugging-face-image")
+@DisplayName("Hugging Face")
+public class HuggingFaceImageConnectionProvider extends BaseConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(OpenAIImageConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(HuggingFaceImageConnectionProvider.class);
 
-  public static final String OPEN_AI_URL = "https://api.openai.com/v1";
-  public static final String OPENAI_GENERATE_IMAGES = "/images/generations";
+  public static final String HUGGINGFACE_URL = "https://router.huggingface.co/hf-inference";
+  public static final String URI_GENERATE_IMAGES = "/models/{model-name}";
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(OpenAIImageModelNameProvider.class)
+  @OfValues(HuggingFaceImageGenerationModelNameProvider.class)
   @Placement(order = 1)
-  private String openAIModelName;
+  private String huggingFaceModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private BaseConnectionParameters baseConnectionParameters;
@@ -38,13 +38,13 @@ public class OpenAIImageConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), openAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
+    return new BaseConnection(getHttpClient(), huggingFaceModelName, baseConnectionParameters.getApiKey(),
+            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(huggingFaceModelName), "HUGGING_FACE");
   }
 
   @Override
   public void disconnect(BaseConnection textGenerationConnection) {
-    logger.debug(" OpenAITextGenerationConnection disconnected ...");
+    logger.debug("HuggingFaceImageConnection disconnected ...");
   }
 
   @Override
@@ -63,8 +63,10 @@ public class OpenAIImageConnectionProvider extends BaseConnectionProvider {
     }
   }
 
-  private String getImageGenerationAPIURL() {
-    return OPEN_AI_URL + OPENAI_GENERATE_IMAGES;
+  private String getImageGenerationAPIURL(String huggingFaceModelName) {
+    String urlStr = HUGGINGFACE_URL + URI_GENERATE_IMAGES;
+    urlStr = urlStr
+            .replace("{model-name}", huggingFaceModelName);
+    return urlStr;
   }
-
 }

@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 import java.net.MalformedURLException;
 
 @Alias("mistralai-vision")
-@DisplayName("MistralAI")
+@DisplayName("Mistral AI")
 public class MistralAIVisionConnectionProvider extends TextGenerationConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MistralAIVisionConnectionProvider.class);

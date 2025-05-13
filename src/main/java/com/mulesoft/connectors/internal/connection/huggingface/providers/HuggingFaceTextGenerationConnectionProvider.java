@@ -20,8 +20,8 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@Alias("huggingface")
-@DisplayName("HuggingFace")
+@Alias("hugging-face")
+@DisplayName("Hugging Face")
 public class HuggingFaceTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(HuggingFaceTextGenerationConnectionProvider.class);

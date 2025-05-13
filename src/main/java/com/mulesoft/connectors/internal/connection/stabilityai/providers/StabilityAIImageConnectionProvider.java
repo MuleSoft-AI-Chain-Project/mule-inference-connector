@@ -1,10 +1,9 @@
-package com.mulesoft.connectors.internal.connection.mistralai.providers;
+package com.mulesoft.connectors.internal.connection.stabilityai.providers;
 
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.mistral.providers.MistralAIModerationModelNameProvider;
-import com.mulesoft.connectors.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.internal.models.stabilityai.providers.StabilityAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -17,19 +16,20 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("mistralai-moderation")
-@DisplayName("Mistral AI")
-public class MistralAIModerationConnectionProvider extends BaseConnectionProvider {
+@Alias("hugging-face-image")
+@DisplayName("Hugging Face")
+public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
 
-  private static final Logger logger = LoggerFactory.getLogger(MistralAIModerationConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(StabilityAIImageConnectionProvider.class);
 
-  public static final String MISTRAL_AI_URL = "https://api.mistral.ai/v1";
+  public static final String STABILITY_AI_URL = "https://api.stability.ai";
+  public static final String URI_GENERATE_IMAGES = "/v2beta/stable-image/generate/sd3";
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(MistralAIModerationModelNameProvider.class)
+  @OfValues(StabilityAIImageModelNameProvider.class)
   @Placement(order = 1)
-  private String mistralAIModelName;
+  private String stabilityAIModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private BaseConnectionParameters baseConnectionParameters;
@@ -38,13 +38,13 @@ public class MistralAIModerationConnectionProvider extends BaseConnectionProvide
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), mistralAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
+    return new BaseConnection(getHttpClient(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
+            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "STABILITY_AI");
   }
 
   @Override
   public void disconnect(BaseConnection textGenerationConnection) {
-    logger.debug(" OpenAITextGenerationConnection disconnected ...");
+    logger.debug("StabilityAIImageConnection disconnected ...");
   }
 
   @Override
@@ -63,7 +63,7 @@ public class MistralAIModerationConnectionProvider extends BaseConnectionProvide
     }
   }
 
-  private String getModerationAPIURL() {
-    return MISTRAL_AI_URL + InferenceConstants.MODERATIONS_PATH;
+  private String getImageGenerationAPIURL() {
+    return STABILITY_AI_URL + URI_GENERATE_IMAGES;
   }
 }

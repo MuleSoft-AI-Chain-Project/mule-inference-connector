@@ -53,7 +53,7 @@ public class ImageGenerationModelOperations {
             String response;
             ChatCompletionBase baseConnection = ProviderUtils.convertToBaseConnection(connection);
 
-            URL imageGenerationUrl = ConnectionUtils.getConnectionURLImageGeneration(baseConnection);
+            URL imageGenerationUrl = new URL(connection.getApiURL()); //ConnectionUtils.getConnectionURLImageGeneration(baseConnection);
             LOGGER.debug("Generate Image with {}", imageGenerationUrl);
 
             JSONObject payload = PayloadUtils.buildPayloadImageGeneration(connection, requestJson);
