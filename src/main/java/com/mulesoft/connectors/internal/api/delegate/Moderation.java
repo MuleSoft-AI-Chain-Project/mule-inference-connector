@@ -3,7 +3,6 @@ package com.mulesoft.connectors.internal.api.delegate;
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.internal.config.ModerationConfig;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
-import com.mulesoft.connectors.internal.connection.types.ModerationBase;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.internal.utils.ConnectionUtils;
 import org.json.JSONArray;
@@ -29,28 +28,12 @@ import static org.apache.commons.io.IOUtils.toInputStream;
 public abstract class Moderation {
     private static final Logger LOGGER = LoggerFactory.getLogger(Moderation.class);
     protected final ModerationConfig configuration;
-    protected ModerationBase connection; // Use provided Moderation connection
     protected BaseConnection baseConnection;
     private static Moderation instance;
 
-    protected Moderation(ModerationConfig configuration, ModerationBase connection) {
-        this.configuration = configuration;
-        this.connection = connection;
-    }
     protected Moderation(ModerationConfig configuration, BaseConnection connection) {
         this.configuration = configuration;
         this.baseConnection = connection;
-    }
-
-    @Deprecated
-    public static Moderation getInstance(ModerationConfig configuration, ModerationBase connection) {
-        if (instance == null) {
-            instance = findInstance(configuration, connection);
-        }
-        if (instance == null) {
-            throw new IllegalArgumentException("No moderation provider found for the given configuration");
-        }
-        return instance;
     }
 
     public static Moderation getInstance(BaseConnection connection) {
@@ -61,17 +44,6 @@ public abstract class Moderation {
             throw new IllegalArgumentException("No moderation provider found for the given configuration");
         }
         return instance;
-    }
-
-    private static Moderation findInstance(ModerationConfig configuration, ModerationBase connection) {
-        switch (connection.getInferenceType()) {
-            case "MISTRAL_AI":
-                return new MistralAIModeration(configuration, connection);
-            case "OPENAI":
-                return new OpenAIModeration(configuration, connection);
-            default:
-                return null;
-        }
     }
 
     private static Moderation findInstance(BaseConnection connection) {
