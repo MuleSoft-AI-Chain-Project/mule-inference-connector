@@ -4,7 +4,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.fireworks.FireworksTextGenerationConnection;
-import com.mulesoft.connectors.internal.models.fireworks.providers.FireworksTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.fireworks.providers.FireworksTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

@@ -5,7 +5,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParam
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.gpt4all.GPT4AllTextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.internal.models.gpt4all.providers.GPT4AllTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.gpt4all.providers.GPT4AllTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

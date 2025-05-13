@@ -3,7 +3,7 @@ package com.mulesoft.connectors.internal.connection.stabilityai.providers;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.stabilityai.providers.StabilityAIImageModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

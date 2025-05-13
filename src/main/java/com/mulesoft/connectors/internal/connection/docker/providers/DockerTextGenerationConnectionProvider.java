@@ -5,7 +5,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParam
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.docker.DockerTextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.internal.models.docker.providers.DockerTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.docker.providers.DockerTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

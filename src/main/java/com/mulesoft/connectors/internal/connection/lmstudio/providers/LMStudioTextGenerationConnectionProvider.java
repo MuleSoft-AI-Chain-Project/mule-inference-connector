@@ -5,7 +5,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParam
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.lmstudio.LMStudioTextGenerationConnection;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.internal.models.lmstudio.providers.LMStudioTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.lmstudio.providers.LMStudioTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

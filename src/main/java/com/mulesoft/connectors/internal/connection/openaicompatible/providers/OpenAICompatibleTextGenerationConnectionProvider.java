@@ -4,7 +4,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.openaicompatible.OpenAICompatibleTextGenerationConnection;
-import com.mulesoft.connectors.internal.models.openai.providers.OpenAITextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.openai.providers.OpenAITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

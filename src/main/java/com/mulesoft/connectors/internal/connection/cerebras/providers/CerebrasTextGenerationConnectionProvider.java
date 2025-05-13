@@ -4,7 +4,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.cerebras.CerebrasTextGenerationConnection;
-import com.mulesoft.connectors.internal.models.cerebras.providers.CerebrasTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.cerebras.providers.CerebrasTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

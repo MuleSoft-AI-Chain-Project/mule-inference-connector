@@ -3,7 +3,7 @@ package com.mulesoft.connectors.internal.connection.mistralai.providers;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.mistral.providers.MistralAIModerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

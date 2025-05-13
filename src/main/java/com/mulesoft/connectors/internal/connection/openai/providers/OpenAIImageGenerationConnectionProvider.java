@@ -3,7 +3,7 @@ package com.mulesoft.connectors.internal.connection.openai.providers;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.openai.providers.OpenAIImageGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.openai.providers.OpenAIImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

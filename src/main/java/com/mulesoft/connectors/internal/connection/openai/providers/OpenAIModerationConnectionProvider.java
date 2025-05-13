@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.internal.connection.openai.providers;
 
 import com.mulesoft.connectors.internal.connection.*;
-import com.mulesoft.connectors.internal.models.openai.providers.OpenAIModerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
 import com.mulesoft.connectors.internal.constants.InferenceConstants;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

@@ -3,7 +3,7 @@ package com.mulesoft.connectors.internal.connection.xai.providers;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.xai.providers.XAIImageModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.xai.providers.XAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

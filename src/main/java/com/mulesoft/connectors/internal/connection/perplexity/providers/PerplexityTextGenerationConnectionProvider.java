@@ -4,7 +4,7 @@ import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.perplexity.PerplexityTextGenerationConnection;
-import com.mulesoft.connectors.internal.models.perplexity.providers.PerplexityTextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.perplexity.providers.PerplexityTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;

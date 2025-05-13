@@ -3,7 +3,7 @@ package com.mulesoft.connectors.internal.connection.huggingface.providers;
 import com.mulesoft.connectors.internal.connection.BaseConnection;
 import com.mulesoft.connectors.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.internal.connection.BaseConnectionProvider;
-import com.mulesoft.connectors.internal.models.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.llmmodels.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
