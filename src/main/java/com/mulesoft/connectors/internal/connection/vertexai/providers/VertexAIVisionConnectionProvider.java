@@ -3,9 +3,8 @@ package com.mulesoft.connectors.internal.connection.vertexai.providers;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.vertexai.VertexAIExpressTextGenerationConnection;
-import com.mulesoft.connectors.internal.connection.vertexai.VertexAITextGenerationConnection;
-import com.mulesoft.connectors.internal.models.vertexai.providers.VertexAITextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.connection.vertexai.VertexAIVisionConnection;
+import com.mulesoft.connectors.internal.models.vertexai.providers.VertexAIVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -21,29 +20,29 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@Alias("vertexai")
+@Alias("vertexai-vision")
 @DisplayName("Vertex AI")
-public class VertexAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
+public class VertexAIVisionConnectionProvider extends TextGenerationConnectionProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(VertexAITextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(VertexAIVisionConnectionProvider.class);
 
     @Parameter
     @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(VertexAITextGenerationModelNameProvider.class)
+    @OfValues(VertexAIVisionModelNameProvider.class)
     private String vertexAIModelName;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
     private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
     @Override
-    public VertexAITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("VertexAITextGenerationConnection connect ...");
+    public VertexAIVisionConnection connect() throws ConnectionException {
+        logger.debug("VertexAIVisionConnection connect ...");
         try {
-            return new VertexAITextGenerationConnection(httpClient, vertexAIModelName,
+            return new VertexAIVisionConnection(httpClient, vertexAIModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                    textGenerationConnectionParameters.getMaxTokens(),
                     textGenerationConnectionParameters.getTimeout());
         } catch (MalformedURLException e) {
             throw new ConnectionException("Invalid Vertex AI URL", e);
@@ -52,7 +51,7 @@ public class VertexAITextGenerationConnectionProvider extends TextGenerationConn
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("VertexAITextGenerationConnection disconnected ...");
+        logger.debug("VertexAIVisionConnection disconnected ...");
     }
 
     @Override

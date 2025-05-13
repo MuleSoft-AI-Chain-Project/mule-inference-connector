@@ -1,8 +1,6 @@
 package com.mulesoft.connectors.internal.connection.types;
 
 import com.mulesoft.connectors.internal.api.proxy.HttpProxyConfig;
-import com.mulesoft.connectors.internal.models.moderation.ModerationNameProvider;
-import com.mulesoft.connectors.internal.models.moderation.ModerationTypeProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -41,7 +39,6 @@ public class ModerationProvider implements CachedConnectionProvider<ModerationBa
   @Placement(order = 1, tab = Placement.DEFAULT_TAB)
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("Inference Type")
-  @OfValues(ModerationTypeProvider.class)
   private String inferenceType;
 
   @Parameter
@@ -51,7 +48,6 @@ public class ModerationProvider implements CachedConnectionProvider<ModerationBa
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(ModerationNameProvider.class)
   private String modelName;
 
   @Parameter

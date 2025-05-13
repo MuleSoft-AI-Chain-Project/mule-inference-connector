@@ -27,6 +27,7 @@ import com.mulesoft.connectors.internal.connection.openrouter.providers.OpenRout
 import com.mulesoft.connectors.internal.connection.perplexity.providers.PerplexityTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.portkey.providers.PortkeyTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.together.providers.TogetherTextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.vertexai.providers.VertexAIExpressTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.vertexai.providers.VertexAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.xai.providers.XAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.xinference.providers.XInferenceTextGenerationConnectionProvider;
@@ -66,6 +67,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
         PortkeyTextGenerationConnectionProvider.class,
         TogetherTextGenerationConnectionProvider.class,
         VertexAITextGenerationConnectionProvider.class,
+        VertexAIExpressTextGenerationConnectionProvider.class,
         XAITextGenerationConnectionProvider.class,
         XInferenceTextGenerationConnectionProvider.class,
         ZhipuAITextGenerationConnectionProvider.class

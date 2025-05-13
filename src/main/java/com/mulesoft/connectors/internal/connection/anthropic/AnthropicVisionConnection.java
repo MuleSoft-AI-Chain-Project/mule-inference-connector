@@ -8,18 +8,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-public class AnthropicTextGenerationConnection extends TextGenerationConnection {
+public class AnthropicVisionConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/messages";
   public static final String ANTHROPIC_URL = "https://api.anthropic.com/v1";
 
   private final URL connectionURL;
 
-  public AnthropicTextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
-                                         Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout)
+  public AnthropicVisionConnection(HttpClient httpClient, String modelName, String apiKey,
+                                   Number temperature, Number topP,
+                                   Number maxTokens, int timeout)
           throws MalformedURLException {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "ANTHROPIC");
+    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(), "ANTHROPIC");
     this.connectionURL = new URL(ANTHROPIC_URL + URI_CHAT_COMPLETIONS);
   }
 
@@ -39,6 +39,6 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   }
 
   private static String fetchApiURL() {
-    return ANTHROPIC_URL +  URI_CHAT_COMPLETIONS;
+    return InferenceConstants.ANTHROPIC_URL +  URI_CHAT_COMPLETIONS;
   }
 } 

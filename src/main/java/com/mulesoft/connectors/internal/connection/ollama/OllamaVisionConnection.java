@@ -7,17 +7,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Map;
 
-public class OllamaTextGenerationConnection extends TextGenerationConnection {
+public class OllamaVisionConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat";
 
   private final URL connectionURL;
 
-  public OllamaTextGenerationConnection(HttpClient httpClient, String modelName,String ollamaUrl,
-                                        String apiKey, Number temperature, Number topP,
-                                        Number maxTokens, Map<String, String> mcpSseServers, int timeout)
+  public OllamaVisionConnection(HttpClient httpClient, String modelName, String ollamaUrl,
+                                String apiKey, Number temperature, Number topP,
+                                Number maxTokens, int timeout)
           throws MalformedURLException {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(ollamaUrl), "OLLAMA");
+    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(ollamaUrl), "OLLAMA");
     this.connectionURL = new URL(fetchApiURL(ollamaUrl));
   }
 

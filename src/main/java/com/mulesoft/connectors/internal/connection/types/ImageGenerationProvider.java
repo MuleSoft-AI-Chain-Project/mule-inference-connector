@@ -1,8 +1,6 @@
 package com.mulesoft.connectors.internal.connection.types;
 
 import com.mulesoft.connectors.internal.api.proxy.HttpProxyConfig;
-import com.mulesoft.connectors.internal.models.images.ModelNameProvider;
-import com.mulesoft.connectors.internal.models.images.ModelTypeProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -43,7 +41,6 @@ public class ImageGenerationProvider implements CachedConnectionProvider<ImageGe
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("Inference Type")
-  @OfValues(ModelTypeProvider.class)
   private String inferenceType;
 
   public void setInferenceType(String inferenceType) { this.inferenceType = inferenceType; }
@@ -57,7 +54,6 @@ public class ImageGenerationProvider implements CachedConnectionProvider<ImageGe
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @OfValues(ModelNameProvider.class)
   @Optional(defaultValue = "dall-e-3")
   private String modelName;
 

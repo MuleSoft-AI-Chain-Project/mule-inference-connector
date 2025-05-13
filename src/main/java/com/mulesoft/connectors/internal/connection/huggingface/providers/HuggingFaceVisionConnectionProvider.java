@@ -1,11 +1,10 @@
-package com.mulesoft.connectors.internal.connection.vertexai.providers;
+package com.mulesoft.connectors.internal.connection.huggingface.providers;
 
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.internal.connection.vertexai.VertexAIExpressTextGenerationConnection;
-import com.mulesoft.connectors.internal.connection.vertexai.VertexAITextGenerationConnection;
-import com.mulesoft.connectors.internal.models.vertexai.providers.VertexAITextGenerationModelNameProvider;
+import com.mulesoft.connectors.internal.connection.huggingface.HuggingFaceVisionConnection;
+import com.mulesoft.connectors.internal.models.huggingface.providers.HuggingFaceVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -21,38 +20,38 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@Alias("vertexai")
-@DisplayName("Vertex AI")
-public class VertexAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
+@Alias("hugging-face-vision")
+@DisplayName("Hugging Face")
+public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectionProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(VertexAITextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(HuggingFaceVisionConnectionProvider.class);
 
     @Parameter
     @Placement(order = 1)
     @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(VertexAITextGenerationModelNameProvider.class)
-    private String vertexAIModelName;
+    @OfValues(HuggingFaceVisionModelNameProvider.class)
+    private String huggingFaceModelName;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
     private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
     @Override
-    public VertexAITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("VertexAITextGenerationConnection connect ...");
+    public HuggingFaceVisionConnection connect() throws ConnectionException {
+        logger.debug("HuggingFaceVisionConnection connect ...");
         try {
-            return new VertexAITextGenerationConnection(httpClient, vertexAIModelName,
+            return new HuggingFaceVisionConnection(httpClient, huggingFaceModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                    textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
+                    textGenerationConnectionParameters.getMaxTokens(),
                     textGenerationConnectionParameters.getTimeout());
         } catch (MalformedURLException e) {
-            throw new ConnectionException("Invalid Vertex AI URL", e);
+            throw new ConnectionException("Invalid HuggingFace URL", e);
         }
     }
 
     @Override
     public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("VertexAITextGenerationConnection disconnected ...");
+        logger.debug("HuggingFaceVisionConnection disconnected ...");
     }
 
     @Override
@@ -61,7 +60,7 @@ public class VertexAITextGenerationConnectionProvider extends TextGenerationConn
         try {
             return ConnectionValidationResult.success();
         } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to Vertex AI", e);
+            return ConnectionValidationResult.failure("Failed to validate connection to HuggingFace", e);
         }
     }
 } 
