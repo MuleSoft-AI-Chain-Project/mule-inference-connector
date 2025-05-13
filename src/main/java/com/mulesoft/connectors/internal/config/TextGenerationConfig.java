@@ -22,6 +22,7 @@ import com.mulesoft.connectors.internal.connection.mistralai.providers.MistralAI
 import com.mulesoft.connectors.internal.connection.nvidia.providers.NvidiaTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.ollama.providers.OllamaTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.openai.providers.OpenAITextGenerationConnectionProvider;
+import com.mulesoft.connectors.internal.connection.openaicompatible.providers.OpenAICompatibleTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.openrouter.providers.OpenRouterTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.perplexity.providers.PerplexityTextGenerationConnectionProvider;
 import com.mulesoft.connectors.internal.connection.portkey.providers.PortkeyTextGenerationConnectionProvider;
@@ -59,6 +60,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
         NvidiaTextGenerationConnectionProvider.class,
         OllamaTextGenerationConnectionProvider.class,
         OpenAITextGenerationConnectionProvider.class,
+        OpenAICompatibleTextGenerationConnectionProvider.class,
         OpenRouterTextGenerationConnectionProvider.class,
         PerplexityTextGenerationConnectionProvider.class,
         PortkeyTextGenerationConnectionProvider.class,

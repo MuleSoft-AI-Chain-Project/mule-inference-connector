@@ -16,8 +16,8 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("hugging-face-image")
-@DisplayName("Hugging Face")
+@Alias("stability-ai-image")
+@DisplayName("Stability AI")
 public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(StabilityAIImageConnectionProvider.class);
