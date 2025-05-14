@@ -46,8 +46,8 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
 
     @Override
     public OpenAICompatibleTextGenerationConnection connect() throws ConnectionException {
-        logger.debug("OpenAITextGenerationConnection connect ...");
-        return new OpenAICompatibleTextGenerationConnection(httpClient, openAICompatibleModelName, openAICompatibleURL,
+        logger.debug("OpenAICompatibleTextGenerationConnection connect ...");
+        return new OpenAICompatibleTextGenerationConnection(getHttpClient(),getObjectMapper(), openAICompatibleModelName, openAICompatibleURL,
                 openAITextGenerationConnectionParameters.getApiKey(),
                 openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
                 openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),

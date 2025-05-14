@@ -36,7 +36,7 @@ public class VertexAIExpressTextGenerationConnectionProvider extends TextGenerat
     @Override
     public VertexAIExpressTextGenerationConnection connect() throws ConnectionException {
         logger.debug("VertexAIExpressTextGenerationConnection connect ...");
-        return new VertexAIExpressTextGenerationConnection(httpClient, vertexAIExpressModelName,
+        return new VertexAIExpressTextGenerationConnection(getHttpClient(),getObjectMapper(), vertexAIExpressModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

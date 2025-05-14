@@ -36,7 +36,7 @@ public class PerplexityTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public PerplexityTextGenerationConnection connect() throws ConnectionException {
         logger.debug("PerplexityTextGenerationConnection connect ...");
-        return new PerplexityTextGenerationConnection(httpClient, perplexityModelName,
+        return new PerplexityTextGenerationConnection(getHttpClient(),getObjectMapper(), perplexityModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

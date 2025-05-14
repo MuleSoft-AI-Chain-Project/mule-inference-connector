@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.azure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,12 +11,12 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version=2024-10-21";
   public static final String AZURE_OPENAI_URL = "https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}";
 
-  public AzureOpenAITextGenerationConnection(HttpClient httpClient, String modelName,
+  public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
                                              String openaiResourceName, String openaiDeploymentId,
                                              String apiKey,
-                                              Number temperature, Number topP,
+                                             Number temperature, Number topP,
                                              Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
             fetchApiURL(openaiResourceName, openaiDeploymentId), "AZURE");
   }
 

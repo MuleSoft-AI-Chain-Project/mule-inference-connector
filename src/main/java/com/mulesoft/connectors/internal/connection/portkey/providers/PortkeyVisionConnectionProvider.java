@@ -36,7 +36,7 @@ public class PortkeyVisionConnectionProvider extends TextGenerationConnectionPro
     @Override
     public PortkeyVisionConnection connect() throws ConnectionException {
         logger.debug("PortkeyVisionConnection connect ...");
-        return new PortkeyVisionConnection(httpClient, portkeyModelName,
+        return new PortkeyVisionConnection(getHttpClient(),getObjectMapper(), portkeyModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(),

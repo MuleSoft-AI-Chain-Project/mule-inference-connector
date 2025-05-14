@@ -36,7 +36,7 @@ public class CerebrasTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public CerebrasTextGenerationConnection connect() throws ConnectionException {
         logger.debug("CerebrasTextGenerationConnection connect ...");
-        return new CerebrasTextGenerationConnection(httpClient, cerebrasModelName,
+        return new CerebrasTextGenerationConnection(getHttpClient(),getObjectMapper(), cerebrasModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

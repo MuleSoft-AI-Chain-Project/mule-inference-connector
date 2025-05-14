@@ -36,7 +36,7 @@ public class VertexAIVisionConnectionProvider extends TextGenerationConnectionPr
     @Override
     public VertexAIVisionConnection connect() throws ConnectionException {
         logger.debug("VertexAIVisionConnection connect ...");
-        return new VertexAIVisionConnection(httpClient, vertexAIModelName,
+        return new VertexAIVisionConnection(getHttpClient(),getObjectMapper(), vertexAIModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(),
                 textGenerationConnectionParameters.getTopP(),

@@ -36,7 +36,7 @@ public class OpenRouterTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public OpenRouterTextGenerationConnection connect() throws ConnectionException {
         logger.debug("OpenRouterTextGenerationConnection connect ...");
-        return new OpenRouterTextGenerationConnection(httpClient, openRouterModelName,
+        return new OpenRouterTextGenerationConnection(getHttpClient(),getObjectMapper(), openRouterModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

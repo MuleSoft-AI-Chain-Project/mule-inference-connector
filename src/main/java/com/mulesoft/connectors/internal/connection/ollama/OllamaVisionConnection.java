@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.ollama;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -9,11 +10,11 @@ public class OllamaVisionConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat";
 
-  public OllamaVisionConnection(HttpClient httpClient, String modelName, String ollamaUrl,
+  public OllamaVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String ollamaUrl,
                                 String apiKey, Number temperature, Number topP,
                                 Number maxTokens, int timeout)
   {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(ollamaUrl), "OLLAMA");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(ollamaUrl), "OLLAMA");
   }
 
   @Override

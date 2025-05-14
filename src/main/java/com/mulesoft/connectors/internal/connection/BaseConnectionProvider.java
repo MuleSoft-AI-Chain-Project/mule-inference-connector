@@ -1,6 +1,8 @@
 package com.mulesoft.connectors.internal.connection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.api.proxy.HttpProxyConfig;
+import com.mulesoft.connectors.internal.helpers.ObjectMapperProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
@@ -46,13 +48,15 @@ public abstract class BaseConnectionProvider implements CachedConnectionProvider
     @Inject
     private HttpService httpService;
 
-    protected HttpClient httpClient;
+    private HttpClient httpClient;
+    private ObjectMapper objectMapper;
 
     @Override
     public void initialise() {
         logger.debug("Starting httpClient...");
         httpClient = httpService.getClientFactory().create(createClientConfiguration());
         httpClient.start();
+        objectMapper = ObjectMapperProvider.create();
     }
 
     @Override
@@ -63,6 +67,10 @@ public abstract class BaseConnectionProvider implements CachedConnectionProvider
 
     public HttpClient getHttpClient() {
         return httpClient;
+    }
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 
     public HttpProxyConfig getProxyConfig() {

@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.mistralai;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,10 +11,10 @@ public class MistralAIVisionConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String MISTRAL_AI_URL = "https://api.mistral.ai/v1";
 
-  public MistralAIVisionConnection(HttpClient httpClient, String modelName, String apiKey,
+  public MistralAIVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                    Number temperature, Number topP,
                                    Number maxTokens, int timeout) {
-    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"MistralAI");
+    super( httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"MistralAI");
   }
 
   @Override

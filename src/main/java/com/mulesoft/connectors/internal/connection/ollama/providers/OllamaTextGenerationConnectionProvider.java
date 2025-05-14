@@ -44,7 +44,7 @@ public class OllamaTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public OllamaTextGenerationConnection connect() throws ConnectionException {
         logger.debug("OllamaTextGenerationConnection connect ...");
-            return new OllamaTextGenerationConnection(httpClient, ollamaModelName, ollamaUrl,
+            return new OllamaTextGenerationConnection(getHttpClient(),getObjectMapper(), ollamaModelName, ollamaUrl,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

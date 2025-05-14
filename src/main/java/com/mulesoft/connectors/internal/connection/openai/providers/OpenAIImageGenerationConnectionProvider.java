@@ -38,7 +38,7 @@ public class OpenAIImageGenerationConnectionProvider extends BaseConnectionProvi
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), openAIModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
   }
 

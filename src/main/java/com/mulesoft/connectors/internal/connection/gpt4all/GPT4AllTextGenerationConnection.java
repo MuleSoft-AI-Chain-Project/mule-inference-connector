@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.gpt4all;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -9,11 +10,11 @@ public class GPT4AllTextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
 
-  public GPT4AllTextGenerationConnection(HttpClient httpClient, String modelName, String gpt4AllBaseURL, String apiKey,
+  public GPT4AllTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String gpt4AllBaseURL, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout)
    {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(gpt4AllBaseURL), "GPT4ALL");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(gpt4AllBaseURL), "GPT4ALL");
   }
 
   @Override

@@ -45,7 +45,7 @@ public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConne
     @Override
     public GPT4AllTextGenerationConnection connect() throws ConnectionException {
         logger.debug("GPT4AllTextGenerationConnection connect ...");
-            return new GPT4AllTextGenerationConnection(httpClient, gpt4allModelName,gpt4AllBaseURL,
+            return new GPT4AllTextGenerationConnection(getHttpClient(),getObjectMapper(), gpt4allModelName,gpt4AllBaseURL,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

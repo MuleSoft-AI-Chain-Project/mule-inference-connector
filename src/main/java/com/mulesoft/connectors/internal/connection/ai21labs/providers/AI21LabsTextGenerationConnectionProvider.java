@@ -36,7 +36,7 @@ public class AI21LabsTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public AI21LabsTextGenerationConnection connect() throws ConnectionException {
         logger.debug("AI21LabsTextGenerationConnection connect ...");
-        return new AI21LabsTextGenerationConnection(httpClient, ai21LabsModelName,
+        return new AI21LabsTextGenerationConnection(getHttpClient(),getObjectMapper(), ai21LabsModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

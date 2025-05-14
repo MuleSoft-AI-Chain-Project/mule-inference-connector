@@ -49,7 +49,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
     @Override
     public AzureOpenAITextGenerationConnection connect() throws ConnectionException {
         logger.debug("AzureTextGenerationConnection connect ...");
-            return new AzureOpenAITextGenerationConnection(httpClient, azureModelName,
+            return new AzureOpenAITextGenerationConnection(getHttpClient(),getObjectMapper(), azureModelName,
                     azureOpenaiResourceName, azureOpenaiDeploymentId,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),

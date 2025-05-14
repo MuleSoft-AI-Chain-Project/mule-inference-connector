@@ -36,7 +36,7 @@ public class DeepInfraTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public DeepInfraTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DeepInfraTextGenerationConnection connect ...");
-            return new DeepInfraTextGenerationConnection(httpClient, deepInfraModelName,
+            return new DeepInfraTextGenerationConnection(getHttpClient(),getObjectMapper(), deepInfraModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

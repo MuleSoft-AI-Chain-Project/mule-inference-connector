@@ -44,7 +44,7 @@ public class OllamaVisionConnectionProvider extends TextGenerationConnectionProv
     @Override
     public OllamaVisionConnection connect() throws ConnectionException {
         logger.debug("OllamaVisionConnection connect ...");
-            return new OllamaVisionConnection(httpClient, ollamaModelName, ollamaUrl,
+            return new OllamaVisionConnection(getHttpClient(),getObjectMapper(), ollamaModelName, ollamaUrl,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(),

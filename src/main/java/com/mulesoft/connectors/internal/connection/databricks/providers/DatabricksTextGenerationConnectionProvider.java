@@ -43,7 +43,7 @@ public class DatabricksTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public DatabricksTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DatabricksTextGenerationConnection connect ...");
-        return new DatabricksTextGenerationConnection(httpClient, databricksModelName, dataBricksModelUrl,
+        return new DatabricksTextGenerationConnection(getHttpClient(),getObjectMapper(), databricksModelName, dataBricksModelUrl,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

@@ -36,7 +36,7 @@ public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public NvidiaTextGenerationConnection connect() throws ConnectionException {
         logger.debug("NvidiaTextGenerationConnection connect ...");
-        return new NvidiaTextGenerationConnection(httpClient, nvidiaModelName,
+        return new NvidiaTextGenerationConnection(getHttpClient(),getObjectMapper(), nvidiaModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

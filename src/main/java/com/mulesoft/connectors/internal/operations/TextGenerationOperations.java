@@ -1,8 +1,13 @@
 package com.mulesoft.connectors.internal.operations;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.internal.dto.ChatPayloadDTO;
+import com.mulesoft.connectors.internal.dto.RequestPayloadDTO;
 import com.mulesoft.connectors.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.internal.helpers.ObjectMapperProvider;
+import com.mulesoft.connectors.internal.helpers.RequestPayloadHelper;
 import com.mulesoft.connectors.internal.utils.ConnectionUtils;
 import com.mulesoft.connectors.internal.utils.PayloadUtils;
 import com.mulesoft.connectors.internal.utils.ProviderUtils;
@@ -25,6 +30,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import static com.mulesoft.connectors.internal.utils.ProviderUtils.getMcpToolsFromMultiple;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
@@ -52,14 +58,18 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content InputStream messages)
             throws ModuleException {
         try {
-            JSONArray messagesArray = PayloadUtils.parseInputStreamToJsonArray(messages);
+            ObjectMapper objectMapper = ObjectMapperProvider.create();
+
+            RequestPayloadHelper payloadHelper = new RequestPayloadHelper(objectMapper);
+
+            List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToJsonArray(messages);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             LOGGER.debug("Chatting with {}", chatCompUrl);
 
-            JSONObject payload = PayloadUtils.buildPayload(connection, messagesArray, null);
+            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray);
 
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, objectMapper.writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Chat completions result {}", response);
             return ResponseUtils.processLLMResponse(response, connection);
@@ -84,13 +94,17 @@ public class TextGenerationOperations {
     public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
         try {
-        	JSONObject payload = PayloadUtils.buildChatAnswerPromptPayload(connection, prompt);
-            LOGGER.debug("payload sent to the LLM {}", payload.toString());
+            ObjectMapper objectMapper = ObjectMapperProvider.create();
+            RequestPayloadHelper payloadHelper = new RequestPayloadHelper(objectMapper);
+            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
+
+//            JSONObject payload = PayloadUtils.buildChatAnswerPromptPayload(connection, prompt);
+   //         LOGGER.debug("payload sent to the LLM {}", payload.toString());
 
 
             URL chatCompUrl = new URL(connection.getApiURL());//ConnectionUtils.getConnectionURLChatCompletion(connection);
             LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl.toString());
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, objectMapper.writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Chat answer prompt result {}", response);
 

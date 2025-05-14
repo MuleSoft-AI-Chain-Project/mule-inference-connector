@@ -36,7 +36,7 @@ public class GithubTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public GithubTextGenerationConnection connect() throws ConnectionException {
         logger.debug("GitHubTextGenerationConnection connect ...");
-            return new GithubTextGenerationConnection(httpClient, gitHubModelName,
+            return new GithubTextGenerationConnection(getHttpClient(),getObjectMapper(), gitHubModelName,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

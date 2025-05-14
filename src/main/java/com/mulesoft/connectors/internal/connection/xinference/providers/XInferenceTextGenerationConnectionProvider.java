@@ -44,7 +44,7 @@ public class XInferenceTextGenerationConnectionProvider extends TextGenerationCo
     @Override
     public XInferenceTextGenerationConnection connect() throws ConnectionException {
         logger.debug("XInferenceTextGenerationConnection connect ...");
-            return new XInferenceTextGenerationConnection(httpClient, xInferenceModelName,xInferenceUrl,
+            return new XInferenceTextGenerationConnection(getHttpClient(),getObjectMapper(), xInferenceModelName,xInferenceUrl,
                     textGenerationConnectionParameters.getApiKey(),
                     textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

@@ -38,7 +38,7 @@ public class MistralAIModerationConnectionProvider extends BaseConnectionProvide
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), mistralAIModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(),getObjectMapper(), mistralAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
   }
 

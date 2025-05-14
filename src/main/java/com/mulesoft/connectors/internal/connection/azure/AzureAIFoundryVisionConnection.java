@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.azure;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,11 +11,11 @@ public class AzureAIFoundryVisionConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version={api-version}";
   public static final String AZURE_AI_FOUNDRY_URL = "https://{resource-name}.services.ai.azure.com/models";
 
-  public AzureAIFoundryVisionConnection(HttpClient httpClient, String modelName, String apiKey,
+  public AzureAIFoundryVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                         String azureAIFoundryResourceName, String azureAIFoundryApiVersion,
                                         Number temperature, Number topP,
                                         Number maxTokens, int timeout) {
-    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(azureAIFoundryResourceName,azureAIFoundryApiVersion),"OPENAI");
+    super( httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(azureAIFoundryResourceName,azureAIFoundryApiVersion),"OPENAI");
   }
 
   @Override

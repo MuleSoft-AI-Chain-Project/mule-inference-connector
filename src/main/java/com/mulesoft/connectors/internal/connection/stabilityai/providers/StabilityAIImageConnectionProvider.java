@@ -38,7 +38,7 @@ public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "STABILITY_AI");
   }
 

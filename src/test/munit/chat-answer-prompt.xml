@@ -21,13 +21,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="14"/>
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
+			<!--<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="10"/>
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 

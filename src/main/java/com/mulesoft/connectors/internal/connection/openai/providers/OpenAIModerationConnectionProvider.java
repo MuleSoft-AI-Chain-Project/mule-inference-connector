@@ -36,7 +36,7 @@ public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), openAIModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
   }
 

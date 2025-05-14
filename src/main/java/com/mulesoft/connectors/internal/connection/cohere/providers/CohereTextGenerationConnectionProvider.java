@@ -36,7 +36,7 @@ public class CohereTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public CohereTextGenerationConnection connect() throws ConnectionException {
         logger.debug("CohereTextGenerationConnection connect ...");
-        return new CohereTextGenerationConnection(httpClient, cohereModelName,
+        return new CohereTextGenerationConnection(getHttpClient(),getObjectMapper(), cohereModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

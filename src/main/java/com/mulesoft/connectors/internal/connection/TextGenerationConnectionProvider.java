@@ -1,6 +1,8 @@
 package com.mulesoft.connectors.internal.connection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.api.proxy.HttpProxyConfig;
+import com.mulesoft.connectors.internal.helpers.ObjectMapperProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
@@ -46,13 +48,15 @@ public abstract class TextGenerationConnectionProvider implements CachedConnecti
     @Inject
     private HttpService httpService;
 
-    protected HttpClient httpClient;
+    private HttpClient httpClient;
+    private ObjectMapper objectMapper;
 
     @Override
     public void initialise() {
         logger.debug("Starting httpClient...");
         httpClient = httpService.getClientFactory().create(createClientConfiguration());
         httpClient.start();
+        objectMapper = ObjectMapperProvider.create();
     }
 
     @Override
@@ -61,19 +65,27 @@ public abstract class TextGenerationConnectionProvider implements CachedConnecti
         ofNullable(httpClient).ifPresent(HttpClient::stop);
     }
 
-    public HttpProxyConfig getProxyConfig() {
+    protected HttpProxyConfig getProxyConfig() {
         return proxyConfig;
     }
 
-    public TlsContextFactory getTlsContextFactory() {
+    protected TlsContextFactory getTlsContextFactory() {
         return tlsContextFactory;
+    }
+
+    protected HttpClient getHttpClient() {
+        return httpClient;
+    }
+
+    protected ObjectMapper getObjectMapper() {
+        return objectMapper;
     }
 
     private HttpClientConfiguration createClientConfiguration() {
 
         return new HttpClientConfiguration.Builder().setName(configName)
-                .setTlsContextFactory(tlsContextFactory)
-                .setProxyConfig(proxyConfig)
+                .setTlsContextFactory(getTlsContextFactory())
+                .setProxyConfig(getProxyConfig())
                 .build();
     }
 }

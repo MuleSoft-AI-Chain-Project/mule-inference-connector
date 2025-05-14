@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.openai;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,10 +11,10 @@ public class OpenAIVisionConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String OPEN_AI_URL = "https://api.openai.com/v1";
 
-  public OpenAIVisionConnection(HttpClient httpClient, String modelName, String apiKey,
+  public OpenAIVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                 Number temperature, Number topP,
                                 Number maxTokens, int timeout) {
-    super( httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"OPENAI");
+    super( httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"OPENAI");
   }
 
   @Override

@@ -49,7 +49,7 @@ public class AzureAIFoundryVisionConnectionProvider extends TextGenerationConnec
     @Override
     public AzureAIFoundryVisionConnection connect() throws ConnectionException {
         logger.debug("AzureAIFoundryVisionConnection connect ...");
-            return new AzureAIFoundryVisionConnection(httpClient, azureAIFoundryModelName,
+            return new AzureAIFoundryVisionConnection(getHttpClient(),getObjectMapper(), azureAIFoundryModelName,
                     azureAIFoundryResourceName, azureAIFoundryApiVersion,
                     visionConnectionParameters.getApiKey(),
                     visionConnectionParameters.getTemperature(),

@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.anthropic;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,10 +11,10 @@ public class AnthropicVisionConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/messages";
   public static final String ANTHROPIC_URL = "https://api.anthropic.com/v1";
 
-  public AnthropicVisionConnection(HttpClient httpClient, String modelName, String apiKey,
+  public AnthropicVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                    Number temperature, Number topP,
                                    Number maxTokens, int timeout) {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(), "ANTHROPIC");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(), "ANTHROPIC");
   }
 
   @Override

@@ -36,7 +36,7 @@ public class MistralAIVisionConnectionProvider extends TextGenerationConnectionP
     @Override
     public MistralAIVisionConnection connect() throws ConnectionException {
         logger.debug("MistralAIVisionConnection connect ...");
-        return new MistralAIVisionConnection(httpClient, mistralAIModelName,
+        return new MistralAIVisionConnection(getHttpClient(),getObjectMapper(), mistralAIModelName,
                 visionConnectionParameters.getApiKey(),
                 visionConnectionParameters.getTemperature(),
                 visionConnectionParameters.getTopP(),

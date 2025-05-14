@@ -36,7 +36,7 @@ public class LlmAPITextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public LlmAPITextGenerationConnection connect() throws ConnectionException {
         logger.debug("LlmAPITextGenerationConnection connect ...");
-        return new LlmAPITextGenerationConnection(httpClient, llmAPIModelName,
+        return new LlmAPITextGenerationConnection(getHttpClient(),getObjectMapper(), llmAPIModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

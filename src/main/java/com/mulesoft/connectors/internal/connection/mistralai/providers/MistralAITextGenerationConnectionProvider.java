@@ -36,7 +36,7 @@ public class MistralAITextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public MistralAITextGenerationConnection connect() throws ConnectionException {
         logger.debug("MistralAITextGenerationConnection connect ...");
-        return new MistralAITextGenerationConnection(httpClient, mistralAIModelName,
+        return new MistralAITextGenerationConnection(getHttpClient(),getObjectMapper(), mistralAIModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

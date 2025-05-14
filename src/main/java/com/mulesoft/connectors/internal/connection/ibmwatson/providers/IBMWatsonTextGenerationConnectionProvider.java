@@ -44,7 +44,7 @@ public class IBMWatsonTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public IBMWatsonTextGenerationConnection connect() throws ConnectionException {
         logger.debug("IBMWatsonTextGenerationConnection connect ...");
-        return new IBMWatsonTextGenerationConnection(httpClient, ibmWatsonModelName, ibmWatsonApiVersion,
+        return new IBMWatsonTextGenerationConnection(getHttpClient(),getObjectMapper(), ibmWatsonModelName, ibmWatsonApiVersion,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

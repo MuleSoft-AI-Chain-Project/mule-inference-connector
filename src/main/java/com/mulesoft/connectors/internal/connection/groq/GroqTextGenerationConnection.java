@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.groq;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,10 +11,10 @@ public class GroqTextGenerationConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String GROQ_URL = "https://api.groq.com/openai/v1";
 
-  public GroqTextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
-                                         Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "GROQ");
+  public GroqTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
+                                      Number temperature, Number topP,
+                                      Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "GROQ");
   }
 
   @Override

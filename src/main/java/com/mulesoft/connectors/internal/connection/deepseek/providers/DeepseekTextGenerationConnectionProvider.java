@@ -36,7 +36,7 @@ public class DeepseekTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public DeepseekTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DeepseekTextGenerationConnection connect ...");
-        return new DeepseekTextGenerationConnection(httpClient, deepseekModelName,
+        return new DeepseekTextGenerationConnection(getHttpClient(),getObjectMapper(), deepseekModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

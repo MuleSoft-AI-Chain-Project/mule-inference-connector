@@ -45,7 +45,7 @@ public class LMStudioTextGenerationConnectionProvider extends TextGenerationConn
     @Override
     public LMStudioTextGenerationConnection connect() throws ConnectionException {
         logger.debug("LMStudioTextGenerationConnection connect ...");
-        return new LMStudioTextGenerationConnection(httpClient, lmStudioModelName, lmStudioBaseURL,
+        return new LMStudioTextGenerationConnection(getHttpClient(),getObjectMapper(), lmStudioModelName, lmStudioBaseURL,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

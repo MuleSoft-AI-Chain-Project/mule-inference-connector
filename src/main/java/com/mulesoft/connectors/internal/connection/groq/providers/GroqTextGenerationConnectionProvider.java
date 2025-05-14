@@ -36,7 +36,7 @@ public class GroqTextGenerationConnectionProvider extends TextGenerationConnecti
     @Override
     public GroqTextGenerationConnection connect() throws ConnectionException {
         logger.debug("GroqTextGenerationConnection connect ...");
-        return new GroqTextGenerationConnection(httpClient, groqModelName,
+        return new GroqTextGenerationConnection(getHttpClient(),getObjectMapper(), groqModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

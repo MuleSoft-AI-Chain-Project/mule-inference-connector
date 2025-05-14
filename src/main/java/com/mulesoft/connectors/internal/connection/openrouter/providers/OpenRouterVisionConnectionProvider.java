@@ -36,7 +36,7 @@ public class OpenRouterVisionConnectionProvider extends TextGenerationConnection
     @Override
     public OpenRouterVisionConnection connect() throws ConnectionException {
         logger.debug("OpenRouterVisionConnection connect ...");
-            return new OpenRouterVisionConnection(httpClient, openRouterModelName,
+            return new OpenRouterVisionConnection(getHttpClient(),getObjectMapper(), openRouterModelName,
                     visionConnectionParameters.getApiKey(),
                     visionConnectionParameters.getTemperature(),
                     visionConnectionParameters.getTopP(),

@@ -38,7 +38,7 @@ public class HuggingFaceImageConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), huggingFaceModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(),getObjectMapper(), huggingFaceModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(huggingFaceModelName), "HUGGING_FACE");
   }
 

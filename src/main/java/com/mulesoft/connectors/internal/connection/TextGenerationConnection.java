@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
@@ -11,8 +12,8 @@ public abstract class TextGenerationConnection extends BaseConnection{
   private final Number topP;
   private final Map<String, String> mcpSseServers;
 
-  protected TextGenerationConnection(HttpClient httpClient, String apiKey, String modelName, Number maxTokens, Number temperature, Number topP, int timeout, Map<String, String> mcpSseServers, String apiURL, String inferenceType) {
-      super(httpClient,modelName,apiKey,timeout,apiURL,inferenceType);
+  protected TextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String apiKey, String modelName, Number maxTokens, Number temperature, Number topP, int timeout, Map<String, String> mcpSseServers, String apiURL, String inferenceType) {
+      super(httpClient,objectMapper,modelName,apiKey,timeout,apiURL,inferenceType);
 
     this.maxTokens = maxTokens;
     this.temperature = temperature;
@@ -22,7 +23,6 @@ public abstract class TextGenerationConnection extends BaseConnection{
 
   public abstract Map<String,String> getQueryParams();
   public abstract Map<String,String> getAdditionalHeaders();
-
 
   public Number getMaxTokens() {
     return maxTokens;

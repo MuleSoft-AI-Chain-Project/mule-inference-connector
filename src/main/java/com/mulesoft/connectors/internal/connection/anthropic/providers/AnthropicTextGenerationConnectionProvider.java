@@ -36,7 +36,7 @@ public class AnthropicTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public AnthropicTextGenerationConnection connect() throws ConnectionException {
         logger.debug("AnthropicTextGenerationConnection connect ...");
-        return new AnthropicTextGenerationConnection(httpClient, anthropicModelName,
+        return new AnthropicTextGenerationConnection(getHttpClient(),getObjectMapper(), anthropicModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

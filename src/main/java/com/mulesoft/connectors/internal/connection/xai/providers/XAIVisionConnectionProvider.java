@@ -36,7 +36,7 @@ public class XAIVisionConnectionProvider extends TextGenerationConnectionProvide
     @Override
     public XAIVisionConnection connect() throws ConnectionException {
         logger.debug("XAIVisionConnection connect ...");
-        return new XAIVisionConnection(httpClient, xaiModelName,
+        return new XAIVisionConnection(getHttpClient(),getObjectMapper(), xaiModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(),

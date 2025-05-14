@@ -35,7 +35,7 @@ public class TogetherTextGenerationConnectionProvider extends TextGenerationConn
 
     @Override
     public TogetherTextGenerationConnection connect() throws ConnectionException {
-        return new TogetherTextGenerationConnection(httpClient, togetherModelName,
+        return new TogetherTextGenerationConnection(getHttpClient(),getObjectMapper(), togetherModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

@@ -44,7 +44,7 @@ public class DockerTextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public DockerTextGenerationConnection connect() throws ConnectionException {
         logger.debug("DockerTextGenerationConnection connect ...");
-        return new DockerTextGenerationConnection(httpClient, dockerModelName, dockerModelUrl,
+        return new DockerTextGenerationConnection(getHttpClient(),getObjectMapper(), dockerModelName, dockerModelUrl,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

@@ -36,7 +36,7 @@ public class FireworksTextGenerationConnectionProvider extends TextGenerationCon
     @Override
     public FireworksTextGenerationConnection connect() throws ConnectionException {
         logger.debug("FireworksTextGenerationConnection connect ...");
-        return new FireworksTextGenerationConnection(httpClient, fireworksModelName,
+        return new FireworksTextGenerationConnection(getHttpClient(),getObjectMapper(), fireworksModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

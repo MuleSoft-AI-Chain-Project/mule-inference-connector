@@ -38,7 +38,7 @@ public class OpenAITextGenerationConnectionProvider extends TextGenerationConnec
     @Override
     public OpenAITextGenerationConnection connect() throws ConnectionException {
         logger.debug("OpenAITextGenerationConnection connect ...");
-        return new OpenAITextGenerationConnection(httpClient, openAIModelName,
+        return new OpenAITextGenerationConnection(getHttpClient(),getObjectMapper(), openAIModelName,
                 openAITextGenerationConnectionParameters.getApiKey(),
                 openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
                 openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),

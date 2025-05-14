@@ -36,7 +36,7 @@ public class AnthropicVisionConnectionProvider extends TextGenerationConnectionP
     @Override
     public AnthropicVisionConnection connect() throws ConnectionException {
         logger.debug("AnthropicVisionConnection connect ...");
-        return new AnthropicVisionConnection(httpClient, anthropicModelName,
+        return new AnthropicVisionConnection(getHttpClient(),getObjectMapper(), anthropicModelName,
                 visionConnectionParameters.getApiKey(),
                 visionConnectionParameters.getTemperature(),
                 visionConnectionParameters.getTopP(),

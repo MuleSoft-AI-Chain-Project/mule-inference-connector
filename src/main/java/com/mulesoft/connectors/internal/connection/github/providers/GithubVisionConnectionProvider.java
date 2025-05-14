@@ -36,7 +36,7 @@ public class GithubVisionConnectionProvider extends TextGenerationConnectionProv
     @Override
     public GithubVisionConnection connect() throws ConnectionException {
         logger.debug("GithubVisionConnection connect ...");
-        return new GithubVisionConnection(httpClient, gitHubModelName,
+        return new GithubVisionConnection(getHttpClient(),getObjectMapper(), gitHubModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(),
                 textGenerationConnectionParameters.getTopP(),

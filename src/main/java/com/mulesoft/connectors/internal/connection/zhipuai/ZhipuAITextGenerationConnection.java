@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.zhipuai;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -10,10 +11,10 @@ public class ZhipuAITextGenerationConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String ZHIPU_AI_URL = "https://open.bigmodel.cn/api/paas/v4";
 
-  public ZhipuAITextGenerationConnection(HttpClient httpClient, String modelName, String apiKey,
+  public ZhipuAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "ZHIPUAI");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "ZHIPUAI");
   }
 
   @Override

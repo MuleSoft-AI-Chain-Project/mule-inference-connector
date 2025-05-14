@@ -36,7 +36,7 @@ public class ZhipuAITextGenerationConnectionProvider extends TextGenerationConne
     @Override
     public ZhipuAITextGenerationConnection connect() throws ConnectionException {
         logger.debug("ZhipuAITextGenerationConnection connect ...");
-        return new ZhipuAITextGenerationConnection(httpClient, zhipuAIModelName,
+        return new ZhipuAITextGenerationConnection(getHttpClient(),getObjectMapper(), zhipuAIModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

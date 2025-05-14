@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.ibmwatson;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -11,10 +12,10 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
   public static final String IBM_WATSON_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text";
   public static final String IBM_WATSON_Token_URL = "https://iam.cloud.ibm.com/identity/token";
 
-  public IBMWatsonTextGenerationConnection(HttpClient httpClient, String modelName, String ibmWatsonApiVersion,
+  public IBMWatsonTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String ibmWatsonApiVersion,
                                            String apiKey, Number temperature, Number topP,
                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(ibmWatsonApiVersion), "IBMWATSON");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(ibmWatsonApiVersion), "IBMWATSON");
   }
 
   @Override

@@ -36,7 +36,7 @@ public class GroqVisionConnectionProvider extends TextGenerationConnectionProvid
     @Override
     public GroqVisionConnection connect() throws ConnectionException {
         logger.debug("GroqVisionConnection connect ...");
-        return new GroqVisionConnection(httpClient, groqModelName,
+        return new GroqVisionConnection(getHttpClient(),getObjectMapper(), groqModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(),

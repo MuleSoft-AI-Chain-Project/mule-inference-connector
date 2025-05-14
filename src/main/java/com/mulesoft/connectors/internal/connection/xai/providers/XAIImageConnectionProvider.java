@@ -38,7 +38,7 @@ public class XAIImageConnectionProvider extends BaseConnectionProvider {
   public BaseConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), xAIModelName, baseConnectionParameters.getApiKey(),
+    return new BaseConnection(getHttpClient(), getObjectMapper(), xAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "XAI");
   }
 

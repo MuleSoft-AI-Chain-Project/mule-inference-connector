@@ -36,7 +36,7 @@ public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProv
     @Override
     public OpenAIVisionConnection connect() throws ConnectionException {
         logger.debug("OpenAIVisionConnection connect ...");
-        return new OpenAIVisionConnection(httpClient, openAIModelName,
+        return new OpenAIVisionConnection(getHttpClient(),getObjectMapper(), openAIModelName,
                 visionConnectionParameters.getApiKey(),
                 visionConnectionParameters.getTemperature(),
                 visionConnectionParameters.getTopP(),

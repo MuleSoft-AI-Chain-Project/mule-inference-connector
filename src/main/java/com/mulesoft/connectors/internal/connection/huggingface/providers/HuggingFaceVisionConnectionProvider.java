@@ -36,7 +36,7 @@ public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectio
     @Override
     public HuggingFaceVisionConnection connect() throws ConnectionException {
         logger.debug("HuggingFaceVisionConnection connect ...");
-        return new HuggingFaceVisionConnection(httpClient, huggingFaceModelName,
+        return new HuggingFaceVisionConnection(getHttpClient(),getObjectMapper(), huggingFaceModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(),
                 textGenerationConnectionParameters.getTopP(),

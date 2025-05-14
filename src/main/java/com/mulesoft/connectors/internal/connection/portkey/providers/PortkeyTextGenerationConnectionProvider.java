@@ -36,7 +36,7 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
     @Override
     public PortkeyTextGenerationConnection connect() throws ConnectionException {
         logger.debug("PortkeyTextGenerationConnection connect ...");
-        return new PortkeyTextGenerationConnection(httpClient, portkeyModelName,
+        return new PortkeyTextGenerationConnection(getHttpClient(),getObjectMapper(), portkeyModelName,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

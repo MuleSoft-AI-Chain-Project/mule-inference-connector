@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.internal.connection.databricks;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -9,10 +10,10 @@ public class DatabricksTextGenerationConnection extends TextGenerationConnection
 
   private static final String URI_CHAT_COMPLETIONS = "/serving-endpoints/{model_name}/invocations";
 
-  public DatabricksTextGenerationConnection(HttpClient httpClient, String databricksModelName, String databricksModelURL, String apiKey,
+  public DatabricksTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String databricksModelName, String databricksModelURL, String apiKey,
                                             Number temperature, Number topP,
                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, apiKey, databricksModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
+    super(httpClient, objectMapper, apiKey, databricksModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
             fetchApiURL(databricksModelURL,databricksModelName), "DATABRICKS");
   }
 
