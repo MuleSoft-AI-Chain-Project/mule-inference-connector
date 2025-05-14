@@ -60,7 +60,7 @@ public class TextGenerationOperations {
         try {
             ObjectMapper objectMapper = ObjectMapperProvider.create();
 
-            RequestPayloadHelper payloadHelper = new RequestPayloadHelper(objectMapper);
+            RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
 
             List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToJsonArray(messages);
 
@@ -95,23 +95,17 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
         try {
             ObjectMapper objectMapper = ObjectMapperProvider.create();
-            RequestPayloadHelper payloadHelper = new RequestPayloadHelper(objectMapper);
+            RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
             RequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
 
-//            JSONObject payload = PayloadUtils.buildChatAnswerPromptPayload(connection, prompt);
-   //         LOGGER.debug("payload sent to the LLM {}", payload.toString());
-
-
-            URL chatCompUrl = new URL(connection.getApiURL());//ConnectionUtils.getConnectionURLChatCompletion(connection);
-            LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl.toString());
+            URL chatCompUrl = new URL(connection.getApiURL());
+            LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl);
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, objectMapper.writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Chat answer prompt result {}", response);
 
-
             return ResponseUtils.processLLMResponse(response, connection);
         } catch (Exception e) {
-            LOGGER.error("Error in chat answer prompt: {}", e.getMessage(), e);
             throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Chat answer prompt"),
                     InferenceErrorType.CHAT_COMPLETION, e);
         }

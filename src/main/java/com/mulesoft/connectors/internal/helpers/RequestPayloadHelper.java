@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.dto.ChatPayloadDTO;
+import com.mulesoft.connectors.internal.dto.DefaultRequestPayloadDTO;
 import com.mulesoft.connectors.internal.dto.RequestPayloadDTO;
 import org.json.JSONObject;
 
@@ -12,7 +13,7 @@ import java.util.List;
 
 public class RequestPayloadHelper {
 
-    private final ObjectMapper objectMapper;
+    protected final ObjectMapper objectMapper;
 
     public RequestPayloadHelper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -59,7 +60,7 @@ public class RequestPayloadHelper {
 
     public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
        // JSONObject payload = new JSONObject();
-        RequestPayloadDTO requestPayloadDTO = new RequestPayloadDTO(connection.getModelName(),
+        DefaultRequestPayloadDTO requestPayloadDTO = new DefaultRequestPayloadDTO(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens());
        // payload.put(InferenceConstants.MESSAGES, messagesArray);

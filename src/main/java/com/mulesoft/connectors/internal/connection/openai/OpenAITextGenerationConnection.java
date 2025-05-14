@@ -2,6 +2,7 @@ package com.mulesoft.connectors.internal.connection.openai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.internal.helpers.textgeneration.OpenAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
@@ -10,11 +11,19 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String OPENAI_URL = "https://api.openai.com/v1";
+  private OpenAIRequestPayloadHelper requestPayloadHelper;
 
   public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                         Number temperature, Number topP,
                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "OPENAI");
+  }
+
+  @Override
+  public OpenAIRequestPayloadHelper getRequestPayloadHelper(){
+    if(requestPayloadHelper == null)
+      requestPayloadHelper = new OpenAIRequestPayloadHelper(getObjectMapper());
+    return requestPayloadHelper;
   }
 
   @Override
