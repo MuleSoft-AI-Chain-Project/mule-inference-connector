@@ -20,42 +20,10 @@ public class RequestPayloadHelper {
     }
 
     public RequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
-
-        JSONObject payload;
-
-        /*if ("Google".equalsIgnoreCase(provider)) {
-            JSONArray safetySettings = new JSONArray(); // Empty array
-            JSONObject systemInstruction = new JSONObject(); // Empty object
-            JSONArray tools = new JSONArray(); // Empty array
-            payload = PayloadUtils.buildVertexAIPayload(connection, prompt, safetySettings, systemInstruction, tools);
-        } else if ("Anthropic".equalsIgnoreCase(provider)) {
-            //for ANthropic
-
-            JSONObject textObject = new JSONObject()
-                    .put("type", "text")
-                    .put("text", prompt);
-
-            JSONArray contentArray = new JSONArray()
-                    .put(textObject);
-
-            JSONObject messageObject = new JSONObject()
-                    .put("role", "user")
-                    .put("content", contentArray);
-
-            JSONArray messagesArray = new JSONArray()
-                    .put(messageObject);
-            payload = PayloadUtils.buildPayload(configuration, messagesArray, null);
-
-        } else {*/
-//        JSONArray messagesArray = new JSONArray();
-        ChatPayloadDTO payloadDTO = new ChatPayloadDTO("user",prompt);
-        /*JSONObject usersPrompt = new JSONObject();
-        usersPrompt.put("role", "user");
-        usersPrompt.put("content", prompt);
-        messagesArray.put(payloadDTO);*/
-        return buildPayload(connection, List.of(payloadDTO));
-        //}
-//        return payload;
+        return buildPayload(
+                connection,
+                List.of(
+                        new ChatPayloadDTO("user",prompt)));
     }
 
     public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
@@ -95,22 +63,9 @@ public class RequestPayloadHelper {
      */
     public List<ChatPayloadDTO> parseInputStreamToJsonArray(InputStream inputStream) throws IOException {
 
-        return objectMapper.readValue(inputStream, objectMapper.getTypeFactory().constructCollectionType(List.class,ChatPayloadDTO.class));
-       /* try (InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
-             BufferedReader bufferedReader = new BufferedReader(reader)) {
-
-            StringBuilder stringBuilder = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            String jsonString = stringBuilder.toString().trim();
-            if (jsonString.isEmpty()) {
-                return new JSONArray();
-            }
-
-            return new JSONArray(jsonString);
-        }*/
+        return objectMapper.readValue(
+                inputStream,
+                objectMapper.getTypeFactory()
+                        .constructCollectionType(List.class,ChatPayloadDTO.class));
     }
 }

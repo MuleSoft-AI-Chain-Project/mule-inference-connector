@@ -58,8 +58,6 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content InputStream messages)
             throws ModuleException {
         try {
-            ObjectMapper objectMapper = ObjectMapperProvider.create();
-
             RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
 
             List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToJsonArray(messages);
@@ -69,7 +67,7 @@ public class TextGenerationOperations {
 
             RequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray);
 
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, objectMapper.writeValueAsString(requestPayloadDTO));
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Chat completions result {}", response);
             return ResponseUtils.processLLMResponse(response, connection);
@@ -94,13 +92,12 @@ public class TextGenerationOperations {
     public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
         try {
-            ObjectMapper objectMapper = ObjectMapperProvider.create();
             RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
             RequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             LOGGER.debug("Chat answer prompt Url: {}", chatCompUrl);
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, objectMapper.writeValueAsString(requestPayloadDTO));
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Chat answer prompt result {}", response);
 
