@@ -3,6 +3,7 @@ package com.mulesoft.connectors.internal.helpers.textgeneration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.dto.ChatPayloadDTO;
+import com.mulesoft.connectors.internal.dto.FunctionDefinitionRecord;
 import com.mulesoft.connectors.internal.dto.OpenAIRequestPayloadDTO;
 import com.mulesoft.connectors.internal.helpers.RequestPayloadHelper;
 
@@ -16,12 +17,14 @@ public class GroqRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public OpenAIRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
+    public OpenAIRequestPayloadDTO buildPayload(TextGenerationConnection connection,
+                                                List<ChatPayloadDTO> messagesArray,
+                                                List<FunctionDefinitionRecord> tools) {
 
         return new OpenAIRequestPayloadDTO(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens(),
                 connection.getTemperature(),
-                connection.getTopP());
+                connection.getTopP(), tools);
     }
 }

@@ -15,7 +15,7 @@ public class IBMWatsonRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
+    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,List<FunctionDefinitionRecord> tools) {
 
         IBMWatsonTextGenerationConnection ibmWatsonConnection = (IBMWatsonTextGenerationConnection)connection;
 
@@ -25,6 +25,6 @@ public class IBMWatsonRequestPayloadHelper extends RequestPayloadHelper {
                 messagesArray,
                 ibmWatsonConnection.getMaxTokens(),
                 ibmWatsonConnection.getTemperature(),
-                ibmWatsonConnection.getTopP());
+                ibmWatsonConnection.getTopP(),tools);
     }
 }

@@ -3,10 +3,11 @@ package com.mulesoft.connectors.internal.helpers.textgeneration;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.internal.dto.VertexAIAnthropicChatPayloadDTO;
 import com.mulesoft.connectors.internal.dto.ChatPayloadDTO;
 import com.mulesoft.connectors.internal.dto.DefaultRequestPayloadDTO;
+import com.mulesoft.connectors.internal.dto.FunctionDefinitionRecord;
 import com.mulesoft.connectors.internal.dto.RequestPayloadDTO;
+import com.mulesoft.connectors.internal.dto.VertexAIAnthropicChatPayloadDTO;
 import com.mulesoft.connectors.internal.dto.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.internal.dto.vertexai.google.PartRecord;
 import com.mulesoft.connectors.internal.dto.vertexai.google.SystemInstructionDTO;
@@ -49,7 +50,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
+    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,List<FunctionDefinitionRecord> tools) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
@@ -58,7 +59,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     null,
                     buildVertexAIGoogleGenerationConfig(connection),
                     null,
-                    null);
+                    tools);
             case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
                     messagesArray,
                     connection.getMaxTokens(),
@@ -97,7 +98,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
                         connection, template + " - " + instructions, data);
 
-                yield buildPayload(connection, messagesArray);
+                yield buildPayload(connection, messagesArray,null);
             }
         };
     }
@@ -127,7 +128,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 chatPayloadDTOList,
                 connection.getMaxTokens(),
                 connection.getTemperature(),
-                connection.getTopP());
+                connection.getTopP(),null);
     }
 
     private VertexAIGoogleChatPayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,

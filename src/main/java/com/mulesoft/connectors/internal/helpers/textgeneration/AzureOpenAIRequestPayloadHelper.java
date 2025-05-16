@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.internal.dto.AzureOpenAIRequestPayloadDTO;
 import com.mulesoft.connectors.internal.dto.ChatPayloadDTO;
+import com.mulesoft.connectors.internal.dto.FunctionDefinitionRecord;
 import com.mulesoft.connectors.internal.helpers.RequestPayloadHelper;
 
 import java.util.List;
@@ -16,13 +17,15 @@ public class AzureOpenAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public AzureOpenAIRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray) {
+    public AzureOpenAIRequestPayloadDTO buildPayload(TextGenerationConnection connection,
+                                                     List<ChatPayloadDTO> messagesArray,
+                                                     List<FunctionDefinitionRecord> tools) {
 
         return new AzureOpenAIRequestPayloadDTO(
                 messagesArray,
                 connection.getMaxTokens(),
                 connection.getTemperature(),
                 connection.getTopP(),
-                false);
+                false, tools);
     }
 }

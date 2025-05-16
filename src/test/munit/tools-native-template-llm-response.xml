@@ -6,7 +6,7 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="198"/>
+					<munit:parameter propertyName="inputCount" value="191"/>
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">

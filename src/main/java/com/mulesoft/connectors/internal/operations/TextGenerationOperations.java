@@ -58,12 +58,12 @@ public class TextGenerationOperations {
         try {
             RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
 
-            List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToJsonArray(messages);
+            List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             logger.debug("Chatting with {}", chatCompUrl);
 
-            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray);
+            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray,null);
 
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
 
@@ -166,14 +166,13 @@ public class TextGenerationOperations {
             @Content String instructions,
             @Content(primary = true) String data,
             @Content @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools) throws ModuleException {
-        
     	try {
-
-        	JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
-            logger.debug("payload sent to the LLM {}", payload);
+        	String payloadString = connection.getRequestPayloadHelper()
+                    .buildToolsTemplatePayload(connection, template, instructions, data, tools);
+            logger.debug("Payload sent to the LLM {}", payloadString);
 
             URL chatCompUrl = new URL(connection.getApiURL());
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payloadString);
 
             logger.debug("Tools use native template result {}", response);
             return ResponseUtils.processToolsResponse(response, connection);
@@ -205,7 +204,6 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
 
         try {
-
             InputStream tools = new ByteArrayInputStream(getMcpToolsFromMultiple(connection).toString().getBytes(StandardCharsets.UTF_8));
 
             JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
