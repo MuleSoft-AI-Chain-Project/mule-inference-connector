@@ -5,6 +5,7 @@ import com.mulesoft.connectors.internal.dto.RequestPayloadDTO;
 
 import java.util.List;
 
-public record VertexAIMetaPayloadRecord(String anthropic_version, List<ChatPayloadDTO> messages, Number maxTokens,boolean stream)
+public record VertexAIMetaPayloadRecord(String model, List<ChatPayloadDTO> messages, Number maxTokens,
+                                        Number temperature, Number topP, boolean stream)
 implements RequestPayloadDTO {
 }

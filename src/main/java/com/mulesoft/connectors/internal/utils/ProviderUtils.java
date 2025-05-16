@@ -26,8 +26,12 @@ import io.modelcontextprotocol.spec.McpSchema;
  * Utility class for provider-specific operations.
  */
 public class ProviderUtils {
-	
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ProviderUtils.class);
+    public static final String GOOGLE_PROVIDER_TYPE = "Google";
+    public static final String ANTHROPIC_PROVIDER_TYPE = "Anthropic";
+    public static final String META_PROVIDER_TYPE = "Meta";
+
     static JSONArray mcpToolsArray = null;
     static JSONArray mcpToolsArrayByServer = null;
     static JSONArray mcpTools= null;
@@ -112,11 +116,11 @@ public class ProviderUtils {
         String upperName = modelName.toUpperCase();
         
         if (upperName.startsWith("GEMINI")) {
-            return "Google";
+            return GOOGLE_PROVIDER_TYPE;
         } else if (upperName.startsWith("CLAUDE")) {
-            return "Anthropic";
+            return ANTHROPIC_PROVIDER_TYPE;
         } else if (upperName.startsWith("META")) {
-            return "Meta";
+            return META_PROVIDER_TYPE;
         } else {
             return "Unknown";
         }

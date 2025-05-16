@@ -1,5 +1,8 @@
 package com.mulesoft.connectors.internal.dto.vertexai.google;
 
 
-public record VertexAIGoogleGenerationConfigDTO(String[] responseModalities, Number temperature, Number topP, Number maxOutputTokens) {
+import java.util.List;
+
+public record VertexAIGoogleGenerationConfigDTO(List<String> responseModalities, Number temperature, Number topP, Number maxOutputTokens) {
+
 }
