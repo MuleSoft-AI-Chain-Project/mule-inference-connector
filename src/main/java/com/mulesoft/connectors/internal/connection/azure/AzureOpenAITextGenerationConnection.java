@@ -2,6 +2,7 @@ package com.mulesoft.connectors.internal.connection.azure;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.internal.helpers.textgeneration.AzureOpenAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
@@ -11,6 +12,8 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version=2024-10-21";
   public static final String AZURE_OPENAI_URL = "https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}";
 
+  private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
+
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
                                              String openaiResourceName, String openaiDeploymentId,
                                              String apiKey,
@@ -18,6 +21,13 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
                                              Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
             fetchApiURL(openaiResourceName, openaiDeploymentId), "AZURE");
+  }
+
+  @Override
+  public AzureOpenAIRequestPayloadHelper getRequestPayloadHelper(){
+    if(requestPayloadHelper == null)
+      requestPayloadHelper = new AzureOpenAIRequestPayloadHelper(getObjectMapper());
+    return requestPayloadHelper;
   }
 
   @Override

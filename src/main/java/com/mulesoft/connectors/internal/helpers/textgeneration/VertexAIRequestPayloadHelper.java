@@ -10,6 +10,7 @@ import com.mulesoft.connectors.internal.dto.DefaultRequestPayloadDTO;
 import com.mulesoft.connectors.internal.dto.RequestPayloadDTO;
 import com.mulesoft.connectors.internal.dto.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.internal.dto.vertexai.google.*;
+import com.mulesoft.connectors.internal.dto.vertexai.meta.VertexAIMetaPayloadRecord;
 import com.mulesoft.connectors.internal.helpers.RequestPayloadHelper;
 import com.mulesoft.connectors.internal.utils.ProviderUtils;
 
@@ -27,35 +28,16 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
-        if ("Google".equalsIgnoreCase(provider)) {
-           return buildVertexAIGooglePayload(
+        return switch (provider) {
+            case "Google" -> buildVertexAIGooglePayload(
                     connection,
                     prompt,
                     Collections.emptyList(),
                     null,
                     Collections.emptyList());
-        } else if ("Anthropic".equalsIgnoreCase(provider)) {
-
-            VertexAIAnthropicChatPayloadDTO vertexAIAnthropicChatPayloadDTO = new VertexAIAnthropicChatPayloadDTO("text", prompt);
-
-            ChatPayloadDTO payloadDTO;
-            try {
-                payloadDTO = new ChatPayloadDTO("user",
-                        objectMapper.writeValueAsString(
-                                List.of(vertexAIAnthropicChatPayloadDTO)));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
-            return new DefaultRequestPayloadDTO(connection.getModelName(),
-                    List.of(payloadDTO),
-                    connection.getMaxTokens());
-        }
-        else {
-            return new DefaultRequestPayloadDTO(connection.getModelName(),
-                    List.of(
-                            new ChatPayloadDTO("user", prompt)),
-                    connection.getMaxTokens());
-        }
+            case "Anthropic" -> getAnthropicRequestPayloadDTO(connection, prompt);
+            default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadDTO("user", prompt)));
+        };
     }
 
     @Override
@@ -63,22 +45,40 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
-        if ("Google".equalsIgnoreCase(provider)) {
-            return new VertexAIGooglePayloadRecord(messagesArray,
+        return switch (provider) {
+            case "Google" -> new VertexAIGooglePayloadRecord(messagesArray,
                     null,
                     buildVertexAIGoogleGenerationConfig(connection),
                     null,
                     null);
-        } else {
-            if ("Anthropic".equalsIgnoreCase(provider)) {
-                return new VertexAIAnthropicPayloadRecord(InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION_VALUE, connection.getModelName(),
-                        messagesArray,
-                        connection.getMaxTokens());
-            }
-            return new DefaultRequestPayloadDTO(connection.getModelName(),
+            case "Anthropic" -> new VertexAIAnthropicPayloadRecord(InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION_VALUE,
                     messagesArray,
                     connection.getMaxTokens());
+            case "Meta" -> new VertexAIMetaPayloadRecord(InferenceConstants.VERTEX_AI_ANTHROPIC_VERSION_VALUE,
+                    messagesArray,
+                    connection.getMaxTokens(),false);
+            default -> getDefaultRequestPayloadDTO(connection,messagesArray);
+        };
+    }
+
+    private DefaultRequestPayloadDTO getAnthropicRequestPayloadDTO(TextGenerationConnection connection, String prompt) {
+        VertexAIAnthropicChatPayloadDTO vertexAIAnthropicChatPayloadDTO = new VertexAIAnthropicChatPayloadDTO("text", prompt);
+
+        ChatPayloadDTO payloadDTO;
+        try {
+            payloadDTO = new ChatPayloadDTO("user",
+                    objectMapper.writeValueAsString(
+                            List.of(vertexAIAnthropicChatPayloadDTO)));
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
         }
+        return getDefaultRequestPayloadDTO(connection,List.of(payloadDTO));
+    }
+
+    private DefaultRequestPayloadDTO getDefaultRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadDTO> chatPayloadDTOList) {
+        return new DefaultRequestPayloadDTO(connection.getModelName(),
+                chatPayloadDTOList,
+                connection.getMaxTokens());
     }
 
     private VertexAIGoogleChatPayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,
