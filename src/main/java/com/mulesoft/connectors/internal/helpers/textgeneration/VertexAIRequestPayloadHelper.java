@@ -19,6 +19,8 @@ import com.mulesoft.connectors.internal.dto.vertexai.meta.VertexAIMetaPayloadRec
 import com.mulesoft.connectors.internal.helpers.RequestPayloadHelper;
 import com.mulesoft.connectors.internal.utils.ProviderUtils;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
@@ -93,7 +95,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                         Collections.emptyList());
             }
             case ANTHROPIC_PROVIDER_TYPE ->
-                getAnthropicRequestPayloadDTO(connection, data,template + " - " + instructions);
+                    getAnthropicRequestPayloadDTO(connection, data,template + " - " + instructions);
             default -> {
                 List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
                         connection, template + " - " + instructions, data);
@@ -101,6 +103,14 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 yield buildPayload(connection, messagesArray,null);
             }
         };
+    }
+
+    @Override
+    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                            String instructions, String data, InputStream tools) throws IOException {
+        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+
+        throw new IllegalArgumentException(provider + ":" + connection.getModelName() + " on Vertex AI do not currently support function calling at this time.");
     }
 
     private VertexAIAnthropicPayloadRecord getAnthropicRequestPayloadDTO(TextGenerationConnection connection, String prompt, String system) {
@@ -115,7 +125,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
-       return new VertexAIAnthropicPayloadRecord(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
+        return new VertexAIAnthropicPayloadRecord(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
                 List.of(payloadDTO),
                 connection.getMaxTokens(),
                 connection.getTemperature(),
