@@ -3,7 +3,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
@@ -46,12 +46,12 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     null,
                     Collections.emptyList());
             case ANTHROPIC_PROVIDER_TYPE  -> getAnthropicRequestPayloadDTO(connection, prompt,null);
-            default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadDTO("user", prompt)));
+            default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadRecord("user", prompt)));
         };
     }
 
     @Override
-    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
@@ -96,7 +96,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
             case ANTHROPIC_PROVIDER_TYPE ->
                     getAnthropicRequestPayloadDTO(connection, data,template + " - " + instructions);
             default -> {
-                List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
+                List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                         connection, template + " - " + instructions, data);
 
                 yield buildPayload(connection, messagesArray,null);
@@ -116,9 +116,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
         VertexAIAnthropicChatPayloadRecord vertexAIAnthropicChatPayloadRecord = new VertexAIAnthropicChatPayloadRecord("text", prompt);
 
-        ChatPayloadDTO payloadDTO;
+        ChatPayloadRecord payloadDTO;
         try {
-            payloadDTO = new ChatPayloadDTO("user",
+            payloadDTO = new ChatPayloadRecord("user",
                     objectMapper.writeValueAsString(
                             List.of(vertexAIAnthropicChatPayloadRecord)));
         } catch (JsonProcessingException e) {
@@ -132,9 +132,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 system);
     }
 
-    private DefaultRequestPayloadRecord getDefaultRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadDTO> chatPayloadDTOList) {
+    private DefaultRequestPayloadRecord getDefaultRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadRecord> chatPayloadRecordList) {
         return new DefaultRequestPayloadRecord(connection.getModelName(),
-                chatPayloadDTOList,
+                chatPayloadRecordList,
                 connection.getMaxTokens(),
                 connection.getTemperature(),
                 connection.getTopP(),null);

@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
@@ -26,10 +26,10 @@ public class RequestPayloadHelper {
         return buildPayload(
                 connection,
                 List.of(
-                        new ChatPayloadDTO("user",prompt)),null);
+                        new ChatPayloadRecord("user",prompt)),null);
     }
 
-    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
                                                         List<FunctionDefinitionRecord> tools) {
         return new DefaultRequestPayloadRecord(connection.getModelName(),
                 messagesArray,
@@ -39,32 +39,32 @@ public class RequestPayloadHelper {
                 tools);
     }
 
-    public List<ChatPayloadDTO> parseInputStreamToChatList(InputStream inputStream) throws IOException {
+    public List<ChatPayloadRecord> parseInputStreamToChatList(InputStream inputStream) throws IOException {
 
         return objectMapper.readValue(
                 inputStream,
                 objectMapper.getTypeFactory()
-                        .constructCollectionType(List.class,ChatPayloadDTO.class));
+                        .constructCollectionType(List.class, ChatPayloadRecord.class));
     }
 
     public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
 
-        List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
+        List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
         return buildPayload(connection, messagesArray,null);
     }
 
-    public List<ChatPayloadDTO> createMessagesArrayWithSystemPrompt(
+    public List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
             TextGenerationConnection connection, String systemContent, String userContent) {
 
         // Create system/assistant message based on provider
-        ChatPayloadDTO systemMessage = new ChatPayloadDTO(
+        ChatPayloadRecord systemMessage = new ChatPayloadRecord(
                 "ANTHROPIC".equals(connection.getInferenceType()) ? "assistant" : "system",
                 systemContent);
 
         // Create user message
-        ChatPayloadDTO userMessage = new ChatPayloadDTO("user",userContent);
+        ChatPayloadRecord userMessage = new ChatPayloadRecord("user",userContent);
 
         return List.of(systemMessage,userMessage);
     }
@@ -76,7 +76,7 @@ public class RequestPayloadHelper {
 
         logger.debug("toolsArray: {}", toolsRecord);
 
-        List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
+        List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
         return connection.getObjectMapper()

@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.OpenAIRequestPayloadRecord;
 
@@ -18,7 +18,7 @@ public class OpenAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public OpenAIRequestPayloadRecord buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,
+    public OpenAIRequestPayloadRecord buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
                                                    List<FunctionDefinitionRecord> tools) {
 
         return Arrays.asList(NO_TEMPERATURE_MODELS).contains(connection.getModelName()) ?
@@ -27,13 +27,13 @@ public class OpenAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     private OpenAIRequestPayloadRecord getRequestPayloadDTOWithoutTempAndTopPvalues(TextGenerationConnection connection,
-                                                                                    List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
+                                                                                    List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
         return new OpenAIRequestPayloadRecord(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens(), null, null,tools);
     }
 
-    private OpenAIRequestPayloadRecord getOpenAIRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
+    private OpenAIRequestPayloadRecord getOpenAIRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
         return new OpenAIRequestPayloadRecord(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens(),

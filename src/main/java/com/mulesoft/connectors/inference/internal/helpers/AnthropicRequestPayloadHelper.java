@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +27,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
 
         logger.debug("toolsArray: {}", toolsRecord);
 
-        List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
+        List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
         return connection.getObjectMapper()

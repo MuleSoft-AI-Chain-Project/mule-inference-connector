@@ -3,7 +3,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ibmwatson.IBMWatsonTextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.IBMWatsonRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
@@ -17,7 +17,7 @@ public class IBMWatsonRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
 
         IBMWatsonTextGenerationConnection ibmWatsonConnection = (IBMWatsonTextGenerationConnection)connection;
 

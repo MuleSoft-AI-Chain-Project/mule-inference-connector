@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
@@ -58,7 +58,7 @@ public class TextGenerationOperations {
         try {
             RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
 
-            List<ChatPayloadDTO> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
+            List<ChatPayloadRecord> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             logger.debug("Chatting with {}", chatCompUrl);

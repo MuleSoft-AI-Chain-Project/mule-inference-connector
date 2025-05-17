@@ -1,13 +1,13 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 
 import java.util.List;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public record VertexAIAnthropicPayloadRecord(String anthropic_version, List<ChatPayloadDTO> messages, Number maxTokens,
+public record VertexAIAnthropicPayloadRecord(String anthropic_version, List<ChatPayloadRecord> messages, Number maxTokens,
                                              Number temperature, Number topP, String system)
 implements TextGenerationRequestPayloadDTO {
 }

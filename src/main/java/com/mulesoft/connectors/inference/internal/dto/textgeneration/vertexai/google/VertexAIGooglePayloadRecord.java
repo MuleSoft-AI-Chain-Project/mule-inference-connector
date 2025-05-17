@@ -1,12 +1,12 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google;
 
-import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
+import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 
 import java.util.List;
 
-public record VertexAIGooglePayloadRecord(List<ChatPayloadDTO> contents, SystemInstructionRecord systemInstruction,
+public record VertexAIGooglePayloadRecord(List<ChatPayloadRecord> contents, SystemInstructionRecord systemInstruction,
                                           VertexAIGoogleGenerationConfigRecord generationConfig, List<String> safetySettings, List<FunctionDefinitionRecord> tools)
 implements TextGenerationRequestPayloadDTO {
 }
