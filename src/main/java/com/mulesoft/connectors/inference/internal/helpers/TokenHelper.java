@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 
 import org.json.JSONObject;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.TokenUsage;
+import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 
 public class TokenHelper {
 

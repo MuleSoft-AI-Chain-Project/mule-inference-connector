@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.operations;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.RequestPayloadDTO;

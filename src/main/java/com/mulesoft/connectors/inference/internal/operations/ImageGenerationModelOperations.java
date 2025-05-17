@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.operations;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;

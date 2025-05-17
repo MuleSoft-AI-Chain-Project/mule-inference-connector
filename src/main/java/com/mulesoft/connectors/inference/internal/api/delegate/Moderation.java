@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.api.delegate;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.config.ModerationConfig;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;

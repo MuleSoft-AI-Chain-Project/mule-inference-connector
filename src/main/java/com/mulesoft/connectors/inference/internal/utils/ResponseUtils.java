@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.utils;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.internal.api.metadata.TokenUsage;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;

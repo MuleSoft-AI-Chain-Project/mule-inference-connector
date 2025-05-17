@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.api.metadata;
+package com.mulesoft.connectors.inference.api.metadata;
 
 import java.io.Serializable;
 import java.util.Map;

@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.helpers;
 
-import com.mulesoft.connectors.inference.internal.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.internal.api.metadata.TokenUsage;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.InputStream;
