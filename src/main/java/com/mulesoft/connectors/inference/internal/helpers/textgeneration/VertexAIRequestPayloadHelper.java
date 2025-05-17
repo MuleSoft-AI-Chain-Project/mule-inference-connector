@@ -7,7 +7,7 @@ import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.VertexAIAnthropicChatPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionDTO;
