@@ -1,8 +1,8 @@
-package com.mulesoft.connectors.inference.internal.dto.vertexai.google;
+package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google;
 
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
-import com.mulesoft.connectors.inference.internal.dto.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
 
 import java.util.List;
 

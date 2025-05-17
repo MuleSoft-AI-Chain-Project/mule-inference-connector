@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.dto;
+package com.mulesoft.connectors.inference.internal.dto.textgeneration;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

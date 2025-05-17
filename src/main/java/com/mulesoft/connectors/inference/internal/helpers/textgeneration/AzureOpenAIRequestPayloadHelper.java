@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers.textgeneration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.dto.AzureOpenAIRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.AzureOpenAIRequestPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;

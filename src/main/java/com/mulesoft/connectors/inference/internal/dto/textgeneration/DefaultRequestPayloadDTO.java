@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.dto;
+package com.mulesoft.connectors.inference.internal.dto.textgeneration;
 
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;

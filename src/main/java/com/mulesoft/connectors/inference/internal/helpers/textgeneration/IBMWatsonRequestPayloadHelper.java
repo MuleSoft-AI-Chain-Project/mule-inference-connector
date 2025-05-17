@@ -5,8 +5,8 @@ import com.mulesoft.connectors.inference.internal.connection.TextGenerationConne
 import com.mulesoft.connectors.inference.internal.connection.ibmwatson.IBMWatsonTextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
-import com.mulesoft.connectors.inference.internal.dto.IBMWatsonRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.IBMWatsonRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
 
 import java.util.List;
