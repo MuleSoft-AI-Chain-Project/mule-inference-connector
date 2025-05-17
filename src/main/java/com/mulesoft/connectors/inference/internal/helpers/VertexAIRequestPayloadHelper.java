@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.helpers.textgeneration;
+package com.mulesoft.connectors.inference.internal.helpers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -16,7 +16,6 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.go
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta.VertexAIMetaPayloadRecord;
-import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 
 import java.io.IOException;

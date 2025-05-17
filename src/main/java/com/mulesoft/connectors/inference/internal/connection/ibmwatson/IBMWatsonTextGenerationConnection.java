@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.ibmwatson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.helpers.textgeneration.IBMWatsonRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.IBMWatsonRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;

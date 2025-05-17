@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.helpers;
+package com.mulesoft.connectors.inference.internal.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;

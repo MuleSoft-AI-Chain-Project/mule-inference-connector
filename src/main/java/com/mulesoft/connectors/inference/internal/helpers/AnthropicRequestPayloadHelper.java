@@ -1,10 +1,9 @@
-package com.mulesoft.connectors.inference.internal.helpers.textgeneration;
+package com.mulesoft.connectors.inference.internal.helpers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
-import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
