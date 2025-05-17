@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.stabilityai.provid
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.stabilityai.StabilityAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -35,10 +36,10 @@ public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
+  public StabilityAIImageGenerationConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
+    return new StabilityAIImageGenerationConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "STABILITY_AI");
   }
 

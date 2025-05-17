@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.utils;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
+import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
@@ -688,16 +689,16 @@ public class ResponseUtils {
 
 
     public static Result<InputStream, LLMResponseAttributes> processImageGenResponse(
-            String response, ChatCompletionBase configuration) throws Exception {
+            String response, BaseConnection connection) throws Exception {
 
         JSONObject root = new JSONObject(response);
         JSONObject jsonObject = new JSONObject();
         Map<String, String> responseAttributes = new HashMap<>();
 
-        if ((ProviderUtils.isOpenAI(configuration)
-                || ProviderUtils.isHuggingFace(configuration)
-                || ProviderUtils.isStabilityAI(configuration)
-                || ProviderUtils.isXAI(configuration))
+        if ((ProviderUtils.isOpenAI(connection)
+                || ProviderUtils.isHuggingFace(connection)
+                || ProviderUtils.isStabilityAI(connection)
+                || ProviderUtils.isXAI(connection))
                 && root.has("data")) {
             JSONArray dataArray = root.getJSONArray("data");
 
@@ -715,7 +716,7 @@ public class ResponseUtils {
             }
         }
 
-        responseAttributes.put("model", configuration.getModelName());
+        responseAttributes.put("model", connection.getModelName());
         return ResponseHelper.createLLMResponse(jsonObject.toString(), null, responseAttributes);
     }
 

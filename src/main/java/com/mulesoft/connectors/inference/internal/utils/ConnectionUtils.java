@@ -220,6 +220,13 @@ public class ConnectionUtils {
                 .build();
     }
 
+    public static HttpRequestOptions getRequestOptions(BaseConnection connection) {
+        return HttpRequestOptions.builder()
+                .responseTimeout(String.valueOf(connection.getTimeout()) != null ? Integer.parseInt(String.valueOf(connection.getTimeout())) : 600000)
+                .followsRedirect(true)
+                .build();
+    }
+
     /**
      * Get the static appropriate URL for chat completion based on the configuration.
      * @param connection the connector configuration
@@ -517,7 +524,7 @@ public class ConnectionUtils {
         return processResponse(response);
     }
 
-    public static String executeRestImageGeneration(URL resourceUrl,ChatCompletionBase connection, String payload ) throws IOException, TimeoutException {
+    public static String executeRestImageGeneration(URL resourceUrl, BaseConnection connection, String payload ) throws IOException, TimeoutException {
         String response = "";
 
         if ((ProviderUtils.isHuggingFace((connection)))) {
@@ -538,7 +545,7 @@ public class ConnectionUtils {
      * @return the response string
      * @throws IOException if an error occurs during the API call
      */
-    public static String executeRESTHuggingFaceImage(URL resourceUrl, ChatCompletionBase connection, String payload) throws IOException, TimeoutException {
+    public static String executeRESTHuggingFaceImage(URL resourceUrl, BaseConnection connection, String payload) throws IOException, TimeoutException {
         if (resourceUrl == null) {
             throw new IllegalArgumentException("Resource URL cannot be null");
         }
@@ -571,7 +578,7 @@ public class ConnectionUtils {
 
 
 
-    public static String executeRESTStabilityAIImage(URL resourceUrl, ChatCompletionBase connection, String payload) throws IOException, TimeoutException {
+    public static String executeRESTStabilityAIImage(URL resourceUrl, BaseConnection connection, String payload) throws IOException, TimeoutException {
         if (resourceUrl == null) {
             throw new IllegalArgumentException("Resource URL cannot be null");
         }

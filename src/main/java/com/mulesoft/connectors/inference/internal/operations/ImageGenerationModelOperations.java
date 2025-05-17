@@ -2,12 +2,9 @@ package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
-import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 import com.mulesoft.connectors.inference.internal.utils.ResponseUtils;
-import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -23,7 +20,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import static com.mulesoft.connectors.inference.internal.utils.ConnectionUtils.executeRestImageGeneration;
-import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.createRequestImageGeneration;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
 /**
@@ -49,22 +45,17 @@ public class ImageGenerationModelOperations {
             @Connection BaseConnection connection,
             @Content String prompt) throws ModuleException {
         try {
+            ImageGenerationRequestPayloadDTO requestPayloadDTO = connection.getRequestPayloadHelper()
+                    .createRequestImageGeneration(connection.getModelName(), prompt);
 
-            JSONObject requestJson = createRequestImageGeneration(connection.getInferenceType(), prompt);
-
-            String response;
-            ChatCompletionBase baseConnection = ProviderUtils.convertToBaseConnection(connection);
-
-            URL imageGenerationUrl = new URL(connection.getApiURL()); //ConnectionUtils.getConnectionURLImageGeneration(baseConnection);
+            URL imageGenerationUrl = new URL(connection.getApiURL());
             LOGGER.debug("Generate Image with {}", imageGenerationUrl);
 
-            JSONObject payload = PayloadUtils.buildPayloadImageGeneration(connection, requestJson);
-
-            response = executeRestImageGeneration(imageGenerationUrl, baseConnection, payload.toString());
+            String response = executeRestImageGeneration(imageGenerationUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
 
             LOGGER.debug("Generate Image result {}", response);
 
-            return ResponseUtils.processImageGenResponse(response, baseConnection);
+            return ResponseUtils.processImageGenResponse(response, connection);
         } catch (Exception e) {
             LOGGER.error("Error in Generate Image: {}", e.getMessage(), e);
             throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Generate Image"),

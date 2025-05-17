@@ -57,11 +57,11 @@ public class ProviderUtils {
 
     /**
      * Check if the inference type is OLLAMA
-     * @param configuration the connector configuration
+     * @param connection the connector connection
      * @return true if the inference type is OLLAMA, false otherwise
      */
-    public static boolean isHuggingFace(ChatCompletionBase configuration) {
-        return "HUGGING_FACE".equals(configuration.getInferenceType());
+    public static boolean isHuggingFace(BaseConnection connection) {
+        return "HUGGING_FACE".equals(connection.getInferenceType());
     }
 
     /**
@@ -132,17 +132,17 @@ public class ProviderUtils {
      * @param configuration the connector configuration
      * @return true if the inference type is Cohere, false otherwise
      */
-    public static boolean isOpenAI(ChatCompletionBase configuration) {
+    public static boolean isOpenAI(BaseConnection configuration) {
         return "OPENAI".equals(configuration.getInferenceType());
 
     }
 
 
-    public static boolean isStabilityAI(ChatCompletionBase configuration) {
-        return "STABILITY_AI".equals(configuration.getInferenceType());
+    public static boolean isStabilityAI(BaseConnection connection) {
+        return "STABILITY_AI".equals(connection.getInferenceType());
     }
 
-    public static boolean isXAI(ChatCompletionBase configuration) {
+    public static boolean isXAI(BaseConnection configuration) {
         return "XAI".equals(configuration.getInferenceType());
     }
 

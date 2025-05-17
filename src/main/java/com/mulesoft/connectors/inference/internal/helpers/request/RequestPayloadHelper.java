@@ -90,4 +90,9 @@ public class RequestPayloadHelper {
                 objectMapper.getTypeFactory()
                         .constructCollectionType(List.class,FunctionDefinitionRecord.class));
     }
+
+    public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
+
+        return new DefaultImageRequestPayloadRecord(prompt,"b64_json");
+    }
 }

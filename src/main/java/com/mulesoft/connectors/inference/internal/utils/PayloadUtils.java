@@ -138,24 +138,6 @@ public class PayloadUtils {
         return payload;
     }
 
-    /**
-     * Build the payload for the API request
-     * @param connection the connector configuration
-     * @param requestJson the payload with prompt
-     * @return the payload as a JSON object
-     */
-    @Deprecated
-    public static JSONObject buildPayloadImageGeneration(ModerationImageGenerationBase connection, JSONObject requestJson) {
-        JSONObject payload = requestJson;
-
-        if (("OPENAI".equalsIgnoreCase(connection.getInferenceType()))
-            || ("XAI".equalsIgnoreCase(connection.getInferenceType()))){
-            payload.put("model", connection.getModelName());
-        }
-
-        return payload;
-    }
-
     public static JSONObject buildPayloadImageGeneration(BaseConnection connection, JSONObject requestJson) {
         JSONObject payload = requestJson;
 
@@ -662,52 +644,6 @@ public class PayloadUtils {
 	    generationConfig.put("topP", configuration.getTopP());
         
 	    return generationConfig;
-    }
-
-
-    public static JSONObject createRequestImageGeneration(String provider, String prompt) throws IOException {
-
-        if (provider.equalsIgnoreCase("OPENAI")) {
-            return createImageGenerationRequestOpenaI(prompt);
-        } else if(provider.equalsIgnoreCase("HUGGING_FACE")) {
-            return createImageGenerationRequestHuggingface(prompt);
-        } else if (provider.equalsIgnoreCase("STABILITY_AI")) {
-            return createImageGenerationRequestStabilityAI(prompt);
-        } else {
-            return createImageGenerationRequestOpenaI(prompt);
-        }
-    }
-
-    /**
-     * Creates a messages array with system prompt and user message
-     * @param prompt of the user
-     * @return JSONArray containing the messages
-     */
-    private static JSONObject createImageGenerationRequestOpenaI(String prompt) throws IOException {
-
-        JSONObject requestPayload = new JSONObject();
-        requestPayload.put("prompt", prompt);
-        requestPayload.put("response_format", "b64_json");
-
-        return requestPayload;
-    }
-
-    /**
-     * Creates a messages array with system prompt and user message
-     * @param prompt of the user
-     * @return JSONArray containing the messages
-     */
-    private static JSONObject createImageGenerationRequestHuggingface(String prompt) throws IOException {
-
-        JSONObject requestPayload = new JSONObject();
-        requestPayload.put("inputs", prompt);
-        return requestPayload;
-    }
-
-    private static JSONObject createImageGenerationRequestStabilityAI(String prompt) throws IOException {
-        JSONObject requestPayload = new JSONObject();
-        requestPayload.put("prompt", prompt);
-        return requestPayload;
     }
 
     public static boolean isValidJson(String json) {

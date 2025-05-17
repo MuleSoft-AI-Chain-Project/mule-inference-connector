@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.huggingface.provid
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.huggingface.HuggingFaceImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -35,10 +36,10 @@ public class HuggingFaceImageConnectionProvider extends BaseConnectionProvider {
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
+  public HuggingFaceImageGenerationConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new BaseConnection(getHttpClient(),getObjectMapper(), huggingFaceModelName, baseConnectionParameters.getApiKey(),
+    return new HuggingFaceImageGenerationConnection(getHttpClient(),getObjectMapper(), huggingFaceModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(huggingFaceModelName), "HUGGING_FACE");
   }
 

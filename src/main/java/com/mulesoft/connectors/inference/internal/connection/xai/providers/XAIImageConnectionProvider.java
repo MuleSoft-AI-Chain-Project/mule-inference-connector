@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.xai.providers;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.xai.XAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -35,10 +36,10 @@ public class XAIImageConnectionProvider extends BaseConnectionProvider {
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
-    logger.debug("BaseConnection connect ...");
+  public XAIImageGenerationConnection connect() {
+    logger.debug("XAIImageConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), getObjectMapper(), xAIModelName, baseConnectionParameters.getApiKey(),
+    return new XAIImageGenerationConnection(getHttpClient(), getObjectMapper(), xAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "XAI");
   }
 

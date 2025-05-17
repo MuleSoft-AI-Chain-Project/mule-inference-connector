@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta;
 
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 
 import java.util.List;
 
