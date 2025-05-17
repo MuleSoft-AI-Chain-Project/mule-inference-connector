@@ -6,7 +6,7 @@ import com.mulesoft.connectors.inference.internal.connection.TextGenerationConne
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
@@ -35,7 +35,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+    public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
@@ -52,7 +52,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,List<FunctionDefinitionRecord> tools) {
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
@@ -79,7 +79,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
+    public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 

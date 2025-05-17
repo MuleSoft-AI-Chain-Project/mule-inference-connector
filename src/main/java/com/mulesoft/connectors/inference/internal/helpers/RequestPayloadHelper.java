@@ -5,7 +5,7 @@ import com.mulesoft.connectors.inference.internal.connection.TextGenerationConne
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +22,15 @@ public class RequestPayloadHelper {
         this.objectMapper = objectMapper;
     }
 
-    public RequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+    public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
         return buildPayload(
                 connection,
                 List.of(
                         new ChatPayloadDTO("user",prompt)),null);
     }
 
-    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,
-                                          List<FunctionDefinitionRecord> tools) {
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,
+                                                        List<FunctionDefinitionRecord> tools) {
         return new DefaultRequestPayloadRecord(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens(),
@@ -47,7 +47,7 @@ public class RequestPayloadHelper {
                         .constructCollectionType(List.class,ChatPayloadDTO.class));
     }
 
-    public RequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
+    public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
 
         List<ChatPayloadDTO> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);

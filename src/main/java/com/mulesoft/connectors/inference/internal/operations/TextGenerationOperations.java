@@ -3,7 +3,7 @@ package com.mulesoft.connectors.inference.internal.operations;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
@@ -63,7 +63,7 @@ public class TextGenerationOperations {
             URL chatCompUrl = new URL(connection.getApiURL());
             logger.debug("Chatting with {}", chatCompUrl);
 
-            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray,null);
+            TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray,null);
 
             String response = ConnectionUtils.executeREST(chatCompUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
 
@@ -91,7 +91,7 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
         try {
             RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
-            RequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
+            TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             logger.debug("Chat answer prompt Url: {}", chatCompUrl);
@@ -127,7 +127,7 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
         try {
 
-            RequestPayloadDTO requestPayloadDTO = connection
+            TextGenerationRequestPayloadDTO requestPayloadDTO = connection
                     .getRequestPayloadHelper()
                     .buildPromptTemplatePayload(connection,template,instructions,data);
             logger.debug("payload sent to the LLM {}", requestPayloadDTO.toString());

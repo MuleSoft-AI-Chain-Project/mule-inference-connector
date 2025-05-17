@@ -6,6 +6,6 @@ import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import java.util.List;
 
 public record IBMWatsonRequestPayloadRecord(String modelId, String projectId, List<ChatPayloadDTO> messages,
-                                            Number maxCompletionTokens, Number temperature, Number topP, List<FunctionDefinitionRecord> tools) implements RequestPayloadDTO{
+                                            Number maxCompletionTokens, Number temperature, Number topP, List<FunctionDefinitionRecord> tools) implements TextGenerationRequestPayloadDTO {
 
 }

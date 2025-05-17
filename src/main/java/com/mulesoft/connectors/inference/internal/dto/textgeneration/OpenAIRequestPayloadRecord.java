@@ -7,6 +7,6 @@ import java.util.List;
 
 public record OpenAIRequestPayloadRecord(String model, List<ChatPayloadDTO> messages,
                                          Number maxCompletionTokens, Number temperature, Number topP,
-                                         List<FunctionDefinitionRecord> tools) implements RequestPayloadDTO{
+                                         List<FunctionDefinitionRecord> tools) implements TextGenerationRequestPayloadDTO {
 
 }

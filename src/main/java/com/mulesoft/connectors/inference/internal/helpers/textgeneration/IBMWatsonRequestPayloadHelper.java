@@ -6,7 +6,7 @@ import com.mulesoft.connectors.inference.internal.connection.ibmwatson.IBMWatson
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.IBMWatsonRequestPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
 
 import java.util.List;
@@ -18,7 +18,7 @@ public class IBMWatsonRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
+    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray, List<FunctionDefinitionRecord> tools) {
 
         IBMWatsonTextGenerationConnection ibmWatsonConnection = (IBMWatsonTextGenerationConnection)connection;
 

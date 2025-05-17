@@ -7,6 +7,6 @@ import java.util.List;
 
 public record AzureOpenAIRequestPayloadRecord(List<ChatPayloadDTO> messages,
                                               Number maxCompletionTokens, Number temperature, Number topP,
-                                              boolean stream, List<FunctionDefinitionRecord> tools) implements RequestPayloadDTO{
+                                              boolean stream, List<FunctionDefinitionRecord> tools) implements TextGenerationRequestPayloadDTO {
 
 }

@@ -7,6 +7,6 @@ import java.util.List;
 
 public record OllamaRequestPayloadRecord(String model, List<ChatPayloadDTO> messages,
                                          Number maxTokens, Number temperature, Number topP, boolean stream,
-                                         List<FunctionDefinitionRecord> tools) implements RequestPayloadDTO{
+                                         List<FunctionDefinitionRecord> tools) implements TextGenerationRequestPayloadDTO {
 
 }
