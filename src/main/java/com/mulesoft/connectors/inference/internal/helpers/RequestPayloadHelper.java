@@ -3,7 +3,7 @@ package com.mulesoft.connectors.inference.internal.helpers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
 import org.slf4j.Logger;
@@ -31,7 +31,7 @@ public class RequestPayloadHelper {
 
     public RequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadDTO> messagesArray,
                                           List<FunctionDefinitionRecord> tools) {
-        return new DefaultRequestPayloadDTO(connection.getModelName(),
+        return new DefaultRequestPayloadRecord(connection.getModelName(),
                 messagesArray,
                 connection.getMaxTokens(),
                 connection.getTemperature(),

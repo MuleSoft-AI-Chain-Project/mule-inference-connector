@@ -3,5 +3,5 @@ package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.g
 
 import java.util.List;
 
-public record SystemInstructionDTO(List<PartRecord> parts) {
+public record SystemInstructionRecord(List<PartRecord> parts) {
 }

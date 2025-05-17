@@ -4,16 +4,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.input.ChatPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.UserContentRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta.VertexAIMetaPayloadRecord;
 import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
@@ -86,12 +86,12 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> {
                 PartRecord partRecord = new PartRecord(template + " - " + instructions);
-                SystemInstructionDTO systemInstructionDTO = new SystemInstructionDTO(List.of(partRecord));
+                SystemInstructionRecord systemInstructionRecord = new SystemInstructionRecord(List.of(partRecord));
                 yield buildVertexAIGooglePayload(
                         connection,
                         data,
                         Collections.emptyList(),
-                        systemInstructionDTO,
+                        systemInstructionRecord,
                         Collections.emptyList());
             }
             case ANTHROPIC_PROVIDER_TYPE ->
@@ -115,13 +115,13 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     private VertexAIAnthropicPayloadRecord getAnthropicRequestPayloadDTO(TextGenerationConnection connection, String prompt, String system) {
 
-        VertexAIAnthropicChatPayloadDTO vertexAIAnthropicChatPayloadDTO = new VertexAIAnthropicChatPayloadDTO("text", prompt);
+        VertexAIAnthropicChatPayloadRecord vertexAIAnthropicChatPayloadRecord = new VertexAIAnthropicChatPayloadRecord("text", prompt);
 
         ChatPayloadDTO payloadDTO;
         try {
             payloadDTO = new ChatPayloadDTO("user",
                     objectMapper.writeValueAsString(
-                            List.of(vertexAIAnthropicChatPayloadDTO)));
+                            List.of(vertexAIAnthropicChatPayloadRecord)));
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
@@ -133,8 +133,8 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 system);
     }
 
-    private DefaultRequestPayloadDTO getDefaultRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadDTO> chatPayloadDTOList) {
-        return new DefaultRequestPayloadDTO(connection.getModelName(),
+    private DefaultRequestPayloadRecord getDefaultRequestPayloadDTO(TextGenerationConnection connection, List<ChatPayloadDTO> chatPayloadDTOList) {
+        return new DefaultRequestPayloadRecord(connection.getModelName(),
                 chatPayloadDTOList,
                 connection.getMaxTokens(),
                 connection.getTemperature(),
@@ -143,13 +143,13 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     private VertexAIGoogleChatPayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,
                                                                        List<String> safetySettings,
-                                                                       SystemInstructionDTO systemInstruction,
+                                                                       SystemInstructionRecord systemInstruction,
                                                                        List<String> tools) {
         PartRecord partRecord = new PartRecord(prompt);
         UserContentRecord userContentRecord = new UserContentRecord("user",List.of(partRecord));
 
         //create the generationConfig
-        VertexAIGoogleGenerationConfigDTO generationConfig = buildVertexAIGoogleGenerationConfig(connection);
+        VertexAIGoogleGenerationConfigRecord generationConfig = buildVertexAIGoogleGenerationConfig(connection);
 
         return new VertexAIGoogleChatPayloadRecord(List.of(userContentRecord),
                 systemInstruction,
@@ -158,9 +158,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 tools != null && !tools.isEmpty() ? tools:null);
     }
 
-    private VertexAIGoogleGenerationConfigDTO buildVertexAIGoogleGenerationConfig(TextGenerationConnection connection) {
+    private VertexAIGoogleGenerationConfigRecord buildVertexAIGoogleGenerationConfig(TextGenerationConnection connection) {
         //create the generationConfig
-        return new VertexAIGoogleGenerationConfigDTO(List.of("TEXT"), connection.getTemperature(),
+        return new VertexAIGoogleGenerationConfigRecord(List.of("TEXT"), connection.getTemperature(),
                 connection.getMaxTokens(),
                 connection.getTopP());
     }

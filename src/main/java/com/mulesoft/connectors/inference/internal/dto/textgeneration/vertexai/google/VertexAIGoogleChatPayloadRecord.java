@@ -4,7 +4,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.RequestPayl
 
 import java.util.List;
 
-public record VertexAIGoogleChatPayloadRecord(List<UserContentRecord> contents, SystemInstructionDTO systemInstruction,
-                                              VertexAIGoogleGenerationConfigDTO generationConfig, List<String> safetySettings, List<String> tools)
+public record VertexAIGoogleChatPayloadRecord(List<UserContentRecord> contents, SystemInstructionRecord systemInstruction,
+                                              VertexAIGoogleGenerationConfigRecord generationConfig, List<String> safetySettings, List<String> tools)
 implements RequestPayloadDTO {
 }
