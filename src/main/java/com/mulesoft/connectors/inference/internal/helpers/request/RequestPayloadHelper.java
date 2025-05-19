@@ -83,11 +83,17 @@ public class RequestPayloadHelper {
 
         logger.debug("toolsArray: {}", toolsRecord);
 
+        return buildToolsTemplatePayload(connection, template, instructions, data, toolsRecord);
+    }
+
+    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                            String instructions, String data, List<FunctionDefinitionRecord> tools) throws IOException {
+
         List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
         return connection.getObjectMapper()
-                .writeValueAsString(buildPayload(connection, messagesArray, toolsRecord));
+                .writeValueAsString(buildPayload(connection, messagesArray, tools));
     }
 
     public List<FunctionDefinitionRecord> parseInputStreamToTools(InputStream inputStream) throws IOException {

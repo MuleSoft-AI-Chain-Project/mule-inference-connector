@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.RequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -14,6 +15,7 @@ public class BaseConnection {
   private final String inferenceType; // temporary, to be removed after later refactoring and replaced by individual handlers
   private final ObjectMapper objectMapper;
   private RequestPayloadHelper requestPayloadHelper;
+private McpHelper mcpHelper;
 
   public BaseConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                         int timeout, String apiURL, String inferenceType) {
@@ -30,6 +32,12 @@ public class BaseConnection {
     if(requestPayloadHelper == null)
       requestPayloadHelper = new RequestPayloadHelper(objectMapper);
     return requestPayloadHelper;
+  }
+
+  public McpHelper getMcpHelper(){
+    if(mcpHelper == null)
+      mcpHelper = new McpHelper();
+    return mcpHelper;
   }
 
   public String getApiKey() {

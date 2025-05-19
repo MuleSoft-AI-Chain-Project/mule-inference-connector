@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
 import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
@@ -30,7 +32,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.getMcpToolsFromMultiple;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
 /**
@@ -204,13 +205,14 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
 
         try {
-            InputStream tools = new ByteArrayInputStream(getMcpToolsFromMultiple(connection).toString().getBytes(StandardCharsets.UTF_8));
+            var tools = connection.getMcpHelper().getMcpToolsFromMultiple(connection);
+            String payloadString = connection.getRequestPayloadHelper()
+                    .buildToolsTemplatePayload(connection, template, instructions, data, tools);
 
-            JSONObject payload = PayloadUtils.buildToolsTemplatePayload(connection, template, instructions, data, tools);
-            logger.debug("payload sent to the LLM {}", payload);
+            logger.debug("payload sent to the LLM {}", payloadString);
 
             URL chatCompUrl = new URL(connection.getApiURL());
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payloadString);
 
             logger.debug("MCP Tooling result {}", response);
             Result<InputStream, LLMResponseAttributes> apiResponse = ResponseUtils.processToolsResponse(response, connection);
