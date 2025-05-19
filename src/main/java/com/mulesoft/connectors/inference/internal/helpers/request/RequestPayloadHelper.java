@@ -1,17 +1,24 @@
 package com.mulesoft.connectors.inference.internal.helpers.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.vision.*;
+import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+
+import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.isBase64String;
 
 public class RequestPayloadHelper {
     private static final Logger logger = LoggerFactory.getLogger(RequestPayloadHelper.class);
@@ -94,5 +101,27 @@ public class RequestPayloadHelper {
     public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
 
         return new DefaultImageRequestPayloadRecord(prompt,"b64_json");
+    }
+
+    public VisionRequestPayloadDTO createRequestImageURL(TextGenerationConnection connection, String prompt, String imageUrl) throws IOException {
+
+        List<Content> contentArray = new ArrayList<>();
+
+        contentArray.add(new TextContent("text", prompt));
+        contentArray.add(new ImageUrlContent("image_url", new ImageUrl(getImageUrl(imageUrl))));
+
+        // Create user message
+        Message message = new Message("user", contentArray);
+        return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
+                List.of(message),
+                connection.getMaxTokens(),
+                connection.getTemperature(),
+                connection.getTopP());
+    }
+
+    public String  getImageUrl(String imageUrl) throws IOException {
+        return isBase64String(imageUrl)
+                ? "data:" + PayloadUtils.getMimeType(imageUrl) + ";base64," + imageUrl
+                : imageUrl;
     }
 }

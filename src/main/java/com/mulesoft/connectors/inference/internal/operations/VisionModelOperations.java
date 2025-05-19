@@ -2,12 +2,10 @@ package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
-import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
 import com.mulesoft.connectors.inference.internal.utils.ResponseUtils;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -23,7 +21,6 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.net.URL;
 
-import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.createRequestImageURL;
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
 /**
@@ -53,15 +50,16 @@ public class VisionModelOperations {
             @Content(primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl) throws ModuleException {
         try { 
 
-            JSONArray messagesArray = createRequestImageURL(connection, prompt, imageUrl);
+            VisionRequestPayloadDTO visionPayload = connection.getRequestPayloadHelper().createRequestImageURL(connection,prompt, imageUrl);
 
             URL chatCompUrl = new URL(connection.getApiURL());
             LOGGER.debug("Read Image with {}", chatCompUrl);
 
-            JSONObject payload = PayloadUtils.buildPayload(connection, messagesArray, null);
-            LOGGER.debug("payload sent to the LLM {}", payload);
+            LOGGER.debug("payload sent to the LLM {}", visionPayload);
             
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payload.toString());
+            String response = ConnectionUtils.executeREST(chatCompUrl, connection,
+                    connection.getObjectMapper()
+                    .writeValueAsString(visionPayload));
 
             LOGGER.debug("Read Image result {}", response);
             return ResponseUtils.processLLMResponse(response, connection);
