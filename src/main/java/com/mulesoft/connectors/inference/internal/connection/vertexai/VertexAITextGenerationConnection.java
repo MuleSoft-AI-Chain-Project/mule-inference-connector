@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.vertexai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.helpers.VertexAIRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.request.VertexAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;

@@ -2,10 +2,10 @@ package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
+import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.helpers.RequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.request.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
 import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
 import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;

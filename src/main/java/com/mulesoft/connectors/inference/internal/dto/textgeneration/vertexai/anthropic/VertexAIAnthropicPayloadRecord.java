@@ -1,8 +1,7 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 
 import java.util.List;
 

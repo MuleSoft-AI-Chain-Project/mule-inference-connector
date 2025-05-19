@@ -1,11 +1,6 @@
-package com.mulesoft.connectors.inference.api.input;
+package com.mulesoft.connectors.inference.api.request;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import java.beans.ConstructorProperties;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record FunctionDefinitionRecord(String type,Function function) implements Serializable {

@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration;
 
-import com.mulesoft.connectors.inference.api.input.ChatPayloadRecord;
-import com.mulesoft.connectors.inference.api.input.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
+import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 
 import java.util.List;
 
