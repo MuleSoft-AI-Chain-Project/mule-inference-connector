@@ -26,7 +26,6 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -205,7 +204,9 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
 
         try {
-            var tools = connection.getMcpHelper().getMcpToolsFromMultiple(connection);
+            var tools = connection.getMcpHelper()
+                    .getMcpToolsFromMultiple(connection);
+
             String payloadString = connection.getRequestPayloadHelper()
                     .buildToolsTemplatePayload(connection, template, instructions, data, tools);
 
