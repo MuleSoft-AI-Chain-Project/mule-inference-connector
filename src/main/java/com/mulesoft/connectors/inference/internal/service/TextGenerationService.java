@@ -110,7 +110,7 @@ public class TextGenerationService {
         var chatRespOutput = chatResponse.choices().get(0);
 
         return ResponseHelper.createLLMResponse(
-                objectMapper.writeValueAsString(new TextGenerationResponse(null,chatRespOutput.message().toolCalls(),null)),
+                objectMapper.writeValueAsString(new TextGenerationResponse(chatRespOutput.message().content(),chatRespOutput.message().toolCalls(),null)),
                 TokenHelper.parseUsageFromResponse(chatResponse.usage()),
                 new AdditionalAttributes(chatResponse.id(), chatResponse.model(), chatRespOutput.finishReason()));
     }

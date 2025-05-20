@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.inference.api.response;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 public record ToolResult(
@@ -8,4 +9,4 @@ public record ToolResult(
         String serverUrl,
         String serverName,
         Instant timestamp
-) {} 
+) implements Serializable {}
