@@ -6,10 +6,11 @@ package com.mulesoft.connectors.inference.internal.exception.error;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 
+@Deprecated
 public class ConfigValidationException extends ModuleException {
 
   public ConfigValidationException(String message) {
 //aw    super(message, InferenceErrorType.VALIDATION_FAILURE);
-    super(message, InferenceErrorType.CHAT_COMPLETION);
+    super(message, InferenceErrorType.CHAT_COMPLETION_FAILURE);
   }
 }

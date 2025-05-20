@@ -59,7 +59,7 @@ public class ImageGenerationModelOperations {
         } catch (Exception e) {
             LOGGER.error("Error in Generate Image: {}", e.getMessage(), e);
             throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Generate Image"),
-                    InferenceErrorType.IMAGE_GENERATION, e);
+                    InferenceErrorType.IMAGE_GENERATION_FAILURE, e);
         }
     }
 }

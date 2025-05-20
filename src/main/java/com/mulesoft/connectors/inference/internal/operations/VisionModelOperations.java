@@ -66,7 +66,7 @@ public class VisionModelOperations {
         } catch (Exception e) {
             LOGGER.error("Error in Read Image: {}", e.getMessage(), e);
             throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Read Image"),
-                    InferenceErrorType.VISION, e);
+                    InferenceErrorType.VISION_FAILURE, e);
         }
     }
 }

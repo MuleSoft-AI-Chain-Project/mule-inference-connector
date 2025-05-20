@@ -4,11 +4,26 @@
 package com.mulesoft.connectors.inference.internal.exception;
 
 import org.mule.runtime.extension.api.error.ErrorTypeDefinition;
+import org.mule.runtime.extension.api.error.MuleErrors;
+
+import java.util.Optional;
 
 public enum InferenceErrorType implements ErrorTypeDefinition<InferenceErrorType> {
 
-  CHAT_COMPLETION,
-  TEXT_MODERATION,
-  VISION,
-  IMAGE_GENERATION
+  CHAT_COMPLETION_FAILURE(MuleErrors.ANY),
+  TEXT_MODERATION_FAILURE(MuleErrors.ANY),
+  VISION_FAILURE(MuleErrors.ANY),
+  IMAGE_GENERATION_FAILURE(MuleErrors.ANY),
+  INVALID_CONNECTION(MuleErrors.CONNECTIVITY);
+
+  private final ErrorTypeDefinition<? extends Enum<?>> parent;
+
+  @Override
+  public Optional<ErrorTypeDefinition<? extends Enum<?>>> getParent() {
+    return Optional.of(parent);
+  }
+
+  InferenceErrorType(ErrorTypeDefinition<? extends Enum<?>> parent) {
+    this.parent = parent;
+  }
 }
