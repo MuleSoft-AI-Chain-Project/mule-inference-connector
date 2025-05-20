@@ -376,26 +376,9 @@ public class ResponseUtils {
         return processResponse(response, connection, false);
     }
 
-    /**
-     * Process the response from the LLM API for tools operations
-     * @param response the response string from the API
-     * @param configuration the connector configuration
-     * @return result containing the LLM response
-     * @throws Exception if an error occurs during processing
-     */
-    public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
-            String response, ChatCompletionBase configuration) throws Exception {
-        return processResponse(response, configuration, true);
-    }
-
     public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
             String response, TextGenerationConnection connection) throws Exception {
         return processResponse(response, connection, true);
-    }
-
-    public static Result<InputStream, LLMResponseAttributes> processToolsResponse(
-            String response, ChatCompletionBase configuration, JSONArray toolExecutionResult) throws Exception {
-        return processResponse(response, configuration, true, toolExecutionResult);
     }
 
     public static Result<InputStream, LLMResponseAttributes> processToolsResponse(

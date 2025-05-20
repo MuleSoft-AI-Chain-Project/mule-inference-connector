@@ -219,7 +219,8 @@ public class TextGenerationOperations {
             Result<InputStream, LLMResponseAttributes> apiResponse = ResponseUtils.processToolsResponse(response, connection);
             String apiResponseString = new String(apiResponse.getOutput().readAllBytes(), StandardCharsets.UTF_8);
 
-            JSONArray toolExecutionResult = ProviderUtils.executeTools(apiResponseString);
+            JSONArray toolExecutionResult = ProviderUtils.executeTools(connection.getMcpHelper().getMcpToolsArrayByServer(),
+                    apiResponseString);
 
             return ResponseUtils.processToolsResponse(response, connection, toolExecutionResult);
         } catch (Exception e) {

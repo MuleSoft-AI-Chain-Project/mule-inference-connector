@@ -51,6 +51,10 @@ public class McpHelper {
         return mcpTools;
     }
 
+    public List<ServerInfo> getMcpToolsArrayByServer() {
+        return mcpToolsArrayByServer;
+    }
+
     public List<FunctionDefinitionRecord> getMcpTools(String mcpServerUrl) {
 
         try(McpSyncClient client = establishClientMCP(mcpServerUrl)) {

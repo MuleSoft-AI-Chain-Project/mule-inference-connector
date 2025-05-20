@@ -27,7 +27,7 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="335" />
+					<munit:parameter propertyName="inputCount" value="350" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

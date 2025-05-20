@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.moderation.RequestPayload;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.*;
@@ -62,20 +63,6 @@ public class RequestPayloadHelper {
         return buildPayload(connection, messagesArray,null);
     }
 
-    public List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
-            TextGenerationConnection connection, String systemContent, String userContent) {
-
-        // Create system/assistant message based on provider
-        ChatPayloadRecord systemMessage = new ChatPayloadRecord(
-                "ANTHROPIC".equals(connection.getInferenceType()) ? "assistant" : "system",
-                systemContent);
-
-        // Create user message
-        ChatPayloadRecord userMessage = new ChatPayloadRecord("user",userContent);
-
-        return List.of(systemMessage,userMessage);
-    }
-
     public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
                                                        String instructions, String data, InputStream tools) throws IOException {
 
@@ -94,14 +81,6 @@ public class RequestPayloadHelper {
 
         return connection.getObjectMapper()
                 .writeValueAsString(buildPayload(connection, messagesArray, tools));
-    }
-
-    public List<FunctionDefinitionRecord> parseInputStreamToTools(InputStream inputStream) throws IOException {
-
-        return objectMapper.readValue(
-                inputStream,
-                objectMapper.getTypeFactory()
-                        .constructCollectionType(List.class,FunctionDefinitionRecord.class));
     }
 
     public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
@@ -125,7 +104,29 @@ public class RequestPayloadHelper {
                 connection.getTopP());
     }
 
-    public String  getImageUrl(String imageUrl) throws IOException {
+    protected List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
+            TextGenerationConnection connection, String systemContent, String userContent) {
+
+        // Create system/assistant message based on provider
+        ChatPayloadRecord systemMessage = new ChatPayloadRecord(
+                "ANTHROPIC".equals(connection.getInferenceType()) ? "assistant" : "system",
+                systemContent);
+
+        // Create user message
+        ChatPayloadRecord userMessage = new ChatPayloadRecord("user",userContent);
+
+        return List.of(systemMessage,userMessage);
+    }
+
+    protected List<FunctionDefinitionRecord> parseInputStreamToTools(InputStream inputStream) throws IOException {
+
+        return objectMapper.readValue(
+                inputStream,
+                objectMapper.getTypeFactory()
+                        .constructCollectionType(List.class,FunctionDefinitionRecord.class));
+    }
+
+    private String getImageUrl(String imageUrl) throws IOException {
         return isBase64String(imageUrl)
                 ? "data:" + PayloadUtils.getMimeType(imageUrl) + ";base64," + imageUrl
                 : imageUrl;

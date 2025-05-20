@@ -4,7 +4,6 @@ import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.mcp.ServerInfo;
 import org.jetbrains.annotations.NotNull;
 import org.mule.runtime.http.api.client.HttpClient;
@@ -14,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.json.JSONObject;
 import org.json.JSONArray;
@@ -349,7 +349,7 @@ public class ProviderUtils {
         return client;
     }
 
-    public static JSONArray executeTools(String apiResponseJson) throws Exception {
+    public static JSONArray executeTools(List<ServerInfo> mcpToolsArrayByServer, String apiResponseJson) throws Exception {
 
         LOGGER.debug("executeTools - Response from the tools server: {}", apiResponseJson);
         JSONArray resultsArray = new JSONArray();
@@ -368,8 +368,9 @@ public class ProviderUtils {
             JSONObject functionObject = toolObject.getJSONObject("function");
             String functionName = functionObject.getString("name");
             JSONObject argumentsObject = functionObject.getJSONObject("arguments");
-            String serverUrl = findServerUrlForTool(mcpToolsArrayByServer, functionName);
-            String serverName = findServerNameForTool(mcpToolsArrayByServer, functionName);
+            ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer,functionName);
+            String serverUrl = serverInfo.serverUrl();
+            String serverName = serverInfo.serverName();
             McpSyncClient client = establishClientMCP(serverUrl);
 
             Map<String, Object> arguments = new HashMap<>();
@@ -413,38 +414,11 @@ public class ProviderUtils {
         return resultsArray;
     }
 
-
-    private static String findServerUrlForTool(JSONArray servers, String toolName) {
-        for (int i = 0; i < servers.length(); i++) {
-            JSONObject server = servers.getJSONObject(i);
-            JSONArray serverTools = server.getJSONArray("serverTools");
-
-            for (int j = 0; j < serverTools.length(); j++) {
-                JSONObject serverTool = serverTools.getJSONObject(j);
-                String serverToolName = serverTool.getJSONObject("function").getString("name");
-
-                if (toolName.equals(serverToolName)) {
-                    return server.getString("serverUrl");
-                }
-            }
-        }
-        return null; // Tool not found
-    }
-
-    private static String findServerNameForTool(JSONArray servers, String toolName) {
-        for (int i = 0; i < servers.length(); i++) {
-            JSONObject server = servers.getJSONObject(i);
-            JSONArray serverTools = server.getJSONArray("serverTools");
-
-            for (int j = 0; j < serverTools.length(); j++) {
-                JSONObject serverTool = serverTools.getJSONObject(j);
-                String serverToolName = serverTool.getJSONObject("function").getString("name");
-
-                if (toolName.equals(serverToolName)) {
-                    return server.getString("serverName");
-                }
-            }
-        }
-        return null; // Tool not found
+    private static ServerInfo findServerInfoForTool(List<ServerInfo> servers, String toolName) {
+        return servers.stream()
+                .filter(server -> server.serverTools().stream()
+                        .anyMatch(tool -> tool.function().name().equals(toolName)))
+                .findFirst()
+                .orElse(null);
     }
 }
