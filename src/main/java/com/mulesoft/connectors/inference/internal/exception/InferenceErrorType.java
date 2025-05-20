@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public enum InferenceErrorType implements ErrorTypeDefinition<InferenceErrorType> {
 
-  CHAT_COMPLETION_FAILURE(MuleErrors.ANY),
+  CHAT_OPERATION_FAILURE(MuleErrors.ANY),
+  TOOLS_OPERATION_FAILURE(MuleErrors.ANY),
   TEXT_MODERATION_FAILURE(MuleErrors.ANY),
   VISION_FAILURE(MuleErrors.ANY),
   IMAGE_GENERATION_FAILURE(MuleErrors.ANY),

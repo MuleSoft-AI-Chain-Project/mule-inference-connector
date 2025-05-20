@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.Content;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.ImageContent;
@@ -27,8 +28,8 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                       String instructions, String data, InputStream tools) throws IOException {
+    public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                     String instructions, String data, InputStream tools) throws IOException {
 
         List<FunctionDefinitionRecord> toolsRecord = parseInputStreamToTools(tools);
 
@@ -37,8 +38,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
         List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
-        return connection.getObjectMapper()
-                .writeValueAsString(buildPayload(connection, messagesArray, toolsRecord));
+        return buildPayload(connection, messagesArray, toolsRecord);
     }
 
     @Override

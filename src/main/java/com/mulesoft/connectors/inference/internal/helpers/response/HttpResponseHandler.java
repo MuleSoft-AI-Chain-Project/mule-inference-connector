@@ -29,7 +29,7 @@ public class HttpResponseHandler {
         } else {
             String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
             logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
-            throw new ModuleException(getFormattedErrorMessage(statusCode, errorResponse), InferenceErrorType.CHAT_COMPLETION_FAILURE);
+            throw new ModuleException(getFormattedErrorMessage(statusCode, errorResponse), InferenceErrorType.CHAT_OPERATION_FAILURE);
         }
     }
 

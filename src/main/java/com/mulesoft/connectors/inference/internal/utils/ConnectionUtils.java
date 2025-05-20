@@ -360,9 +360,10 @@ public class ConnectionUtils {
                 .queryParams(new MultiMap<>(connection.getQueryParams()))
                 .entity(new ByteArrayHttpEntity(connection.getObjectMapper().writeValueAsBytes(payload)));
 
-        logger.debug("Sending request to URL: {} and with headers: {}", resourceUrl, requestBuilder.getHeaders());
-        logger.trace("Sending request with queryParams: {}", requestBuilder.getQueryParams());
-        logger.trace("Sending request with  payload: {} ", payload);
+        logger.debug("Sending request to URL: {}", resourceUrl);
+        logger.trace("Request headers: {}", requestBuilder.getHeaders());
+        logger.trace("Request queryParams: {}", requestBuilder.getQueryParams());
+        logger.trace("Request payload: {} ", payload);
 
         HttpRequestOptions options = getRequestOptions(connection.getTimeout());
         return connection.getHttpClient()

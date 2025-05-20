@@ -1,9 +1,14 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.response;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
 import java.util.List;
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public record Message(
     String role,
+    List<ToolCall> toolCalls,
     String content,
     String refusal,
     List<String> annotations

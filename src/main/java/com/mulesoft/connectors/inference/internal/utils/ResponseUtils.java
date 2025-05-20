@@ -356,8 +356,6 @@ public class ResponseUtils {
         }
 
         AdditionalAttributes responseAttributes = new AdditionalAttributes(responseInfo.id,responseInfo.model, responseInfo.finishReason);
-
-
         return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
     }
 

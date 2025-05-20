@@ -66,8 +66,8 @@ public class RequestPayloadHelper {
         return buildPayload(connection, messagesArray,null);
     }
 
-    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                       String instructions, String data, InputStream tools) throws IOException {
+    public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                     String instructions, String data, InputStream tools) throws IOException {
 
         List<FunctionDefinitionRecord> toolsRecord = parseInputStreamToTools(tools);
 
@@ -76,14 +76,13 @@ public class RequestPayloadHelper {
         return buildToolsTemplatePayload(connection, template, instructions, data, toolsRecord);
     }
 
-    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                            String instructions, String data, List<FunctionDefinitionRecord> tools) throws IOException {
+    public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                     String instructions, String data, List<FunctionDefinitionRecord> tools) throws IOException {
 
         List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);
 
-        return connection.getObjectMapper()
-                .writeValueAsString(buildPayload(connection, messagesArray, tools));
+        return buildPayload(connection, messagesArray, tools);
     }
 
     public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {

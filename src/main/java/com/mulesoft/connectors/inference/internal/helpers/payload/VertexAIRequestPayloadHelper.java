@@ -111,8 +111,8 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public String buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                            String instructions, String data, InputStream tools) throws IOException {
+    public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                     String instructions, String data, InputStream tools) throws IOException {
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
         throw new IllegalArgumentException(provider + ":" + connection.getModelName() + " on Vertex AI do not currently support function calling at this time.");
@@ -210,7 +210,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     objectMapper.writeValueAsString(
                             List.of(vertexAIAnthropicChatPayloadRecord)));
         } catch (JsonProcessingException e) {
-            throw new ModuleException("Error parsing JSON to VertexAIAnthropicChatPayloadRecord", InferenceErrorType.CHAT_COMPLETION_FAILURE);
+            throw new ModuleException("Error parsing JSON to VertexAIAnthropicChatPayloadRecord", InferenceErrorType.CHAT_OPERATION_FAILURE);
         }
         return new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
                 List.of(payloadDTO),
