@@ -5,7 +5,7 @@
  * LICENSE.txt file.
  */
 
-package com.mulesoft.connectors.inference.internal.api.proxy;
+package com.mulesoft.connectors.inference.internal.config.proxy;
 
 import org.mule.runtime.http.api.client.proxy.ProxyConfig;
 

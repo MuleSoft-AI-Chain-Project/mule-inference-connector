@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.api.proxy.HttpProxyConfig;
+import com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.inference.internal.utils.ObjectMapperProvider;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.lifecycle.Disposable;

@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.extension;
 
-import com.mulesoft.connectors.inference.internal.api.proxy.DefaultNtlmProxyConfig;
-import com.mulesoft.connectors.inference.internal.api.proxy.DefaultProxyConfig;
+import com.mulesoft.connectors.inference.internal.config.proxy.DefaultNtlmProxyConfig;
+import com.mulesoft.connectors.inference.internal.config.proxy.DefaultProxyConfig;
 import com.mulesoft.connectors.inference.internal.config.ImageGenerationConfig;
 import com.mulesoft.connectors.inference.internal.config.ModerationConfig;
 import com.mulesoft.connectors.inference.internal.config.TextGenerationConfig;
@@ -11,7 +11,7 @@ import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.SubTypeMapping;
 import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.sdk.api.annotation.JavaVersionSupport;
-import com.mulesoft.connectors.inference.internal.api.proxy.HttpProxyConfig;
+import com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig;
 import static org.mule.sdk.api.meta.JavaVersion.JAVA_17;
 
 /**
