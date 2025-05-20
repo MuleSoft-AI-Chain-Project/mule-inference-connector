@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
-import com.mulesoft.connectors.inference.internal.helpers.request.RequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 public class BaseConnection {

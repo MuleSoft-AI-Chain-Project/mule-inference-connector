@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.helpers.request;
+package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.huggingface;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.helpers.request.HuggingFaceRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.payload.HuggingFaceRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 public class HuggingFaceImageGenerationConnection extends BaseConnection {

@@ -5,7 +5,7 @@ import com.mulesoft.connectors.inference.internal.connection.TextGenerationConne
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.helpers.request.RequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
 import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 import com.mulesoft.connectors.inference.internal.utils.ResponseUtils;

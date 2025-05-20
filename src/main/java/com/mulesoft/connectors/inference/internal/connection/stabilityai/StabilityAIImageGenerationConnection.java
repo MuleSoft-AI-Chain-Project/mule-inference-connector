@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.stabilityai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.helpers.request.StabilityAIRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.payload.StabilityAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 public class StabilityAIImageGenerationConnection extends BaseConnection {

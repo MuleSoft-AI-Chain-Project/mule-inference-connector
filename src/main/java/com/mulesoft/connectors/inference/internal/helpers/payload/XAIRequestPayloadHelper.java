@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.helpers.request;
+package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;

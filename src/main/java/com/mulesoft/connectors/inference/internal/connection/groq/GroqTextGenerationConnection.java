@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.groq;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.helpers.request.GroqRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.payload.GroqRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
