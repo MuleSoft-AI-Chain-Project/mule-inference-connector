@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.dto.textgeneration.response;
+package com.mulesoft.connectors.inference.api.response;
 
 public record ToolCall(
         String id,

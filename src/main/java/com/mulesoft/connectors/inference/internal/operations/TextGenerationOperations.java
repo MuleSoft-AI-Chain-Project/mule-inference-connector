@@ -152,31 +152,13 @@ public class TextGenerationOperations {
             @Content String template,
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
-
         try {
-            var tools = connection.getMcpHelper()
-                    .getMcpToolsFromMultiple(connection);
+            return connection.getService().executeMcpTools(connection,template,instructions,data);
 
-            String payloadString = "";/*connection.getRequestPayloadHelper()
-                    .buildToolsTemplatePayload(connection, template, instructions, data, tools);*/
-
-            logger.debug("payload sent to the LLM {}", payloadString);
-
-            URL chatCompUrl = new URL(connection.getApiURL());
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, payloadString);
-
-            logger.debug("MCP Tooling result {}", response);
-            Result<InputStream, LLMResponseAttributes> apiResponse = ResponseUtils.processToolsResponse(response, connection);
-            String apiResponseString = new String(apiResponse.getOutput().readAllBytes(), StandardCharsets.UTF_8);
-
-            JSONArray toolExecutionResult = ProviderUtils.executeTools(connection.getMcpHelper().getMcpToolsArrayByServer(),
-                    apiResponseString);
-
-            return ResponseUtils.processToolsResponse(response, connection, toolExecutionResult);
         } catch (Exception e) {
             logger.error("Error in MCP Tooling: {}", e.getMessage(), e);
-            throw new ModuleException(String.format(ERROR_MSG_FORMAT, "MCP Tooling"),
-                    InferenceErrorType.CHAT_OPERATION_FAILURE, e);
+            throw new ModuleException("Error in executing operation MCP tooling",
+                    InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
         }
     }
 }

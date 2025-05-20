@@ -3,32 +3,20 @@ package com.mulesoft.connectors.inference.internal.utils;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
-
-import com.mulesoft.connectors.inference.internal.dto.mcp.ServerInfo;
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.mule.runtime.http.api.client.HttpClient;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.time.Duration;
-import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import org.json.JSONObject;
-import org.json.JSONArray;
 
-import io.modelcontextprotocol.client.McpClient;
-import io.modelcontextprotocol.client.McpSyncClient;
-import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
-import io.modelcontextprotocol.spec.McpSchema;
+import java.util.Map;
 
 /**
  * Utility class for provider-specific operations.
  */
 public class ProviderUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProviderUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProviderUtils.class);
     public static final String GOOGLE_PROVIDER_TYPE = "Google";
     public static final String ANTHROPIC_PROVIDER_TYPE = "Anthropic";
     public static final String META_PROVIDER_TYPE = "Meta";
@@ -108,7 +96,7 @@ public class ProviderUtils {
     
     //get the providers based on the models
     public static String getProviderByModel(String modelName) {
-        LOGGER.debug("model name {}", modelName);
+        logger.debug("model name {}", modelName);
 
         if (modelName == null || modelName.isEmpty()) {
             return "Unknown";
@@ -331,108 +319,5 @@ public class ProviderUtils {
         public Map<String, String> getMcpSseServers() { return mcpSseServers; }
         public void setMcpSseServers(Map<String, String> mcpSseServerUrl_5) { this.mcpSseServers = mcpSseServers; }
 
-    }
-
-    private static McpSyncClient establishClientMCP(String mcpServerUrl){
-
-        HttpClientSseClientTransport transport = HttpClientSseClientTransport.builder(mcpServerUrl)
-                .build();
-
-        McpSyncClient client = McpClient.sync(transport)
-                .requestTimeout(Duration.ofSeconds(60))
-                .capabilities(McpSchema.ClientCapabilities.builder()
-                        .roots(true)
-                        .build())
-                .build();
-
-        client.initialize();
-        return client;
-    }
-
-    public static JSONArray executeTools(List<ServerInfo> mcpToolsArrayByServer, String apiResponseJson) throws Exception {
-
-        LOGGER.debug("executeTools - Response from the tools server: {}", apiResponseJson);
-        JSONArray resultsArray = new JSONArray();
-
-
-        JSONObject rootObject = new JSONObject(apiResponseJson);
-
-        JSONArray toolsArray = rootObject.getJSONArray("tools");
-
-        if (toolsArray.length() == 0) {
-            return resultsArray;
-        }
-
-        for (int i = 0; i < toolsArray.length(); i++) {
-            JSONObject toolObject = toolsArray.getJSONObject(i);
-            JSONObject functionObject = toolObject.getJSONObject("function");
-            String functionName = functionObject.getString("name");
-            JSONObject argumentsObject = functionObject.getJSONObject("arguments");
-            ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer,functionName);
-            String serverUrl = serverInfo.serverUrl();
-            String serverName = serverInfo.serverName();
-            McpSyncClient client = establishClientMCP(serverUrl);
-
-            Map<String, Object> arguments = new HashMap<>();
-            for (String key : argumentsObject.keySet()) {
-                arguments.put(key, argumentsObject.getString(key));
-            }
-
-            McpSchema.CallToolRequest request = new McpSchema.CallToolRequest(functionName, arguments);
-            McpSchema.CallToolResult result = client.callTool(request);
-
-            JSONObject contentObj = new JSONObject();
-            for (McpSchema.Content content : result.content()) {
-                if (content instanceof McpSchema.TextContent textContent) {
-                    LOGGER.info("Debugging the exception. TextContent is {} ", textContent.text());
-                    if (isValidJson(textContent.text())) {
-                        contentObj.put("result", new JSONObject(textContent.text()));
-                    } else {
-                        contentObj.put("result", textContent.text());
-                    }
-                }
-            }
-
-            JSONObject resultObject = new JSONObject();
-            resultObject.put("tool", functionName);
-            try {
-                resultObject.put("result", contentObj.getJSONObject("result"));
-            } catch(Exception e) {
-                resultObject.put("result", contentObj.getString("result"));
-            }
-            
-            resultObject.put("serverUrl", serverUrl);
-            resultObject.put("serverName", serverName);
-            resultObject.put("timestamp", Instant.now());
-
-            resultsArray.put(resultObject);
-            client.close();
-
-        }
-
-
-        return resultsArray;
-    }
-
-    private static ServerInfo findServerInfoForTool(List<ServerInfo> servers, String toolName) {
-        return servers.stream()
-                .filter(server -> server.serverTools().stream()
-                        .anyMatch(tool -> tool.function().name().equals(toolName)))
-                .findFirst()
-                .orElse(null);
-    }
-
-    public static boolean isValidJson(String json) {
-        try {
-            new JSONObject(json);
-            return true;
-        } catch (Exception ex1) {
-            try {
-                new JSONArray(json);
-                return true;
-            } catch (Exception ex2) {
-                return false;
-            }
-        }
     }
 }

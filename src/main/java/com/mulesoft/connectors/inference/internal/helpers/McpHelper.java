@@ -1,27 +1,49 @@
 package com.mulesoft.connectors.inference.internal.helpers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.api.request.Function;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.api.request.Parameters;
 import com.mulesoft.connectors.inference.api.request.Property;
+import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.mcp.ServerInfo;
+import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
 import io.modelcontextprotocol.spec.McpSchema;
 import org.jetbrains.annotations.Nullable;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.*;
+import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class McpHelper {
 
+    private static final Logger logger = LoggerFactory.getLogger(ProviderUtils.class);
+
     public static final int MCP_CLIENT_REQUEST_TIMEOUT = 60;
+    private final ObjectMapper objectMapper;
     private List<FunctionDefinitionRecord> mcpTools = null;
     private List<ServerInfo> mcpToolsArrayByServer = null;
     private boolean mcpToolsLoaded = false;
+
+    public McpHelper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
     public List<FunctionDefinitionRecord> getMcpToolsFromMultiple(TextGenerationConnection connection) {
         if (!mcpToolsLoaded) {
@@ -67,6 +89,62 @@ public class McpHelper {
                                     getToolsFunction(tool, getPropertiesMap(tool))
                             )).toList())
                     .orElse(Collections.emptyList());
+        }
+    }
+
+    public List<ToolResult> executeTools(List<ServerInfo> mcpToolsArrayByServer, List<ToolCall> toolCallList) {
+
+        logger.debug("ExecuteTools - Response from the tools server: {}", toolCallList);
+
+        List<ToolResult> toolResults = new ArrayList<>();
+
+        for (ToolCall toolCall : toolCallList) {
+            String functionName = toolCall.function().name();
+            Map<String, Object> arguments = getArgumentsAsMap(toolCall.function().arguments());
+
+            ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer, functionName);
+            String serverUrl = serverInfo.serverUrl();
+            String serverName = serverInfo.serverName();
+
+            try(McpSyncClient client = establishClientMCP(serverUrl)) {
+
+                McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
+
+                Object contentObj = null;
+                for (McpSchema.Content content : result.content()) {
+                    if (content instanceof McpSchema.TextContent textContent) {
+                        logger.debug("TextContent is {} ", textContent.text());
+                            contentObj = textContent.text();
+                            break;
+                    }
+                }
+                ToolResult resultObject = new ToolResult(functionName,contentObj,serverUrl,serverName, Instant.now());
+                toolResults.add(resultObject);
+            }
+        }
+        return toolResults;
+    }
+
+    private static McpSchema.CallToolResult executeMcpCallToolRequest(McpSyncClient client, String functionName, Map<String, Object> arguments) {
+        McpSchema.CallToolRequest request = new McpSchema.CallToolRequest(functionName, arguments);
+        return client.callTool(request);
+    }
+
+    private static ServerInfo findServerInfoForTool(List<ServerInfo> servers, String toolName) {
+        return servers.stream()
+                .filter(server -> server.serverTools().stream()
+                        .anyMatch(tool -> tool.function().name().equals(toolName)))
+                .findFirst()
+                .orElse(null);
+    }
+
+    private Map<String, Object> getArgumentsAsMap(String jsonString) {
+        try {
+            return objectMapper.readValue(jsonString, new TypeReference<>() {
+            });
+        } catch (JsonProcessingException e) {
+            logger.error("Error parsing JSON: {}. Returning empty map for arguments", e.getMessage());
+            return Collections.emptyMap();
         }
     }
 
@@ -126,7 +204,7 @@ public class McpHelper {
                 .capabilities(getClientCapabilities())
                 .build();
 
-        var initializeResult = client.initialize();
+        client.initialize();
         return client;
     }
 

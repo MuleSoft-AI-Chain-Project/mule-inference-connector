@@ -36,7 +36,7 @@ private McpHelper mcpHelper;
 
   public McpHelper getMcpHelper(){
     if(mcpHelper == null)
-      mcpHelper = new McpHelper();
+      mcpHelper = new McpHelper(this.getObjectMapper());
     return mcpHelper;
   }
 

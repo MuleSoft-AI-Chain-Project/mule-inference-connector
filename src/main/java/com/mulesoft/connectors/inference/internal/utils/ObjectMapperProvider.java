@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.utils;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 public class ObjectMapperProvider {
 
@@ -13,6 +14,7 @@ public class ObjectMapperProvider {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
     objectMapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT);
+    objectMapper.registerModule(new JavaTimeModule());
     return objectMapper;
   }
 }
