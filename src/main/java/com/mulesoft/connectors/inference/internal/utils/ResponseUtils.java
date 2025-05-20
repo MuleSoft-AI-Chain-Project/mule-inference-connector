@@ -6,18 +6,26 @@ import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.mule.runtime.api.metadata.MediaType;
+import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.apache.commons.io.IOUtils.toInputStream;
 
 /**
  * Utility class for processing API responses.
@@ -701,6 +709,78 @@ public class ResponseUtils {
 
         responseAttributes.put("model", connection.getModelName());
         return ResponseHelper.createLLMResponse(jsonObject.toString(), null, responseAttributes);
+    }
+
+    public static Result<InputStream, LLMResponseAttributes> processResponse(BaseConnection connection, String llmResponse) throws ModuleException {
+        try {
+            JSONObject responseObject = new JSONObject();
+            JSONObject llmResponseObject = new JSONObject(llmResponse);
+            responseObject.put("flagged", isFlagged(connection.getInferenceType(), llmResponseObject));
+            List<Map<String, Double>> categories = getCategories(llmResponseObject);
+            JSONArray categoriesArray = new JSONArray();
+            categories.forEach(category -> categoriesArray.put(new JSONObject(category)));
+            responseObject.put("categories", categoriesArray);
+            return Result.<InputStream, LLMResponseAttributes>builder()
+                    .attributesMediaType(MediaType.APPLICATION_JAVA)
+                    .output(toInputStream(responseObject.toString(), StandardCharsets.UTF_8))
+                    .mediaType(MediaType.APPLICATION_JSON)
+                    .build();
+        } catch (Exception e) {
+            LOGGER.error("Error processing moderation response: {}", e.getMessage(), e);
+            throw new ModuleException("MODERATION ERROR", InferenceErrorType.TEXT_MODERATION_FAILURE, e);
+        }
+    }
+
+    protected static List<Map<String, Double>> getCategories(JSONObject llmResponseObject) {
+        JSONArray results = llmResponseObject.getJSONArray("results");
+        List<Map<String, Double>> returnValueList = new ArrayList<>();
+        for (Object result : results) {
+            Map<String, Double> categoriesMap = new HashMap<>();
+            JSONObject resultObject = (JSONObject) result;
+            JSONObject categoriesObject = resultObject.getJSONObject("categories");
+            JSONObject categoryScoresObject = resultObject.getJSONObject("category_scores");
+            for (String key : categoriesObject.keySet()) {
+                categoriesMap.put(key, categoryScoresObject.getDouble(key));
+            }
+            returnValueList.add(categoriesMap);
+        }
+        return returnValueList;
+    }
+
+    private static boolean isFlagged(String inferenceType, JSONObject response) {
+
+        return switch (inferenceType)
+        {
+            case "MistralAI" -> isMistralFlagged(response);
+            case "OpenAI" -> isOpenAIFlagged(response);
+            default -> throw new IllegalStateException("Unexpected value: " + inferenceType);
+        };
+    }
+
+    private static boolean isOpenAIFlagged(JSONObject response) {
+        JSONArray results = response.getJSONArray("results");
+        boolean isFlagged = false;
+        for (Object result : results) {
+            JSONObject resultObject = (JSONObject) result;
+            isFlagged = resultObject.getBoolean("flagged") || isFlagged;
+        }
+        return isFlagged;
+    }
+
+    private static boolean isMistralFlagged(JSONObject response) {
+        boolean isFlagged = false;
+        JSONArray results = response.getJSONArray("results");
+        for (Object result : results) {
+            JSONObject resultObject = (JSONObject) result;
+            JSONObject categories = resultObject.getJSONObject("categories");
+            for (String key : categories.keySet()) {
+                if (categories.getBoolean(key)) {
+                    isFlagged = true;
+                    break;
+                }
+            }
+        }
+        return isFlagged;
     }
 
     public static String encodeImageToBase64(byte[] imageBytes) {

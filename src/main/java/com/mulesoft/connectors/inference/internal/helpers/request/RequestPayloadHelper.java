@@ -10,7 +10,9 @@ import com.mulesoft.connectors.inference.internal.dto.moderation.RequestPayload;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.*;
+import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
+import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -102,6 +104,16 @@ public class RequestPayloadHelper {
                 connection.getMaxTokens(),
                 connection.getTemperature(),
                 connection.getTopP());
+    }
+
+    public String getModerationRequestPayload(String modelName, InputStream text) {
+        try {
+            Object input = objectMapper.readValue(text, Object.class);
+            RequestPayload payload = new RequestPayload(input, modelName);
+            return objectMapper.writeValueAsString(payload);
+        } catch (IOException e) {
+            throw new ModuleException("Failed to process moderation request payload", InferenceErrorType.TEXT_MODERATION_FAILURE, e);
+        }
     }
 
     protected List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
