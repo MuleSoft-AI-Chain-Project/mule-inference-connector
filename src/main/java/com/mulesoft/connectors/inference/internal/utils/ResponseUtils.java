@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.inference.internal.utils;
 
+import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
@@ -113,10 +114,7 @@ public class ResponseUtils {
             jsonObject.put(InferenceConstants.TOOLS, finalToolCalls);
         }
 
-        Map<String, String> responseAttributes = new HashMap<>();
-        responseAttributes.put(InferenceConstants.FINISH_REASON, responseInfo.finishReason);
-        responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
-        responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
+        AdditionalAttributes responseAttributes = new AdditionalAttributes(responseInfo.id,responseInfo.model, responseInfo.finishReason);
 
         return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
     }
@@ -196,7 +194,7 @@ public class ResponseUtils {
         responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
         responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
 
-        return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
+        return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, null);
     }
 
     public static Result<InputStream, LLMResponseAttributes> processResponse(
@@ -275,10 +273,8 @@ public class ResponseUtils {
             }
         }
 
-        Map<String, String> responseAttributes = new HashMap<>();
-        responseAttributes.put(InferenceConstants.FINISH_REASON, responseInfo.finishReason);
-        responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
-        responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
+        AdditionalAttributes responseAttributes = new AdditionalAttributes(responseInfo.id,responseInfo.model, responseInfo.finishReason);
+
 
         return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
     }
@@ -359,24 +355,10 @@ public class ResponseUtils {
             }
         }
 
-        Map<String, String> responseAttributes = new HashMap<>();
-        responseAttributes.put(InferenceConstants.FINISH_REASON, responseInfo.finishReason);
-        responseAttributes.put(InferenceConstants.MODEL, responseInfo.model);
-        responseAttributes.put(InferenceConstants.ID_STRING, responseInfo.id);
+        AdditionalAttributes responseAttributes = new AdditionalAttributes(responseInfo.id,responseInfo.model, responseInfo.finishReason);
+
 
         return ResponseHelper.createLLMResponse(jsonObject.toString(), tokenUsage, responseAttributes);
-    }
-
-    /**
-     * Process the response from the LLM API for standard chat operations
-     * @param response the response string from the API
-     * @param configuration the connector configuration
-     * @return result containing the LLM response
-     * @throws Exception if an error occurs during processing
-     */
-    public static Result<InputStream, LLMResponseAttributes> processLLMResponse(
-            String response, ChatCompletionBase configuration) throws Exception {
-        return processResponse(response, configuration, false);
     }
 
     public static Result<InputStream, LLMResponseAttributes> processLLMResponse(
@@ -410,75 +392,12 @@ public class ResponseUtils {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
-        info.model = /*!("AI21LABS".equals(configuration.getInferenceType())
+        info.model =connection.getModelName();
 
-                || "COHERE".equals(configuration.getInferenceType())
-                || "VERTEX_AI_EXPRESS".equals(configuration.getInferenceType())
-                || "VERTEX_AI".equals(configuration.getInferenceType())
-                || ("VERTEX_AI".equals(configuration.getInferenceType()) && "Anthropic".equalsIgnoreCase(provider))
-        )
-                ? root.getString("model")   //if model is not AI21LABS or COHERE or VERTEX_AI_EXPRESS or VERTEX_AI AND provider is Anthropic
-                : */connection.getModelName();
-
-        /*if (ProviderUtils.isOllama(configuration) || ProviderUtils.isllamaAPI(configuration)) {
-            info.id = null;
-        } else if ((ProviderUtils.isVertexAIExpress(configuration) || ProviderUtils.isVertexAI(configuration)) &&
-                !"Anthropic".equalsIgnoreCase(provider) &&
-                !"Meta".equalsIgnoreCase(provider)) {
-
-            info.id = root.getString("responseId");
-        } else {*/
             info.id = root.getString("id");
-       // }
 
         info.message = new JSONObject();
 
-       /* if (ProviderUtils.isOllama(connection)) {
-            info.message = root.getJSONObject("message");
-            info.finishReason = root.getString("done_reason");
-        } else if (ProviderUtils.isCohere(connection)) {
-            info.message = root.getJSONObject("message");
-            info.finishReason = root.getString("finish_reason");
-        } else if (ProviderUtils.isAnthropic(connection) || "Anthropic".equalsIgnoreCase(provider)) {
-            info.finishReason = root.getString("stop_reason");
-
-            // Extract text from content array
-            if (root.has("content") && root.getJSONArray("content").length() > 0) {
-                JSONArray contentArray = root.getJSONArray("content");
-                for (int i = 0; i < contentArray.length(); i++) {
-                    JSONObject contentItem = contentArray.getJSONObject(i);
-                    if ("text".equals(contentItem.getString("type")) && info.text.isEmpty()) {
-                        info.text = contentItem.getString("text");
-                        break;
-                    }
-                }
-            }
-
-            info.message = new JSONObject();
-            info.message.put("content", info.text);
-        } else if ((ProviderUtils.isVertexAIExpress(configuration) || ProviderUtils.isVertexAI(configuration)) && !"Meta".equalsIgnoreCase(provider)) {
-            //for google models
-            // Extract candidates array
-            JSONArray candidatesArray = root.getJSONArray("candidates");
-
-            // Ensure at least one candidate exists
-            if (candidatesArray.length() > 0) {
-                JSONObject firstCandidate = candidatesArray.getJSONObject(0);
-
-                // Extract finishReason
-                info.finishReason = firstCandidate.optString("finishReason", "Unknown");
-
-                // Extract text from content.parts array
-                JSONObject content = firstCandidate.getJSONObject("content");
-                JSONArray partsArray = content.getJSONArray("parts");
-                info.message = partsArray.getJSONObject(0);
-
-            } else {
-                LOGGER.debug("No candidates found in the response from provider: {}", configuration.getInferenceType());
-            }
-
-
-        } else {*/
             // Default case for other models (OpenAI, etc.)
             JSONArray choicesArray = root.getJSONArray("choices");
             JSONObject firstChoice = choicesArray.getJSONObject(0);
@@ -486,7 +405,6 @@ public class ResponseUtils {
 
             info.finishReason = /*ProviderUtils.isNvidia(connection) ? "" :*/ firstChoice.getString("finish_reason");
             info.message = firstChoice.getJSONObject("message");
-       // }
         return info;
     }
 
@@ -706,9 +624,10 @@ public class ResponseUtils {
                 jsonObject.put(InferenceConstants.RESPONSE, b64Json);
             }
         }
-
         responseAttributes.put("model", connection.getModelName());
-        return ResponseHelper.createLLMResponse(jsonObject.toString(), null, responseAttributes);
+        AdditionalAttributes incorrectResponseAttributes = new AdditionalAttributes(null,connection.getModelName(), null);
+
+        return ResponseHelper.createLLMResponse(jsonObject.toString(), null, incorrectResponseAttributes);
     }
 
     public static Result<InputStream, LLMResponseAttributes> processResponse(BaseConnection connection, String llmResponse) throws ModuleException {

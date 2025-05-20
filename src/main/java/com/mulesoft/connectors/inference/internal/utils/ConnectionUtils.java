@@ -7,7 +7,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
@@ -17,6 +16,7 @@ import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
 import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.mule.runtime.api.util.MultiMap;
@@ -46,7 +46,7 @@ import static com.mulesoft.connectors.inference.internal.utils.ResponseUtils.enc
  * Utility class for HTTP connection operations using Mule's HttpClient.
  */
 public class ConnectionUtils {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(ConnectionUtils.class);
 
     /**
      * Build the HTTP request for the API call.
@@ -67,7 +67,7 @@ public class ConnectionUtils {
             finalUri = url.toString() + "?" + getQueryParams(queryParams);
         }
 
-        LOGGER.debug("Request path: {}", finalUri);
+        logger.debug("Request path: {}", finalUri);
 
         requestBuilder
                 .uri(finalUri)
@@ -123,7 +123,7 @@ public class ConnectionUtils {
         HttpRequestBuilder requestBuilder = HttpRequest.builder();
         String finalUri = url.toString();
 
-        LOGGER.debug("Request path: {}", finalUri);
+        logger.debug("Request path: {}", finalUri);
 
         requestBuilder
                 .uri(finalUri)
@@ -178,6 +178,18 @@ public class ConnectionUtils {
         return requestBuilder.build();
     }
 
+    public static HttpRequestBuilder createDefaultRequestBuilder(String url) {
+        return HttpRequest.builder()
+                .uri(url)
+                .method("POST")
+                .headers(getDefaultHeaders());
+    }
+
+    private static MultiMap<String,String> getDefaultHeaders()
+    {
+        return new MultiMap<>(Map.of("Content-Type", "application/json",
+                "Accept", "application/json"));
+    }
     public static HttpRequest buildHttpRequest(URL url, TextGenerationConnection connection) {
 
         HttpRequestBuilder requestBuilder = HttpRequest.builder();
@@ -188,7 +200,7 @@ public class ConnectionUtils {
         Optional.ofNullable(connection.getAdditionalHeaders())
                 .ifPresent(map -> map.forEach(requestBuilder::addHeader));
 
-        LOGGER.debug("Request path: {}", finalUri);
+        logger.debug("Request path: {}", finalUri);
 
         return requestBuilder
                 .uri(finalUri)
@@ -211,9 +223,9 @@ public class ConnectionUtils {
                 .build();
     }
 
-    public static HttpRequestOptions getRequestOptions( TextGenerationConnection connection) {
+    public static HttpRequestOptions getRequestOptions( int timeout) {
         return HttpRequestOptions.builder()
-                .responseTimeout(String.valueOf(connection.getTimeout()) != null ? Integer.parseInt(String.valueOf(connection.getTimeout())) : 600000)
+                .responseTimeout(timeout)
                 .followsRedirect(true)
                 .build();
     }
@@ -237,8 +249,8 @@ public class ConnectionUtils {
         if (resourceUrl == null) {
             throw new IllegalArgumentException("Resource URL cannot be null");
         }
-        LOGGER.debug("Sending request to URL: {}", resourceUrl);
-        LOGGER.trace("Payload: {} ", payload);
+        logger.debug("Sending request to URL: {}", resourceUrl);
+        logger.trace("Payload: {} ", payload);
         HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
         MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
         Map<String, String> headersMap = new HashMap<>();
@@ -340,6 +352,23 @@ public class ConnectionUtils {
         return processResponse(response);
     }
 
+    public static HttpResponse executeChatRestRequest(TextGenerationConnection connection, String resourceUrl,
+                                                TextGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
+
+        HttpRequestBuilder requestBuilder = createDefaultRequestBuilder(resourceUrl)
+                .headers(new MultiMap<>(connection.getAdditionalHeaders()))
+                .queryParams(new MultiMap<>(connection.getQueryParams()))
+                .entity(new ByteArrayHttpEntity(connection.getObjectMapper().writeValueAsBytes(payload)));
+
+        logger.debug("Sending request to URL: {} and with headers: {}", resourceUrl, requestBuilder.getHeaders());
+        logger.trace("Sending request with queryParams: {}", requestBuilder.getQueryParams());
+        logger.trace("Sending request with  payload: {} ", payload);
+
+        HttpRequestOptions options = getRequestOptions(connection.getTimeout());
+        return connection.getHttpClient()
+                .send(requestBuilder.build(), options);
+    }
+
     /**
      * Execute a REST API call.
      * @param resourceUrl the URL to call
@@ -352,8 +381,8 @@ public class ConnectionUtils {
         if (resourceUrl == null) {
             throw new IllegalArgumentException("Resource URL cannot be null");
         }
-        LOGGER.debug("Sending request to URL: {}", resourceUrl);
-        LOGGER.trace("Payload: {} ", payload);
+        logger.debug("Sending request to URL: {}", resourceUrl);
+        logger.trace("Payload: {} ", payload);
         HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
         MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
         Map<String, String> headersMap = new HashMap<>();
@@ -469,7 +498,6 @@ public class ConnectionUtils {
         return processStabilityAIImageResponse(response, payload);
     }
 
-
     /**
      * Process the HTTP response for standard REST calls.
      * @param response the HttpResponse to process
@@ -483,7 +511,7 @@ public class ConnectionUtils {
             return new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
         } else {
             String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            LOGGER.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
+            logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
             throw new IOException("API request failed with status code: " + statusCode + " and message: " + errorResponse);
         }
     }
@@ -521,7 +549,7 @@ public class ConnectionUtils {
             return responseWrapper.toString();
         } else {
             String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            LOGGER.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
+            logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
             throw new IOException("API request failed with status code: " + statusCode + " and message: " + errorResponse);
         }
     }
@@ -543,7 +571,7 @@ public class ConnectionUtils {
                     base64Image = base64Image.substring(base64Image.indexOf(",") + 1);
                 }
                 // Log base64 length for debugging
-                LOGGER.debug("Base64 image length: {}", base64Image.length());
+                logger.debug("Base64 image length: {}", base64Image.length());
                 JSONObject base64Object = new JSONObject();
                 base64Object.put("b64_json", base64Image);
                 JSONObject payloadJson = new JSONObject(payload);
@@ -553,13 +581,13 @@ public class ConnectionUtils {
                 dataArray.put(base64Object);
                 responseWrapper.put("data", dataArray);
             } else {
-                LOGGER.error("Unexpected response format: Content-Type is {} and response body is {}", contentType, responseBody);
+                logger.error("Unexpected response format: Content-Type is {} and response body is {}", contentType, responseBody);
                 throw new IOException("Unexpected response format from Stability AI API");
             }
             return responseWrapper.toString();
         } else {
             String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            LOGGER.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
+            logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
             throw new IOException("API request failed with status code: " + statusCode + " and message: " + errorResponse);
         }
     }
@@ -592,7 +620,7 @@ public class ConnectionUtils {
 
         credentials.refreshIfExpired();
         String token = credentials.getAccessToken().getTokenValue();
-        LOGGER.debug("gcp access token {}", token);
+        logger.debug("gcp access token {}", token);
         return token;
     	        
     }
@@ -639,7 +667,7 @@ public class ConnectionUtils {
 
         // Build URL-encoded payload
         String payload = getURLEncodedData(params);
-        LOGGER.debug("Token request payload: {}", payload);
+        logger.debug("Token request payload: {}", payload);
 
         // Build HttpRequest
         HttpRequestBuilder requestBuilder = HttpRequest.builder()
@@ -663,7 +691,7 @@ public class ConnectionUtils {
             throw new IllegalStateException("HttpClient is not initialized in BaseConnection");
         }
 
-        LOGGER.debug("Executing token request to: {}", url);
+        logger.debug("Executing token request to: {}", url);
         HttpResponse response = httpClient.send(request, options);
 
         // Process response
@@ -696,10 +724,10 @@ public class ConnectionUtils {
         }
 
         if (statusCode >= 200 && statusCode < 300) {
-            LOGGER.debug("Token request successful, response: {}", responseBody);
+            logger.debug("Token request successful, response: {}", responseBody);
             return responseBody;
         } else {
-            LOGGER.error("Token request failed with status {}: {}", statusCode, responseBody);
+            logger.error("Token request failed with status {}: {}", statusCode, responseBody);
             throw new IOException("Token request failed with status " + statusCode + ": " + responseBody);
         }
     }

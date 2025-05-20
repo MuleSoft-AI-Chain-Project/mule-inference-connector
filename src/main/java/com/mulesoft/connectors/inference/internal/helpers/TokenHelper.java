@@ -61,4 +61,8 @@ public class TokenHelper {
 
         return usage;
     }
+
+    public static TokenUsage parseUsageFromResponse(com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TokenUsage usage) {
+        return new TokenUsage(usage.promptTokens(), usage.completionTokens(), usage.totalTokens());
+    }
 }

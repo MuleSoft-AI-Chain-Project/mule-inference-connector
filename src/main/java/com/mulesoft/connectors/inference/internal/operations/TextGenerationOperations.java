@@ -85,21 +85,7 @@ public class TextGenerationOperations {
     @Summary("Simple chat answer prompt")
     public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
-        try {
-            RequestPayloadHelper payloadHelper = connection.getRequestPayloadHelper();
-            TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildChatAnswerPromptPayload(connection,prompt);
-
-            URL chatCompUrl = new URL(connection.getApiURL());
-            logger.debug("Chat answer prompt Url: {}", chatCompUrl);
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection, connection.getObjectMapper().writeValueAsString(requestPayloadDTO));
-
-            logger.debug("Chat answer prompt result {}", response);
-
-            return ResponseUtils.processLLMResponse(response, connection);
-        } catch (Exception e) {
-            throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Chat answer prompt"),
-                    InferenceErrorType.CHAT_COMPLETION_FAILURE, e);
-        }
+            return connection.getService().executeChatAnswerPrompt(connection,prompt);
     }
 
     /**
