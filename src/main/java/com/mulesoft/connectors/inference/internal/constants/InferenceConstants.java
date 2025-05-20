@@ -57,26 +57,12 @@ public class InferenceConstants {
   public static final String STABILITY_AI_GENERATE_IMAGES = "/v2beta/stable-image/generate/sd3";
 
   // Configuration Parameters
-  public static final String MAX_TOKENS = "max_tokens";
-  public static final String MAX_COMPLETION_TOKENS = "max_completion_tokens";
-  public static final String TEMPERATURE = "temperature";
-  public static final String TOP_P = "top_p";
-  
+
   public static final String RESPONSE = "response";
   public static final String FINISH_REASON = "finish_reason";
   public static final String MODEL = "model";
   public static final String ID_STRING = "id";
-  public static final String MESSAGES = "messages";
-  public static final String AZURE_PROMPT = "prompt";
   public static final String TOOLS = "tools";
-  public static final String TOOL_CALLS = "tool_calls";
-  public static final String ASSISTANT = "assistant";
-  public static final String SYSTEM = "system";
-  public static final String MODERATIONS = "moderations";
-  public static final String CONTENTS = "contents";
-  public static final String SYSTEM_INSTRUCTION = "systemInstruction";
-  public static final String GENERATION_CONFIG = "generationConfig";
-  public static final String SAFETY_SETTINGS = "safetySettings";
 
   public static final String MODERATIONS_PATH = "/moderations";
 

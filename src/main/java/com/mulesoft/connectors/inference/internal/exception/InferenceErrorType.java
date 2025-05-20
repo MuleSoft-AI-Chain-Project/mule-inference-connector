@@ -14,7 +14,8 @@ public enum InferenceErrorType implements ErrorTypeDefinition<InferenceErrorType
   TEXT_MODERATION_FAILURE(MuleErrors.ANY),
   VISION_FAILURE(MuleErrors.ANY),
   IMAGE_GENERATION_FAILURE(MuleErrors.ANY),
-  INVALID_CONNECTION(MuleErrors.CONNECTIVITY);
+  INVALID_PROVIDER(MuleErrors.CONNECTIVITY),
+  INVALID_CONNECTION(MuleErrors.CONNECTIVITY)  ;
 
   private final ErrorTypeDefinition<? extends Enum<?>> parent;
 

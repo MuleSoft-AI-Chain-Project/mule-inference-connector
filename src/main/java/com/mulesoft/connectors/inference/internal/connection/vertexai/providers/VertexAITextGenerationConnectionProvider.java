@@ -10,6 +10,7 @@ import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -30,6 +31,24 @@ public class VertexAITextGenerationConnectionProvider extends TextGenerationConn
     @OfValues(VertexAITextGenerationModelNameProvider.class)
     private String vertexAIModelName;
 
+    @Parameter
+    @Expression(ExpressionSupport.SUPPORTED)
+    @Optional(defaultValue = "us-central1")
+    @DisplayName("[VertexAI] Location Id")
+    private String vertexAILocationId;
+
+    @Parameter
+    @Expression(ExpressionSupport.SUPPORTED)
+    @Optional
+    @DisplayName("[VertexAI] Project Id")
+    private String vertexAIProjectId;
+
+    @Parameter
+    @Expression(ExpressionSupport.SUPPORTED)
+    @Optional
+    @DisplayName("[VertexAI] Service Account Key")
+    private String vertexAIServiceAccountKey;
+
     @ParameterGroup(name = Placement.CONNECTION_TAB)
     private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
@@ -37,6 +56,7 @@ public class VertexAITextGenerationConnectionProvider extends TextGenerationConn
     public VertexAITextGenerationConnection connect() throws ConnectionException {
         logger.debug("VertexAITextGenerationConnection connect ...");
         return new VertexAITextGenerationConnection(getHttpClient(),getObjectMapper(), vertexAIModelName,
+                vertexAILocationId, vertexAIProjectId,vertexAIServiceAccountKey,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
