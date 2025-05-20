@@ -2,27 +2,23 @@ package com.mulesoft.connectors.inference.internal.helpers.request;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.UserContentRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.*;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta.VertexAIMetaPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.*;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.FileData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.InlineData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.Part;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.VisionContentRecord;
-import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
+import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,12 +26,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.*;
-import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.*;
+import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.ANTHROPIC_PROVIDER_TYPE;
+import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.GOOGLE_PROVIDER_TYPE;
+import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.META_PROVIDER_TYPE;
 
 public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     public static final String VERTEX_AI_ANTHROPIC_VERSION_VALUE = "vertex-2023-10-16";
+    private static final String DEFAULT_MIME_TYPE = "image/jpeg";
 
     public VertexAIRequestPayloadHelper(ObjectMapper objectMapper) {
         super(objectMapper);
@@ -161,7 +159,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         // Add image content
         ImageSource imageSource;
         if (isBase64String(imageUrl)) {
-            imageSource = new ImageSource("base64", PayloadUtils.getMimeType(imageUrl), imageUrl, null);
+            imageSource = new ImageSource("base64", getMimeType(imageUrl), imageUrl, null);
         } else {
             imageSource = new ImageSource("url", null, null, imageUrl);
         }
@@ -212,7 +210,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     objectMapper.writeValueAsString(
                             List.of(vertexAIAnthropicChatPayloadRecord)));
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            throw new ModuleException("Error parsing JSON to VertexAIAnthropicChatPayloadRecord", InferenceErrorType.CHAT_COMPLETION_FAILURE);
         }
         return new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
                 List.of(payloadDTO),
@@ -261,5 +259,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 connection.getMaxTokens(),
                 connection.getTopP());
     }
-
+    private String getMimeTypeFromUrl(String imageUrl) {
+        return imageUrl != null && imageUrl.toLowerCase().trim().endsWith(".png")
+                ? "image/png"
+                : DEFAULT_MIME_TYPE;
+    }
 }

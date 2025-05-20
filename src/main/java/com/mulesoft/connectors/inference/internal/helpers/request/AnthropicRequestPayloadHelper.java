@@ -4,16 +4,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.internal.dto.vision.Content;
+import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.vision.ImageContent;
+import com.mulesoft.connectors.inference.internal.dto.vision.ImageSource;
+import com.mulesoft.connectors.inference.internal.dto.vision.Message;
+import com.mulesoft.connectors.inference.internal.dto.vision.TextContent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.mulesoft.connectors.inference.internal.dto.vision.*;
-import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.isBase64String;
 
 public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
 
@@ -47,7 +50,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
         // Add image content
         ImageSource imageSource;
         if (isBase64String(imageUrl)) {
-            imageSource = new ImageSource("base64", PayloadUtils.getMimeType(imageUrl), imageUrl, null);
+            imageSource = new ImageSource("base64", getMimeType(imageUrl), imageUrl, null);
         } else {
             imageSource = new ImageSource("url", null, null, imageUrl);
         }

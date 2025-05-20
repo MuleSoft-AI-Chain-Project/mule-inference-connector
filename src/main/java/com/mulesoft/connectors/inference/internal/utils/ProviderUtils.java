@@ -385,7 +385,7 @@ public class ProviderUtils {
             for (McpSchema.Content content : result.content()) {
                 if (content instanceof McpSchema.TextContent textContent) {
                     LOGGER.info("Debugging the exception. TextContent is {} ", textContent.text());
-                    if (PayloadUtils.isValidJson(textContent.text())) {
+                    if (isValidJson(textContent.text())) {
                         contentObj.put("result", new JSONObject(textContent.text()));
                     } else {
                         contentObj.put("result", textContent.text());
@@ -420,5 +420,19 @@ public class ProviderUtils {
                         .anyMatch(tool -> tool.function().name().equals(toolName)))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public static boolean isValidJson(String json) {
+        try {
+            new JSONObject(json);
+            return true;
+        } catch (Exception ex1) {
+            try {
+                new JSONArray(json);
+                return true;
+            } catch (Exception ex2) {
+                return false;
+            }
+        }
     }
 }

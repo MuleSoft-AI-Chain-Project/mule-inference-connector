@@ -11,17 +11,18 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequ
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.*;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.utils.PayloadUtils;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
-import static com.mulesoft.connectors.inference.internal.utils.PayloadUtils.isBase64String;
 
 public class RequestPayloadHelper {
     private static final Logger logger = LoggerFactory.getLogger(RequestPayloadHelper.class);
@@ -138,9 +139,28 @@ public class RequestPayloadHelper {
                         .constructCollectionType(List.class,FunctionDefinitionRecord.class));
     }
 
+    protected String getMimeType(String base64String) throws IOException {
+        byte[] decodedBytes = Base64.getDecoder().decode(base64String);
+        ByteArrayInputStream inputStream = new ByteArrayInputStream(decodedBytes);
+        String mimeType = URLConnection.guessContentTypeFromStream(inputStream);
+        return mimeType != null ? mimeType : "image/jpeg";
+    }
+
+    protected boolean isBase64String(String str) {
+        if (str == null || str.length() % 4 != 0 || !str.matches("^[A-Za-z0-9+/]*={0,2}$")) {
+            return false;
+        }
+        try {
+            Base64.getDecoder().decode(str);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+
     private String getImageUrl(String imageUrl) throws IOException {
         return isBase64String(imageUrl)
-                ? "data:" + PayloadUtils.getMimeType(imageUrl) + ";base64," + imageUrl
+                ? "data:" + getMimeType(imageUrl) + ";base64," + imageUrl
                 : imageUrl;
     }
 }
