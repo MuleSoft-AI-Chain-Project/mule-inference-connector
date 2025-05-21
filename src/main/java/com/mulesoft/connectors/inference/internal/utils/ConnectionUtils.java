@@ -1,6 +1,22 @@
 package com.mulesoft.connectors.inference.internal.utils;
 
 import com.google.auth.oauth2.GoogleCredentials;
+import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
+import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
+import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import org.json.JSONObject;
+import org.mule.runtime.api.util.MultiMap;
+import org.mule.runtime.http.api.client.HttpClient;
+import org.mule.runtime.http.api.client.HttpRequestOptions;
+import org.mule.runtime.http.api.domain.entity.ByteArrayHttpEntity;
+import org.mule.runtime.http.api.domain.entity.HttpEntity;
+import org.mule.runtime.http.api.domain.message.request.HttpRequest;
+import org.mule.runtime.http.api.domain.message.request.HttpRequestBuilder;
+import org.mule.runtime.http.api.domain.message.response.HttpResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
@@ -10,39 +26,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.mule.runtime.api.util.MultiMap;
-import org.mule.runtime.http.api.client.HttpClient;
-import org.mule.runtime.http.api.client.HttpRequestOptions;
-import org.mule.runtime.http.api.domain.entity.ByteArrayHttpEntity;
-import org.mule.runtime.http.api.domain.entity.HttpEntity;
-import org.mule.runtime.http.api.domain.entity.multipart.HttpPart;
-import org.mule.runtime.http.api.domain.entity.multipart.MultipartHttpEntity;
-import org.mule.runtime.http.api.domain.message.request.HttpRequest;
-import org.mule.runtime.http.api.domain.message.request.HttpRequestBuilder;
-import org.mule.runtime.http.api.domain.message.response.HttpResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeoutException;
-
-import static com.mulesoft.connectors.inference.internal.utils.ResponseUtils.encodeImageToBase64;
 
 /**
  * Utility class for HTTP connection operations using Mule's HttpClient.
@@ -180,18 +168,6 @@ public class ConnectionUtils {
         return requestBuilder.build();
     }
 
-    public static HttpRequestBuilder createDefaultRequestBuilder(String url) {
-        return HttpRequest.builder()
-                .uri(url)
-                .method("POST")
-                .headers(getDefaultHeaders());
-    }
-
-    private static MultiMap<String,String> getDefaultHeaders()
-    {
-        return new MultiMap<>(Map.of("Content-Type", "application/json",
-                "Accept", "application/json"));
-    }
     public static HttpRequest buildHttpRequest(URL url, TextGenerationConnection connection) {
 
         HttpRequestBuilder requestBuilder = HttpRequest.builder();
@@ -225,54 +201,11 @@ public class ConnectionUtils {
                 .build();
     }
 
-    public static HttpRequestOptions getRequestOptions( int timeout) {
-        return HttpRequestOptions.builder()
-                .responseTimeout(timeout)
-                .followsRedirect(true)
-                .build();
-    }
-
     public static HttpRequestOptions getRequestOptions(BaseConnection connection) {
         return HttpRequestOptions.builder()
                 .responseTimeout(String.valueOf(connection.getTimeout()) != null ? Integer.parseInt(String.valueOf(connection.getTimeout())) : 600000)
                 .followsRedirect(true)
                 .build();
-    }
-
-    /**
-     * Execute a REST API call.
-     * @param resourceUrl the URL to call
-     * @param connection the connector configuration
-     * @param payload the payload to send
-     * @return the response string
-     * @throws IOException if an error occurs during the API call
-     */
-    public static String executeREST(URL resourceUrl,  ChatCompletionBase connection, String payload) throws IOException, TimeoutException {
-        if (resourceUrl == null) {
-            throw new IllegalArgumentException("Resource URL cannot be null");
-        }
-        logger.debug("Sending request to URL: {}", resourceUrl);
-        logger.trace("Payload: {} ", payload);
-        HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
-        MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
-        Map<String, String> headersMap = new HashMap<>();
-        headersMultiMap.forEach((key, values) -> {
-            headersMap.put(key, String.join(",", values));
-        });
-        HttpRequestBuilder builder = HttpRequest.builder()
-                .uri(initialRequest.getUri())
-                .method(initialRequest.getMethod())
-                .entity(new ByteArrayHttpEntity(payload.getBytes(StandardCharsets.UTF_8)));
-        headersMap.forEach(builder::addHeader);
-        HttpRequest finalRequest = builder.build();
-        HttpRequestOptions options = getRequestOptions(connection);
-
-        HttpClient httpClient = connection.getHttpClient();
-        if (httpClient == null) {
-            throw new IllegalStateException("HttpClient is not initialized");
-        }
-        HttpResponse response = httpClient.send(finalRequest, options);
-        return processResponse(response);
     }
 
     /**
@@ -354,33 +287,6 @@ public class ConnectionUtils {
         return processResponse(response);
     }
 
-    public static HttpResponse executeChatRestRequest(TextGenerationConnection connection, String resourceUrl,
-                                                TextGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
-        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
-    }
-
-    public static HttpResponse executeImageGenerationRestRequest(ImageGenerationConnection connection, String resourceUrl,
-                                                                 ImageGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
-        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
-    }
-
-    public static HttpResponse executeRestRequest(BaseConnection connection, String resourceUrl,
-                                                      byte[] payloadAsBytes) throws IOException, TimeoutException {
-
-        HttpRequestBuilder requestBuilder = createDefaultRequestBuilder(resourceUrl)
-                .headers(new MultiMap<>(connection.getAdditionalHeaders()))
-                .queryParams(new MultiMap<>(connection.getQueryParams()))
-                .entity(new ByteArrayHttpEntity(payloadAsBytes));
-
-        logger.debug("Sending request to URL: {}", resourceUrl);
-        logger.trace("Request headers: {}", requestBuilder.getHeaders());
-        logger.trace("Request queryParams: {}", requestBuilder.getQueryParams());
-
-        HttpRequestOptions options = getRequestOptions(connection.getTimeout());
-        return connection.getHttpClient()
-                .send(requestBuilder.build(), options);
-    }
-
     /**
      * Execute a REST API call.
      * @param resourceUrl the URL to call
@@ -417,99 +323,6 @@ public class ConnectionUtils {
         return processResponse(response);
     }
 
-    public static String executeRestImageGeneration(URL resourceUrl, BaseConnection connection, String payload ) throws IOException, TimeoutException {
-        String response = "";
-
-        if ((ProviderUtils.isHuggingFace((connection)))) {
-            response = ConnectionUtils.executeRESTHuggingFaceImage(resourceUrl, connection, payload.toString());
-        } else if (ProviderUtils.isStabilityAI(connection)) {
-            response = executeRESTStabilityAIImage(resourceUrl, connection, payload);
-        } else {
-            response = ConnectionUtils.executeREST(resourceUrl, connection, payload.toString());
-        }
-        return response;
-    }
-
-    /**
-     * Execute a REST API call for Hugging Face image generation.
-     * @param resourceUrl the URL to call
-     * @param connection the connector configuration
-     * @param payload the payload to send
-     * @return the response string
-     * @throws IOException if an error occurs during the API call
-     */
-    public static String executeRESTHuggingFaceImage(URL resourceUrl, BaseConnection connection, String payload) throws IOException, TimeoutException {
-        if (resourceUrl == null) {
-            throw new IllegalArgumentException("Resource URL cannot be null");
-        }
-        // Build initial request for headers and URI
-        HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
-        // Convert MultiMap to Map
-        MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
-        Map<String, String> headersMap = new HashMap<>();
-        headersMultiMap.forEach((key, values) -> {
-            // Take the first value or concatenate if multiple values exist
-            headersMap.put(key, String.join(",", values));
-        });
-        // Build final request with payload
-        HttpRequestBuilder builder = HttpRequest.builder()
-                .uri(initialRequest.getUri())
-                .method(initialRequest.getMethod())
-                .entity(new ByteArrayHttpEntity(payload.getBytes(StandardCharsets.UTF_8)));
-        // Add headers individually
-        headersMap.forEach(builder::addHeader);
-        HttpRequest finalRequest = builder.build();
-        HttpRequestOptions options = getRequestOptions(connection);
-
-        HttpClient httpClient = connection.getHttpClient();
-        if (httpClient == null) {
-            throw new IllegalStateException("HttpClient is not initialized in BaseConnection");
-        }
-        HttpResponse response = httpClient.send(finalRequest, options);
-        return processHuggingFaceImageResponse(response, payload);
-    }
-
-
-
-    public static String executeRESTStabilityAIImage(URL resourceUrl, BaseConnection connection, String payload) throws IOException, TimeoutException {
-        if (resourceUrl == null) {
-            throw new IllegalArgumentException("Resource URL cannot be null");
-        }
-        HttpRequest initialRequest = buildHttpRequest(resourceUrl, connection);
-        MultiMap<String, String> headersMultiMap = initialRequest.getHeaders();
-        Map<String, String> headersMap = new HashMap<>();
-        headersMultiMap.forEach((key, values) -> {
-            headersMap.put(key, String.join(",", values));
-        });
-
-        // Remove any existing Content-Type to avoid conflicts
-        headersMap.remove("Content-Type");
-        headersMap.remove("content-type");
-
-        JSONObject payloadJson = new JSONObject(payload);
-        List<HttpPart> parts = new ArrayList<>();
-        byte[] promptBytes = payloadJson.getString("prompt").getBytes(StandardCharsets.UTF_8);
-        parts.add(new HttpPart("prompt", promptBytes, "text/plain", promptBytes.length));
-        HttpEntity entity = new MultipartHttpEntity(parts);
-
-        HttpRequestBuilder builder = HttpRequest.builder()
-                .uri(initialRequest.getUri())
-                .method(initialRequest.getMethod())
-                .addHeader("Content-Type", "multipart/form-data")
-                .entity(entity);
-        headersMap.forEach(builder::addHeader);
-        HttpRequest finalRequest = builder.build();
-
-        HttpRequestOptions options = getRequestOptions(connection);
-
-        HttpClient httpClient = connection.getHttpClient();
-        if (httpClient == null) {
-            throw new IllegalStateException("HttpClient is not initialized in BaseConnection");
-        }
-        HttpResponse response = httpClient.send(finalRequest, options);
-        return processStabilityAIImageResponse(response, payload);
-    }
-
     /**
      * Process the HTTP response for standard REST calls.
      * @param response the HttpResponse to process
@@ -521,82 +334,6 @@ public class ConnectionUtils {
 
         if (statusCode == 200) {
             return new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-        } else {
-            String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
-            throw new IOException("API request failed with status code: " + statusCode + " and message: " + errorResponse);
-        }
-    }
-
-    /**
-     * Process the HTTP response for Hugging Face image generation.
-     * @param response the HttpResponse to process
-     * @param payload the original payload for context
-     * @return the response string in JSON format
-     * @throws IOException if the response indicates an error
-     */
-    private static String processHuggingFaceImageResponse(HttpResponse response, String payload) throws IOException {
-        int statusCode = response.getStatusCode();
-        JSONObject responseWrapper = new JSONObject();
-
-        if (statusCode == 200) {
-            String contentType = response.getHeaderValue("Content-Type");
-
-            if (contentType != null && contentType.startsWith("image/")) {
-                byte[] responseBytes = response.getEntity().getBytes();
-                String base64Image = encodeImageToBase64(responseBytes);
-
-                JSONObject base64Object = new JSONObject();
-                base64Object.put("b64_json", base64Image);
-
-                JSONObject revisedPrompt = new JSONObject(payload);
-                base64Object.put("revised_prompt", revisedPrompt.getString("inputs"));
-
-                JSONArray dataArray = new JSONArray();
-                dataArray.put(base64Object);
-
-                responseWrapper.put("data", dataArray);
-            }
-
-            return responseWrapper.toString();
-        } else {
-            String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
-            throw new IOException("API request failed with status code: " + statusCode + " and message: " + errorResponse);
-        }
-    }
-
-
-    private static String processStabilityAIImageResponse(HttpResponse response, String payload) throws IOException {
-        int statusCode = response.getStatusCode();
-        JSONObject responseWrapper = new JSONObject();
-
-        if (statusCode == 200) {
-            String responseBody = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
-            JSONObject stabilityResponse = new JSONObject(responseBody);
-            String contentType = response.getHeaderValue("Content-Type");
-
-            if (contentType != null && contentType.contains("application/json") && stabilityResponse.has("image")) {
-                String base64Image = stabilityResponse.getString("image");
-                // Clean base64 string if it contains data URI prefix
-                if (base64Image.startsWith("data:image")) {
-                    base64Image = base64Image.substring(base64Image.indexOf(",") + 1);
-                }
-                // Log base64 length for debugging
-                logger.debug("Base64 image length: {}", base64Image.length());
-                JSONObject base64Object = new JSONObject();
-                base64Object.put("b64_json", base64Image);
-                JSONObject payloadJson = new JSONObject(payload);
-
-                base64Object.put("revised_prompt", payloadJson.getString("prompt"));
-                JSONArray dataArray = new JSONArray();
-                dataArray.put(base64Object);
-                responseWrapper.put("data", dataArray);
-            } else {
-                logger.error("Unexpected response format: Content-Type is {} and response body is {}", contentType, responseBody);
-                throw new IOException("Unexpected response format from Stability AI API");
-            }
-            return responseWrapper.toString();
         } else {
             String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
             logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
@@ -636,29 +373,6 @@ public class ConnectionUtils {
         return token;
     	        
     }
-
-    /**
-     * Read response bytes from an input stream.
-     * @param inputStream the input stream
-     * @return the byte array
-     * @throws IOException if reading fails
-     */
-    public static byte[] readResponseBytes(java.io.InputStream inputStream) throws IOException {
-        if (inputStream == null) return new byte[0];
-
-        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
-            byte[] data = new byte[4096];
-            int nRead;
-            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, nRead);
-            }
-            return buffer.toByteArray();
-        }
-    }
-    
-    
-  
-
 
     /**
      * Execute a token request using MuleHttpClient

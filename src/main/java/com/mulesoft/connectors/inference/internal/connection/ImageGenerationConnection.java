@@ -16,8 +16,8 @@ public class ImageGenerationConnection extends BaseConnection {
 
     private ImageGenerationService getImageGenerationService() {
         if(imageGenerationService ==null)
-            imageGenerationService = new ImageGenerationService(this.getRequestPayloadHelper(),this.getResponseHandler(),
-                    this.getMcpHelper(), this.getObjectMapper());
+            imageGenerationService = new ImageGenerationService(this.getRequestPayloadHelper(),this.getHttpRequestHandler(),
+                    this.getResponseHandler(), this.getObjectMapper());
         return imageGenerationService;
     }
 }

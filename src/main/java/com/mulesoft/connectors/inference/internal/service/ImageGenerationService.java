@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.api.metadata.ImageResponseAttributes;
 import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
-import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHandler;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
-import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,17 +23,17 @@ import java.util.concurrent.TimeoutException;
 public class ImageGenerationService implements BaseService{
 
     private static final Logger logger = LoggerFactory.getLogger(ImageGenerationService.class);
-    public static final String PAYLOAD_LOGGER_MSG = "Payload sent to the LLM {}";
 
     private final RequestPayloadHelper payloadHelper;
+    private final HttpRequestHandler httpRequestHandler;
     private final HttpResponseHandler responseHandler;
-    private final McpHelper mcpHelper;
     private final ObjectMapper objectMapper;
 
-    public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpResponseHandler responseHandler, McpHelper mcpHelper, ObjectMapper objectMapper) {
+    public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHandler httpRequestHandler,
+                                  HttpResponseHandler responseHandler, ObjectMapper objectMapper) {
         this.payloadHelper = requestPayloadHelper;
+        this.httpRequestHandler = httpRequestHandler;
         this.responseHandler = responseHandler;
-        this.mcpHelper = mcpHelper;
         this.objectMapper = objectMapper;
     }
     public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt) throws IOException, TimeoutException {
@@ -56,12 +56,16 @@ public class ImageGenerationService implements BaseService{
                                                                       ImageGenerationRequestPayloadDTO requestPayloadDTO)
             throws IOException, TimeoutException {
 
-        logger.debug("Request payload: {} ", requestPayloadDTO.toString());
+        logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO.toString());
 
-        var response = ConnectionUtils.executeImageGenerationRestRequest(connection,
+        var response = httpRequestHandler.executeImageGenerationRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
-        ImageGenerationRestResponse imageGenerationRestResponse = responseHandler.processImageGenerationResponse(response);
+        logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());
+        logger.trace("Image Generation Response headers:{} ", response.getHeaders().toString());
+        logger.trace("Image Generation Response Entity: " + response.getEntity());
+
+        ImageGenerationRestResponse imageGenerationRestResponse = responseHandler.processImageGenerationResponse(requestPayloadDTO,response);
         logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse.toString());
         return imageGenerationRestResponse;
     }

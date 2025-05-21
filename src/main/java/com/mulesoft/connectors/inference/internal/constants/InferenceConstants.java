@@ -7,6 +7,11 @@ public class InferenceConstants {
 
   private InferenceConstants() {}
 
+  public static final String PAYLOAD_LOGGER_MSG = "Payload sent to the LLM {}";
+
+  public static final String HEADER_CONTENT_TYPE = "Content-Type";
+
+
   public static final String PORTKEY_URL = "https://api.portkey.ai/v1";
   public static final String HUGGINGFACE_URL = "https://router.huggingface.co/hf-inference";
   public static final String GROQ_URL = "https://api.groq.com/openai/v1";

@@ -49,8 +49,8 @@ public abstract class TextGenerationConnection extends BaseConnection{
 
   public TextGenerationService getTextGenerationService() {
     if(textGenerationService==null)
-      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(),this.getResponseHandler(),
-              this.getMcpHelper(), this.getObjectMapper());
+      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(),this.getHttpRequestHandler(),
+              this.getResponseHandler(), this.getMcpHelper(), this.getObjectMapper());
     return textGenerationService;
   }
 }
