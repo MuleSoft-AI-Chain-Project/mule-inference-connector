@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.mistralai.provider
 
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("mistralai-moderation")
 @DisplayName("Mistral AI")
-public class MistralAIModerationConnectionProvider extends BaseConnectionProvider {
+public class MistralAIModerationConnectionProvider extends ModerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(MistralAIModerationConnectionProvider.class);
 

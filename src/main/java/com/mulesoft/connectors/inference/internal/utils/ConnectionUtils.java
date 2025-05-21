@@ -13,9 +13,11 @@ import java.nio.charset.StandardCharsets;
 
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ModerationImageGenerationBase;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -354,16 +356,25 @@ public class ConnectionUtils {
 
     public static HttpResponse executeChatRestRequest(TextGenerationConnection connection, String resourceUrl,
                                                 TextGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
+        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
+    }
+
+    public static HttpResponse executeImageGenerationRestRequest(ImageGenerationConnection connection, String resourceUrl,
+                                                                 ImageGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
+        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
+    }
+
+    public static HttpResponse executeRestRequest(BaseConnection connection, String resourceUrl,
+                                                      byte[] payloadAsBytes) throws IOException, TimeoutException {
 
         HttpRequestBuilder requestBuilder = createDefaultRequestBuilder(resourceUrl)
                 .headers(new MultiMap<>(connection.getAdditionalHeaders()))
                 .queryParams(new MultiMap<>(connection.getQueryParams()))
-                .entity(new ByteArrayHttpEntity(connection.getObjectMapper().writeValueAsBytes(payload)));
+                .entity(new ByteArrayHttpEntity(payloadAsBytes));
 
         logger.debug("Sending request to URL: {}", resourceUrl);
         logger.trace("Request headers: {}", requestBuilder.getHeaders());
         logger.trace("Request queryParams: {}", requestBuilder.getQueryParams());
-        logger.trace("Request payload: {} ", payload);
 
         HttpRequestOptions options = getRequestOptions(connection.getTimeout());
         return connection.getHttpClient()

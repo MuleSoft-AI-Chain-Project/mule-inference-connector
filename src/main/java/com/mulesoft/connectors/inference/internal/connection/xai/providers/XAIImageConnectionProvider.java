@@ -1,8 +1,6 @@
 package com.mulesoft.connectors.inference.internal.connection.xai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.*;
 import com.mulesoft.connectors.inference.internal.connection.xai.XAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("xai-image")
 @DisplayName("xAI")
-public class XAIImageConnectionProvider extends BaseConnectionProvider {
+public class XAIImageConnectionProvider extends ImageGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(XAIImageConnectionProvider.class);
 
@@ -44,12 +42,12 @@ public class XAIImageConnectionProvider extends BaseConnectionProvider {
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
+  public void disconnect(ImageGenerationConnection textGenerationConnection) {
     logger.debug("XAIImageConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ImageGenerationConnection textGenerationConnection) {
 
     logger.debug("Validating connection... ");
     try {

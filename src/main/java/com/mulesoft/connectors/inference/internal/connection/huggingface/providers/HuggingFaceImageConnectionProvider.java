@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.huggingface.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.huggingface.HuggingFaceImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("hugging-face-image")
 @DisplayName("Hugging Face")
-public class HuggingFaceImageConnectionProvider extends BaseConnectionProvider {
+public class HuggingFaceImageConnectionProvider extends ImageGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(HuggingFaceImageConnectionProvider.class);
 
@@ -44,12 +44,12 @@ public class HuggingFaceImageConnectionProvider extends BaseConnectionProvider {
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
+  public void disconnect(ImageGenerationConnection textGenerationConnection) {
     logger.debug("HuggingFaceImageConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ImageGenerationConnection textGenerationConnection) {
 
     logger.debug("Validating connection... ");
     try {

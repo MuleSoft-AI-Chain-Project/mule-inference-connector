@@ -19,12 +19,13 @@ public abstract class TextGenerationConnection extends BaseConnection{
                                      String apiKey, String modelName, Number maxTokens, Number temperature,
                                      Number topP, int timeout, Map<String, String> mcpSseServers,
                                      String apiURL, String inferenceType) {
-      super(httpClient,objectMapper,modelName,apiKey,timeout,apiURL,inferenceType);
-
+    super(httpClient,objectMapper,modelName,apiKey,timeout,apiURL,inferenceType);
     this.maxTokens = maxTokens;
     this.temperature = temperature;
     this.topP = topP;
     this.mcpSseServers = mcpSseServers;
+
+    this.setBaseService(getTextGenerationService());
   }
 
   public abstract Map<String,String> getQueryParams();
@@ -46,13 +47,10 @@ public abstract class TextGenerationConnection extends BaseConnection{
     return mcpSseServers;
   }
 
-  public TextGenerationService getService() {
+  public TextGenerationService getTextGenerationService() {
     if(textGenerationService==null)
-      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(),this.getResponseHandler(), this.getMcpHelper(), this.getObjectMapper());
+      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(),this.getResponseHandler(),
+              this.getMcpHelper(), this.getObjectMapper());
     return textGenerationService;
-  }
-
-  public HttpResponseHandler getResponseHandler() {
-    return new HttpResponseHandler(this.getObjectMapper());
   }
 }

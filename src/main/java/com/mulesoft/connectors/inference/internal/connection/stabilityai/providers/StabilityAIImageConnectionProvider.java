@@ -1,8 +1,6 @@
 package com.mulesoft.connectors.inference.internal.connection.stabilityai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.*;
 import com.mulesoft.connectors.inference.internal.connection.stabilityai.StabilityAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,7 +17,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("stability-ai-image")
 @DisplayName("Stability AI")
-public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
+public class StabilityAIImageConnectionProvider extends ImageGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(StabilityAIImageConnectionProvider.class);
 
@@ -44,12 +42,12 @@ public class StabilityAIImageConnectionProvider extends BaseConnectionProvider {
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
+  public void disconnect(ImageGenerationConnection imageGenerationConnection) {
     logger.debug("StabilityAIImageConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ImageGenerationConnection imageGenerationConnection) {
 
     logger.debug("Validating connection... ");
     try {

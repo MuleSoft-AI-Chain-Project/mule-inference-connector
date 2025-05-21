@@ -1,11 +1,11 @@
 package com.mulesoft.connectors.inference.internal.connection.xai;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.helpers.payload.XAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
-public class XAIImageGenerationConnection extends BaseConnection {
+public class XAIImageGenerationConnection extends ImageGenerationConnection {
 
   private XAIRequestPayloadHelper requestPayloadHelper;
 

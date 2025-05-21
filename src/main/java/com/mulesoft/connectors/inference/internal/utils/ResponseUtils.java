@@ -176,7 +176,7 @@ public class ResponseUtils {
 
 
     public static Result<InputStream, LLMResponseAttributes> processImageGenResponse(
-            String response, BaseConnection connection) throws Exception {
+            String response, BaseConnection connection) {
 
         JSONObject root = new JSONObject(response);
         JSONObject jsonObject = new JSONObject();

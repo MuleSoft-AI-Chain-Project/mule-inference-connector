@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.openai.providers;
 
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("openai-moderation")
 @DisplayName("OpenAI")
-public class OpenAIModerationConnectionProvider extends BaseConnectionProvider {
+public class OpenAIModerationConnectionProvider extends ModerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(OpenAIModerationConnectionProvider.class);
 

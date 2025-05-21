@@ -3,10 +3,7 @@ package com.mulesoft.connectors.inference.internal.operations;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
-import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
-import com.mulesoft.connectors.inference.internal.utils.ResponseUtils;
-import org.json.JSONArray;
+import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -20,8 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
 
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
@@ -48,7 +43,7 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content InputStream messages)
             throws ModuleException {
         try {
-            return connection.getService().executeChatCompletion(connection, messages);
+            return connection.getService().getTextGenerationServiceInstance().executeChatCompletion(connection, messages);
         } catch (Exception e) {
             throw new ModuleException("Error in executing chat completion",
                     InferenceErrorType.CHAT_OPERATION_FAILURE, e);
@@ -69,7 +64,7 @@ public class TextGenerationOperations {
     public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
        try{
-           return connection.getService().executeChatAnswerPrompt(connection,prompt);
+           return connection.getService().getTextGenerationServiceInstance().executeChatAnswerPrompt(connection,prompt);
        }catch (Exception e)
        {
            throw new ModuleException("Error in executing chat answer prompt",
@@ -97,7 +92,7 @@ public class TextGenerationOperations {
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
         try {
-            return connection.getService().definePromptTemplate(connection,template,instructions,data);
+            return connection.getService().getTextGenerationServiceInstance().definePromptTemplate(connection,template,instructions,data);
         }catch (Exception e)
         {
             throw new ModuleException("Error in executing define prompt template",
@@ -126,7 +121,7 @@ public class TextGenerationOperations {
             @Content(primary = true) String data,
             @Content @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools) throws ModuleException {
         try {
-            return connection.getService().executeToolsNativeTemplate(connection,template,instructions,data,tools);
+            return connection.getService().getTextGenerationServiceInstance().executeToolsNativeTemplate(connection,template,instructions,data,tools);
         } catch (Exception e) {
             throw new ModuleException("Error in executing operation Tools native template",
                     InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
@@ -153,7 +148,7 @@ public class TextGenerationOperations {
             @Content String instructions,
             @Content(primary = true) String data) throws ModuleException {
         try {
-            return connection.getService().executeMcpTools(connection,template,instructions,data);
+            return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection,template,instructions,data);
 
         } catch (Exception e) {
             logger.error("Error in MCP Tooling: {}", e.getMessage(), e);

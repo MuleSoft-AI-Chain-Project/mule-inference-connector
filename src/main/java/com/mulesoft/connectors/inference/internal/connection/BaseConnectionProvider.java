@@ -24,7 +24,7 @@ import javax.inject.Inject;
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 
-public abstract class BaseConnectionProvider implements CachedConnectionProvider<BaseConnection>, Initialisable, Disposable {
+public class BaseConnectionProvider implements Initialisable, Disposable {
 
     private static final Logger logger = LoggerFactory.getLogger(BaseConnectionProvider.class);
 

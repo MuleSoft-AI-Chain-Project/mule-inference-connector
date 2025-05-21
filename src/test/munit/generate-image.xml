@@ -22,11 +22,11 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test name="generate-image-operations-Test" doc:id="dd7abf89-e3c7-466f-8977-1209c1f69150" >
 		<munit:execution >
 			<flow-ref doc:name="Flow-ref to image-gen" doc:id="18071295-7596-44d3-ab7e-168f5d95a85d" name="generate-image-operation"/>
-			<logger level="INFO" doc:name="Logger" doc:id="288eb5f8-0683-46b8-baf5-53ce542d4885" message="#[payload]"/>
+			<logger level="DEBUG" doc:name="Logger" doc:id="288eb5f8-0683-46b8-baf5-53ce542d4885" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="payload.response" doc:id="82bcc94c-6021-485f-8c63-40b56a9524c5" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::notNullValue()]" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="1eca8cf2-65ae-4bdc-8bf1-6aed45d3ab1f" actual="#[attributes.additionalAttributes.model]" expected="${openai.imageGenModel}" message="Incorrect Model Info" />
+			<munit-tools:assert-equals doc:name="model Info" doc:id="1eca8cf2-65ae-4bdc-8bf1-6aed45d3ab1f" actual="#[attributes.model]" expected="${openai.imageGenModel}" message="Incorrect Model Info" />
 		</munit:validation>
 	</munit:test>
 	<sub-flow name="generate-image-operation" doc:id="3ff94cc9-278c-41f1-bafc-9da783016dd9" >

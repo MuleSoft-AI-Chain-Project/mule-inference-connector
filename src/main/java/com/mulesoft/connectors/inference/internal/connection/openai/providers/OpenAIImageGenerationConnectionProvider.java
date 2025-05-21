@@ -1,8 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.openai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.openai.OpenAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIImageGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
@@ -18,7 +19,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("openai-image")
 @DisplayName("OpenAI")
-public class OpenAIImageGenerationConnectionProvider extends BaseConnectionProvider {
+public class OpenAIImageGenerationConnectionProvider extends ImageGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(OpenAIImageGenerationConnectionProvider.class);
 
@@ -35,20 +36,20 @@ public class OpenAIImageGenerationConnectionProvider extends BaseConnectionProvi
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
-    logger.debug("BaseConnection connect ...");
+  public OpenAIImageGenerationConnection connect() {
+    logger.debug("ImageGenerationConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
+      return new OpenAIImageGenerationConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
+              baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
+  public void disconnect(ImageGenerationConnection imageGenerationConnection) {
     logger.debug(" OpenAIImageConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ImageGenerationConnection imageGenerationConnection) {
 
     logger.debug("Validating connection... ");
     try {
