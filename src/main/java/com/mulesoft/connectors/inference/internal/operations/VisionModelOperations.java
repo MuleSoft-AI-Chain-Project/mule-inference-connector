@@ -2,10 +2,7 @@ package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
-import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
-import com.mulesoft.connectors.inference.internal.utils.ResponseUtils;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -15,11 +12,8 @@ import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
-import java.net.URL;
 
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
@@ -29,9 +23,6 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
  */
 public class VisionModelOperations {
 	
-    private static final Logger LOGGER = LoggerFactory.getLogger(VisionModelOperations.class);
-    private static final String ERROR_MSG_FORMAT = "%s result error";
-
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history
      * @param connection the connector connection
@@ -49,23 +40,9 @@ public class VisionModelOperations {
             @Content String prompt,
             @Content(primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl) throws ModuleException {
         try { 
-
-            VisionRequestPayloadDTO visionPayload = connection.getRequestPayloadHelper().createRequestImageURL(connection,prompt, imageUrl);
-
-            URL chatCompUrl = new URL(connection.getApiURL());
-            LOGGER.debug("Read Image with {}", chatCompUrl);
-
-            LOGGER.debug("payload sent to the LLM {}", visionPayload);
-            
-            String response = ConnectionUtils.executeREST(chatCompUrl, connection,
-                    connection.getObjectMapper()
-                    .writeValueAsString(visionPayload));
-
-            LOGGER.debug("Read Image result {}", response);
-            return ResponseUtils.processLLMResponse(response, connection);
+           return connection.getService().getVisionModelServiceInstance().readImage(connection,prompt,imageUrl);
         } catch (Exception e) {
-            LOGGER.error("Error in Read Image: {}", e.getMessage(), e);
-            throw new ModuleException(String.format(ERROR_MSG_FORMAT, "Read Image"),
+            throw new ModuleException("Error in executing read image operation",
                     InferenceErrorType.VISION_FAILURE, e);
         }
     }

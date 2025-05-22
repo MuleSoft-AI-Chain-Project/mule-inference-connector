@@ -3,7 +3,6 @@ package com.mulesoft.connectors.inference.internal.operations;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
@@ -13,8 +12,6 @@ import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 
@@ -25,8 +22,6 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
  * Each public method represents an extension operation.
  */
 public class TextGenerationOperations {
-    private static final Logger logger = LoggerFactory.getLogger(TextGenerationOperations.class);
-    private static final String ERROR_MSG_FORMAT = "%s result error";
 
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history
@@ -149,11 +144,8 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
         try {
             return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection,template,instructions,data);
-
         } catch (Exception e) {
-            logger.error("Error in MCP Tooling: {}", e.getMessage(), e);
-            throw new ModuleException("Error in executing operation MCP tooling",
-                    InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
+            throw new ModuleException("Error in executing operation MCP tooling", InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
         }
     }
 }

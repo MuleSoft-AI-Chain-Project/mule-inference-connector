@@ -9,7 +9,6 @@ import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 
 import static org.apache.commons.io.IOUtils.toInputStream;
 
@@ -26,6 +25,13 @@ public final class ResponseHelper {
         .output(toInputStream(response, StandardCharsets.UTF_8))
         .mediaType(MediaType.APPLICATION_JSON)
         .build();
+  }
+
+  public static Result<InputStream, Void> createLLMResponse(String response) {
+    return Result.<InputStream, Void>builder()
+            .output(toInputStream(response, StandardCharsets.UTF_8))
+            .mediaType(MediaType.APPLICATION_JSON)
+            .build();
   }
 
   public static Result<InputStream, ImageResponseAttributes> createImageGenerationLLMResponse(String response,

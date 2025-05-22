@@ -1,13 +1,14 @@
 package com.mulesoft.connectors.inference.internal.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.api.metadata.ImageResponseAttributes;
-import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
-import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
+import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
+import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
+import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHandler;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
@@ -17,7 +18,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.util.concurrent.TimeoutException;
 
 public class VisionModelService implements BaseService{
@@ -37,37 +37,23 @@ public class VisionModelService implements BaseService{
         this.objectMapper = objectMapper;
     }
 
-    public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt) throws IOException, TimeoutException {
+    public Result<InputStream, LLMResponseAttributes> readImage(VisionModelConnection connection, String prompt, String imageUrl) throws IOException, TimeoutException {
 
-        ImageGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-                .createRequestImageGeneration(connection.getModelName(), prompt);
+        VisionRequestPayloadDTO visionPayload = payloadHelper.createRequestImageURL(connection,prompt, imageUrl);
 
-        URL imageGenerationUrl = new URL(connection.getApiURL());
-        logger.debug("Generate Image with {}", imageGenerationUrl);
+        logger.debug("payload sent to the LLM {}", visionPayload);
 
-        var response = executeImageGenerationRequest(connection,requestPayloadDTO);
+        var response = httpRequestHandler.executeVisionRestRequest(connection,connection.getApiURL(),visionPayload);
 
-        return ResponseHelper.createImageGenerationLLMResponse(
-                objectMapper.writeValueAsString(new ImageGenerationResponse(response.data().get(0).b64Json())),
-                connection.getModelName(),
-                response.data().get(0).revisedPrompt());
-    }
+        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response);
+        logger.debug("Response of vision REST request: {}",chatResponse.toString());
 
-    private ImageGenerationRestResponse executeImageGenerationRequest(ImageGenerationConnection connection,
-                                                                      ImageGenerationRequestPayloadDTO requestPayloadDTO)
-            throws IOException, TimeoutException {
+        var chatRespFirstChoice = chatResponse.choices().get(0);
 
-        logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO.toString());
-
-        var response = httpRequestHandler.executeImageGenerationRestRequest(connection,
-                connection.getApiURL(), requestPayloadDTO);
-
-        logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());
-        logger.trace("Image Generation Response headers:{} ", response.getHeaders().toString());
-        logger.trace("Image Generation Response Entity: " + response.getEntity());
-
-        ImageGenerationRestResponse imageGenerationRestResponse = responseHandler.processImageGenerationResponse(requestPayloadDTO,response);
-        logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse.toString());
-        return imageGenerationRestResponse;
+        return ResponseHelper.createLLMResponse(
+                objectMapper.writeValueAsString(new TextGenerationResponse(chatRespFirstChoice.message().content(),
+                        chatRespFirstChoice.message().toolCalls(),null)),
+                TokenHelper.parseUsageFromResponse(chatResponse.usage()),
+                new AdditionalAttributes(chatResponse.id(), chatResponse.model(), chatRespFirstChoice.finishReason()));
     }
 }

@@ -11,8 +11,6 @@ import org.mule.runtime.extension.api.annotation.param.MediaType;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 
@@ -23,8 +21,6 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
  * Each public method represents an extension operation.
  */
 public class ImageGenerationModelOperations {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ImageGenerationModelOperations.class);
-    private static final String ERROR_MSG_FORMAT = "%s result error";
 
     /**
      * Chat completions by messages array including system, users messages i.e. conversation history

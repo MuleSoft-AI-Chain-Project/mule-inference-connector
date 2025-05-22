@@ -20,5 +20,4 @@ public class XAIImageGenerationConnection extends ImageGenerationConnection {
       requestPayloadHelper = new XAIRequestPayloadHelper(this.getObjectMapper());
     return requestPayloadHelper;
   }
-
 }

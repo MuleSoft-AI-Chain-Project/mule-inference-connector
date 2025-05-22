@@ -5,6 +5,6 @@ import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
 
 public abstract class ModerationConnectionProvider extends BaseConnectionProvider
-        implements CachedConnectionProvider<BaseConnection>, Initialisable, Disposable {
+        implements CachedConnectionProvider<ModerationConnection>, Initialisable, Disposable {
 
 }

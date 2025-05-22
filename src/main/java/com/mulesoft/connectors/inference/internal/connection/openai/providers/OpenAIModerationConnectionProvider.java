@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.openai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
@@ -35,20 +35,20 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
-    logger.debug("BaseConnection connect ...");
+  public ModerationConnection connect() {
+    logger.debug("ModerationConnection connect ...");
 
-    return new BaseConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
+    return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(), openAIModelName,
             baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
-    logger.debug(" OpenAITextGenerationConnection disconnected ...");
+  public void disconnect(ModerationConnection moderationConnection) {
+    logger.debug(" ModerationConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ModerationConnection moderationConnection) {
 
     logger.debug("Validating connection... ");
     try {

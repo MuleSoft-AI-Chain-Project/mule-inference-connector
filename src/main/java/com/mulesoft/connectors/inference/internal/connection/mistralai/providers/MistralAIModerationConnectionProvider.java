@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.mistralai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
@@ -35,20 +35,20 @@ public class MistralAIModerationConnectionProvider extends ModerationConnectionP
   private BaseConnectionParameters baseConnectionParameters;
 
   @Override
-  public BaseConnection connect() {
-    logger.debug("BaseConnection connect ...");
+  public ModerationConnection connect() {
+    logger.debug("ModerationConnection connect ...");
 
-    return new BaseConnection(getHttpClient(),getObjectMapper(), mistralAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
+    return new ModerationConnection(getHttpClient(),getObjectMapper(), baseConnectionParameters.getApiKey(),
+            mistralAIModelName, baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
   }
 
   @Override
-  public void disconnect(BaseConnection textGenerationConnection) {
-    logger.debug(" OpenAITextGenerationConnection disconnected ...");
+  public void disconnect(ModerationConnection textGenerationConnection) {
+    logger.debug(" ModerationConnection disconnected ...");
   }
 
   @Override
-  public ConnectionValidationResult validate(BaseConnection textGenerationConnection) {
+  public ConnectionValidationResult validate(ModerationConnection textGenerationConnection) {
 
     logger.debug("Validating connection... ");
     try {

@@ -13,4 +13,16 @@ public interface BaseService {
             return imageGenerationServiceInstance;
         throw new RuntimeException("Image Generation Service not found");
     }
+
+    default VisionModelService getVisionModelServiceInstance() {
+        if (this instanceof VisionModelService visionModelServiceInstance)
+            return visionModelServiceInstance;
+        throw new RuntimeException("Vision Model Service not found");
+    }
+
+    default ModerationService getModerationServiceInstance() {
+        if (this instanceof ModerationService moderationServiceInstance)
+            return moderationServiceInstance;
+        throw new RuntimeException("Moderation Service not found");
+    }
 }

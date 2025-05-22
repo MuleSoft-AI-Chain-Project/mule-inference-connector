@@ -3,9 +3,13 @@ package com.mulesoft.connectors.inference.internal.helpers.request;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.moderation.ModerationRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import org.mule.runtime.api.util.MultiMap;
 import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpRequestOptions;
@@ -39,6 +43,16 @@ public class HttpRequestHandler {
 
     public HttpResponse executeImageGenerationRestRequest(ImageGenerationConnection connection, String resourceUrl,
                                                                  ImageGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
+        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
+    }
+
+    public HttpResponse executeVisionRestRequest(VisionModelConnection connection, String resourceUrl,
+                                                 VisionRequestPayloadDTO payload) throws IOException, TimeoutException {
+        return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
+    }
+
+    public HttpResponse executeModerationRestRequest(ModerationConnection connection, String resourceUrl,
+                                                     ModerationRequestPayloadRecord payload) throws IOException, TimeoutException {
         return executeRestRequest(connection,resourceUrl,connection.getObjectMapper().writeValueAsBytes(payload));
     }
 

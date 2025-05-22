@@ -47,7 +47,7 @@ public class VertexAITextGenerationConnection extends TextGenerationConnection {
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+    return Map.of("Authorization", "Bearer " + getAccessTokenFromServiceAccountKey(this));
   }
 
   private static String fetchApiURL(String modelName, String vertexAILocationId, String vertexAIProjectId) {
