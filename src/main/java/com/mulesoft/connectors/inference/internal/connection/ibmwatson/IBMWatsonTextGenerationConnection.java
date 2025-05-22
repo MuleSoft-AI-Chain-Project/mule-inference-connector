@@ -24,11 +24,6 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
   }
 
   @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
   public Map<String, String> getAdditionalHeaders() {
     return Map.of("Authorization", "Bearer " + this.getApiKey());
   }

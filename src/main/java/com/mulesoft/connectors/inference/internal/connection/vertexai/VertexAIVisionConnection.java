@@ -17,16 +17,6 @@ public class VertexAIVisionConnection extends TextGenerationConnection {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(modelName), "VERTEXAI");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL(String modelName) {
     //TODO this is not correct, it varies based on provider from model, to be looked at
     String vertexAIExpressUrlStr = VERTEX_AI_EXPRESS_URL + URI_CHAT_COMPLETIONS;

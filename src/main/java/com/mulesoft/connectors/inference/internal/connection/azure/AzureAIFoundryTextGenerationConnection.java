@@ -20,11 +20,6 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
   }
 
   @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
   public Map<String, String> getAdditionalHeaders() {
     return Map.of("api-key", this.getApiKey());
   }

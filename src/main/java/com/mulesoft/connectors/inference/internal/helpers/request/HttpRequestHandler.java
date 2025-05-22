@@ -7,6 +7,7 @@ import com.mulesoft.connectors.inference.internal.connection.TextGenerationConne
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import org.mule.runtime.api.util.MultiMap;
+import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpRequestOptions;
 import org.mule.runtime.http.api.domain.entity.ByteArrayHttpEntity;
 import org.mule.runtime.http.api.domain.message.request.HttpRequest;
@@ -23,9 +24,11 @@ public class HttpRequestHandler {
 
     private static final Logger logger = LoggerFactory.getLogger(HttpRequestHandler.class);
 
+    protected final HttpClient httpClient;
     protected final ObjectMapper objectMapper;
 
-    public HttpRequestHandler(ObjectMapper objectMapper) {
+    public HttpRequestHandler(HttpClient httpClient, ObjectMapper objectMapper) {
+        this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }
 
@@ -52,8 +55,7 @@ public class HttpRequestHandler {
         logger.trace("Request queryParams: {}", requestBuilder.getQueryParams());
 
         HttpRequestOptions options = getRequestOptions(connection.getTimeout());
-        return connection.getHttpClient()
-                .send(requestBuilder.build(), options);
+        return httpClient.send(requestBuilder.build(), options);
     }
 
     private HttpRequestBuilder createDefaultRequestBuilder(String url) {

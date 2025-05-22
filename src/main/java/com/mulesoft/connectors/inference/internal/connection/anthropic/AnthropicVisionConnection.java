@@ -17,11 +17,6 @@ public class AnthropicVisionConnection extends TextGenerationConnection {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(), "ANTHROPIC");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
   private static String fetchApiURL() {
     return ANTHROPIC_URL +  URI_CHAT_COMPLETIONS;
   }

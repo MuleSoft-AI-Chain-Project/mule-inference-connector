@@ -18,16 +18,6 @@ public class HuggingFaceVisionConnection extends TextGenerationConnection {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(modelName), "HUGGINGFACE");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL(String modelName) {
     String urlStr = HUGGINGFACE_URL + URI_CHAT_COMPLETIONS;
     urlStr = urlStr

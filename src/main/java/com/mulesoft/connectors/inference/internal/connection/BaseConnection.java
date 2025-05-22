@@ -56,7 +56,7 @@ public class BaseConnection {
   }
 
   protected HttpRequestHandler getHttpRequestHandler() {
-    return new HttpRequestHandler(this.getObjectMapper());
+    return new HttpRequestHandler(this.getHttpClient(), this.getObjectMapper());
   }
 
   protected HttpResponseHandler getResponseHandler() {

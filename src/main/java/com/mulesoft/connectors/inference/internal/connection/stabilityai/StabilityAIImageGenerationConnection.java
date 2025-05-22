@@ -26,7 +26,7 @@ public class StabilityAIImageGenerationConnection extends ImageGenerationConnect
 
   @Override
   protected StabilityAIHttpRequestHandler getHttpRequestHandler() {
-    return new StabilityAIHttpRequestHandler(this.getObjectMapper());
+    return new StabilityAIHttpRequestHandler(this.getHttpClient(),this.getObjectMapper());
   }
 
   @Override

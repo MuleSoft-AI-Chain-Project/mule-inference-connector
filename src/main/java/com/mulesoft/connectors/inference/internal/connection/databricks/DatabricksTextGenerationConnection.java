@@ -17,16 +17,6 @@ public class DatabricksTextGenerationConnection extends TextGenerationConnection
             fetchApiURL(databricksModelURL,databricksModelName), "DATABRICKS");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL(String databricksModelURL, String databricksModelName) {
       String dBricksUrlStr = databricksModelURL + URI_CHAT_COMPLETIONS;
       dBricksUrlStr = dBricksUrlStr

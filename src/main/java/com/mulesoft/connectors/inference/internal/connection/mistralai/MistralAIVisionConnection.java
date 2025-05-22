@@ -17,16 +17,6 @@ public class MistralAIVisionConnection extends TextGenerationConnection {
     super( httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null,fetchApiURL(),"MistralAI");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL() {
     return MISTRAL_AI_URL + URI_CHAT_COMPLETIONS;
   }

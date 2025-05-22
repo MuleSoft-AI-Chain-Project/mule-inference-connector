@@ -17,16 +17,6 @@ public class NvidiaTextGenerationConnection extends TextGenerationConnection {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "NVIDIA");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL() {
     return NVIDIA_URL + URI_CHAT_COMPLETIONS;
   }

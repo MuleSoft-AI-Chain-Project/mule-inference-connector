@@ -26,16 +26,6 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
     return requestPayloadHelper;
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL() {
     return OPENAI_URL + URI_CHAT_COMPLETIONS;
   }

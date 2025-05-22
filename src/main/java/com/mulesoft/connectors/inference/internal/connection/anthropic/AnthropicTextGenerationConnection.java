@@ -28,11 +28,6 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   }
 
   @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
   public Map<String, String> getAdditionalHeaders() {
     return Map.of("x-api-key", this.getApiKey(), "anthropic-version", "2023-06-01");
   }

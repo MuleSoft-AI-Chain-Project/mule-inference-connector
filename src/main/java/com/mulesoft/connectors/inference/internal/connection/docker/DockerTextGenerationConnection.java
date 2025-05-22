@@ -19,16 +19,6 @@ public class DockerTextGenerationConnection extends TextGenerationConnection {
             fetchApiURL(dockerModelUrl), "DOCKER");
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL(String dockerModelUrl) {
     return dockerModelUrl + URI_CHAT_COMPLETIONS;
   }

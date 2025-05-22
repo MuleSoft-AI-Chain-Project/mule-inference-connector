@@ -22,11 +22,6 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
   }
 
   @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
   public Map<String, String> getAdditionalHeaders() {
     return Map.of("x-portkey-api-key", this.getApiKey(), "x-portkey-virtual-key", this.virtualKey);
   }
