@@ -12,6 +12,7 @@ import com.mulesoft.connectors.inference.internal.connection.openrouter.provider
 import com.mulesoft.connectors.inference.internal.connection.portkey.providers.PortkeyVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.vertexai.providers.VertexAIExpressVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.vertexai.providers.VertexAIVisionConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.xai.providers.XAIVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.operations.VisionModelOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
@@ -31,7 +32,8 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
         OpenRouterVisionConnectionProvider.class,
         PortkeyVisionConnectionProvider.class,
         VertexAIExpressVisionConnectionProvider.class,
-        VertexAIVisionConnectionProvider.class
+        VertexAIVisionConnectionProvider.class,
+        XAIVisionConnectionProvider.class
 })
 @Operations(VisionModelOperations.class)
 public class VisionConfig {

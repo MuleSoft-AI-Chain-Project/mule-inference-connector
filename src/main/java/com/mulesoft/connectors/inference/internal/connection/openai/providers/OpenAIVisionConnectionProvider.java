@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.openai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.openai.OpenAIVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("openai-vision")
 @DisplayName("OpenAI")
-public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class OpenAIVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(OpenAIVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class OpenAIVisionConnectionProvider extends TextGenerationConnectionProv
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug(" OpenAITextGenerationConnection disconnected ...");
+    public void disconnect(VisionModelConnection baseConnection) {
+        logger.debug(" OpenAIVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
 
         logger.debug("Validating connection... ");
         try {

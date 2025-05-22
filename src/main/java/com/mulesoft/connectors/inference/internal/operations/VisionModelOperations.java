@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.operations;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.utils.ConnectionUtils;
@@ -45,7 +45,7 @@ public class VisionModelOperations {
     @DisplayName("[Image] Read by (Url or Base64)")
     @OutputJsonType(schema = "api/response/Response.json")
     public Result<InputStream, LLMResponseAttributes> readImage(
-            @Connection TextGenerationConnection connection,
+            @Connection VisionModelConnection connection,
             @Content String prompt,
             @Content(primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl) throws ModuleException {
         try { 

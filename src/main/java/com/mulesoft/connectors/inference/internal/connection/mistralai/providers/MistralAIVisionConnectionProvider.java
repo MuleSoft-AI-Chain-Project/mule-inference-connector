@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.mistralai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.mistralai.MistralAIVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("mistralai-vision")
 @DisplayName("Mistral AI")
-public class MistralAIVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class MistralAIVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(MistralAIVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class MistralAIVisionConnectionProvider extends TextGenerationConnectionP
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug(" MistralAIVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
 
         logger.debug("Validating connection... ");
         try {

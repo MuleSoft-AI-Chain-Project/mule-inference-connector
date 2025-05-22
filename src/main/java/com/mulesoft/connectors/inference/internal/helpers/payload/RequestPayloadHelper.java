@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.moderation.RequestPayload;
@@ -90,7 +91,7 @@ public class RequestPayloadHelper {
         return new DefaultImageRequestPayloadRecord(prompt,"b64_json");
     }
 
-    public VisionRequestPayloadDTO createRequestImageURL(TextGenerationConnection connection, String prompt, String imageUrl) throws IOException {
+    public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl) throws IOException {
 
         List<Content> contentArray = new ArrayList<>();
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
@@ -64,7 +65,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
                     null,
-                    buildVertexAIGoogleGenerationConfig(connection),
+                    buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
                     null,
                     tools);
             case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
@@ -119,7 +120,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public VisionRequestPayloadDTO createRequestImageURL(TextGenerationConnection connection, String prompt, String imageUrl) throws IOException {
+    public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl) throws IOException {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
@@ -130,7 +131,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
             default -> throw new IllegalArgumentException("Unknown provider");
         };
 
-        return buildPayload(connection, List.of(content));
+        return buildVisionRequestPayload(connection, List.of(content));
     }
 
     private VisionContentRecord getGoogleVisionContentRecord(String prompt, String imageUrl) throws IOException {
@@ -150,7 +151,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         return new VisionContentRecord("user", parts);
     }
 
-    private DefaultVisionRequestPayloadRecord getAnthropicVisionContentRecord(TextGenerationConnection connection,
+    private DefaultVisionRequestPayloadRecord getAnthropicVisionContentRecord(VisionModelConnection connection,
                                                                               String prompt, String imageUrl) throws IOException {
         List<Content> contentArray = new ArrayList<>();
 
@@ -174,14 +175,14 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 connection.getTopP());
     }
 
-    private VisionRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<Object> messagesArray) {
+    private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());
 
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
                     null,
-                    buildVertexAIGoogleGenerationConfig(connection),
+                    buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),connection.getTopP()),
                     null,
                     null);
             case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
@@ -228,7 +229,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 connection.getTopP(),null);
     }
 
-    private DefaultVisionRequestPayloadRecord getDefaultVisionRequestPayloadDTO(TextGenerationConnection connection, List<Object> chatPayloadRecordList) {
+    private DefaultVisionRequestPayloadRecord getDefaultVisionRequestPayloadDTO(VisionModelConnection connection, List<Object> chatPayloadRecordList) {
         return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                 chatPayloadRecordList,
                 connection.getMaxTokens(),
@@ -244,7 +245,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         UserContentRecord userContentRecord = new UserContentRecord("user",List.of(partRecord));
 
         //create the generationConfig
-        VertexAIGoogleGenerationConfigRecord generationConfig = buildVertexAIGoogleGenerationConfig(connection);
+        VertexAIGoogleGenerationConfigRecord generationConfig = buildVertexAIGoogleGenerationConfig(connection.getTemperature(),connection.getMaxTokens(),connection.getTopP());
 
         return new VertexAIGoogleChatPayloadRecord(List.of(userContentRecord),
                 systemInstruction,
@@ -253,11 +254,11 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                 tools != null && !tools.isEmpty() ? tools:null);
     }
 
-    private VertexAIGoogleGenerationConfigRecord buildVertexAIGoogleGenerationConfig(TextGenerationConnection connection) {
+    private VertexAIGoogleGenerationConfigRecord buildVertexAIGoogleGenerationConfig(Number maxTokens, Number temperature,
+                                                                                     Number topP) {
         //create the generationConfig
-        return new VertexAIGoogleGenerationConfigRecord(List.of("TEXT"), connection.getTemperature(),
-                connection.getMaxTokens(),
-                connection.getTopP());
+        return new VertexAIGoogleGenerationConfigRecord(List.of("TEXT"), temperature,
+                maxTokens, topP);
     }
     private String getMimeTypeFromUrl(String imageUrl) {
         return imageUrl != null && imageUrl.toLowerCase().trim().endsWith(".png")

@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.portkey.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.portkey.PortkeyVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.portkey.providers.PortkeyVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("portkey-vision")
 @DisplayName("Portkey")
-public class PortkeyVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class PortkeyVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(PortkeyVisionConnectionProvider.class);
 
@@ -44,12 +44,12 @@ public class PortkeyVisionConnectionProvider extends TextGenerationConnectionPro
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug("PortkeyVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
         logger.debug("Validating connection... ");
         try {
             return ConnectionValidationResult.success();

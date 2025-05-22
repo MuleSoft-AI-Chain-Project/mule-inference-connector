@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.ollama.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.ollama.OllamaVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.ollama.providers.OllamaVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("ollama-vision")
 @DisplayName("Ollama")
-public class OllamaVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class OllamaVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(OllamaVisionConnectionProvider.class);
 
@@ -52,12 +52,12 @@ public class OllamaVisionConnectionProvider extends TextGenerationConnectionProv
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug("OllamaVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
         logger.debug("Validating connection... ");
         try {
             return ConnectionValidationResult.success();

@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.github.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.github.GithubVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.github.providers.GithubVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("github-vision")
 @DisplayName("GitHub")
-public class GithubVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class GithubVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(GithubVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class GithubVisionConnectionProvider extends TextGenerationConnectionProv
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug("GithubVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
         logger.debug("Validating connection... ");
         try {
             return ConnectionValidationResult.success();

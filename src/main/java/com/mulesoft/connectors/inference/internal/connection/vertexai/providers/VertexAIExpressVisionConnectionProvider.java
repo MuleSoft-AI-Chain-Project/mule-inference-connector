@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.vertexai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.vertexai.VertexAIExpressVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.vertexai.providers.VertexAIExpressVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("vertexai-express-vision")
 @DisplayName("Vertex AI Express")
-public class VertexAIExpressVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class VertexAIExpressVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(VertexAIExpressVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class VertexAIExpressVisionConnectionProvider extends TextGenerationConne
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug("VertexAIExpressVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
         logger.debug("Validating connection... ");
         try {
             return ConnectionValidationResult.success();

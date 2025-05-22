@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.anthropic.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.anthropic.AnthropicVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.anthropic.providers.AnthropicVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("anthropic-vision")
 @DisplayName("Anthropic")
-public class AnthropicVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class AnthropicVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(AnthropicVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class AnthropicVisionConnectionProvider extends TextGenerationConnectionP
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug(" AnthropicVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
 
         logger.debug("Validating connection... ");
         try {

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.Content;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
@@ -42,7 +43,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
     }
 
     @Override
-    public DefaultVisionRequestPayloadRecord createRequestImageURL(TextGenerationConnection connection, String prompt, String imageUrl) throws IOException {
+    public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl) throws IOException {
         List<Content> contentArray = new ArrayList<>();
 
         contentArray.add(new TextContent("text", prompt));

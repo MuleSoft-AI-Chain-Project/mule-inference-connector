@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.huggingface.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.huggingface.HuggingFaceVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.huggingface.providers.HuggingFaceVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("hugging-face-vision")
 @DisplayName("Hugging Face")
-public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class HuggingFaceVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(HuggingFaceVisionConnectionProvider.class);
 
@@ -45,12 +45,12 @@ public class HuggingFaceVisionConnectionProvider extends TextGenerationConnectio
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug("HuggingFaceVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
         logger.debug("Validating connection... ");
         try {
             return ConnectionValidationResult.success();

@@ -1,12 +1,11 @@
 package com.mulesoft.connectors.inference.internal.connection.portkey;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.util.Map;
 
-public class PortkeyVisionConnection extends TextGenerationConnection {
+public class PortkeyVisionConnection extends VisionModelConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String PORTKEY_URL = "https://api.portkey.ai/v1";
@@ -14,7 +13,7 @@ public class PortkeyVisionConnection extends TextGenerationConnection {
   public PortkeyVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                  Number temperature, Number topP,
                                  Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, null, fetchApiURL(), "PORTKEY");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(), "PORTKEY");
   }
 
   private static String fetchApiURL() {

@@ -10,6 +10,8 @@ import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Map;
 
+import static com.mulesoft.connectors.inference.internal.utils.ConnectionUtils.getAccessTokenFromServiceAccountKey;
+
 public class VertexAITextGenerationConnection extends TextGenerationConnection {
 
   private static final String GEMINI_URI_CHAT_COMPLETIONS = "generateContent";

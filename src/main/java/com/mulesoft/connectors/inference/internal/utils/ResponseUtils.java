@@ -4,8 +4,7 @@ import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.ChatCompletionBase;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
@@ -21,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +33,7 @@ public class ResponseUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(ResponseUtils.class);
 
     public static Result<InputStream, LLMResponseAttributes> processResponse(
-            String response, TextGenerationConnection connection, boolean isToolsResponse) throws Exception {
+            String response, VisionModelConnection connection, boolean isToolsResponse) throws Exception {
 
         JSONObject root = new JSONObject(response);
         ResponseInfo responseInfo = extractResponseInfo(root, connection);
@@ -109,7 +107,7 @@ public class ResponseUtils {
     }
 
     public static Result<InputStream, LLMResponseAttributes> processLLMResponse(
-            String response, TextGenerationConnection connection) throws Exception {
+            String response, VisionModelConnection connection) throws Exception {
         return processResponse(response, connection, false);
     }
 
@@ -124,7 +122,7 @@ public class ResponseUtils {
         String text = "";
     }
 
-    private static ResponseInfo extractResponseInfo(JSONObject root, TextGenerationConnection connection) {
+    private static ResponseInfo extractResponseInfo(JSONObject root, VisionModelConnection connection) {
         ResponseInfo info = new ResponseInfo();
 
         String provider = ProviderUtils.getProviderByModel(connection.getModelName());

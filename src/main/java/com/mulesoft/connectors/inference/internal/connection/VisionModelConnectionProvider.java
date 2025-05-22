@@ -4,6 +4,7 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
 
-public abstract class TextGenerationConnectionProvider extends BaseConnectionProvider
-        implements CachedConnectionProvider<TextGenerationConnection>, Initialisable, Disposable {
+public abstract class VisionModelConnectionProvider extends BaseConnectionProvider
+        implements CachedConnectionProvider<VisionModelConnection>, Initialisable, Disposable {
+
 }

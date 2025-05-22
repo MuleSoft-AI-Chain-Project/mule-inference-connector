@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.azure.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.azure.AzureAIFoundryVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureAIFoundryVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
 
 @Alias("azure-ai-foundry-vision")
 @DisplayName("Azure AI Foundry")
-public class AzureAIFoundryVisionConnectionProvider extends TextGenerationConnectionProvider {
+public class AzureAIFoundryVisionConnectionProvider extends VisionModelConnectionProvider {
 
     private static final Logger logger = LoggerFactory.getLogger(AzureAIFoundryVisionConnectionProvider.class);
 
@@ -59,12 +59,12 @@ public class AzureAIFoundryVisionConnectionProvider extends TextGenerationConnec
     }
 
     @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
+    public void disconnect(VisionModelConnection baseConnection) {
         logger.debug(" AzureAIFoundryVisionConnection disconnected ...");
     }
 
     @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
+    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
 
         logger.debug("Validating connection... ");
         try {
