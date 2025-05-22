@@ -38,7 +38,7 @@ public class StabilityAIHttpRequestHandler extends HttpRequestHandler{
         return executeRestRequest(connection,resourceUrl,payloadRecord.prompt());
     }
 
-    public HttpResponse executeRestRequest(BaseConnection connection, String resourceUrl,
+    private HttpResponse executeRestRequest(BaseConnection connection, String resourceUrl,
                                                   String payload) throws IOException, TimeoutException {
 
         byte[] promptBytes = payload.getBytes(StandardCharsets.UTF_8);

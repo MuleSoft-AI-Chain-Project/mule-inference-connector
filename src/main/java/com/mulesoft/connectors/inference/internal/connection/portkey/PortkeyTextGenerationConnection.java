@@ -11,10 +11,14 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
   public static final String PORTKEY_URL = "https://api.portkey.ai/v1";
 
-  public PortkeyTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
+  private final String virtualKey;
+
+  public PortkeyTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
+                                         String virtualKey, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "PORTKEY");
+    this.virtualKey = virtualKey;
   }
 
   @Override
@@ -24,7 +28,7 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+    return Map.of("x-portkey-api-key", this.getApiKey(), "x-portkey-virtual-key", this.virtualKey);
   }
 
   private static String fetchApiURL() {

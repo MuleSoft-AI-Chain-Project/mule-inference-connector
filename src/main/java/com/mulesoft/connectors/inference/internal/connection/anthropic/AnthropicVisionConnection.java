@@ -22,11 +22,6 @@ public class AnthropicVisionConnection extends TextGenerationConnection {
     return Map.of();
   }
 
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
   private static String fetchApiURL() {
     return ANTHROPIC_URL +  URI_CHAT_COMPLETIONS;
   }

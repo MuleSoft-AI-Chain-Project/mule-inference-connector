@@ -34,7 +34,7 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+    return Map.of("x-api-key", this.getApiKey(), "anthropic-version", "2023-06-01");
   }
 
   private static String fetchApiURL() {

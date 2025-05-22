@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import java.util.Collections;
 import java.util.Map;
 
 public class VertexAIExpressTextGenerationConnection extends TextGenerationConnection {
@@ -19,12 +20,12 @@ public class VertexAIExpressTextGenerationConnection extends TextGenerationConne
 
   @Override
   public Map<String, String> getQueryParams() {
-    return Map.of();
+    return Map.of("key", this.getApiKey());
   }
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+    return Collections.emptyMap();
   }
 
   private static String fetchApiURL(String modelName) {

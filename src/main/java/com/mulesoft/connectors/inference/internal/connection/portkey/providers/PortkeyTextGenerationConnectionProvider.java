@@ -10,6 +10,7 @@ import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -30,13 +31,20 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
     @OfValues(PortkeyTextGenerationModelNameProvider.class)
     private String portkeyModelName;
 
+    @Parameter
+    @Optional(defaultValue = "Portkey-virtual-key")
+    @Expression(ExpressionSupport.SUPPORTED)
+    @Placement(tab = "Additional Properties")
+    @DisplayName("[Portkey] Virtual Key")
+    private String virtualKey;
+
     @ParameterGroup(name = Placement.CONNECTION_TAB)
     private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
     @Override
     public PortkeyTextGenerationConnection connect() throws ConnectionException {
         logger.debug("PortkeyTextGenerationConnection connect ...");
-        return new PortkeyTextGenerationConnection(getHttpClient(),getObjectMapper(), portkeyModelName,
+        return new PortkeyTextGenerationConnection(getHttpClient(),getObjectMapper(), portkeyModelName,virtualKey,
                 textGenerationConnectionParameters.getApiKey(),
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),

@@ -37,14 +37,4 @@ public final class ResponseHelper {
             .mediaType(MediaType.APPLICATION_JSON)
             .build();
   }
-
-  public static Result<InputStream, Map<String, Object>> createLLMResponse(String response,
-                                                                           Map<String, Object> responseAttributes) {
-    return Result.<InputStream, Map<String, Object>>builder()
-        .attributes(responseAttributes)
-        .attributesMediaType(org.mule.runtime.api.metadata.MediaType.APPLICATION_JAVA)
-        .output(toInputStream(response, StandardCharsets.UTF_8))
-        .mediaType(org.mule.runtime.api.metadata.MediaType.APPLICATION_JSON)
-        .build();
-  }
 }

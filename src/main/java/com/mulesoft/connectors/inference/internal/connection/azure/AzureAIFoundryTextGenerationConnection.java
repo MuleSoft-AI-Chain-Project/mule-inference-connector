@@ -26,7 +26,7 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+    return Map.of("api-key", this.getApiKey());
   }
 
   private static String fetchApiURL(String azureAIFoundryResourceName, String azureAIFoundryApiVersion) {
