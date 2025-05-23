@@ -13,8 +13,8 @@ import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
-import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHandler;
-import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
+import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,14 +30,14 @@ public class TextGenerationService implements BaseService{
     public static final String PAYLOAD_LOGGER_MSG = "Payload sent to the LLM {}";
 
     private final RequestPayloadHelper payloadHelper;
-    private final HttpRequestHandler httpRequestHandler;
-    private final HttpResponseHandler responseHandler;
+    private final HttpRequestHelper httpRequestHelper;
+    private final HttpResponseHelper responseHandler;
     private final McpHelper mcpHelper;
     private final ObjectMapper objectMapper;
 
-    public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHandler httpRequestHandler, HttpResponseHandler responseHandler, McpHelper mcpHelper, ObjectMapper objectMapper) {
+    public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper, HttpResponseHelper responseHandler, McpHelper mcpHelper, ObjectMapper objectMapper) {
         this.payloadHelper = requestPayloadHelper;
-        this.httpRequestHandler = httpRequestHandler;
+        this.httpRequestHelper = httpRequestHelper;
         this.responseHandler = responseHandler;
         this.mcpHelper = mcpHelper;
         this.objectMapper = objectMapper;
@@ -130,7 +130,7 @@ public class TextGenerationService implements BaseService{
 
         logger.debug("Request payload: {} ", requestPayloadDTO.toString());
 
-        var response = httpRequestHandler.executeChatRestRequest(connection,
+        var response = httpRequestHelper.executeChatRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
         ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response);

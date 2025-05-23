@@ -24,14 +24,14 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-public class HttpRequestHandler {
+public class HttpRequestHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpRequestHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpRequestHelper.class);
 
     protected final HttpClient httpClient;
     protected final ObjectMapper objectMapper;
 
-    public HttpRequestHandler(HttpClient httpClient, ObjectMapper objectMapper) {
+    public HttpRequestHelper(HttpClient httpClient, ObjectMapper objectMapper) {
         this.httpClient = httpClient;
         this.objectMapper = objectMapper;
     }

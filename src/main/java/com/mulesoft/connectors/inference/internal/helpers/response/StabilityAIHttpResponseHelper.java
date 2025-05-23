@@ -17,11 +17,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
-public class StabilityAIHttpResponseHandler extends HttpResponseHandler{
+public class StabilityAIHttpResponseHelper extends HttpResponseHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(StabilityAIHttpResponseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(StabilityAIHttpResponseHelper.class);
 
-    public StabilityAIHttpResponseHandler(ObjectMapper objectMapper) {
+    public StabilityAIHttpResponseHelper(ObjectMapper objectMapper) {
         super(objectMapper);
     }
 

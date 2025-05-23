@@ -9,8 +9,8 @@ import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGener
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
-import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHandler;
-import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
+import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,14 +25,14 @@ public class ImageGenerationService implements BaseService{
     private static final Logger logger = LoggerFactory.getLogger(ImageGenerationService.class);
 
     private final RequestPayloadHelper payloadHelper;
-    private final HttpRequestHandler httpRequestHandler;
-    private final HttpResponseHandler responseHandler;
+    private final HttpRequestHelper httpRequestHelper;
+    private final HttpResponseHelper responseHandler;
     private final ObjectMapper objectMapper;
 
-    public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHandler httpRequestHandler,
-                                  HttpResponseHandler responseHandler, ObjectMapper objectMapper) {
+    public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
+                                  HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
         this.payloadHelper = requestPayloadHelper;
-        this.httpRequestHandler = httpRequestHandler;
+        this.httpRequestHelper = httpRequestHelper;
         this.responseHandler = responseHandler;
         this.objectMapper = objectMapper;
     }
@@ -58,7 +58,7 @@ public class ImageGenerationService implements BaseService{
 
         logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO.toString());
 
-        var response = httpRequestHandler.executeImageGenerationRestRequest(connection,
+        var response = httpRequestHelper.executeImageGenerationRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
         logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());

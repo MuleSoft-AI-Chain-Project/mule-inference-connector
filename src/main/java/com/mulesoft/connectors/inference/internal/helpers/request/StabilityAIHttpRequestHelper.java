@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-public class StabilityAIHttpRequestHandler extends HttpRequestHandler{
+public class StabilityAIHttpRequestHelper extends HttpRequestHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(StabilityAIHttpRequestHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(StabilityAIHttpRequestHelper.class);
 
-    public StabilityAIHttpRequestHandler(HttpClient httpClient, ObjectMapper objectMapper) {
+    public StabilityAIHttpRequestHelper(HttpClient httpClient, ObjectMapper objectMapper) {
         super(httpClient,objectMapper);
     }
 

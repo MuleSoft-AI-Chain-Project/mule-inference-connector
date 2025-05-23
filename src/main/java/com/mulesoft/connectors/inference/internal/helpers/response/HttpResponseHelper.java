@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class HttpResponseHandler {
+public class HttpResponseHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(HttpResponseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(HttpResponseHelper.class);
 
     protected final ObjectMapper objectMapper;
 
-    public HttpResponseHandler(ObjectMapper objectMapper) {
+    public HttpResponseHelper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

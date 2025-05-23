@@ -15,11 +15,11 @@ import java.io.IOException;
 import java.util.Base64;
 import java.util.List;
 
-public class HuggingFaceHttpResponseHandler extends HttpResponseHandler{
+public class HuggingFaceHttpResponseHelper extends HttpResponseHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(HuggingFaceHttpResponseHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger(HuggingFaceHttpResponseHelper.class);
 
-    public HuggingFaceHttpResponseHandler(ObjectMapper objectMapper) {
+    public HuggingFaceHttpResponseHelper(ObjectMapper objectMapper) {
         super(objectMapper);
     }
 

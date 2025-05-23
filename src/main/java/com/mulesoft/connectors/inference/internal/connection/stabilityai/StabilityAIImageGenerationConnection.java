@@ -3,9 +3,8 @@ package com.mulesoft.connectors.inference.internal.connection.stabilityai;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.helpers.payload.StabilityAIRequestPayloadHelper;
-import com.mulesoft.connectors.inference.internal.helpers.request.StabilityAIHttpRequestHandler;
-import com.mulesoft.connectors.inference.internal.helpers.response.HuggingFaceHttpResponseHandler;
-import com.mulesoft.connectors.inference.internal.helpers.response.StabilityAIHttpResponseHandler;
+import com.mulesoft.connectors.inference.internal.helpers.request.StabilityAIHttpRequestHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.StabilityAIHttpResponseHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
 public class StabilityAIImageGenerationConnection extends ImageGenerationConnection {
@@ -25,12 +24,12 @@ public class StabilityAIImageGenerationConnection extends ImageGenerationConnect
   }
 
   @Override
-  protected StabilityAIHttpRequestHandler getHttpRequestHandler() {
-    return new StabilityAIHttpRequestHandler(this.getHttpClient(),this.getObjectMapper());
+  protected StabilityAIHttpRequestHelper getHttpRequestHandler() {
+    return new StabilityAIHttpRequestHelper(this.getHttpClient(),this.getObjectMapper());
   }
 
   @Override
-  public StabilityAIHttpResponseHandler getResponseHandler() {
-    return new StabilityAIHttpResponseHandler(this.getObjectMapper());
+  public StabilityAIHttpResponseHelper getResponseHandler() {
+    return new StabilityAIHttpResponseHelper(this.getObjectMapper());
   }
 }

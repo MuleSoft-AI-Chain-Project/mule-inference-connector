@@ -1,7 +1,6 @@
 package com.mulesoft.connectors.inference.internal.connection;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
 import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 import org.mule.runtime.http.api.client.HttpClient;
 

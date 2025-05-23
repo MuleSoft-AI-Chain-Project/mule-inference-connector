@@ -3,8 +3,8 @@ package com.mulesoft.connectors.inference.internal.connection;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
-import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHandler;
-import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHandler;
+import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.service.BaseService;
 import org.mule.runtime.http.api.client.HttpClient;
 
@@ -55,12 +55,12 @@ public class BaseConnection {
     return mcpHelper;
   }
 
-  protected HttpRequestHandler getHttpRequestHandler() {
-    return new HttpRequestHandler(this.getHttpClient(), this.getObjectMapper());
+  protected HttpRequestHelper getHttpRequestHandler() {
+    return new HttpRequestHelper(this.getHttpClient(), this.getObjectMapper());
   }
 
-  protected HttpResponseHandler getResponseHandler() {
-    return new HttpResponseHandler(this.getObjectMapper());
+  protected HttpResponseHelper getResponseHandler() {
+    return new HttpResponseHelper(this.getObjectMapper());
   }
 
   public Map<String, String> getAdditionalHeaders() {
