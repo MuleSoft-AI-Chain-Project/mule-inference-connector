@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.mulesoft.connectors.inference.internal.utils.ConnectionUtils.executeTokenRequest;
+import static com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper.executeTokenRequest;
 
 public class IBMWatsonTextGenerationConnection extends TextGenerationConnection {
 

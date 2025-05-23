@@ -11,7 +11,6 @@ import com.mulesoft.connectors.inference.api.response.ToolCall;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.mcp.ServerInfo;
-import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
@@ -33,7 +32,7 @@ import java.util.stream.Collectors;
 
 public class McpHelper {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProviderUtils.class);
+    private static final Logger logger = LoggerFactory.getLogger(McpHelper.class);
 
     public static final int MCP_CLIENT_REQUEST_TIMEOUT = 60;
     private final ObjectMapper objectMapper;

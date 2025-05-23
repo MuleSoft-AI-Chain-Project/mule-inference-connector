@@ -2,10 +2,12 @@ package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.auth.oauth2.GoogleCredentials;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.vertexai.VertexAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
@@ -18,20 +20,24 @@ import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.InlineData
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.Part;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.VisionContentRecord;
 import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.utils.ProviderUtils;
 import org.mule.runtime.extension.api.exception.ModuleException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.ANTHROPIC_PROVIDER_TYPE;
-import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.GOOGLE_PROVIDER_TYPE;
-import static com.mulesoft.connectors.inference.internal.utils.ProviderUtils.META_PROVIDER_TYPE;
-
 public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
+
+    private static final Logger logger = LoggerFactory.getLogger(VertexAIRequestPayloadHelper.class);
+
+    public static final String GOOGLE_PROVIDER_TYPE = "Google";
+    public static final String ANTHROPIC_PROVIDER_TYPE = "Anthropic";
+    public static final String META_PROVIDER_TYPE = "Meta";
 
     public static final String VERTEX_AI_ANTHROPIC_VERSION_VALUE = "vertex-2023-10-16";
     private static final String DEFAULT_MIME_TYPE = "image/jpeg";
@@ -43,7 +49,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     @Override
     public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
 
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> buildVertexAIGooglePayload(
@@ -60,7 +66,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     @Override
     public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
 
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
@@ -87,7 +93,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     @Override
     public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
 
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> {
@@ -114,7 +120,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     @Override
     public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
                                                                      String instructions, String data, InputStream tools) throws IOException {
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         throw new IllegalArgumentException(provider + ":" + connection.getModelName() + " on Vertex AI do not currently support function calling at this time.");
     }
@@ -122,7 +128,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     @Override
     public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl) throws IOException {
 
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         Object content =  switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> getGoogleVisionContentRecord(prompt, imageUrl);
@@ -132,6 +138,44 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         };
 
         return buildVisionRequestPayload(connection, List.of(content));
+    }
+
+    public static String getProviderByModel(String modelName) {
+        logger.debug("model name {}", modelName);
+
+        if (modelName == null || modelName.isEmpty()) {
+            return "Unknown";
+        }
+        String upperName = modelName.toUpperCase();
+
+        if (upperName.startsWith("GEMINI")) {
+            return GOOGLE_PROVIDER_TYPE;
+        } else if (upperName.startsWith("CLAUDE")) {
+            return ANTHROPIC_PROVIDER_TYPE;
+        } else if (upperName.startsWith("META")) {
+            return META_PROVIDER_TYPE;
+        } else {
+            return "Unknown";
+        }
+    }
+
+    //get access token from google service acc key file
+    public static String getAccessTokenFromServiceAccountKey(TextGenerationConnection connection) {
+
+        try {
+            VertexAITextGenerationConnection textGenerationConnection = (VertexAITextGenerationConnection) connection;
+            FileInputStream serviceAccountStream = new FileInputStream(textGenerationConnection.getVertexAIServiceAccountKey());
+            GoogleCredentials credentials = GoogleCredentials
+                    .fromStream(serviceAccountStream)
+                    .createScoped(Collections.singletonList("https://www.googleapis.com/auth/cloud-platform"));
+
+            credentials.refreshIfExpired();
+            String token = credentials.getAccessToken().getTokenValue();
+            logger.debug("gcp access token {}", token);
+            return token;
+        } catch (IOException e) {
+            throw new ModuleException("Error fetching the token for ibm watson.", InferenceErrorType.INVALID_CONNECTION, e);
+        }
     }
 
     private VisionContentRecord getGoogleVisionContentRecord(String prompt, String imageUrl) throws IOException {
@@ -177,7 +221,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
 
-        String provider = ProviderUtils.getProviderByModel(connection.getModelName());
+        String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
