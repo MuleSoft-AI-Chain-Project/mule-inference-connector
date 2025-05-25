@@ -15,7 +15,7 @@ public class ModerationConnection extends BaseConnection {
         this.setBaseService(getModerationService());
     }
 
-    private ModerationService getModerationService() {
+    public ModerationService getModerationService() {
         if(moderationService ==null)
             moderationService = new ModerationService(this.getRequestPayloadHelper(),this.getHttpRequestHandler(),
                     this.getResponseHandler(), this.getObjectMapper());

@@ -47,7 +47,6 @@ public class TextGenerationService implements BaseService{
 
         return executeChatRequestAndFormatResponse(connection,
                 payloadHelper.buildChatAnswerPromptPayload(connection,prompt));
-
     }
 
     public Result<InputStream, LLMResponseAttributes> executeChatCompletion(TextGenerationConnection connection, InputStream messages) throws IOException, TimeoutException {
@@ -83,7 +82,7 @@ public class TextGenerationService implements BaseService{
         TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
                 .buildToolsTemplatePayload(connection, template, instructions, data, tools);
 
-        logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO.toString());
+        logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
 
         ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
         var chatRespFirstChoice = chatResponse.choices().get(0);
@@ -128,13 +127,13 @@ public class TextGenerationService implements BaseService{
     private ChatCompletionResponse executeChatRequest(TextGenerationConnection connection, TextGenerationRequestPayloadDTO requestPayloadDTO)
             throws IOException, TimeoutException {
 
-        logger.debug("Request payload: {} ", requestPayloadDTO.toString());
+        logger.debug("Request payload: {} ", requestPayloadDTO);
 
         var response = httpRequestHelper.executeChatRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
         ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response);
-        logger.debug("Response of chat REST request: {}",chatResponse.toString());
+        logger.debug("Response of chat REST request: {}",chatResponse);
         return chatResponse;
     }
 }

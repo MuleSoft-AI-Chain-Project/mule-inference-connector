@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
-import java.util.Map;
-
 public class AnthropicVisionConnection extends VisionModelConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/messages";

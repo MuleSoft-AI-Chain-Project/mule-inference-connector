@@ -43,29 +43,7 @@ public class OpenAIImageGenerationConnectionProvider extends ImageGenerationConn
               baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
   }
 
-  @Override
-  public void disconnect(ImageGenerationConnection imageGenerationConnection) {
-    logger.debug(" OpenAIImageConnection disconnected ...");
-  }
-
-  @Override
-  public ConnectionValidationResult validate(ImageGenerationConnection imageGenerationConnection) {
-
-    logger.debug("Validating connection... ");
-    try {
-      //TODO implement proper call to validate connection is valid
-      // if (textGenerationConnection.isValid()) {
-      return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-    } catch (Exception e) {
-      return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-    }
-  }
-
   private String getImageGenerationAPIURL() {
     return OPEN_AI_URL + OPENAI_GENERATE_IMAGES;
   }
-
 }

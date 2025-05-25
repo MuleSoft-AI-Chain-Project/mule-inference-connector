@@ -29,7 +29,12 @@
 	</munit:test>
 
 	<sub-flow doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6" name="toxicity_detection_operation">
-		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value='#[%dw 2.0&#10;   output application/json&#10;   ---&#10;   {&#10;    "prompt": "You are fat"&#10;   }]' variableName="testPayload"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+    			"prompt": "You are fat"
+   			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection by Text" doc:id="a1c83599-a970-45a6-8ad2-1edc992e2aed" config-ref="${config}">
 			<mac-inference:text ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:text>
 		</mac-inference:toxicity-detection-text>

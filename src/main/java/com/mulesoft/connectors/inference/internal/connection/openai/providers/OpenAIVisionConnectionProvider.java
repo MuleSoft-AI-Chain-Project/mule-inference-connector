@@ -43,25 +43,4 @@ public class OpenAIVisionConnectionProvider extends VisionModelConnectionProvide
                 visionConnectionParameters.getMaxTokens(),
                 visionConnectionParameters.getTimeout());
     }
-
-    @Override
-    public void disconnect(VisionModelConnection baseConnection) {
-        logger.debug(" OpenAIVisionConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
-
-        logger.debug("Validating connection... ");
-        try {
-            //TODO implement proper call to validate connection is valid
-            // if (textGenerationConnection.isValid()) {
-            return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-        }
-    }
 }

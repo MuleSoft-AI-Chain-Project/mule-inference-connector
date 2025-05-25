@@ -40,7 +40,13 @@
 	</munit:test>
 
 	<sub-flow name="read_image_url_operation" doc:id="df9ead27-c4c2-4b35-87d7-0437bb2316d2">
-		<set-variable doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" doc:name="Set Variable" value='#[%dw 2.0    output application/json    ---    &#10;{&#10;    "prompt":"What do you see",&#10;    "imageUrl": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"&#10;}]' variableName="testPayload"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+				"prompt":"What do you see",
+				"imageUrl": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
+			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 			<mac-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></mac-inference:image-url>

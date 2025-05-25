@@ -41,7 +41,6 @@ public class ModerationService implements BaseService{
         logger.debug("Moderation service - response from LLM: {}", response);
 
         ModerationRestResponse moderationRestResponse = responseHandler.processModerationResponse(response);
-        ;
         return ResponseHelper.createLLMResponse(
                 objectMapper.writeValueAsString(responseHandler.mapModerationFinalResponse(moderationRestResponse)));
     }

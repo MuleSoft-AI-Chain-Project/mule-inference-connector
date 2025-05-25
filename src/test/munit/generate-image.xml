@@ -30,30 +30,34 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		</munit:validation>
 	</munit:test>
 	<sub-flow name="generate-image-operation" doc:id="3ff94cc9-278c-41f1-bafc-9da783016dd9" >
-		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;{&#10;    "prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."&#10;}]' doc:name="testPayload" doc:id="3483351f-7708-4ddc-8dca-ed09e13c1bc5" variableName="testPayload"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+				"prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."
+			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="1e7f063a-6418-4c42-b2ee-7dd372f24d83" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 		</mac-inference:generate-image>
 		<ee:transform doc:name="Transform Message" doc:id="1b42e80a-3268-4250-a4ca-9170841cf164" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
-output application/json
----
-{
-	payload: payload,
-	attributes: attributes
-}]]></ee:set-payload>
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
 			</ee:message>
 			<ee:variables >
 				<ee:set-variable variableName="payload" ><![CDATA[%dw 2.0
-output application/json
----
-{
-	payload: payload,
-	attributes: attributes
-}]]></ee:set-variable>
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-variable>
 			</ee:variables>
 		</ee:transform>
 	</sub-flow>
-
 </mule>
