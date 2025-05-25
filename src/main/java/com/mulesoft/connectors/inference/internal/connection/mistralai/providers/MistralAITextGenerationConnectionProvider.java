@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.mistralai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.mistralai.MistralAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -41,26 +39,5 @@ public class MistralAITextGenerationConnectionProvider extends TextGenerationCon
                 textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                 textGenerationConnectionParameters.getTimeout());
-    }
-
-    @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("MistralAITextGenerationConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
-
-        logger.debug("Validating connection... ");
-        try {
-            //TODO implement proper call to validate connection is valid
-            // if (textGenerationConnection.isValid()) {
-            return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-        }
     }
 }

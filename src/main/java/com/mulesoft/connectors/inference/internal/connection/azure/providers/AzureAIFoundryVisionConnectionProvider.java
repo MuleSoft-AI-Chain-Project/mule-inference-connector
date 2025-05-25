@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.azure.providers;
 
 import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.azure.AzureAIFoundryVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureAIFoundryVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -56,26 +54,5 @@ public class AzureAIFoundryVisionConnectionProvider extends VisionModelConnectio
                     visionConnectionParameters.getTopP(),
                     visionConnectionParameters.getMaxTokens(),
                     visionConnectionParameters.getTimeout());
-    }
-
-    @Override
-    public void disconnect(VisionModelConnection baseConnection) {
-        logger.debug(" AzureAIFoundryVisionConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
-
-        logger.debug("Validating connection... ");
-        try {
-            //TODO implement proper call to validate connection is valid
-            // if (textGenerationConnection.isValid()) {
-            return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-        }
     }
 }

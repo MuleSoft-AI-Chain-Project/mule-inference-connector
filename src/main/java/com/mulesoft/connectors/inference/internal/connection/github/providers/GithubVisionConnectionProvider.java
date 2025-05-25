@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.github.providers;
 
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.github.GithubVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.github.providers.GithubVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -43,19 +41,4 @@ public class GithubVisionConnectionProvider extends VisionModelConnectionProvide
                 textGenerationConnectionParameters.getMaxTokens(),
                 textGenerationConnectionParameters.getTimeout());
     }
-
-    @Override
-    public void disconnect(VisionModelConnection baseConnection) {
-        logger.debug("GithubVisionConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
-        logger.debug("Validating connection... ");
-        try {
-            return ConnectionValidationResult.success();
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to GitHub", e);
-        }
-    }
-} 
+}

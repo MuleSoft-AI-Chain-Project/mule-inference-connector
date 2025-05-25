@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.openaicompatible.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.openaicompatible.OpenAICompatibleTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -52,26 +50,5 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
                 openAITextGenerationConnectionParameters.getTemperature(), openAITextGenerationConnectionParameters.getTopP(),
                 openAITextGenerationConnectionParameters.getMaxTokens(), openAITextGenerationConnectionParameters.getMcpSseServers(),
                 openAITextGenerationConnectionParameters.getTimeout());
-    }
-
-    @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug(" OpenAICompatibleTextGenerationConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
-
-        logger.debug("Validating connection... ");
-        try {
-            //TODO implement proper call to validate connection is valid
-            // if (textGenerationConnection.isValid()) {
-            return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-        }
     }
 }

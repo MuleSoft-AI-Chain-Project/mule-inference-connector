@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.zhipuai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.zhipuai.ZhipuAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.zhipuai.providers.ZhipuAITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -42,19 +40,4 @@ public class ZhipuAITextGenerationConnectionProvider extends TextGenerationConne
                 textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                 textGenerationConnectionParameters.getTimeout());
     }
-
-    @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("ZhipuAITextGenerationConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
-        logger.debug("Validating connection... ");
-        try {
-            return ConnectionValidationResult.success();
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to CHATGLM", e);
-        }
-    }
-} 
+}

@@ -1,12 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.groq.providers;
 
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.groq.GroqVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.groq.providers.GroqVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -42,19 +40,4 @@ public class GroqVisionConnectionProvider extends VisionModelConnectionProvider 
                 textGenerationConnectionParameters.getMaxTokens(),
                 textGenerationConnectionParameters.getTimeout());
     }
-
-    @Override
-    public void disconnect(VisionModelConnection baseConnection) {
-        logger.debug("GroqVisionConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(VisionModelConnection baseConnection) {
-        logger.debug("Validating connection... ");
-        try {
-            return ConnectionValidationResult.success();
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to Groq", e);
-        }
-    }
-} 
+}

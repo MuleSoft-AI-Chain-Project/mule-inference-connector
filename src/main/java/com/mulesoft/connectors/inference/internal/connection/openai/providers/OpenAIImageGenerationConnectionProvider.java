@@ -1,11 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.openai.providers;
 
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.openai.OpenAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIImageGenerationModelNameProvider;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;

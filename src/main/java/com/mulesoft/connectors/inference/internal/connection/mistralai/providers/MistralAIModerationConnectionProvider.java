@@ -3,9 +3,8 @@ package com.mulesoft.connectors.inference.internal.connection.mistralai.provider
 import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.ModerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
+import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -40,27 +39,6 @@ public class MistralAIModerationConnectionProvider extends ModerationConnectionP
 
     return new ModerationConnection(getHttpClient(),getObjectMapper(), baseConnectionParameters.getApiKey(),
             mistralAIModelName, baseConnectionParameters.getTimeout(), getModerationAPIURL(),"MistralAI");
-  }
-
-  @Override
-  public void disconnect(ModerationConnection textGenerationConnection) {
-    logger.debug(" ModerationConnection disconnected ...");
-  }
-
-  @Override
-  public ConnectionValidationResult validate(ModerationConnection textGenerationConnection) {
-
-    logger.debug("Validating connection... ");
-    try {
-      //TODO implement proper call to validate connection is valid
-      // if (textGenerationConnection.isValid()) {
-      return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-    } catch (Exception e) {
-      return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-    }
   }
 
   private String getModerationAPIURL() {

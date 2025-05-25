@@ -1,13 +1,11 @@
 package com.mulesoft.connectors.inference.internal.connection.gpt4all.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.gpt4all.GPT4AllTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.llmmodels.gpt4all.providers.GPT4AllTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -51,19 +49,4 @@ public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConne
                     textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
                     textGenerationConnectionParameters.getTimeout());
     }
-
-    @Override
-    public void disconnect(TextGenerationConnection baseConnection) {
-        logger.debug("GPT4AllTextGenerationConnection disconnected ...");
-    }
-
-    @Override
-    public ConnectionValidationResult validate(TextGenerationConnection baseConnection) {
-        logger.debug("Validating connection... ");
-        try {
-            return ConnectionValidationResult.success();
-        } catch (Exception e) {
-            return ConnectionValidationResult.failure("Failed to validate connection to GPT4All", e);
-        }
-    }
-} 
+}

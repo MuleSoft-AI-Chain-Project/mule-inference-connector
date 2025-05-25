@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.stabilityai.providers;
 
-import com.mulesoft.connectors.inference.internal.connection.*;
+import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.stabilityai.StabilityAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
-import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -39,27 +39,6 @@ public class StabilityAIImageConnectionProvider extends ImageGenerationConnectio
 
     return new StabilityAIImageGenerationConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "STABILITY_AI");
-  }
-
-  @Override
-  public void disconnect(ImageGenerationConnection imageGenerationConnection) {
-    logger.debug("StabilityAIImageConnection disconnected ...");
-  }
-
-  @Override
-  public ConnectionValidationResult validate(ImageGenerationConnection imageGenerationConnection) {
-
-    logger.debug("Validating connection... ");
-    try {
-      //TODO implement proper call to validate connection is valid
-      // if (textGenerationConnection.isValid()) {
-      return ConnectionValidationResult.success();
-     /* } else {
-        return ConnectionValidationResult.failure("Failed to validate connection to PGVector", null);
-      }*/
-    } catch (Exception e) {
-      return ConnectionValidationResult.failure("Failed to validate connection to PGVector", e);
-    }
   }
 
   private String getImageGenerationAPIURL() {
