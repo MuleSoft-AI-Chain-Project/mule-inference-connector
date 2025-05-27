@@ -36,6 +36,46 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<configuration>
+					<destFile>${session.executionRootDirectory}/target/jacoco-java.exec</destFile>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>merge</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${session.executionRootDirectory}/target/jacoco.exec</destFile>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
 				<version>1.5</version>
@@ -105,21 +145,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.2.5</version>
 				<configuration>
-					<!-- Explicitly set the module path to include copied dependencies -->
-					<argLine>
-						--module-path ${project.build.directory}/dependency/slf4j-api.jar:${project.build.directory}/dependency/slf4j-simple.jar:${project.build.directory}/dependency/mule-module-jpms-utils.jar
-						--add-modules org.slf4j,org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang=org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang.reflect=org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang.invoke=org.mule.runtime.jpms.utils
-						--add-opens java.sql/java.sql=org.mule.runtime.jpms.utils
-					</argLine>
-					<!-- Ensure dependencies are scanned for tests -->
-					<dependenciesToScan>
-						<dependency>org.slf4j:slf4j-api</dependency>
-						<dependency>org.slf4j:slf4j-simple</dependency>
-						<dependency>org.mule.runtime.boot:mule-module-jpms-utils</dependency>
-					</dependenciesToScan>
 					<skipTests>${skip.unit.tests}</skipTests>
 				</configuration>
 			</plugin>

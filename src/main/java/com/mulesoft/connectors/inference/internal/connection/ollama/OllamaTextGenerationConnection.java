@@ -27,17 +27,7 @@ public class OllamaTextGenerationConnection extends TextGenerationConnection {
     return requestPayloadHelper;
   }
 
-  @Override
-  public Map<String, String> getQueryParams() {
-    return Map.of();
-  }
-
-  @Override
-  public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
-  }
-
-  private static String fetchApiURL(String ollamaUrl) {
+    private static String fetchApiURL(String ollamaUrl) {
     return ollamaUrl + URI_CHAT_COMPLETIONS;
   }
 } 

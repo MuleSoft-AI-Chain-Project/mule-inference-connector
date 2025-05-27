@@ -27,6 +27,7 @@ public class OpenAIRequestPayloadHelper extends RequestPayloadHelper {
                 getOpenAIRequestPayloadDTO(connection, messagesArray,tools);
     }
 
+    @Override
     public OpenAIImageRequestPayloadRecord createRequestImageGeneration(String model, String prompt) {
 
         return new OpenAIImageRequestPayloadRecord(model,prompt,"b64_json");
