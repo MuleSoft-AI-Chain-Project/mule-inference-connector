@@ -25,6 +25,23 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="119" />
 				</munit:parameters>
 			</munit:parameterization>
+			
+			<munit:parameterization name="config-vertex-ai-express" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="VertexAIExpressConfig" />
+					<munit:parameter propertyName="llmModel" value="${VertexAIExpress.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="114" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-vertex-ai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="VertexAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${VertexAI.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="114" />
+				</munit:parameters>
+			</munit:parameterization>
+			
+			
 		</munit:parameterizations>
 	</munit:config>
 	<munit:test name="agent-define-prompt-template-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
