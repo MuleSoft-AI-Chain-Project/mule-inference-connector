@@ -30,6 +30,14 @@
 					<munit:parameter propertyName="inputCount" value="337" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-ibm-watson">
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="IBMWatsonConfig" />
+					<munit:parameter propertyName="llmModel" value="${ibm-watson.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="445" />
+				</munit:parameters>
+			</munit:parameterization>
+			
 		</munit:parameterizations>
 	</munit:config>
 

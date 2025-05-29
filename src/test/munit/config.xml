@@ -64,4 +64,14 @@
     <mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
         <mac-inference:openrouter-vision-connection apiKey="${openrouter.apiKey}" openRouterModelName="${openrouter.visionModel}" />
     </mac-inference:vision-config>
+    
+    	<mac-inference:text-generation-config name="IBMWatsonConfig" doc:name="MuleSoft Inference Text generation config" doc:id="ecad761c-47f4-4107-bd4e-b2314f89a5e5" >
+		<mac-inference:llm-connection inferenceType="${ibm-watson.inferenceType}" apiKey="${ibm-watson.apiKey}" modelName="${ibm-watson.llmModel}" ibmWatsonApiVersion="${ibm-watson.apiVersion}" ibmWatsonProjectID="${ibm-watson.projectId}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+		</mac-inference:llm-connection>
+	</mac-inference:text-generation-config>
+    
 </mule>
