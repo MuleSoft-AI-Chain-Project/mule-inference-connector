@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection;
 
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -29,6 +30,7 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("MCP Server Urls (SSE over HTTP)")
+    @NullSafe
     private Map<String, String> mcpSseServers;
 
     public Number getMaxTokens() {

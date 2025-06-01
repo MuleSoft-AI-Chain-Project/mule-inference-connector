@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.internal.config.ImageGenerationConfig;
 import com.mulesoft.connectors.inference.internal.config.ModerationConfig;
 import com.mulesoft.connectors.inference.internal.config.TextGenerationConfig;
 import com.mulesoft.connectors.inference.internal.config.VisionConfig;
+import org.mule.runtime.api.meta.Category;
 import org.mule.runtime.extension.api.annotation.Extension;
 import org.mule.runtime.extension.api.annotation.Configurations;
 import org.mule.runtime.extension.api.annotation.SubTypeMapping;
@@ -19,7 +20,7 @@ import static org.mule.sdk.api.meta.JavaVersion.JAVA_17;
  * and sources are going to be declared.
  */
 @Xml(prefix = "mac-inference")
-@Extension(name = "MuleSoft Inference")
+@Extension(name = "MuleSoft Inference", category = Category.SELECT)
 @JavaVersionSupport({JAVA_17})
 @SubTypeMapping(baseType = HttpProxyConfig.class, subTypes = {DefaultProxyConfig.class, DefaultNtlmProxyConfig.class})
 @Configurations({
@@ -28,6 +29,6 @@ import static org.mule.sdk.api.meta.JavaVersion.JAVA_17;
         ImageGenerationConfig.class,
         ModerationConfig.class
 })
-public class InferenceExtension {
+public class InferenceConnector {
 
 }
