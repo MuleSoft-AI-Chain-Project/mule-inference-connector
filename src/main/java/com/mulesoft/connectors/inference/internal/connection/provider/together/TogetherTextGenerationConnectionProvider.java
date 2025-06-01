@@ -13,14 +13,10 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @Alias("together")
 @DisplayName("Together")
 public class TogetherTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
-
-    private static final Logger logger = LoggerFactory.getLogger(TogetherTextGenerationConnectionProvider.class);
 
     @Parameter
     @Placement(order = 1)

@@ -56,17 +56,16 @@ public class ImageGenerationService implements BaseService{
                                                                       ImageGenerationRequestPayloadDTO requestPayloadDTO)
             throws IOException, TimeoutException {
 
-        logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO.toString());
-
+        logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO);
         var response = httpRequestHelper.executeImageGenerationRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
         logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());
-        logger.trace("Image Generation Response headers:{} ", response.getHeaders().toString());
-        logger.trace("Image Generation Response Entity: " + response.getEntity());
+        logger.trace("Image Generation Response headers:{} ", response.getHeaders());
+        logger.trace("Image Generation Response Entity: {}", response.getEntity());
 
         ImageGenerationRestResponse imageGenerationRestResponse = responseHandler.processImageGenerationResponse(requestPayloadDTO,response);
-        logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse.toString());
+        logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse);
         return imageGenerationRestResponse;
     }
 }

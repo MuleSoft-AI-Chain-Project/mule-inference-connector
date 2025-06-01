@@ -82,7 +82,7 @@ public class RequestPayloadHelper {
     }
 
     public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                     String instructions, String data, List<FunctionDefinitionRecord> tools) throws IOException {
+                                                                     String instructions, String data, List<FunctionDefinitionRecord> tools) {
 
         List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                 connection, template + " - " + instructions, data);

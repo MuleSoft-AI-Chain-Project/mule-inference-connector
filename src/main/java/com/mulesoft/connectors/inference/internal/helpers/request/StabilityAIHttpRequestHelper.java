@@ -34,20 +34,18 @@ public class StabilityAIHttpRequestHelper extends HttpRequestHelper {
     @Override
     public HttpResponse executeImageGenerationRestRequest(ImageGenerationConnection connection, String resourceUrl,
                                                                  ImageGenerationRequestPayloadDTO payload) throws IOException, TimeoutException {
-
         DefaultImageRequestPayloadRecord payloadRecord = (DefaultImageRequestPayloadRecord) payload;
-        return executeRestRequest(connection,resourceUrl,payloadRecord.prompt());
+        return executeRestRequestStabilityAi(connection,resourceUrl,payloadRecord.prompt());
     }
 
-    private HttpResponse executeRestRequest(BaseConnection connection, String resourceUrl,
-                                                  String payload) throws IOException, TimeoutException {
-
+    private HttpResponse executeRestRequestStabilityAi(BaseConnection connection, String resourceUrl,
+                                                      String payload) throws IOException, TimeoutException {
         byte[] promptBytes = payload.getBytes(StandardCharsets.UTF_8);
         HttpEntity entity = new MultipartHttpEntity(
                 List.of(
                         new HttpPart("prompt", promptBytes, "text/plain", promptBytes.length)));
 
-        HttpRequestBuilder requestBuilder = createDefaultRequestBuilder(resourceUrl)
+        HttpRequestBuilder requestBuilder = createDefaultRequestBuilderStabilityAi(resourceUrl)
                 .addHeader("Content-Type", "multipart/form-data")
                 .headers(new MultiMap<>(connection.getAdditionalHeaders()))
                 .queryParams(new MultiMap<>(connection.getQueryParams()))
@@ -57,24 +55,24 @@ public class StabilityAIHttpRequestHelper extends HttpRequestHelper {
         logger.trace("Request headers: {}", requestBuilder.getHeaders());
         logger.trace("Request queryParams: {}", requestBuilder.getQueryParams());
 
-        HttpRequestOptions options = getRequestOptions(connection.getTimeout());
+        HttpRequestOptions options = getRequestOptionsStabilityAi(connection.getTimeout());
         return httpClient.send(requestBuilder.build(), options);
     }
 
-    private HttpRequestBuilder createDefaultRequestBuilder(String url) {
+    private HttpRequestBuilder createDefaultRequestBuilderStabilityAi(String url) {
         return HttpRequest.builder()
                 .uri(url)
                 .method("POST")
-                .headers(getDefaultHeaders());
+                .headers(getDefaultHeadersStabilityAi());
     }
 
-    private MultiMap<String,String> getDefaultHeaders()
+    private MultiMap<String,String> getDefaultHeadersStabilityAi()
     {
         // Remove Content-Type to avoid conflicts
         return new MultiMap<>(Map.of("Accept", "application/json"));
     }
 
-    private HttpRequestOptions getRequestOptions( int timeout) {
+    private HttpRequestOptions getRequestOptionsStabilityAi( int timeout) {
         return HttpRequestOptions.builder()
                 .responseTimeout(timeout)
                 .followsRedirect(true)

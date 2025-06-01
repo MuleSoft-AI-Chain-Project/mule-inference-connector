@@ -10,6 +10,7 @@ public class XAIRequestPayloadHelper extends RequestPayloadHelper {
         super(objectMapper);
     }
 
+    @Override
     public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
 
         return new XAIImageRequestPayloadRecord(model,prompt,"b64_json");

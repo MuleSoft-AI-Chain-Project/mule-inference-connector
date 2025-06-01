@@ -102,23 +102,25 @@ public class McpHelper {
             Map<String, Object> arguments = getArgumentsAsMap(toolCall.function().arguments());
 
             ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer, functionName);
-            String serverUrl = serverInfo.serverUrl();
-            String serverName = serverInfo.serverName();
+            if (serverInfo != null) {
+                String serverUrl = serverInfo.serverUrl();
+                String serverName = serverInfo.serverName();
 
-            try(McpSyncClient client = establishClientMCP(serverUrl)) {
+                try(McpSyncClient client = establishClientMCP(serverUrl)) {
 
-                McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
+                    McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
 
-                Object contentObj = null;
-                for (McpSchema.Content content : result.content()) {
-                    if (content instanceof McpSchema.TextContent textContent) {
-                        logger.debug("TextContent is {} ", textContent.text());
+                    Object contentObj = null;
+                    for (McpSchema.Content content : result.content()) {
+                        if (content instanceof McpSchema.TextContent textContent) {
+                            logger.debug("TextContent is {} ", textContent.text());
                             contentObj = textContent.text();
                             break;
+                        }
                     }
+                    ToolResult resultObject = new ToolResult(functionName,contentObj,serverUrl,serverName, Instant.now());
+                    toolResults.add(resultObject);
                 }
-                ToolResult resultObject = new ToolResult(functionName,contentObj,serverUrl,serverName, Instant.now());
-                toolResults.add(resultObject);
             }
         }
         return toolResults;
@@ -237,7 +239,7 @@ public class McpHelper {
                 .filter(List.class::isInstance)
                 .<List<?>>map(list -> (List<?>) list)
                 .map(list -> list.stream()
-                        .<String>filter(String.class::isInstance)
+                        .filter(String.class::isInstance)
                         .map(String.class::cast).toList())
                 .filter(list -> !list.isEmpty())
                 .orElse(null);
