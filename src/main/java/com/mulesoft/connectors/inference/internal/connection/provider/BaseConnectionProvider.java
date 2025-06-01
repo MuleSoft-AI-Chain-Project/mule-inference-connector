@@ -5,6 +5,7 @@ import com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.inference.internal.utils.ObjectMapperProvider;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.api.lifecycle.InitialisationException;
 import org.mule.runtime.api.tls.TlsContextFactory;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Optional;
@@ -22,6 +23,7 @@ import javax.inject.Inject;
 
 import static java.util.Optional.ofNullable;
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
+import static org.mule.runtime.core.api.lifecycle.LifecycleUtils.initialiseIfNeeded;
 
 public class BaseConnectionProvider implements Initialisable, Disposable {
 
@@ -51,7 +53,8 @@ public class BaseConnectionProvider implements Initialisable, Disposable {
     private ObjectMapper objectMapper;
 
     @Override
-    public void initialise() {
+    public void initialise() throws InitialisationException {
+        initialiseIfNeeded(tlsContextFactory);
         logger.debug("Starting httpClient...");
         httpClient = httpService.getClientFactory().create(createClientConfiguration());
         httpClient.start();
