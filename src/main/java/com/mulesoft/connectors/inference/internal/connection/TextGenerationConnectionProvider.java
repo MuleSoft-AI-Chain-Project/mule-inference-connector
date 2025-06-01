@@ -14,7 +14,7 @@ import java.util.concurrent.TimeoutException;
 public abstract class TextGenerationConnectionProvider extends BaseConnectionProvider
         implements CachedConnectionProvider<TextGenerationConnection>, Initialisable, Disposable {
 
-    private final Logger logger = LoggerFactory.getLogger(TextGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(TextGenerationConnectionProvider.class);
 
     @Override
     public ConnectionValidationResult validate(TextGenerationConnection connection) {

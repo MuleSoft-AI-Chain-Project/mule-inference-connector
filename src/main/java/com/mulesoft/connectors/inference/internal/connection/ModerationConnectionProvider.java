@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 public abstract class ModerationConnectionProvider extends BaseConnectionProvider
         implements CachedConnectionProvider<ModerationConnection>, Initialisable, Disposable {
 
-    private final Logger logger = LoggerFactory.getLogger(ModerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(ModerationConnectionProvider.class);
 
     @Override
     public ConnectionValidationResult validate(ModerationConnection connection) {

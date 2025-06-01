@@ -15,7 +15,7 @@ import java.util.concurrent.TimeoutException;
 public abstract class ImageGenerationConnectionProvider extends BaseConnectionProvider
         implements CachedConnectionProvider<ImageGenerationConnection>, Initialisable, Disposable {
 
-    private final Logger logger = LoggerFactory.getLogger(ImageGenerationConnectionProvider.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImageGenerationConnectionProvider.class);
 
     @Override
     public ConnectionValidationResult validate(ImageGenerationConnection connection) {

@@ -13,7 +13,7 @@ import com.mulesoft.connectors.inference.internal.connection.portkey.providers.P
 import com.mulesoft.connectors.inference.internal.connection.vertexai.providers.VertexAIExpressVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.vertexai.providers.VertexAIVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.xai.providers.XAIVisionConnectionProvider;
-import com.mulesoft.connectors.inference.internal.operations.VisionModelOperations;
+import com.mulesoft.connectors.inference.internal.operation.VisionModelOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;

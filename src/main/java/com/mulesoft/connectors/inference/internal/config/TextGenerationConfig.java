@@ -32,7 +32,7 @@ import com.mulesoft.connectors.inference.internal.connection.vertexai.providers.
 import com.mulesoft.connectors.inference.internal.connection.xai.providers.XAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.xinference.providers.XInferenceTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.zhipuai.providers.ZhipuAITextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.operations.TextGenerationOperations;
+import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
