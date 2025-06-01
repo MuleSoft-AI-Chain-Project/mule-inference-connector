@@ -17,10 +17,9 @@ public class VertexAIVisionConnection extends VisionModelConnection {
   }
 
   private static String fetchApiURL(String modelName) {
-    //TODO this is not correct, it varies based on provider from model, to be looked at
+    // TODO: The URL may vary based on provider and model. Please review if model-specific logic is needed.
     String vertexAIExpressUrlStr = VERTEX_AI_EXPRESS_URL + URI_CHAT_COMPLETIONS;
-    vertexAIExpressUrlStr = vertexAIExpressUrlStr
-            .replace("{model_id}", modelName);
+    vertexAIExpressUrlStr = vertexAIExpressUrlStr.replace("{model_id}", modelName);
     return vertexAIExpressUrlStr;
   }
 } 

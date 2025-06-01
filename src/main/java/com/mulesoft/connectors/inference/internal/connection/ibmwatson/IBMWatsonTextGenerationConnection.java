@@ -34,21 +34,17 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-
-    //TODO to be moved to separate token request handler or better use runtime instead
-    // Obtain access token
+    // The logic for obtaining the access token should ideally be moved to a separate token request handler or use runtime injection in the future.
     Map<String, String> params = new HashMap<>();
     params.put("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
     params.put("apikey", this.getApiKey()); // Use connection.getApiKey() instead of hardcoded
-
-      String response = null;
-      try {
-        URL tokenUrl = new URL(IBM_WATSON_TOKEN_URL);
-          response = executeTokenRequest(tokenUrl, this, params);
-      } catch (IOException | TimeoutException e) {
-        throw new ModuleException("Error fetching the token for ibm watson.", InferenceErrorType.INVALID_CONNECTION, e);
-      }
-      // Parse the JSON response
+    String response = null;
+    try {
+      URL tokenUrl = new URL(IBM_WATSON_TOKEN_URL);
+      response = executeTokenRequest(tokenUrl, this, params);
+    } catch (IOException | TimeoutException e) {
+      throw new ModuleException("Error fetching the token for ibm watson.", InferenceErrorType.INVALID_CONNECTION, e);
+    }
     JSONObject jsonResponse = new JSONObject(response);
     String accessToken = jsonResponse.getString("access_token");
     return Map.of("Authorization", "Bearer " + accessToken);

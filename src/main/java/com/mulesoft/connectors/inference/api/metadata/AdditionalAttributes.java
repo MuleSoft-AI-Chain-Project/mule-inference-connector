@@ -2,17 +2,19 @@ package com.mulesoft.connectors.inference.api.metadata;
 
 import java.io.Serializable;
 import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AdditionalAttributes implements Serializable {
 
     private final String id;
     private final String model;
-    private final String finish_reason;
+    @JsonProperty("finish_reason")
+    private final String finishReason;
 
-    public AdditionalAttributes(String id, String model, String finishReason) {
+    public AdditionalAttributes(String id, String model, @JsonProperty("finish_reason") String finishReason) {
         this.id = id;
         this.model = model;
-        this.finish_reason = finishReason;
+        this.finishReason = finishReason;
     }
 
     public String getId() {
@@ -23,8 +25,8 @@ public class AdditionalAttributes implements Serializable {
         return model;
     }
 
-    public String getFinish_reason() {
-        return finish_reason;
+    public String getFinishReason() {
+        return finishReason;
     }
 
     @Override
@@ -32,12 +34,12 @@ public class AdditionalAttributes implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AdditionalAttributes that = (AdditionalAttributes) o;
-        return Objects.equals(id, that.id) && Objects.equals(model, that.model) && Objects.equals(finish_reason, that.finish_reason);
+        return Objects.equals(id, that.id) && Objects.equals(model, that.model) && Objects.equals(finishReason, that.finishReason);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, model, finish_reason);
+        return Objects.hash(id, model, finishReason);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class AdditionalAttributes implements Serializable {
         return "AdditionalAttributes{" +
                 "id='" + id + '\'' +
                 ", model='" + model + '\'' +
-                ", finish_reason='" + finish_reason + '\'' +
+                ", finishReason='" + finishReason + '\'' +
                 '}';
     }
 }
