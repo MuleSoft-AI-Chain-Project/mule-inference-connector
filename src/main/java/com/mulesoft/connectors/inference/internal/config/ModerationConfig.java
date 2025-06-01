@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.config;
 
-import com.mulesoft.connectors.inference.internal.connection.mistralai.providers.MistralAIModerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.openai.providers.OpenAIModerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.mistralai.MistralAIModerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.openai.OpenAIModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.operation.ModerationOperations;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;

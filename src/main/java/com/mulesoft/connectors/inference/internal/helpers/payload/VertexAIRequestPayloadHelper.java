@@ -7,7 +7,6 @@ import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
-import com.mulesoft.connectors.inference.internal.connection.vertexai.VertexAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
@@ -23,6 +22,7 @@ import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import com.mulesoft.connectors.inference.internal.connection.vertexai.VertexAITextGenerationConnection;
 
 import java.io.FileInputStream;
 import java.io.IOException;
