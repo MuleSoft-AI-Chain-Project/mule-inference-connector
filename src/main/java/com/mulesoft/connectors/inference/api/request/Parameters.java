@@ -13,5 +13,6 @@ public record Parameters(String type, Map<String, Property> properties,
         implements Serializable {
     @ConstructorProperties({"type", "properties","required","additionalProperties"})
     public Parameters {
+        // Compact constructor is intentionally empty because all fields are handled by the Java record.
     }
 }

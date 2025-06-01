@@ -7,5 +7,6 @@ public record ChatPayloadRecord(String role, String content) implements Serializ
 
     @ConstructorProperties({"role", "content"})
     public ChatPayloadRecord {
+        // Compact constructor is intentionally empty because all fields are handled by the Java record.
     }
 }

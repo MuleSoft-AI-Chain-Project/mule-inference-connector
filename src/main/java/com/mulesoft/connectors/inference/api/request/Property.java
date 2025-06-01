@@ -10,5 +10,6 @@ import java.util.List;
 public record Property( String type, String description, List<String> enumValues) implements Serializable {
     @ConstructorProperties({"type", "description","enum"})
     public Property {
+        // Compact constructor is intentionally empty because all fields are handled by the Java record.
     }
 }

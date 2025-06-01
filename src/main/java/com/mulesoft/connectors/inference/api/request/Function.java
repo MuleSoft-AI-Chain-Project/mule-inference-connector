@@ -10,5 +10,6 @@ public record Function(String name, String description,
                        Parameters parameters) implements Serializable {
     @ConstructorProperties({"name", "description","parameters"})
     public Function {
+        // Compact constructor is intentionally empty because all fields are handled by the Java record.
     }
 }
