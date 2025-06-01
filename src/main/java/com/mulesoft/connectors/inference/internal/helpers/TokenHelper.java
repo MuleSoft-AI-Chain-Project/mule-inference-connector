@@ -6,6 +6,12 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 
 public class TokenHelper {
 
+    private static final String INPUT_TOKENS = "input_tokens";
+    private static final String OUTPUT_TOKENS = "output_tokens";
+    private static final String PROMPT_TOKEN_COUNT = "promptTokenCount";
+    private static final String CANDIDATES_TOKEN_COUNT = "candidatesTokenCount";
+    private static final String TOTAL_TOKEN_COUNT = "totalTokenCount";
+
     public static TokenUsage parseUsageFromResponse(String jsonResponse) throws Exception {
         JSONObject root = new JSONObject(jsonResponse);
 
@@ -19,13 +25,13 @@ public class TokenHelper {
             if (usageNode.has("billed_units") && usageNode.has("tokens")) {
                 // Handle the case with nested billed_units and tokens objects
                 JSONObject billedUnitsNode = usageNode.getJSONObject("billed_units");
-                promptTokens = billedUnitsNode.getInt("input_tokens");
-                completionTokens = billedUnitsNode.getInt("output_tokens");
+                promptTokens = billedUnitsNode.getInt(INPUT_TOKENS);
+                completionTokens = billedUnitsNode.getInt(OUTPUT_TOKENS);
                 totalTokens = promptTokens + completionTokens;
-            } else if (usageNode.has("input_tokens") && usageNode.has("output_tokens")) {
+            } else if (usageNode.has(INPUT_TOKENS) && usageNode.has(OUTPUT_TOKENS)) {
                 // Handle the case with direct input_tokens and output_tokens
-                promptTokens = usageNode.getInt("input_tokens");
-                completionTokens = usageNode.getInt("output_tokens");
+                promptTokens = usageNode.getInt(INPUT_TOKENS);
+                completionTokens = usageNode.getInt(OUTPUT_TOKENS);
                 totalTokens = promptTokens + completionTokens;
             } else {
                 // Handle the case with prompt_tokens and completion_tokens
@@ -37,16 +43,16 @@ public class TokenHelper {
         	//for Vertex AI
             JSONObject usageMetadataNode = root.getJSONObject("usageMetadata");
             
-            if (usageMetadataNode.has("promptTokenCount") && !usageMetadataNode.isNull("promptTokenCount")) {
-                promptTokens = usageMetadataNode.getInt("promptTokenCount");
+            if (usageMetadataNode.has(PROMPT_TOKEN_COUNT) && !usageMetadataNode.isNull(PROMPT_TOKEN_COUNT)) {
+                promptTokens = usageMetadataNode.getInt(PROMPT_TOKEN_COUNT);
             }
 
-            if (usageMetadataNode.has("candidatesTokenCount") && !usageMetadataNode.isNull("candidatesTokenCount")) {
-                completionTokens = usageMetadataNode.getInt("candidatesTokenCount");
+            if (usageMetadataNode.has(CANDIDATES_TOKEN_COUNT) && !usageMetadataNode.isNull(CANDIDATES_TOKEN_COUNT)) {
+                completionTokens = usageMetadataNode.getInt(CANDIDATES_TOKEN_COUNT);
             }
 
-            if (usageMetadataNode.has("totalTokenCount") && !usageMetadataNode.isNull("totalTokenCount")) {
-                totalTokens = usageMetadataNode.getInt("totalTokenCount");
+            if (usageMetadataNode.has(TOTAL_TOKEN_COUNT) && !usageMetadataNode.isNull(TOTAL_TOKEN_COUNT)) {
+                totalTokens = usageMetadataNode.getInt(TOTAL_TOKEN_COUNT);
             }
         	
         } else {

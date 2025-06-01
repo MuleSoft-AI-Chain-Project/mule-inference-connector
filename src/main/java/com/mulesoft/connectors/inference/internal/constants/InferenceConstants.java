@@ -42,7 +42,7 @@ public class InferenceConstants {
   public static final String VERTEX_AI_META_URL = "https://{LOCATION_ID}-aiplatform.googleapis.com/v1beta1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/endpoints/openapi/chat/completions";
   public static final String OPENAI_COMPATIBLE_ENDPOINT = "https://server.endpoint.com";
   public static final String IBM_WATSON_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text";
-  public static final String IBM_WATSON_Token_URL = "https://iam.cloud.ibm.com/identity/token";
+  public static final String IBM_WATSON_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token";
   public static final String STABILITY_AI_URL = "https://api.stability.ai";
   public static final String LLM_API_URL = "https://api.llmapi.com";
 

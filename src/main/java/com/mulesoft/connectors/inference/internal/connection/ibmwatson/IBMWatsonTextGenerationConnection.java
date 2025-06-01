@@ -20,7 +20,7 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
 
   private static final String URI_CHAT_COMPLETIONS = "/chat?version={api-version}";
   public static final String IBM_WATSON_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text";
-  public static final String IBM_WATSON_Token_URL = "https://iam.cloud.ibm.com/identity/token";
+  public static final String IBM_WATSON_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token";
   private final String ibmWatsonApiVersion;
 
   private IBMWatsonRequestPayloadHelper requestPayloadHelper;
@@ -43,7 +43,7 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
 
       String response = null;
       try {
-        URL tokenUrl = new URL(IBM_WATSON_Token_URL);
+        URL tokenUrl = new URL(IBM_WATSON_TOKEN_URL);
           response = executeTokenRequest(tokenUrl, this, params);
       } catch (IOException | TimeoutException e) {
         throw new ModuleException("Error fetching the token for ibm watson.", InferenceErrorType.INVALID_CONNECTION, e);
