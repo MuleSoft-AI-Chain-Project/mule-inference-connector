@@ -54,8 +54,11 @@ public class BaseConnectionProvider implements Initialisable, Disposable {
 
     @Override
     public void initialise() throws InitialisationException {
+
         initialiseIfNeeded(tlsContextFactory);
+
         logger.debug("Starting httpClient...");
+
         httpClient = httpService.getClientFactory().create(createClientConfiguration());
         httpClient.start();
         objectMapper = ObjectMapperProvider.create();

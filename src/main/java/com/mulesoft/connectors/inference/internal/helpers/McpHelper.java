@@ -34,7 +34,6 @@ public class McpHelper {
 
     private static final Logger logger = LoggerFactory.getLogger(McpHelper.class);
 
-    public static final int MCP_CLIENT_REQUEST_TIMEOUT = 60;
     private final ObjectMapper objectMapper;
     private List<FunctionDefinitionRecord> mcpTools = null;
     private List<ServerInfo> mcpToolsArrayByServer = null;
@@ -57,7 +56,7 @@ public class McpHelper {
                     .forEach(entry -> {
                         String url = entry.getValue();
                         String key = entry.getKey();
-                        List<FunctionDefinitionRecord> tools = getMcpTools(url);
+                        List<FunctionDefinitionRecord> tools = getMcpTools(url,connection.getTimeout());
                         mcpTools.addAll(tools);
 
                         boolean serverExists = mcpToolsArrayByServer.stream()
@@ -76,9 +75,9 @@ public class McpHelper {
         return mcpToolsArrayByServer;
     }
 
-    public List<FunctionDefinitionRecord> getMcpTools(String mcpServerUrl) {
+    public List<FunctionDefinitionRecord> getMcpTools(String mcpServerUrl, int timeout) {
 
-        try(McpSyncClient client = establishClientMCP(mcpServerUrl)) {
+        try(McpSyncClient client = establishClientMCP(mcpServerUrl,timeout)) {
 
             return Optional.ofNullable(client.listTools())
                     .map(McpSchema.ListToolsResult::tools)
@@ -91,7 +90,7 @@ public class McpHelper {
         }
     }
 
-    public List<ToolResult> executeTools(List<ServerInfo> mcpToolsArrayByServer, List<ToolCall> toolCallList) {
+    public List<ToolResult> executeTools(List<ServerInfo> mcpToolsArrayByServer, List<ToolCall> toolCallList, int timeout) {
 
         logger.debug("ExecuteTools - Response from the tools server: {}", toolCallList);
 
@@ -106,15 +105,15 @@ public class McpHelper {
                 String serverUrl = serverInfo.serverUrl();
                 String serverName = serverInfo.serverName();
 
-                try(McpSyncClient client = establishClientMCP(serverUrl)) {
+                try(McpSyncClient client = establishClientMCP(serverUrl, timeout)) {
 
                     McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
 
                     Object contentObj = null;
                     for (McpSchema.Content content : result.content()) {
                         if (content instanceof McpSchema.TextContent textContent) {
-                            logger.debug("TextContent is {} ", textContent.text());
                             contentObj = textContent.text();
+                            logger.debug("TextContent is {} ", contentObj);
                             break;
                         }
                     }
@@ -195,13 +194,13 @@ public class McpHelper {
                         getEnumValues(propMap)));
     }
 
-    private McpSyncClient establishClientMCP(String mcpServerUrl){
+    private McpSyncClient establishClientMCP(String mcpServerUrl, int requestTimeout){
 
         HttpClientSseClientTransport transport = HttpClientSseClientTransport.builder(mcpServerUrl)
                 .build();
 
         McpSyncClient client = McpClient.sync(transport)
-                .requestTimeout(Duration.ofSeconds(MCP_CLIENT_REQUEST_TIMEOUT))
+                .requestTimeout(Duration.ofSeconds(requestTimeout))
                 .capabilities(getClientCapabilities())
                 .build();
 

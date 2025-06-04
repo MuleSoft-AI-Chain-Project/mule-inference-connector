@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.inference.api.metadata;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 public class TokenUsage implements Serializable {
 
@@ -24,5 +25,18 @@ public class TokenUsage implements Serializable {
 
   public int getTotalCount() {
     return totalCount;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TokenUsage that = (TokenUsage) o;
+    return inputCount == that.inputCount && outputCount == that.outputCount && totalCount == that.totalCount;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(inputCount, outputCount, totalCount);
   }
 }

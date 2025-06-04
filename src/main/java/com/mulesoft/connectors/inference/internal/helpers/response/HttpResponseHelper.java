@@ -40,6 +40,8 @@ public class HttpResponseHelper {
 
     public ImageGenerationRestResponse processImageGenerationResponse(ImageGenerationRequestPayloadDTO requestPayloadDTO,
                                                                       HttpResponse response) throws IOException {
+        logger.debug("Image generation requestPayload:{}",requestPayloadDTO);
+
         int statusCode = response.getStatusCode();
 
         if (statusCode == 200) {

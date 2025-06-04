@@ -89,7 +89,7 @@ public class TextGenerationService implements BaseService{
         var chatRespFirstChoice = chatResponse.choices().get(0);
 
         List<ToolResult> toolExecutionResult = mcpHelper.executeTools(mcpHelper.getMcpToolsArrayByServer(),
-                chatRespFirstChoice.message().toolCalls());
+                chatRespFirstChoice.message().toolCalls(),connection.getTimeout());
 
         return ResponseHelper.createLLMResponse(
                 objectMapper.writeValueAsString(new TextGenerationResponse(null,chatRespFirstChoice.message().toolCalls(),toolExecutionResult)),

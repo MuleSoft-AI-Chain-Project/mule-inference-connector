@@ -47,7 +47,7 @@ public class VisionModelService implements BaseService{
         var response = httpRequestHelper.executeVisionRestRequest(connection,connection.getApiURL(),visionPayload);
 
         ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
-        logger.debug("Response of vision REST request: {}",chatResponse.toString());
+        logger.debug("Response of vision REST request: {}",chatResponse);
 
         var chatRespFirstChoice = chatResponse.choices().get(0);
 
