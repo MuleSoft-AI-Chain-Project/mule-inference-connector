@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.azure;
 
-import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.azure.AzureAIFoundryVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureAIFoundryVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureAIFoundryVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;

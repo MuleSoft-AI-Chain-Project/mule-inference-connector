@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.moderation.ModerationRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.moderation.response.ModerationRestResponse;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;

@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.ollama;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.ollama.providers.OllamaVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.ollama.OllamaVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ollama.OllamaVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

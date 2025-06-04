@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.mistralai;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAITextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.mistralai.MistralAITextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.mistralai.MistralAITextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

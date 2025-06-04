@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.xai;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.xai.XAIImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.xai.XAIImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAIImageModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

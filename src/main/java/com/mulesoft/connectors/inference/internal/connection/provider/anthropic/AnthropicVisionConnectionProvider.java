@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.anthropic;
 
-import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.anthropic.AnthropicVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.anthropic.AnthropicVisionConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.anthropic.providers.AnthropicVisionModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;

@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.cerebras;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.cerebras.CerebrasTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.cerebras.CerebrasTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.cerebras.providers.CerebrasTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;

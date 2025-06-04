@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openai;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAITextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.openai.OpenAITextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.openai.OpenAITextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

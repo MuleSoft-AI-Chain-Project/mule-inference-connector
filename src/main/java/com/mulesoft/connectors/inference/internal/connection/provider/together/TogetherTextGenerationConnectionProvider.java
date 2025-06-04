@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.together;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.together.providers.TogetherTextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.together.TogetherTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.together.TogetherTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

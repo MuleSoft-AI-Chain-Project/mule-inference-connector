@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.stabilityai;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.stabilityai.StabilityAIImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.stabilityai.StabilityAIImageGenerationConnection;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;

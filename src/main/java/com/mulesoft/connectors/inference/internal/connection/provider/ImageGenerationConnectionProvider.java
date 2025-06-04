@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.provider;
 
 import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import org.apache.commons.lang3.StringUtils;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;

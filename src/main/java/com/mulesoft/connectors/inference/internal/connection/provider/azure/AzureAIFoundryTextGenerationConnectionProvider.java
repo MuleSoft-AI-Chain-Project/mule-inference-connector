@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.azure;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.azure.AzureAIFoundryTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureAIFoundryTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureAIFoundryTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;

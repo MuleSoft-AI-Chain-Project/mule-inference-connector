@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.provider;
 
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.lifecycle.Disposable;

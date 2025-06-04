@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.huggingface;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.huggingface.providers.HuggingFaceImageGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.huggingface.HuggingFaceImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.huggingface.HuggingFaceImageGenerationConnection;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;

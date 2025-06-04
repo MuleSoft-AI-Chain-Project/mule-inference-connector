@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.mistralai;
 
-import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.mistralai.MistralAIVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.mistralai.MistralAIVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.operation;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.error.provider.TextGenerationErrorTypeProvider;
 import org.mule.runtime.extension.api.annotation.Alias;

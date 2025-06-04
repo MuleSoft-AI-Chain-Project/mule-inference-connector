@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.provider;
 
 import com.mulesoft.connectors.inference.api.response.ModerationResponse;
-import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
 import org.apache.commons.io.IOUtils;
 import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;

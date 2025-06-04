@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.operation;
 
 import com.mulesoft.connectors.inference.api.metadata.ImageResponseAttributes;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.error.provider.ImageGenerationErrorTypeProvider;
 import org.mule.runtime.extension.api.annotation.Alias;

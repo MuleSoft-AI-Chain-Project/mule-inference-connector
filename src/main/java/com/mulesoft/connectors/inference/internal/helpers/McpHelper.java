@@ -9,7 +9,7 @@ import com.mulesoft.connectors.inference.api.request.Parameters;
 import com.mulesoft.connectors.inference.api.request.Property;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.mcp.ServerInfo;
 import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;

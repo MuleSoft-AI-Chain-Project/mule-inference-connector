@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.github;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.github.providers.GithubVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.github.GithubVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.github.GithubVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

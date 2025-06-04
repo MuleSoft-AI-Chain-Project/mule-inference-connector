@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.nvidia;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.nvidia.providers.NvidiaTextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.nvidia.NvidiaTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.nvidia.NvidiaTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

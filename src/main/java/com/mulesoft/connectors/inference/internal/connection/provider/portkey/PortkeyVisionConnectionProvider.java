@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.portkey;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.portkey.providers.PortkeyVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.portkey.PortkeyVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.portkey.PortkeyVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

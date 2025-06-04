@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openrouter;
 
-import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openrouter.providers.OpenRouterVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.openrouter.OpenRouterVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.openrouter.OpenRouterVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

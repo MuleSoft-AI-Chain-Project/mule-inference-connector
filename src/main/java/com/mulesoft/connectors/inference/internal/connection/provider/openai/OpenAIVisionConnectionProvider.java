@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openai;
 
-import com.mulesoft.connectors.inference.internal.connection.VisionConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.openai.OpenAIVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.openai.OpenAIVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.cohere;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.cohere.providers.CohereTextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.cohere.CohereTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.cohere.CohereTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

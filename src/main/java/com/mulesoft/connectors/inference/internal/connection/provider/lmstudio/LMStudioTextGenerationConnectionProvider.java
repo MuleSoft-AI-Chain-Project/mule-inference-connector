@@ -1,10 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.lmstudio;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.llmmodels.lmstudio.providers.LMStudioTextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.lmstudio.LMStudioTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.lmstudio.LMStudioTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

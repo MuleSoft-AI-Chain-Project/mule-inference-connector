@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.anthropic;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.anthropic.AnthropicTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.anthropic.AnthropicTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.llmmodels.anthropic.providers.AnthropicTextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;

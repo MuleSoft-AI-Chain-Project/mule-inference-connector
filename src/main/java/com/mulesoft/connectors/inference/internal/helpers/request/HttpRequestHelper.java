@@ -1,11 +1,11 @@
 package com.mulesoft.connectors.inference.internal.helpers.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.BaseConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.moderation.ModerationRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;

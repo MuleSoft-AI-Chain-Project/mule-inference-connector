@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.xai;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAIVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.xai.XAIVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.xai.XAIVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

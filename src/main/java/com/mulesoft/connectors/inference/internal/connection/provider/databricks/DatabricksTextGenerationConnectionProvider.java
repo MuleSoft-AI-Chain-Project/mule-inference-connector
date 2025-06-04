@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.databricks;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.databricks.providers.DatabricksTextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.databricks.DatabricksTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.databricks.DatabricksTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

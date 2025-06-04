@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.vertexai;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.vertexai.providers.VertexAIVisionModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.vertexai.VertexAIVisionConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.vertexai.VertexAIVisionConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

@@ -1,8 +1,8 @@
 package com.mulesoft.connectors.inference.internal.helpers.request;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.BaseConnection;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.BaseConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import org.mule.runtime.api.util.MultiMap;

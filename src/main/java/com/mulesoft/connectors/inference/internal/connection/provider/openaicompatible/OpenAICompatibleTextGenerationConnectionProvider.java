@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openaicompatible;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAITextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.openaicompatible.OpenAICompatibleTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.openaicompatible.OpenAICompatibleTextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -17,7 +17,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static com.mulesoft.connectors.inference.internal.connection.openaicompatible.OpenAICompatibleTextGenerationConnection.OPENAI_COMPATIBLE_ENDPOINT;
+import static com.mulesoft.connectors.inference.internal.connection.types.openaicompatible.OpenAICompatibleTextGenerationConnection.OPENAI_COMPATIBLE_ENDPOINT;
 
 @Alias("openai-compatible")
 @DisplayName("OpenAI Compatible Endpoint")

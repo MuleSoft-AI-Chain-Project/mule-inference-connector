@@ -1,9 +1,9 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.zhipuai;
 
-import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.llmmodels.zhipuai.providers.ZhipuAITextGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.zhipuai.ZhipuAITextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.zhipuai.ZhipuAITextGenerationConnection;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;

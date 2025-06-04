@@ -3,7 +3,7 @@ package com.mulesoft.connectors.inference.internal.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.api.metadata.ImageResponseAttributes;
 import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
-import com.mulesoft.connectors.inference.internal.connection.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;

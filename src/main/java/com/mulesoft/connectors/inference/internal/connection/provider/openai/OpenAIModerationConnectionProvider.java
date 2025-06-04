@@ -1,7 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openai;
 
-import com.mulesoft.connectors.inference.internal.connection.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.provider.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
