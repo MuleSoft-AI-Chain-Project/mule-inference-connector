@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.connection.types.deepinfra;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DeepInfraTextGenerationConnection extends TextGenerationConnection {
 
@@ -14,10 +16,11 @@ public class DeepInfraTextGenerationConnection extends TextGenerationConnection 
   public DeepInfraTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                            Number temperature, Number topP,
                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "DEEPINFRA");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(),
+          "DEEPINFRA");
   }
 
   private static String fetchApiURL() {
     return DEEPINFRA_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

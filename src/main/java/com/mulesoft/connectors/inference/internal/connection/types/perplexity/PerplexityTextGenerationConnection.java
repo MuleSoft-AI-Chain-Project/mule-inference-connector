@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.connection.types.perplexity;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PerplexityTextGenerationConnection extends TextGenerationConnection {
 
@@ -14,10 +16,11 @@ public class PerplexityTextGenerationConnection extends TextGenerationConnection
   public PerplexityTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                             Number temperature, Number topP,
                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "PERPLEXITY");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(),
+          "PERPLEXITY");
   }
 
   private static String fetchApiURL() {
     return PERPLEXITY_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

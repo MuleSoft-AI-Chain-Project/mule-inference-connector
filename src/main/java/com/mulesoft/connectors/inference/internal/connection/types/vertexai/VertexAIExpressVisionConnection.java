@@ -1,8 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.vertexai;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
+
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VertexAIExpressVisionConnection extends VisionModelConnection {
 
@@ -12,13 +14,13 @@ public class VertexAIExpressVisionConnection extends VisionModelConnection {
   public VertexAIExpressVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout,  fetchApiURL(modelName), "VERTEXAI");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName), "VERTEXAI");
   }
 
   private static String fetchApiURL(String modelName) {
     String vertexAIExpressUrlStr = VERTEX_AI_EXPRESS_URL + URI_CHAT_COMPLETIONS;
     vertexAIExpressUrlStr = vertexAIExpressUrlStr
-            .replace("{model_id}", modelName);
+        .replace("{model_id}", modelName);
     return vertexAIExpressUrlStr;
   }
-} 
+}

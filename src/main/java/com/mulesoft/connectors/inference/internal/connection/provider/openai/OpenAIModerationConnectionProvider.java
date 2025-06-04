@@ -1,10 +1,5 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openai;
 
-import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
-import com.mulesoft.connectors.inference.internal.connection.provider.ModerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -13,6 +8,13 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
+
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.provider.ModerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,7 +40,7 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
     logger.debug("ModerationConnection connect ...");
 
     return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(), openAIModelName,
-            baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
+                                    baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
   }
 
   private String getModerationAPIURL() {

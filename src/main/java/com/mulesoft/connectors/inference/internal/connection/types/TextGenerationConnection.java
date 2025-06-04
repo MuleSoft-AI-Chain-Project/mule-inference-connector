@@ -1,12 +1,14 @@
 package com.mulesoft.connectors.inference.internal.connection.types;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 import org.mule.runtime.http.api.client.HttpClient;
+
+import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 
 import java.util.Map;
 
-public abstract class TextGenerationConnection extends BaseConnection{
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+public abstract class TextGenerationConnection extends BaseConnection {
 
   private final Number maxTokens;
   private final Number temperature;
@@ -18,7 +20,7 @@ public abstract class TextGenerationConnection extends BaseConnection{
                                      String apiKey, String modelName, Number maxTokens, Number temperature,
                                      Number topP, int timeout, Map<String, String> mcpSseServers,
                                      String apiURL, String inferenceType) {
-    super(httpClient,objectMapper,modelName,apiKey,timeout,apiURL,inferenceType);
+    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
     this.maxTokens = maxTokens;
     this.temperature = temperature;
     this.topP = topP;
@@ -44,9 +46,9 @@ public abstract class TextGenerationConnection extends BaseConnection{
   }
 
   public TextGenerationService getTextGenerationService() {
-    if(textGenerationService==null)
-      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(),this.getHttpRequestHandler(),
-              this.getResponseHandler(), this.getMcpHelper(), this.getObjectMapper());
+    if (textGenerationService == null)
+      textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(), this.getHttpRequestHandler(),
+                                                        this.getResponseHandler(), this.getMcpHelper(), this.getObjectMapper());
     return textGenerationService;
   }
 }

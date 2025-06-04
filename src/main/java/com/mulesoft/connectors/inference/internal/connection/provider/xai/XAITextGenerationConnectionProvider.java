@@ -1,9 +1,5 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.xai;
 
-import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.types.xai.XAITextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAITextGenerationModelNameProvider;
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -13,6 +9,12 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
+
+import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.types.xai.XAITextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.llmmodels.xai.providers.XAITextGenerationModelNameProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,24 +22,26 @@ import org.slf4j.LoggerFactory;
 @DisplayName("xAI")
 public class XAITextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
-    private static final Logger logger = LoggerFactory.getLogger(XAITextGenerationConnectionProvider.class);
+  private static final Logger logger = LoggerFactory.getLogger(XAITextGenerationConnectionProvider.class);
 
-    @Parameter
-    @Placement(order = 1)
-    @Expression(ExpressionSupport.SUPPORTED)
-    @OfValues(XAITextGenerationModelNameProvider.class)
-    private String xaiModelName;
+  @Parameter
+  @Placement(order = 1)
+  @Expression(ExpressionSupport.SUPPORTED)
+  @OfValues(XAITextGenerationModelNameProvider.class)
+  private String xaiModelName;
 
-    @ParameterGroup(name = Placement.CONNECTION_TAB)
-    private TextGenerationConnectionParameters textGenerationConnectionParameters;
+  @ParameterGroup(name = Placement.CONNECTION_TAB)
+  private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
-    @Override
-    public XAITextGenerationConnection connect() throws ConnectionException {
-        logger.debug("XAITextGenerationConnection connect ...");
-        return new XAITextGenerationConnection(getHttpClient(),getObjectMapper(), xaiModelName,
-                textGenerationConnectionParameters.getApiKey(),
-                textGenerationConnectionParameters.getTemperature(), textGenerationConnectionParameters.getTopP(),
-                textGenerationConnectionParameters.getMaxTokens(), textGenerationConnectionParameters.getMcpSseServers(),
-                textGenerationConnectionParameters.getTimeout());
-    }
+  @Override
+  public XAITextGenerationConnection connect() throws ConnectionException {
+    logger.debug("XAITextGenerationConnection connect ...");
+    return new XAITextGenerationConnection(getHttpClient(), getObjectMapper(), xaiModelName,
+                                           textGenerationConnectionParameters.getApiKey(),
+                                           textGenerationConnectionParameters.getTemperature(),
+                                           textGenerationConnectionParameters.getTopP(),
+                                           textGenerationConnectionParameters.getMaxTokens(),
+                                           textGenerationConnectionParameters.getMcpSseServers(),
+                                           textGenerationConnectionParameters.getTimeout());
+  }
 }

@@ -1,5 +1,9 @@
 package com.mulesoft.connectors.inference.internal.config;
 
+import org.mule.runtime.extension.api.annotation.Configuration;
+import org.mule.runtime.extension.api.annotation.Operations;
+import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
+
 import com.mulesoft.connectors.inference.internal.connection.provider.ai21labs.AI21LabsTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.anthropic.AnthropicTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.azure.AzureAIFoundryTextGenerationConnectionProvider;
@@ -33,44 +37,41 @@ import com.mulesoft.connectors.inference.internal.connection.provider.xai.XAITex
 import com.mulesoft.connectors.inference.internal.connection.provider.xinference.XInferenceTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.zhipuai.ZhipuAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperations;
-import org.mule.runtime.extension.api.annotation.Configuration;
-import org.mule.runtime.extension.api.annotation.Operations;
-import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
 
-@Configuration(name="text-generation-config")
+@Configuration(name = "text-generation-config")
 @ConnectionProviders({
-        AI21LabsTextGenerationConnectionProvider.class,
-        AnthropicTextGenerationConnectionProvider.class,
-        AzureAIFoundryTextGenerationConnectionProvider.class,
-        AzureOpenAITextGenerationConnectionProvider.class,
-        CerebrasTextGenerationConnectionProvider.class,
-        CohereTextGenerationConnectionProvider.class,
-        DatabricksTextGenerationConnectionProvider.class,
-        DeepInfraTextGenerationConnectionProvider.class,
-        DeepseekTextGenerationConnectionProvider.class,
-        DockerTextGenerationConnectionProvider.class,
-        FireworksTextGenerationConnectionProvider.class,
-        GithubTextGenerationConnectionProvider.class,
-        GPT4AllTextGenerationConnectionProvider.class,
-        GroqTextGenerationConnectionProvider.class,
-        HuggingFaceTextGenerationConnectionProvider.class,
-        IBMWatsonTextGenerationConnectionProvider.class,
-        LlmAPITextGenerationConnectionProvider.class,
-        LMStudioTextGenerationConnectionProvider.class,
-        MistralAITextGenerationConnectionProvider.class,
-        NvidiaTextGenerationConnectionProvider.class,
-        OllamaTextGenerationConnectionProvider.class,
-        OpenAITextGenerationConnectionProvider.class,
-        OpenAICompatibleTextGenerationConnectionProvider.class,
-        OpenRouterTextGenerationConnectionProvider.class,
-        PerplexityTextGenerationConnectionProvider.class,
-        PortkeyTextGenerationConnectionProvider.class,
-        TogetherTextGenerationConnectionProvider.class,
-        VertexAITextGenerationConnectionProvider.class,
-        VertexAIExpressTextGenerationConnectionProvider.class,
-        XAITextGenerationConnectionProvider.class,
-        XInferenceTextGenerationConnectionProvider.class,
-        ZhipuAITextGenerationConnectionProvider.class
+    AI21LabsTextGenerationConnectionProvider.class,
+    AnthropicTextGenerationConnectionProvider.class,
+    AzureAIFoundryTextGenerationConnectionProvider.class,
+    AzureOpenAITextGenerationConnectionProvider.class,
+    CerebrasTextGenerationConnectionProvider.class,
+    CohereTextGenerationConnectionProvider.class,
+    DatabricksTextGenerationConnectionProvider.class,
+    DeepInfraTextGenerationConnectionProvider.class,
+    DeepseekTextGenerationConnectionProvider.class,
+    DockerTextGenerationConnectionProvider.class,
+    FireworksTextGenerationConnectionProvider.class,
+    GithubTextGenerationConnectionProvider.class,
+    GPT4AllTextGenerationConnectionProvider.class,
+    GroqTextGenerationConnectionProvider.class,
+    HuggingFaceTextGenerationConnectionProvider.class,
+    IBMWatsonTextGenerationConnectionProvider.class,
+    LlmAPITextGenerationConnectionProvider.class,
+    LMStudioTextGenerationConnectionProvider.class,
+    MistralAITextGenerationConnectionProvider.class,
+    NvidiaTextGenerationConnectionProvider.class,
+    OllamaTextGenerationConnectionProvider.class,
+    OpenAITextGenerationConnectionProvider.class,
+    OpenAICompatibleTextGenerationConnectionProvider.class,
+    OpenRouterTextGenerationConnectionProvider.class,
+    PerplexityTextGenerationConnectionProvider.class,
+    PortkeyTextGenerationConnectionProvider.class,
+    TogetherTextGenerationConnectionProvider.class,
+    VertexAITextGenerationConnectionProvider.class,
+    VertexAIExpressTextGenerationConnectionProvider.class,
+    XAITextGenerationConnectionProvider.class,
+    XInferenceTextGenerationConnectionProvider.class,
+    ZhipuAITextGenerationConnectionProvider.class
 })
 @Operations(TextGenerationOperations.class)
 public class TextGenerationConfig {

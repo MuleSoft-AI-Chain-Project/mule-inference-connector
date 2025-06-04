@@ -1,11 +1,13 @@
 package com.mulesoft.connectors.inference.internal.connection.types.openai;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.helpers.payload.OpenAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.helpers.payload.OpenAIRequestPayloadHelper;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OpenAITextGenerationConnection extends TextGenerationConnection {
 
@@ -16,12 +18,13 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
   public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                         Number temperature, Number topP,
                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(), "OPENAI");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(),
+          "OPENAI");
   }
 
   @Override
-  public OpenAIRequestPayloadHelper getRequestPayloadHelper(){
-    if(requestPayloadHelper == null)
+  public OpenAIRequestPayloadHelper getRequestPayloadHelper() {
+    if (requestPayloadHelper == null)
       requestPayloadHelper = new OpenAIRequestPayloadHelper(getObjectMapper());
     return requestPayloadHelper;
   }

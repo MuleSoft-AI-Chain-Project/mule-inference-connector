@@ -1,11 +1,13 @@
 package com.mulesoft.connectors.inference.internal.connection.types.azure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.helpers.payload.AzureOpenAIRequestPayloadHelper;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.helpers.payload.AzureOpenAIRequestPayloadHelper;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AzureOpenAITextGenerationConnection extends TextGenerationConnection {
 
@@ -20,12 +22,12 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
                                              Number temperature, Number topP,
                                              Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-            fetchApiURL(openaiResourceName, openaiDeploymentId), "AZURE");
+          fetchApiURL(openaiResourceName, openaiDeploymentId), "AZURE");
   }
 
   @Override
-  public AzureOpenAIRequestPayloadHelper getRequestPayloadHelper(){
-    if(requestPayloadHelper == null)
+  public AzureOpenAIRequestPayloadHelper getRequestPayloadHelper() {
+    if (requestPayloadHelper == null)
       requestPayloadHelper = new AzureOpenAIRequestPayloadHelper(getObjectMapper());
     return requestPayloadHelper;
   }
@@ -39,8 +41,8 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
     String urlStr = AZURE_OPENAI_URL + URI_CHAT_COMPLETIONS;
     urlStr = urlStr
-            .replace("{resource-name}", openaiResourceName)
-            .replace("{deployment-id}", openaiDeploymentId);
+        .replace("{resource-name}", openaiResourceName)
+        .replace("{deployment-id}", openaiDeploymentId);
     return urlStr;
   }
-} 
+}

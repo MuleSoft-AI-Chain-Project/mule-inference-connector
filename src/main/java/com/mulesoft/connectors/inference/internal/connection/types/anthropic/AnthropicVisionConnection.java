@@ -1,8 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.anthropic;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
+
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AnthropicVisionConnection extends VisionModelConnection {
 
@@ -16,6 +18,6 @@ public class AnthropicVisionConnection extends VisionModelConnection {
   }
 
   private static String fetchApiURL() {
-    return ANTHROPIC_URL +  URI_CHAT_COMPLETIONS;
+    return ANTHROPIC_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

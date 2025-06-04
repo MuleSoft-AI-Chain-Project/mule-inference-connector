@@ -3,10 +3,11 @@
  */
 package com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers;
 
-import com.mulesoft.connectors.inference.internal.llmmodels.mistral.MistralAIModelName;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
+
+import com.mulesoft.connectors.inference.internal.llmmodels.mistral.MistralAIModelName;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -16,6 +17,6 @@ public class MistralAIModerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(MistralAIModelName.values())
-            .filter(MistralAIModelName::isModerationSupport).map(String::valueOf));
+        .filter(MistralAIModelName::isModerationSupport).map(String::valueOf));
   }
 }

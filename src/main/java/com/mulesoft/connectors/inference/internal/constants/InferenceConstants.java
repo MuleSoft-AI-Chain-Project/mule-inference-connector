@@ -15,7 +15,7 @@ public class InferenceConstants {
   public static final String PORTKEY_URL = "https://api.portkey.ai/v1";
   public static final String HUGGINGFACE_URL = "https://router.huggingface.co/hf-inference";
   public static final String GROQ_URL = "https://api.groq.com/openai/v1";
-  public static final String OPENROUTER_URL ="https://openrouter.ai/api/v1";
+  public static final String OPENROUTER_URL = "https://openrouter.ai/api/v1";
   public static final String GITHUB_MODELS_URL = "https://models.inference.ai.azure.com";
   public static final String CEREBRAS_URL = "https://api.cerebras.ai/v1";
   public static final String NVIDIA_URL = "https://integrate.api.nvidia.com/v1";
@@ -37,9 +37,12 @@ public class InferenceConstants {
   public static final String DOCKER_MODEL_URL = "http://localhost:12434";
   public static final String DEEPSEEK_URL = "https://api.deepseek.com";
   public static final String ZHIPU_AI_URL = "https://open.bigmodel.cn/api/paas/v4";
-  public static final String VERTEX_AI_GEMINI_URL = "https://{LOCATION_ID}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/publishers/google/models/{MODEL_ID}:";
-  public static final String VERTEX_AI_ANTHROPIC_URL = "https://{LOCATION_ID}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/publishers/anthropic/models/{MODEL_ID}:";
-  public static final String VERTEX_AI_META_URL = "https://{LOCATION_ID}-aiplatform.googleapis.com/v1beta1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/endpoints/openapi/chat/completions";
+  public static final String VERTEX_AI_GEMINI_URL =
+      "https://{LOCATION_ID}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/publishers/google/models/{MODEL_ID}:";
+  public static final String VERTEX_AI_ANTHROPIC_URL =
+      "https://{LOCATION_ID}-aiplatform.googleapis.com/v1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/publishers/anthropic/models/{MODEL_ID}:";
+  public static final String VERTEX_AI_META_URL =
+      "https://{LOCATION_ID}-aiplatform.googleapis.com/v1beta1/projects/{PROJECT_ID}/locations/{LOCATION_ID}/endpoints/openapi/chat/completions";
   public static final String OPENAI_COMPATIBLE_ENDPOINT = "https://server.endpoint.com";
   public static final String IBM_WATSON_URL = "https://us-south.ml.cloud.ibm.com/ml/v1/text";
   public static final String IBM_WATSON_TOKEN_URL = "https://iam.cloud.ibm.com/identity/token";

@@ -1,23 +1,23 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.ai21labs;
 
 public enum AI21LabsModelName {
-    JAMBA_LARGE("jamba-large", true),
-    JAMBA_MINI("jamba-mini", true);
 
-    private final String value;
-    private final boolean textGenerationSupport;
+  JAMBA_LARGE("jamba-large", true), JAMBA_MINI("jamba-mini", true);
 
-    AI21LabsModelName(String value, boolean textGenerationSupport) {
-        this.value = value;
-        this.textGenerationSupport = textGenerationSupport;
-    }
+  private final String value;
+  private final boolean textGenerationSupport;
 
-    public boolean isTextGenerationSupport() {
-        return textGenerationSupport;
-    }
+  AI21LabsModelName(String value, boolean textGenerationSupport) {
+    this.value = value;
+    this.textGenerationSupport = textGenerationSupport;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
-} 
+  public boolean isTextGenerationSupport() {
+    return textGenerationSupport;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
+  }
+}

@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.inference.internal.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mule.runtime.extension.api.runtime.operation.Result;
+
 import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
@@ -16,125 +17,149 @@ import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
-import org.mule.runtime.extension.api.runtime.operation.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
-public class TextGenerationService implements BaseService{
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private static final Logger logger = LoggerFactory.getLogger(TextGenerationService.class);
-    public static final String PAYLOAD_LOGGER_MSG = "Payload sent to the LLM {}";
+public class TextGenerationService implements BaseService {
 
-    private final RequestPayloadHelper payloadHelper;
-    private final HttpRequestHelper httpRequestHelper;
-    private final HttpResponseHelper responseHandler;
-    private final McpHelper mcpHelper;
-    private final ObjectMapper objectMapper;
+  private static final Logger logger = LoggerFactory.getLogger(TextGenerationService.class);
+  public static final String PAYLOAD_LOGGER_MSG = "Payload sent to the LLM {}";
 
-    public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper, HttpResponseHelper responseHandler, McpHelper mcpHelper, ObjectMapper objectMapper) {
-        this.payloadHelper = requestPayloadHelper;
-        this.httpRequestHelper = httpRequestHelper;
-        this.responseHandler = responseHandler;
-        this.mcpHelper = mcpHelper;
-        this.objectMapper = objectMapper;
-    }
+  private final RequestPayloadHelper payloadHelper;
+  private final HttpRequestHelper httpRequestHelper;
+  private final HttpResponseHelper responseHandler;
+  private final McpHelper mcpHelper;
+  private final ObjectMapper objectMapper;
 
-    public Result<InputStream, LLMResponseAttributes> executeChatAnswerPrompt(TextGenerationConnection connection, String prompt) throws IOException, TimeoutException {
+  public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
+                               HttpResponseHelper responseHandler, McpHelper mcpHelper, ObjectMapper objectMapper) {
+    this.payloadHelper = requestPayloadHelper;
+    this.httpRequestHelper = httpRequestHelper;
+    this.responseHandler = responseHandler;
+    this.mcpHelper = mcpHelper;
+    this.objectMapper = objectMapper;
+  }
 
-        return executeChatRequestAndFormatResponse(connection,
-                payloadHelper.buildChatAnswerPromptPayload(connection,prompt));
-    }
+  public Result<InputStream, LLMResponseAttributes> executeChatAnswerPrompt(TextGenerationConnection connection, String prompt)
+      throws IOException, TimeoutException {
 
-    public Result<InputStream, LLMResponseAttributes> executeChatCompletion(TextGenerationConnection connection, InputStream messages) throws IOException, TimeoutException {
+    return executeChatRequestAndFormatResponse(connection,
+                                               payloadHelper.buildChatAnswerPromptPayload(connection, prompt));
+  }
 
-        List<ChatPayloadRecord> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
+  public Result<InputStream, LLMResponseAttributes> executeChatCompletion(TextGenerationConnection connection,
+                                                                          InputStream messages)
+      throws IOException, TimeoutException {
 
-        TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray, null);
+    List<ChatPayloadRecord> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
 
-        return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
-    }
+    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray, null);
 
-    public Result<InputStream, LLMResponseAttributes> definePromptTemplate(TextGenerationConnection connection, String template, String instructions, String data) throws IOException, TimeoutException {
+    return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
+  }
 
-        return executeChatRequestAndFormatResponse(connection,
-                payloadHelper.buildPromptTemplatePayload(connection,template,instructions,data));
-    }
+  public Result<InputStream, LLMResponseAttributes> definePromptTemplate(TextGenerationConnection connection, String template,
+                                                                         String instructions, String data)
+      throws IOException, TimeoutException {
 
-    public Result<InputStream, LLMResponseAttributes> executeToolsNativeTemplate(TextGenerationConnection connection,
-                                                                                 String template, String instructions,
-                                                                                 String data, InputStream tools)
-            throws IOException, TimeoutException {
+    return executeChatRequestAndFormatResponse(connection,
+                                               payloadHelper.buildPromptTemplatePayload(connection, template, instructions,
+                                                                                        data));
+  }
 
-        return executeToolsRequestAndFormatResponse(connection,payloadHelper
-                .buildToolsTemplatePayload(connection, template, instructions, data, tools));
-    }
+  public Result<InputStream, LLMResponseAttributes> executeToolsNativeTemplate(TextGenerationConnection connection,
+                                                                               String template, String instructions,
+                                                                               String data, InputStream tools)
+      throws IOException, TimeoutException {
 
-    public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection, String template,
-                                                                      String instructions, String data)
-            throws IOException, TimeoutException {
+    return executeToolsRequestAndFormatResponse(connection, payloadHelper
+        .buildToolsTemplatePayload(connection, template, instructions, data, tools));
+  }
 
-        var tools = mcpHelper.getMcpToolsFromMultiple(connection);
+  public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection, String template,
+                                                                    String instructions, String data)
+      throws IOException, TimeoutException {
 
-        TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-                .buildToolsTemplatePayload(connection, template, instructions, data, tools);
+    var tools = mcpHelper.getMcpToolsFromMultiple(connection);
 
-        logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
+    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
+        .buildToolsTemplatePayload(connection, template, instructions, data, tools);
 
-        ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
-        var chatRespFirstChoice = chatResponse.choices().get(0);
+    logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
 
-        List<ToolResult> toolExecutionResult = mcpHelper.executeTools(mcpHelper.getMcpToolsArrayByServer(),
-                chatRespFirstChoice.message().toolCalls(),connection.getTimeout());
+    ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
+    var chatRespFirstChoice = chatResponse.choices().get(0);
 
-        return ResponseHelper.createLLMResponse(
-                objectMapper.writeValueAsString(new TextGenerationResponse(null,chatRespFirstChoice.message().toolCalls(),toolExecutionResult)),
-                TokenHelper.parseUsageFromResponse(chatResponse.usage()),
-                new AdditionalAttributes(chatResponse.id(), chatResponse.model(), chatRespFirstChoice.finishReason()));
-    }
+    List<ToolResult> toolExecutionResult = mcpHelper.executeTools(mcpHelper.getMcpToolsArrayByServer(),
+                                                                  chatRespFirstChoice.message().toolCalls(),
+                                                                  connection.getTimeout());
 
-    private Result<InputStream, LLMResponseAttributes> executeToolsRequestAndFormatResponse(TextGenerationConnection connection,
-                                                                                            TextGenerationRequestPayloadDTO requestPayloadDTO)
-            throws IOException, TimeoutException {
+    return ResponseHelper.createLLMResponse(
+                                            objectMapper.writeValueAsString(new TextGenerationResponse(null,
+                                                                                                       chatRespFirstChoice
+                                                                                                           .message().toolCalls(),
+                                                                                                       toolExecutionResult)),
+                                            TokenHelper.parseUsageFromResponse(chatResponse.usage()),
+                                            new AdditionalAttributes(chatResponse.id(), chatResponse.model(),
+                                                                     chatRespFirstChoice.finishReason()));
+  }
 
-        ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
-        var chatRespFirstChoice = chatResponse.choices().get(0);
+  private Result<InputStream, LLMResponseAttributes> executeToolsRequestAndFormatResponse(TextGenerationConnection connection,
+                                                                                          TextGenerationRequestPayloadDTO requestPayloadDTO)
+      throws IOException, TimeoutException {
 
-        return ResponseHelper.createLLMResponse(
-                objectMapper.writeValueAsString(new TextGenerationResponse(chatRespFirstChoice.message().content(),
-                        chatRespFirstChoice.message().toolCalls(),null)),
-                TokenHelper.parseUsageFromResponse(chatResponse.usage()),
-                new AdditionalAttributes(chatResponse.id(), chatResponse.model(), chatRespFirstChoice.finishReason()));
-    }
+    ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
+    var chatRespFirstChoice = chatResponse.choices().get(0);
 
-    private Result<InputStream, LLMResponseAttributes> executeChatRequestAndFormatResponse(TextGenerationConnection connection,
-                                                                                           TextGenerationRequestPayloadDTO requestPayloadDTO)
-            throws IOException, TimeoutException {
+    return ResponseHelper.createLLMResponse(
+                                            objectMapper.writeValueAsString(new TextGenerationResponse(
+                                                                                                       chatRespFirstChoice
+                                                                                                           .message().content(),
+                                                                                                       chatRespFirstChoice
+                                                                                                           .message().toolCalls(),
+                                                                                                       null)),
+                                            TokenHelper.parseUsageFromResponse(chatResponse.usage()),
+                                            new AdditionalAttributes(chatResponse.id(), chatResponse.model(),
+                                                                     chatRespFirstChoice.finishReason()));
+  }
 
-        ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
+  private Result<InputStream, LLMResponseAttributes> executeChatRequestAndFormatResponse(TextGenerationConnection connection,
+                                                                                         TextGenerationRequestPayloadDTO requestPayloadDTO)
+      throws IOException, TimeoutException {
 
-        var chatRespFirstChoice = chatResponse.choices().get(0);
+    ChatCompletionResponse chatResponse = executeChatRequest(connection, requestPayloadDTO);
 
-        return ResponseHelper.createLLMResponse(
-                objectMapper.writeValueAsString(new TextGenerationResponse(chatRespFirstChoice.message().content(),null,null)),
-                TokenHelper.parseUsageFromResponse(chatResponse.usage()),
-                new AdditionalAttributes(chatResponse.id(), chatResponse.model(), chatRespFirstChoice.finishReason()));
-    }
+    var chatRespFirstChoice = chatResponse.choices().get(0);
 
-    private ChatCompletionResponse executeChatRequest(TextGenerationConnection connection, TextGenerationRequestPayloadDTO requestPayloadDTO)
-            throws IOException, TimeoutException {
+    return ResponseHelper.createLLMResponse(
+                                            objectMapper.writeValueAsString(new TextGenerationResponse(
+                                                                                                       chatRespFirstChoice
+                                                                                                           .message().content(),
+                                                                                                       null, null)),
+                                            TokenHelper.parseUsageFromResponse(chatResponse.usage()),
+                                            new AdditionalAttributes(chatResponse.id(), chatResponse.model(),
+                                                                     chatRespFirstChoice.finishReason()));
+  }
 
-        logger.debug("Request payload: {} ", requestPayloadDTO);
+  private ChatCompletionResponse executeChatRequest(TextGenerationConnection connection,
+                                                    TextGenerationRequestPayloadDTO requestPayloadDTO)
+      throws IOException, TimeoutException {
 
-        var response = httpRequestHelper.executeChatRestRequest(connection,
-                connection.getApiURL(), requestPayloadDTO);
+    logger.debug("Request payload: {} ", requestPayloadDTO);
 
-        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
-        logger.debug("Response of chat REST request: {}",chatResponse);
-        return chatResponse;
-    }
+    var response = httpRequestHelper.executeChatRestRequest(connection,
+                                                            connection.getApiURL(), requestPayloadDTO);
+
+    ChatCompletionResponse chatResponse =
+        responseHandler.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
+    logger.debug("Response of chat REST request: {}", chatResponse);
+    return chatResponse;
+  }
 }

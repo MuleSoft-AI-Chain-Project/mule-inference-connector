@@ -1,9 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.vertexai;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VertexAIVisionConnection extends VisionModelConnection {
 
@@ -22,4 +23,4 @@ public class VertexAIVisionConnection extends VisionModelConnection {
     vertexAIExpressUrlStr = vertexAIExpressUrlStr.replace("{model_id}", modelName);
     return vertexAIExpressUrlStr;
   }
-} 
+}

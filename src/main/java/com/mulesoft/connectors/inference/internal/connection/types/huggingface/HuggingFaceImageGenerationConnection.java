@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.connection.types.huggingface;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mule.runtime.http.api.client.HttpClient;
+
 import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.helpers.payload.HuggingFaceRequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HuggingFaceHttpResponseHelper;
-import org.mule.runtime.http.api.client.HttpClient;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HuggingFaceImageGenerationConnection extends ImageGenerationConnection {
 
@@ -12,12 +14,12 @@ public class HuggingFaceImageGenerationConnection extends ImageGenerationConnect
 
   public HuggingFaceImageGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                               int timeout, String apiURL, String inferenceType) {
-      super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
+    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
   }
 
   @Override
-  public HuggingFaceRequestPayloadHelper getRequestPayloadHelper(){
-    if(requestPayloadHelper == null)
+  public HuggingFaceRequestPayloadHelper getRequestPayloadHelper() {
+    if (requestPayloadHelper == null)
       requestPayloadHelper = new HuggingFaceRequestPayloadHelper(this.getObjectMapper());
     return requestPayloadHelper;
   }

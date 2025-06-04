@@ -1,6 +1,7 @@
 package com.mulesoft.connectors.inference.internal.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mule.runtime.extension.api.runtime.operation.Result;
+
 import com.mulesoft.connectors.inference.api.metadata.ImageResponseAttributes;
 import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
@@ -11,61 +12,66 @@ import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
-import org.mule.runtime.extension.api.runtime.operation.Result;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.concurrent.TimeoutException;
 
-public class ImageGenerationService implements BaseService{
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-    private static final Logger logger = LoggerFactory.getLogger(ImageGenerationService.class);
+public class ImageGenerationService implements BaseService {
 
-    private final RequestPayloadHelper payloadHelper;
-    private final HttpRequestHelper httpRequestHelper;
-    private final HttpResponseHelper responseHandler;
-    private final ObjectMapper objectMapper;
+  private static final Logger logger = LoggerFactory.getLogger(ImageGenerationService.class);
 
-    public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                                  HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
-        this.payloadHelper = requestPayloadHelper;
-        this.httpRequestHelper = httpRequestHelper;
-        this.responseHandler = responseHandler;
-        this.objectMapper = objectMapper;
-    }
-    public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt) throws IOException, TimeoutException {
+  private final RequestPayloadHelper payloadHelper;
+  private final HttpRequestHelper httpRequestHelper;
+  private final HttpResponseHelper responseHandler;
+  private final ObjectMapper objectMapper;
 
-        ImageGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-                .createRequestImageGeneration(connection.getModelName(), prompt);
+  public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
+                                HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
+    this.payloadHelper = requestPayloadHelper;
+    this.httpRequestHelper = httpRequestHelper;
+    this.responseHandler = responseHandler;
+    this.objectMapper = objectMapper;
+  }
 
-        URL imageGenerationUrl = new URL(connection.getApiURL());
-        logger.debug("Generate Image with {}", imageGenerationUrl);
+  public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt)
+      throws IOException, TimeoutException {
 
-        var response = executeImageGenerationRequest(connection,requestPayloadDTO);
+    ImageGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
+        .createRequestImageGeneration(connection.getModelName(), prompt);
 
-        return ResponseHelper.createImageGenerationLLMResponse(
-                objectMapper.writeValueAsString(new ImageGenerationResponse(response.data().get(0).b64Json())),
-                connection.getModelName(),
-                response.data().get(0).revisedPrompt());
-    }
+    URL imageGenerationUrl = new URL(connection.getApiURL());
+    logger.debug("Generate Image with {}", imageGenerationUrl);
 
-    private ImageGenerationRestResponse executeImageGenerationRequest(ImageGenerationConnection connection,
-                                                                      ImageGenerationRequestPayloadDTO requestPayloadDTO)
-            throws IOException, TimeoutException {
+    var response = executeImageGenerationRequest(connection, requestPayloadDTO);
 
-        logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO);
-        var response = httpRequestHelper.executeImageGenerationRestRequest(connection,
-                connection.getApiURL(), requestPayloadDTO);
+    return ResponseHelper.createImageGenerationLLMResponse(
+                                                           objectMapper.writeValueAsString(new ImageGenerationResponse(response
+                                                               .data().get(0).b64Json())),
+                                                           connection.getModelName(),
+                                                           response.data().get(0).revisedPrompt());
+  }
 
-        logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());
-        logger.trace("Image Generation Response headers:{} ", response.getHeaders());
-        logger.trace("Image Generation Response Entity: {}", response.getEntity());
+  private ImageGenerationRestResponse executeImageGenerationRequest(ImageGenerationConnection connection,
+                                                                    ImageGenerationRequestPayloadDTO requestPayloadDTO)
+      throws IOException, TimeoutException {
 
-        ImageGenerationRestResponse imageGenerationRestResponse = responseHandler.processImageGenerationResponse(requestPayloadDTO,response);
-        logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse);
-        return imageGenerationRestResponse;
-    }
+    logger.debug(InferenceConstants.PAYLOAD_LOGGER_MSG, requestPayloadDTO);
+    var response = httpRequestHelper.executeImageGenerationRestRequest(connection,
+                                                                       connection.getApiURL(), requestPayloadDTO);
+
+    logger.debug("Image Generation Response Status code:{} ", response.getStatusCode());
+    logger.trace("Image Generation Response headers:{} ", response.getHeaders());
+    logger.trace("Image Generation Response Entity: {}", response.getEntity());
+
+    ImageGenerationRestResponse imageGenerationRestResponse =
+        responseHandler.processImageGenerationResponse(requestPayloadDTO, response);
+    logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse);
+    return imageGenerationRestResponse;
+  }
 }

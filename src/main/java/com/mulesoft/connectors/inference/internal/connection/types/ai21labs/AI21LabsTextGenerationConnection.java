@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.connection.types.ai21labs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AI21LabsTextGenerationConnection extends TextGenerationConnection {
 
@@ -15,10 +17,10 @@ public class AI21LabsTextGenerationConnection extends TextGenerationConnection {
                                           Number temperature, Number topP,
                                           Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(),
-            "AI21LABS");
+          "AI21LABS");
   }
 
   private static String fetchApiURL() {
     return AI21LABS_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

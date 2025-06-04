@@ -7,6 +7,7 @@
 package com.mulesoft.connectors.inference.internal.config.proxy;
 
 import static com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig.HttpNtlmProxyConfig;
+
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;
 import org.mule.runtime.extension.api.annotation.param.Parameter;

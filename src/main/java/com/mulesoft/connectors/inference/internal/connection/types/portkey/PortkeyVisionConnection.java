@@ -1,9 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.portkey;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class PortkeyVisionConnection extends VisionModelConnection {
 
@@ -19,4 +20,4 @@ public class PortkeyVisionConnection extends VisionModelConnection {
   private static String fetchApiURL() {
     return PORTKEY_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

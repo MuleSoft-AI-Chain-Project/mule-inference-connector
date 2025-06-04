@@ -1,9 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.xai;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class XAIVisionConnection extends VisionModelConnection {
 
@@ -19,4 +20,4 @@ public class XAIVisionConnection extends VisionModelConnection {
   private static String fetchApiURL() {
     return XAI_URL + URI_CHAT_COMPLETIONS;
   }
-} 
+}

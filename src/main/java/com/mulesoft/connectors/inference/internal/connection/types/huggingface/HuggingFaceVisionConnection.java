@@ -1,9 +1,10 @@
 package com.mulesoft.connectors.inference.internal.connection.types.huggingface;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class HuggingFaceVisionConnection extends VisionModelConnection {
 
@@ -12,15 +13,15 @@ public class HuggingFaceVisionConnection extends VisionModelConnection {
 
   public HuggingFaceVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                      Number temperature, Number topP,
-                                     Number maxTokens, int timeout)
-  {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout,  fetchApiURL(modelName), "HUGGINGFACE");
+                                     Number maxTokens, int timeout) {
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName),
+          "HUGGINGFACE");
   }
 
   private static String fetchApiURL(String modelName) {
     String urlStr = HUGGINGFACE_URL + URI_CHAT_COMPLETIONS;
     urlStr = urlStr
-            .replace("{model-name}", modelName);
+        .replace("{model-name}", modelName);
     return urlStr;
   }
-} 
+}

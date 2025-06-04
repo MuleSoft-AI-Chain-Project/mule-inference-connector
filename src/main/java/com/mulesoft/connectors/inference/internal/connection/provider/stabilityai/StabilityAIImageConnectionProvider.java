@@ -1,9 +1,5 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.stabilityai;
 
-import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.types.stabilityai.StabilityAIImageGenerationConnection;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -12,6 +8,12 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
+
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.types.stabilityai.StabilityAIImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers.StabilityAIImageModelNameProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +39,10 @@ public class StabilityAIImageConnectionProvider extends ImageGenerationConnectio
   public StabilityAIImageGenerationConnection connect() {
     logger.debug("BaseConnection connect ...");
 
-    return new StabilityAIImageGenerationConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName, baseConnectionParameters.getApiKey(),
-            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "STABILITY_AI");
+    return new StabilityAIImageGenerationConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName,
+                                                    baseConnectionParameters.getApiKey(),
+                                                    baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(),
+                                                    "STABILITY_AI");
   }
 
   private String getImageGenerationAPIURL() {

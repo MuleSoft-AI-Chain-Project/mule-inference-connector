@@ -1,15 +1,17 @@
 package com.mulesoft.connectors.inference.internal.connection.types;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import org.mule.runtime.http.api.client.HttpClient;
+
 import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.service.BaseService;
-import org.mule.runtime.http.api.client.HttpClient;
 
 import java.util.Collections;
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class BaseConnection {
 
@@ -43,14 +45,14 @@ public class BaseConnection {
     return baseService;
   }
 
-  public RequestPayloadHelper getRequestPayloadHelper(){
-    if(requestPayloadHelper == null)
+  public RequestPayloadHelper getRequestPayloadHelper() {
+    if (requestPayloadHelper == null)
       requestPayloadHelper = new RequestPayloadHelper(objectMapper);
     return requestPayloadHelper;
   }
 
-  protected McpHelper getMcpHelper(){
-    if(mcpHelper == null)
+  protected McpHelper getMcpHelper() {
+    if (mcpHelper == null)
       mcpHelper = new McpHelper(this.getObjectMapper());
     return mcpHelper;
   }

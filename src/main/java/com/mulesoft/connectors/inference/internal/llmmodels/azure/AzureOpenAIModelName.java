@@ -1,23 +1,25 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.azure;
 
 public enum AzureOpenAIModelName {
-    //The Model is not specified in the Azure OpenAI API but rather as part of the deployment configuration. In an ideal world we wouldn't need to specify a mdoel when using Azur OpenAI.
-    AZURE_OPENAI("azure-openai", true);
 
-    private final String value;
-    private final boolean textGenerationSupport;
+  // The Model is not specified in the Azure OpenAI API but rather as part of the deployment configuration. In an ideal world we
+  // wouldn't need to specify a mdoel when using Azur OpenAI.
+  AZURE_OPENAI("azure-openai", true);
 
-    AzureOpenAIModelName(String value, boolean textGenerationSupport) {
-        this.value = value;
-        this.textGenerationSupport = textGenerationSupport;
-    }
+  private final String value;
+  private final boolean textGenerationSupport;
 
-    public boolean isTextGenerationSupport() {
-        return textGenerationSupport;
-    }
+  AzureOpenAIModelName(String value, boolean textGenerationSupport) {
+    this.value = value;
+    this.textGenerationSupport = textGenerationSupport;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
+  public boolean isTextGenerationSupport() {
+    return textGenerationSupport;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
+  }
 }

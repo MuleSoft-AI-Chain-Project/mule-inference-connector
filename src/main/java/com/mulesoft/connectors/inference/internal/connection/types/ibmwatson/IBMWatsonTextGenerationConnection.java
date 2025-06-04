@@ -1,12 +1,13 @@
 package com.mulesoft.connectors.inference.internal.connection.types.ibmwatson;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper.executeTokenRequest;
+
+import org.mule.runtime.extension.api.exception.ModuleException;
+import org.mule.runtime.http.api.client.HttpClient;
+
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper;
-import org.json.JSONObject;
-import org.mule.runtime.extension.api.exception.ModuleException;
-import org.mule.runtime.http.api.client.HttpClient;
 
 import java.io.IOException;
 import java.net.URL;
@@ -14,7 +15,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
-import static com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper.executeTokenRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.json.JSONObject;
 
 public class IBMWatsonTextGenerationConnection extends TextGenerationConnection {
 
@@ -25,16 +27,19 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
 
   private IBMWatsonRequestPayloadHelper requestPayloadHelper;
 
-  public IBMWatsonTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String ibmWatsonApiVersion,
+  public IBMWatsonTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
+                                           String ibmWatsonApiVersion,
                                            String apiKey, Number temperature, Number topP,
                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(ibmWatsonApiVersion), "IBMWATSON");
-    this.ibmWatsonApiVersion =ibmWatsonApiVersion;
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
+          fetchApiURL(ibmWatsonApiVersion), "IBMWATSON");
+    this.ibmWatsonApiVersion = ibmWatsonApiVersion;
   }
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    // The logic for obtaining the access token should ideally be moved to a separate token request handler or use runtime injection in the future.
+    // The logic for obtaining the access token should ideally be moved to a separate token request handler or use runtime
+    // injection in the future.
     Map<String, String> params = new HashMap<>();
     params.put("grant_type", "urn:ibm:params:oauth:grant-type:apikey");
     params.put("apikey", this.getApiKey()); // Use connection.getApiKey() instead of hardcoded
@@ -51,8 +56,8 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
   }
 
   @Override
-  public IBMWatsonRequestPayloadHelper getRequestPayloadHelper(){
-    if(requestPayloadHelper == null)
+  public IBMWatsonRequestPayloadHelper getRequestPayloadHelper() {
+    if (requestPayloadHelper == null)
       requestPayloadHelper = new IBMWatsonRequestPayloadHelper(getObjectMapper());
     return requestPayloadHelper;
   }
@@ -64,8 +69,8 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
   private static String fetchApiURL(String ibmWatsonApiVersion) {
     String ibmwurlStr = IBM_WATSON_URL + URI_CHAT_COMPLETIONS;
     ibmwurlStr = ibmwurlStr
-            .replace("{api-version}", ibmWatsonApiVersion);
+        .replace("{api-version}", ibmWatsonApiVersion);
     return ibmwurlStr;
   }
 
-} 
+}

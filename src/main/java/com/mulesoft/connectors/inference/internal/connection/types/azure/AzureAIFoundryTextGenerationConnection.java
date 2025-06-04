@@ -1,10 +1,12 @@
 package com.mulesoft.connectors.inference.internal.connection.types.azure;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+
 import java.util.Map;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnection {
 
@@ -16,7 +18,7 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
                                                 Number temperature, Number topP,
                                                 Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-            fetchApiURL(azureAIFoundryResourceName,azureAIFoundryApiVersion), "AZURE");
+          fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion), "AZURE");
   }
 
   @Override
@@ -27,8 +29,8 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
   private static String fetchApiURL(String azureAIFoundryResourceName, String azureAIFoundryApiVersion) {
     String aifurlStr = AZURE_AI_FOUNDRY_URL + URI_CHAT_COMPLETIONS;
     aifurlStr = aifurlStr
-            .replace("{resource-name}", azureAIFoundryResourceName)
-            .replace("{api-version}", azureAIFoundryApiVersion);
+        .replace("{resource-name}", azureAIFoundryResourceName)
+        .replace("{api-version}", azureAIFoundryApiVersion);
     return aifurlStr;
   }
-} 
+}

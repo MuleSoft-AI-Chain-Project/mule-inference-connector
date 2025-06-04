@@ -4,8 +4,4 @@ import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 
 import java.util.List;
 
-public record ServerInfo(
-    String serverUrl,
-    String serverName,
-    List<FunctionDefinitionRecord> serverTools
-) {} 
+public record ServerInfo(String serverUrl,String serverName,List<FunctionDefinitionRecord>serverTools){}

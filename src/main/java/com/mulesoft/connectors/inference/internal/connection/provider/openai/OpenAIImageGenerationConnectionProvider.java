@@ -1,9 +1,5 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.openai;
 
-import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
-import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIImageGenerationModelNameProvider;
-import com.mulesoft.connectors.inference.internal.connection.types.openai.OpenAIImageGenerationConnection;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
@@ -12,6 +8,12 @@ import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
+
+import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
+import com.mulesoft.connectors.inference.internal.connection.provider.ImageGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.types.openai.OpenAIImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIImageGenerationModelNameProvider;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,8 +39,9 @@ public class OpenAIImageGenerationConnectionProvider extends ImageGenerationConn
   public OpenAIImageGenerationConnection connect() {
     logger.debug("ImageGenerationConnection connect ...");
 
-      return new OpenAIImageGenerationConnection(getHttpClient(), getObjectMapper(), openAIModelName, baseConnectionParameters.getApiKey(),
-              baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
+    return new OpenAIImageGenerationConnection(getHttpClient(), getObjectMapper(), openAIModelName,
+                                               baseConnectionParameters.getApiKey(),
+                                               baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
   }
 
   private String getImageGenerationAPIURL() {

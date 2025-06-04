@@ -5,7 +5,6 @@ import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 
 import java.util.List;
 
-public record DefaultRequestPayloadRecord(String model, List<ChatPayloadRecord> messages, Number maxTokens,
-                                          Number temperature, Number topP, List<FunctionDefinitionRecord> tools) implements TextGenerationRequestPayloadDTO {
+public record DefaultRequestPayloadRecord(String model,List<ChatPayloadRecord>messages,Number maxTokens,Number temperature,Number topP,List<FunctionDefinitionRecord>tools)implements TextGenerationRequestPayloadDTO{
 
 }

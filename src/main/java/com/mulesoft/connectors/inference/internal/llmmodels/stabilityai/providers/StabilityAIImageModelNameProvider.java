@@ -3,10 +3,11 @@
  */
 package com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.providers;
 
-import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.StabilityAIModelName;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
+
+import com.mulesoft.connectors.inference.internal.llmmodels.stabilityai.StabilityAIModelName;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -16,6 +17,6 @@ public class StabilityAIImageModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(StabilityAIModelName.values())
-            .filter(StabilityAIModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(StabilityAIModelName::isImageGenerationSupport).map(String::valueOf));
   }
 }
