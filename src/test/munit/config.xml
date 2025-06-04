@@ -64,4 +64,18 @@
     <mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
         <mac-inference:openrouter-vision-connection apiKey="${openrouter.apiKey}" openRouterModelName="${openrouter.visionModel}" />
     </mac-inference:vision-config>
+    
+	<mac-inference:text-generation-config name="VertexAIExpressConfig" doc:name="MuleSoft Inference Text generation config" doc:id="f33badd9-18ad-462c-bb44-aaef9f7c2b6d" >
+		<mac-inference:llm-connection inferenceType="${VertexAIExpress.inferenceType}" apiKey="${VertexAIExpress.apiKey}" modelName="${VertexAIExpress.llmModel}" />
+	</mac-inference:text-generation-config>
+	<mac-inference:text-generation-config name="VertexAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="537cba41-6538-4e6d-a3f3-7721410c7bef" >
+		<mac-inference:llm-connection inferenceType="${VertexAI.inferenceType}" apiKey="${VertexAI.apiKey}" modelName="${VertexAI.llmModel}" vertexAILocationId="${VertexAI.location}" vertexAIProjectId="${VertexAI.project}" vertexAIServiceAccountKey="#[mule.home ++ '/apps/' ++ app.name ++ '/gcp/service-account.json']" maxTokens="5000"/>
+	</mac-inference:text-generation-config>
+	<mac-inference:vision-config name="VertexAIExpressVision" doc:name="MuleSoft Inference Vision config" doc:id="777797d4-0e1c-4647-be6c-b667cce465a5" >
+		<mac-inference:vision-connection inferenceType="${VertexAIExpress.inferenceType}" apiKey="${VertexAIExpress.apiKey}" modelName="${VertexAIExpress.llmModel}" />
+	</mac-inference:vision-config>
+	<mac-inference:vision-config name="VertexAIVision" doc:name="MuleSoft Inference Vision config" doc:id="dbcbcfb7-80ae-448d-9859-6453683f3e9f" >
+		<mac-inference:vision-connection inferenceType="${VertexAI.inferenceType}" apiKey="${VertexAI.apiKey}" modelName="${VertexAI.llmModel}" vertexAILocationId="${VertexAI.location}" vertexAIProjectId="${VertexAI.project}" vertexAIServiceAccountKey="#[mule.home ++ '/apps/' ++ app.name ++ '/gcp/service-account.json']" maxTokens="5000"/>
+	</mac-inference:vision-config>
+    
 </mule>
