@@ -7,6 +7,7 @@ import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
@@ -45,7 +46,7 @@ public class VisionModelService implements BaseService{
 
         var response = httpRequestHelper.executeVisionRestRequest(connection,connection.getApiURL(),visionPayload);
 
-        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response);
+        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
         logger.debug("Response of vision REST request: {}",chatResponse.toString());
 
         var chatRespFirstChoice = chatResponse.choices().get(0);

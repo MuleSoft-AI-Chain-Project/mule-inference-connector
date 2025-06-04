@@ -2,8 +2,10 @@ package com.mulesoft.connectors.inference.internal.operation;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.VisionModelConnection;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.provider.VisionErrorTypeProvider;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
@@ -21,6 +23,7 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
  * This class contains operations for the inference connector.
  * Each public method represents an extension operation.
  */
+@Throws(VisionErrorTypeProvider.class)
 public class VisionModelOperations {
 	
     /**
@@ -39,11 +42,13 @@ public class VisionModelOperations {
             @Connection VisionModelConnection connection,
             @Content String prompt,
             @Content(primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl) throws ModuleException {
-        try { 
-           return connection.getService().getVisionModelServiceInstance().readImage(connection,prompt,imageUrl);
+        try {
+            return connection.getService().getVisionModelServiceInstance().readImage(connection,prompt,imageUrl);
+        } catch (ModuleException e) {
+            throw e;
         } catch (Exception e) {
             throw new ModuleException("Error in executing read image operation",
-                    InferenceErrorType.VISION_FAILURE, e);
+                    InferenceErrorType.READ_IMAGE_OPERATION_FAILURE, e);
         }
     }
 }

@@ -2,8 +2,10 @@ package com.mulesoft.connectors.inference.internal.operation;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.provider.TextGenerationErrorTypeProvider;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
@@ -21,6 +23,7 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
  * This class contains operations for the inference connector.
  * Each public method represents an extension operation.
  */
+@Throws(TextGenerationErrorTypeProvider.class)
 public class TextGenerationOperations {
 
     /**
@@ -39,6 +42,8 @@ public class TextGenerationOperations {
             throws ModuleException {
         try {
             return connection.getService().getTextGenerationServiceInstance().executeChatCompletion(connection, messages);
+        } catch (ModuleException e) {
+            throw e;
         } catch (Exception e) {
             throw new ModuleException("Error in executing chat completion",
                     InferenceErrorType.CHAT_OPERATION_FAILURE, e);
@@ -60,6 +65,8 @@ public class TextGenerationOperations {
             @Connection TextGenerationConnection connection, @Content String prompt) throws ModuleException {
        try{
            return connection.getService().getTextGenerationServiceInstance().executeChatAnswerPrompt(connection,prompt);
+       } catch (ModuleException e) {
+           throw e;
        }catch (Exception e)
        {
            throw new ModuleException("Error in executing chat answer prompt",
@@ -88,6 +95,8 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
         try {
             return connection.getService().getTextGenerationServiceInstance().definePromptTemplate(connection,template,instructions,data);
+        } catch (ModuleException e) {
+            throw e;
         }catch (Exception e)
         {
             throw new ModuleException("Error in executing define prompt template",
@@ -117,6 +126,8 @@ public class TextGenerationOperations {
             @Content @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools) throws ModuleException {
         try {
             return connection.getService().getTextGenerationServiceInstance().executeToolsNativeTemplate(connection,template,instructions,data,tools);
+        } catch (ModuleException e) {
+            throw e;
         } catch (Exception e) {
             throw new ModuleException("Error in executing operation Tools native template",
                     InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
@@ -144,8 +155,10 @@ public class TextGenerationOperations {
             @Content(primary = true) String data) throws ModuleException {
         try {
             return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection,template,instructions,data);
+        } catch (ModuleException e) {
+            throw e;
         } catch (Exception e) {
-            throw new ModuleException("Error in executing operation MCP tooling", InferenceErrorType.TOOLS_OPERATION_FAILURE, e);
+            throw new ModuleException("Error in executing operation MCP tooling", InferenceErrorType.MCP_TOOLS_OPERATION_FAILURE, e);
         }
     }
 }

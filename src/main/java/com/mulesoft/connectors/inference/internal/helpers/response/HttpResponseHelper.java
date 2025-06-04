@@ -6,7 +6,8 @@ import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGener
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
 import com.mulesoft.connectors.inference.internal.dto.moderation.response.ModerationRestResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
+import org.apache.http.HttpStatus;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 import org.slf4j.Logger;
@@ -28,13 +29,13 @@ public class HttpResponseHelper {
         this.objectMapper = objectMapper;
     }
 
-    public ChatCompletionResponse processChatResponse(HttpResponse response) throws IOException {
+    public ChatCompletionResponse processChatResponse(HttpResponse response,InferenceErrorType errorType) throws IOException {
         int statusCode = response.getStatusCode();
 
         if (statusCode == 200) {
             return objectMapper.readValue(response.getEntity().getBytes(), ChatCompletionResponse.class);
         }
-        throw handleErrorResponse(response, statusCode, InferenceErrorType.CHAT_OPERATION_FAILURE);
+        throw handleErrorResponse(response, statusCode, errorType);
     }
 
     public ImageGenerationRestResponse processImageGenerationResponse(ImageGenerationRequestPayloadDTO requestPayloadDTO,
@@ -64,6 +65,9 @@ public class HttpResponseHelper {
     protected ModuleException handleErrorResponse(HttpResponse response, int statusCode, InferenceErrorType errorType) throws IOException {
         String errorResponse = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
         logger.error("API request failed with status code: {} and message: {}", statusCode, errorResponse);
+        if(statusCode== HttpStatus.SC_TOO_MANY_REQUESTS)
+            return new ModuleException(getFormattedErrorMessage(statusCode, errorResponse),
+                    InferenceErrorType.RATE_LIMIT_EXCEEDED);
         return new ModuleException(getFormattedErrorMessage(statusCode, errorResponse), errorType);
     }
 

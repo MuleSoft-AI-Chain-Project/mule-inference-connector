@@ -1,8 +1,10 @@
 package com.mulesoft.connectors.inference.internal.operation;
 
 import com.mulesoft.connectors.inference.internal.connection.ModerationConnection;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.provider.ModerationErrorTypeProvider;
 import org.mule.runtime.extension.api.annotation.Alias;
+import org.mule.runtime.extension.api.annotation.error.Throws;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
@@ -16,6 +18,7 @@ import java.io.InputStream;
 
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
+@Throws(ModerationErrorTypeProvider.class)
 public class ModerationOperations {
 
     @MediaType(value = APPLICATION_JSON, strict = false)
@@ -29,8 +32,10 @@ public class ModerationOperations {
         try {
             return connection.getService().getModerationServiceInstance().executeTextModeration(connection, text);
 
+        } catch (ModuleException e) {
+            throw e;
         } catch (Exception e) {
-            throw new ModuleException("Failed to process moderation request payload", InferenceErrorType.TEXT_MODERATION_FAILURE, e);
+            throw new ModuleException("Failed to process moderation request payload", InferenceErrorType.TOXICITY_DETECTION_OPERATION_FAILURE, e);
         }
     }
 }

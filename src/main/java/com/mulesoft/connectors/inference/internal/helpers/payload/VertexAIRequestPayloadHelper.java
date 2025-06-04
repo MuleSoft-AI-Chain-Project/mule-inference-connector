@@ -29,7 +29,7 @@ import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.FileData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.InlineData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.Part;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.VisionContentRecord;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

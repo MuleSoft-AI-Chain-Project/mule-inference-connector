@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.ibmwatson;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper;
 import org.json.JSONObject;
 import org.mule.runtime.extension.api.exception.ModuleException;

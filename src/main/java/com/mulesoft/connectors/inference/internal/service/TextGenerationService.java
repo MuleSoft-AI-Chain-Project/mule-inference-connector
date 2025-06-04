@@ -9,6 +9,7 @@ import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
@@ -132,7 +133,7 @@ public class TextGenerationService implements BaseService{
         var response = httpRequestHelper.executeChatRestRequest(connection,
                 connection.getApiURL(), requestPayloadDTO);
 
-        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response);
+        ChatCompletionResponse chatResponse = responseHandler.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
         logger.debug("Response of chat REST request: {}",chatResponse);
         return chatResponse;
     }

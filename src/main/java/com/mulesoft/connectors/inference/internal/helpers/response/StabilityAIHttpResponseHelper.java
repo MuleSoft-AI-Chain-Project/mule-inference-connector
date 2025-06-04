@@ -6,7 +6,7 @@ import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultIma
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageData;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
-import com.mulesoft.connectors.inference.internal.exception.InferenceErrorType;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 import org.mule.runtime.http.api.domain.message.response.HttpResponse;
