@@ -46,7 +46,7 @@
 			<munit-tools:assert-that doc:name="payload.response" doc:id="5dac8f10-3c9c-4753-8888-5cadefccbad3" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
 			<munit-tools:assert-equals doc:name="Input Token" doc:id="0a7a3133-2b5d-47aa-81e4-4a3dd25aeb03" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-equals doc:name="model Info" doc:id="f688a025-3466-4afe-bacb-6a2275258f96" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="407f9be4-d036-4fcf-9da8-895f9baefd07" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="407f9be4-d036-4fcf-9da8-895f9baefd07" actual="#[attributes.additionalAttributes.finishReason]" expected="stop" message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>
 

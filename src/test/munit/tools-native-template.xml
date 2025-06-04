@@ -77,7 +77,7 @@
 			<munit-tools:assert-equals
 					doc:name="finish reason"
 					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"
-					actual="#[attributes.additionalAttributes.finish_reason]"
+					actual="#[attributes.additionalAttributes.finishReason]"
 					expected="tool_calls"
 					message="Incorrect finish reason" />
 		</munit:validation>

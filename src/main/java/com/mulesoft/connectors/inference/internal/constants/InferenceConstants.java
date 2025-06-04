@@ -61,14 +61,6 @@ public class InferenceConstants {
   public static final String CHAT_COMPLETIONS_DATABRICKS = "/serving-endpoints/{model_name}/invocations";
   public static final String STABILITY_AI_GENERATE_IMAGES = "/v2beta/stable-image/generate/sd3";
 
-  // Configuration Parameters
-
-  public static final String RESPONSE = "response";
-  public static final String FINISH_REASON = "finish_reason";
-  public static final String MODEL = "model";
-  public static final String ID_STRING = "id";
-  public static final String TOOLS = "tools";
-
   public static final String MODERATIONS_PATH = "/moderations";
 
 

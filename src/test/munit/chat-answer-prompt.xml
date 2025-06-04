@@ -37,15 +37,21 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<logger level="INFO" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation>
+			<logger level="INFO" message="#[attributes]"/>
 			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
 			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-equals doc:name="model Info" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finish_reason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="stop" message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>
 
 	<sub-flow name="chat_answer_prompt_operation" doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6">
-		<set-variable value='#[%dw 2.0&#10;			output application/json&#10;			---&#10;			{&#10;			    "prompt": "What is the capital of Germany?"&#10;			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			{
+			    "prompt": "What is the capital of Germany?"
+			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
 		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
 		</mac-inference:chat-answer-prompt>

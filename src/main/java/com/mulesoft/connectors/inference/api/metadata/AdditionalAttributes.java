@@ -8,10 +8,9 @@ public class AdditionalAttributes implements Serializable {
 
     private final String id;
     private final String model;
-    @JsonProperty("finish_reason")
     private final String finishReason;
 
-    public AdditionalAttributes(String id, String model, @JsonProperty("finish_reason") String finishReason) {
+    public AdditionalAttributes(String id, String model, String finishReason) {
         this.id = id;
         this.model = model;
         this.finishReason = finishReason;

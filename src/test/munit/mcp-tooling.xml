@@ -33,7 +33,7 @@
 			<!-- Fixed: Use payload.payload.tools -->
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="8a3d65aa-b548-44cf-a627-82c7d0580659" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="521e3135-5c80-4521-abdd-11877c8e8189" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="tool_calls" message="Incorrect finish reason"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="tool_calls" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
 
