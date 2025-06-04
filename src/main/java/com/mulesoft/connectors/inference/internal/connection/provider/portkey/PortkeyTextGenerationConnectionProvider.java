@@ -32,7 +32,7 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
     @Parameter
     @Optional(defaultValue = "Portkey-virtual-key")
     @Expression(ExpressionSupport.SUPPORTED)
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[Portkey] Virtual Key")
     private String virtualKey;
 

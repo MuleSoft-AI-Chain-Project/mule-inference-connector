@@ -32,7 +32,7 @@ public class OllamaTextGenerationConnectionProvider extends TextGenerationConnec
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = "http://localhost:11434/api")
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[Ollama] Base URL")
     private String ollamaUrl;
 

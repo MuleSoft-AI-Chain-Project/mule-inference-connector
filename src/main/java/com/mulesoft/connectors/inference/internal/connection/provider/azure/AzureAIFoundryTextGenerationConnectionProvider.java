@@ -33,12 +33,14 @@ public class AzureAIFoundryTextGenerationConnectionProvider extends TextGenerati
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[Azure AI Foundry] Resource Name")
+    @Placement(order = 2)
     private String azureAIFoundryResourceName;
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[Azure AI Foundry] API Version")
+    @Placement(order = 3)
     private String azureAIFoundryApiVersion;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)

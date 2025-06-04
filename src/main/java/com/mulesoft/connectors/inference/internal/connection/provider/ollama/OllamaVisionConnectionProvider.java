@@ -32,7 +32,7 @@ public class OllamaVisionConnectionProvider extends VisionModelConnectionProvide
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = "http://localhost:11434/api")
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[Ollama] Base URL")
     private String ollamaUrl;
 

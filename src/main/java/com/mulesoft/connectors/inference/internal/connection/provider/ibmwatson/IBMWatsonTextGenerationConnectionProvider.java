@@ -31,7 +31,7 @@ public class IBMWatsonTextGenerationConnectionProvider extends TextGenerationCon
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @Optional
     @DisplayName("[IBM Watson] API Version")
     private String ibmWatsonApiVersion;

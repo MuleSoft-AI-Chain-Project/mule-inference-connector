@@ -35,7 +35,7 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = OPENAI_COMPATIBLE_ENDPOINT)
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[OpenAI Compatible] Base URL")
     private String openAICompatibleURL;
 

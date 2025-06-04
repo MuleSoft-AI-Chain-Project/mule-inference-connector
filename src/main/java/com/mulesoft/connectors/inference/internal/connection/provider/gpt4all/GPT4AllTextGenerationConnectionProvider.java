@@ -33,7 +33,7 @@ public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConne
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = InferenceConstants.GPT4ALL_URL)
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[GPT4ALL] Base URL")
     private String gpt4AllBaseURL;
 

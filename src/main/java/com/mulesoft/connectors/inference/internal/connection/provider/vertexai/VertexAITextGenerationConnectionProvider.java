@@ -33,18 +33,21 @@ public class VertexAITextGenerationConnectionProvider extends TextGenerationConn
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = "us-central1")
     @DisplayName("[VertexAI] Location Id")
+    @Placement(order = 2)
     private String vertexAILocationId;
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[VertexAI] Project Id")
+    @Placement(order = 3)
     private String vertexAIProjectId;
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[VertexAI] Service Account Key")
+    @Placement(order = 4)
     private String vertexAIServiceAccountKey;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)

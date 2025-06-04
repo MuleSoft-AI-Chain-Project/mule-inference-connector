@@ -33,7 +33,7 @@ public class LMStudioTextGenerationConnectionProvider extends TextGenerationConn
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional(defaultValue = InferenceConstants.LMSTUDIO_URL)
-    @Placement(tab = "Additional Properties")
+    @Placement(order = 2)
     @DisplayName("[LM Studio] Base URL")
     private String lmStudioBaseURL;
 

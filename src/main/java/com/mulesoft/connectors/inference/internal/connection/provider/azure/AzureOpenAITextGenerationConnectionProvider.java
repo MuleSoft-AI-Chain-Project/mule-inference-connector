@@ -33,12 +33,14 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[Azure OpenAI] Resource Name")
+    @Placement(order = 2)
     private String azureOpenaiResourceName;
 
     @Parameter
     @Expression(ExpressionSupport.SUPPORTED)
     @Optional
     @DisplayName("[Azure OpenAI] Deployment ID")
+    @Placement(order = 3)
     private String azureOpenaiDeploymentId;
 
     @ParameterGroup(name = Placement.CONNECTION_TAB)
