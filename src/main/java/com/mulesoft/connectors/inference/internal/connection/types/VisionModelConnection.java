@@ -39,8 +39,8 @@ public class VisionModelConnection extends BaseConnection {
 
   public VisionModelService getVisionModelService() {
     if (visionModelService == null)
-      visionModelService = new VisionModelService(this.getRequestPayloadHelper(), this.getHttpRequestHandler(),
-                                                  this.getResponseHandler(), this.getObjectMapper());
+      visionModelService = new VisionModelService(this.getRequestPayloadHelper(), this.getHttpRequestHelper(),
+                                                  this.getResponseHelper(), this.getResponseMapper(), this.getObjectMapper());
     return visionModelService;
   }
 }

@@ -2,18 +2,16 @@ package com.mulesoft.connectors.inference.internal.service;
 
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
-import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
-import com.mulesoft.connectors.inference.internal.helpers.TokenHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.mapper.DefaultResponseMapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,14 +27,16 @@ public class VisionModelService implements BaseService {
 
   private final RequestPayloadHelper payloadHelper;
   private final HttpRequestHelper httpRequestHelper;
-  private final HttpResponseHelper responseHandler;
+  private final HttpResponseHelper responseHelper;
+  private final DefaultResponseMapper responseParser;
   private final ObjectMapper objectMapper;
 
   public VisionModelService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                            HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
+                            HttpResponseHelper responseHelper, DefaultResponseMapper responseParser, ObjectMapper objectMapper) {
     this.payloadHelper = requestPayloadHelper;
     this.httpRequestHelper = httpRequestHelper;
-    this.responseHandler = responseHandler;
+    this.responseHelper = responseHelper;
+    this.responseParser = responseParser;
     this.objectMapper = objectMapper;
   }
 
@@ -49,21 +49,13 @@ public class VisionModelService implements BaseService {
 
     var response = httpRequestHelper.executeVisionRestRequest(connection, connection.getApiURL(), visionPayload);
 
-    ChatCompletionResponse chatResponse =
-        responseHandler.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
+    TextResponseDTO chatResponse =
+        responseHelper.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
     logger.debug("Response of vision REST request: {}", chatResponse);
 
-    var chatRespFirstChoice = chatResponse.choices().get(0);
-
-    return ResponseHelper.createLLMResponse(
-                                            objectMapper.writeValueAsString(new TextGenerationResponse(
-                                                                                                       chatRespFirstChoice
-                                                                                                           .message().content(),
-                                                                                                       chatRespFirstChoice
-                                                                                                           .message().toolCalls(),
-                                                                                                       null)),
-                                            TokenHelper.parseUsageFromResponse(chatResponse.usage()),
-                                            new AdditionalAttributes(chatResponse.id(), chatResponse.model(),
-                                                                     chatRespFirstChoice.finishReason()));
+    return ResponseHelper.createLLMResponse(objectMapper.writeValueAsString(
+                                                                            responseParser.mapChatResponse(chatResponse)),
+                                            responseParser.mapTokenUsageFromResponse(chatResponse),
+                                            responseParser.mapAdditionalAttributes(chatResponse));
   }
 }

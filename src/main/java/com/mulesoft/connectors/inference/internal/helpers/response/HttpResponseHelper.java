@@ -8,6 +8,7 @@ import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGener
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
 import com.mulesoft.connectors.inference.internal.dto.moderation.response.ModerationRestResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ public class HttpResponseHelper {
     this.objectMapper = objectMapper;
   }
 
-  public ChatCompletionResponse processChatResponse(HttpResponse response, InferenceErrorType errorType) throws IOException {
+  public TextResponseDTO processChatResponse(HttpResponse response, InferenceErrorType errorType) throws IOException {
     int statusCode = response.getStatusCode();
 
     if (statusCode == 200) {

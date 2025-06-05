@@ -4,6 +4,8 @@ import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.helpers.payload.AnthropicRequestPayloadHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.AnthropicHttpResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.mapper.AnthropicResponseMapper;
 
 import java.util.Map;
 
@@ -15,6 +17,8 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   public static final String ANTHROPIC_URL = "https://api.anthropic.com/v1";
 
   private AnthropicRequestPayloadHelper requestPayloadHelper;
+  private AnthropicResponseMapper responseMapper;
+  private AnthropicHttpResponseHelper httpResponseHelper;
 
   public AnthropicTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                            Number temperature, Number topP,
@@ -28,6 +32,20 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
     if (requestPayloadHelper == null)
       requestPayloadHelper = new AnthropicRequestPayloadHelper(getObjectMapper());
     return requestPayloadHelper;
+  }
+
+  @Override
+  public AnthropicResponseMapper getResponseMapper() {
+    if (responseMapper == null)
+      responseMapper = new AnthropicResponseMapper();
+    return responseMapper;
+  }
+
+  @Override
+  public AnthropicHttpResponseHelper getResponseHelper() {
+    if (httpResponseHelper == null)
+      httpResponseHelper = new AnthropicHttpResponseHelper(getObjectMapper());
+    return httpResponseHelper;
   }
 
   @Override

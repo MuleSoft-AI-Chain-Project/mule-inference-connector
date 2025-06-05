@@ -41,6 +41,15 @@
         </mac-inference:openrouter-connection>
     </mac-inference:text-generation-config>
 
+    <mac-inference:text-generation-config name="AnthropicConfig" doc:name="Anthropic Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:anthropic-connection apiKey="${anthropic.apiKey}" anthropicModelName="${anthropic.llmModel}" timeout="60000">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+        </mac-inference:anthropic-connection>
+    </mac-inference:text-generation-config>
+
     <mac-inference:moderation-config name="OpenAIModeration" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
         <mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="${openai.moderation}"/>
     </mac-inference:moderation-config>
