@@ -19,6 +19,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="14"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">
@@ -26,6 +27,15 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="10"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -41,7 +51,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
 			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-equals doc:name="model Info" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>
 

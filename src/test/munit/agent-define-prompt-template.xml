@@ -16,6 +16,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="123" />
+					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
@@ -23,6 +24,23 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="118" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="117" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="137" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -36,7 +54,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit-tools:assert-that doc:name="payload.response" doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('positive')]" />
 			<munit-tools:assert-equals doc:name="Input Token" doc:id="a3e4733f-65fe-4d4e-ad9c-7e4d4bf1442d" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-equals doc:name="model Info" doc:id="1a76fb4e-eda2-4fbd-8a43-0838582ba3f0" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538" actual="#[attributes.additionalAttributes.finishReason]" expected="stop" message="Incorrect finish reason" />
+			<munit-tools:assert-equals doc:name="finish reason" doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>
 	<sub-flow name="agent_define_prompt_template" doc:id="a474f4ff-286c-4810-bb5e-8cd5a3f643bf" >
