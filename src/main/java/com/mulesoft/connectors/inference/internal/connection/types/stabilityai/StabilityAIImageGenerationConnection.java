@@ -26,12 +26,12 @@ public class StabilityAIImageGenerationConnection extends ImageGenerationConnect
   }
 
   @Override
-  protected StabilityAIHttpRequestHelper getHttpRequestHandler() {
+  protected StabilityAIHttpRequestHelper getHttpRequestHelper() {
     return new StabilityAIHttpRequestHelper(this.getHttpClient(), this.getObjectMapper());
   }
 
   @Override
-  public StabilityAIHttpResponseHelper getResponseHandler() {
+  public StabilityAIHttpResponseHelper getResponseHelper() {
     return new StabilityAIHttpResponseHelper(this.getObjectMapper());
   }
 }

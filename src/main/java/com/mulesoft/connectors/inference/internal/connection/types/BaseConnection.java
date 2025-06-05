@@ -58,11 +58,11 @@ public class BaseConnection {
     return mcpHelper;
   }
 
-  protected HttpRequestHelper getHttpRequestHandler() {
+  protected HttpRequestHelper getHttpRequestHelper() {
     return new HttpRequestHelper(this.getHttpClient(), this.getObjectMapper());
   }
 
-  protected HttpResponseHelper getResponseHandler() {
+  protected HttpResponseHelper getResponseHelper() {
     return new HttpResponseHelper(this.getObjectMapper());
   }
 

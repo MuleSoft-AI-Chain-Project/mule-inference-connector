@@ -18,8 +18,8 @@ public class ImageGenerationConnection extends BaseConnection {
 
   public ImageGenerationService getImageGenerationService() {
     if (imageGenerationService == null)
-      imageGenerationService = new ImageGenerationService(this.getRequestPayloadHelper(), this.getHttpRequestHandler(),
-                                                          this.getResponseHandler(), this.getObjectMapper());
+      imageGenerationService = new ImageGenerationService(this.getRequestPayloadHelper(), this.getHttpRequestHelper(),
+                                                          this.getResponseHelper(), this.getObjectMapper());
     return imageGenerationService;
   }
 }

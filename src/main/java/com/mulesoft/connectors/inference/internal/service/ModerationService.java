@@ -24,14 +24,14 @@ public class ModerationService implements BaseService {
 
   private final RequestPayloadHelper payloadHelper;
   private final HttpRequestHelper httpRequestHelper;
-  private final HttpResponseHelper responseHandler;
+  private final HttpResponseHelper responseHelper;
   private final ObjectMapper objectMapper;
 
   public ModerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                           HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
+                           HttpResponseHelper responseHelper, ObjectMapper objectMapper) {
     this.payloadHelper = requestPayloadHelper;
     this.httpRequestHelper = httpRequestHelper;
-    this.responseHandler = responseHandler;
+    this.responseHelper = responseHelper;
     this.objectMapper = objectMapper;
   }
 
@@ -43,9 +43,9 @@ public class ModerationService implements BaseService {
     var response = httpRequestHelper.executeModerationRestRequest(connection, connection.getApiURL(), payload);
     logger.debug("Moderation service - response from LLM: {}", response);
 
-    ModerationRestResponse moderationRestResponse = responseHandler.processModerationResponse(response);
+    ModerationRestResponse moderationRestResponse = responseHelper.processModerationResponse(response);
     return ResponseHelper.createLLMResponse(
-                                            objectMapper.writeValueAsString(responseHandler
+                                            objectMapper.writeValueAsString(responseHelper
                                                 .mapModerationFinalResponse(moderationRestResponse)));
   }
 }

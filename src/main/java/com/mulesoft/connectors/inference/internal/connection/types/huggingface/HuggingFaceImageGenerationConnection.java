@@ -25,7 +25,7 @@ public class HuggingFaceImageGenerationConnection extends ImageGenerationConnect
   }
 
   @Override
-  public HuggingFaceHttpResponseHelper getResponseHandler() {
+  public HuggingFaceHttpResponseHelper getResponseHelper() {
     return new HuggingFaceHttpResponseHelper(this.getObjectMapper());
   }
 }

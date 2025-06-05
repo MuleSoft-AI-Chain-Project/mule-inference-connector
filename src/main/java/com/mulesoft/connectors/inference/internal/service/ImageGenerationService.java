@@ -28,14 +28,14 @@ public class ImageGenerationService implements BaseService {
 
   private final RequestPayloadHelper payloadHelper;
   private final HttpRequestHelper httpRequestHelper;
-  private final HttpResponseHelper responseHandler;
+  private final HttpResponseHelper responseHelper;
   private final ObjectMapper objectMapper;
 
   public ImageGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                                HttpResponseHelper responseHandler, ObjectMapper objectMapper) {
+                                HttpResponseHelper responseHelper, ObjectMapper objectMapper) {
     this.payloadHelper = requestPayloadHelper;
     this.httpRequestHelper = httpRequestHelper;
-    this.responseHandler = responseHandler;
+    this.responseHelper = responseHelper;
     this.objectMapper = objectMapper;
   }
 
@@ -70,7 +70,7 @@ public class ImageGenerationService implements BaseService {
     logger.trace("Image Generation Response Entity: {}", response.getEntity());
 
     ImageGenerationRestResponse imageGenerationRestResponse =
-        responseHandler.processImageGenerationResponse(requestPayloadDTO, response);
+        responseHelper.processImageGenerationResponse(requestPayloadDTO, response);
     logger.debug("Response of image generation REST request: {}", imageGenerationRestResponse);
     return imageGenerationRestResponse;
   }

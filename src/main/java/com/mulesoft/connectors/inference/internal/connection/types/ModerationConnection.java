@@ -19,8 +19,8 @@ public class ModerationConnection extends BaseConnection {
 
   public ModerationService getModerationService() {
     if (moderationService == null)
-      moderationService = new ModerationService(this.getRequestPayloadHelper(), this.getHttpRequestHandler(),
-                                                this.getResponseHandler(), this.getObjectMapper());
+      moderationService = new ModerationService(this.getRequestPayloadHelper(), this.getHttpRequestHelper(),
+                                                this.getResponseHelper(), this.getObjectMapper());
     return moderationService;
   }
 }
