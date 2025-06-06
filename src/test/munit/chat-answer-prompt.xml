@@ -28,6 +28,41 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="10"/>
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-azure-ai-foundry" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="10" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-together" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="togetherConfig" />
+					<munit:parameter propertyName="llmModel" value="${together.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="42" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-deepseek" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="deepseekConfig" />
+					<munit:parameter propertyName="llmModel" value="${deepseek.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="10" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-deepinfra" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="deepinfraConfig" />
+					<munit:parameter propertyName="llmModel" value="${deepinfra.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-fireworks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="fireworksConfig" />
+					<munit:parameter propertyName="llmModel" value="${fireworks.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="22" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 

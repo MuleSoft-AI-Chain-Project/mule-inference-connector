@@ -23,6 +23,13 @@
 					<munit:parameter propertyName="inputCount" value="15" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-azure-ai-foundry" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AzureAIFoundryVision" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="771" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
@@ -34,7 +41,14 @@
 		<munit:validation>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Eiffel Tower')]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
+			<choice doc:name="Choice" doc:id="8e25ac38-ad90-4142-9db3-a6ce058005ad" >
+				<when expression='"${config}" == "AzureAIFoundryVision"' >
+					<logger level="INFO" doc:name="Logger" doc:id="7d9db19e-b9fd-4370-952d-850832f47f46" message="Skipped Azure AI Foundry Model Checking" />
+				</when>
+				<otherwise>
+					<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info" />
+				</otherwise>
+			</choice>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
