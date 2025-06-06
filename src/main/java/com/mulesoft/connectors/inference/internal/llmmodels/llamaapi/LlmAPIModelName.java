@@ -1,23 +1,24 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.llamaapi;
 
 public enum LlmAPIModelName {
-    // only using chat model types.
-    LLAMA3_1_70B("llama3.1-70b", true);
 
-    private final String value;
-    private final boolean textGenerationSupport;
+  // only using chat model types.
+  LLAMA3_1_70B("llama3.1-70b", true);
 
-    LlmAPIModelName(String value, boolean textGenerationSupport) {
-        this.value = value;
-        this.textGenerationSupport = textGenerationSupport;
-    }
+  private final String value;
+  private final boolean textGenerationSupport;
 
-    public boolean isTextGenerationSupport() {
-        return textGenerationSupport;
-    }
+  LlmAPIModelName(String value, boolean textGenerationSupport) {
+    this.value = value;
+    this.textGenerationSupport = textGenerationSupport;
+  }
 
-    @Override
-    public String toString() {
-        return this.value;
-    }
-} 
+  public boolean isTextGenerationSupport() {
+    return textGenerationSupport;
+  }
+
+  @Override
+  public String toString() {
+    return this.value;
+  }
+}

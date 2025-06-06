@@ -20,14 +20,14 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="200" />
+					<munit:parameter propertyName="inputCount" value="207" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="337" />
+					<munit:parameter propertyName="inputCount" value="349" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -36,12 +36,9 @@
 	<munit:test name="TOOLS_NATIVE_TEMPLATE_OPERATION-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
 		<munit:execution>
 			<flow-ref doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="tools_native_template"/>
-			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]"/>
 		</munit:execution>
 		<munit:validation>
-			<logger level="INFO" doc:name="Log payload" message="#[payload]"/>
-			<logger level="INFO" doc:name="Log payload.tools" message="#[payload.payload.tools default 'null']"/>
-			<!-- Fixed: Use payload.payload.tools -->
+			<!--<logger level="INFO" doc:name="Log payload" message="#[payload]"/>-->
 			<munit-tools:assert-that
 					doc:name="payload.tools"
 					doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e"
@@ -77,7 +74,7 @@
 			<munit-tools:assert-equals
 					doc:name="finish reason"
 					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"
-					actual="#[attributes.additionalAttributes.finish_reason]"
+					actual="#[attributes.additionalAttributes.finishReason]"
 					expected="tool_calls"
 					message="Incorrect finish reason" />
 		</munit:validation>

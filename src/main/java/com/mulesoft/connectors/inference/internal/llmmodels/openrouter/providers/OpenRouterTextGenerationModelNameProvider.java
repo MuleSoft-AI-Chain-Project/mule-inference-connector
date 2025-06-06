@@ -3,10 +3,11 @@
  */
 package com.mulesoft.connectors.inference.internal.llmmodels.openrouter.providers;
 
-import com.mulesoft.connectors.inference.internal.llmmodels.openrouter.OpenRouterModelName;
 import org.mule.runtime.api.value.Value;
 import org.mule.runtime.extension.api.values.ValueBuilder;
 import org.mule.runtime.extension.api.values.ValueProvider;
+
+import com.mulesoft.connectors.inference.internal.llmmodels.openrouter.OpenRouterModelName;
 
 import java.util.Arrays;
 import java.util.Set;
@@ -16,6 +17,6 @@ public class OpenRouterTextGenerationModelNameProvider implements ValueProvider 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenRouterModelName.values())
-            .filter(OpenRouterModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(OpenRouterModelName::isTextGenerationSupport).map(String::valueOf));
   }
 }

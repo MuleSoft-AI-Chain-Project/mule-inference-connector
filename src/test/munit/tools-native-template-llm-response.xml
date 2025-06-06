@@ -6,14 +6,14 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="191"/>
+					<munit:parameter propertyName="inputCount" value="198"/>
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="327"/>
+					<munit:parameter propertyName="inputCount" value="339"/>
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -32,12 +32,41 @@
 			<!-- Fixed: Use payload.payload.tools -->
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="8a3d65aa-b548-44cf-a627-82c7d0580659" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="521e3135-5c80-4521-abdd-11877c8e8189" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finish_reason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
 
 	<sub-flow doc:id="71465f76-1597-41ec-bcb7-3d4aa45c3cac" name="tools_native_template_general">
-		<set-variable doc:id="7edeecec-4d47-4bfe-a699-23987b60ac14" doc:name="Set Variable" value="#[%dw 2.0&#10;            output application/json&#10;            ---&#10;            {&#10;                'template': 'You are an helpful assistant',&#10;                'instructions': 'Answer the request with politeness.',&#10;                'dataset': 'What is the capital of India',&#10;                'tools': [&#10;                    {&#10;                        'type': 'function',&#10;                        'function': {&#10;                            'name': 'get_current_temperature',&#10;                            'description': 'Get the current temperature for a specific location',&#10;                            'parameters': {&#10;                                'type': 'object',&#10;                                'properties': {&#10;                                    'location': {&#10;                                        'type': 'string',&#10;                                        'description': 'The city and state, e.g., San Francisco, CA'&#10;                                    },&#10;                                    'unit': {&#10;                                        'type': 'string',&#10;                                        'enum': ['Celsius', 'Fahrenheit'],&#10;                                        'description': 'The temperature unit to use. Infer this from the user\'s location.'&#10;                                    }&#10;                                },&#10;                                'required': ['location', 'unit']&#10;                            }&#10;                        }&#10;                    },&#10;                    {&#10;                        'type': 'function',&#10;                        'function': {&#10;                            'name': 'get_rain_probability',&#10;                            'description': 'Get the probability of rain for a specific location',&#10;                            'parameters': {&#10;                                'type': 'object',&#10;                                'properties': {&#10;                                    'location': {&#10;                                        'type': 'string',&#10;                                        'description': 'The city and state, e.g., San Francisco, CA'&#10;                                    }&#10;                                },&#10;                                'required': ['location']&#10;                            }&#10;                        }&#10;                    },&#10;                    {&#10;                        'type': 'function',&#10;                        'function': {&#10;                            'name': 'get_delivery_date',&#10;                            'description': 'Get the delivery date for a customer\'s order. Call this whenever you need to know the delivery date, for example when a customer asks \'Where is my package\'',&#10;                            'parameters': {&#10;                                'type': 'object',&#10;                                'properties': {&#10;                                    'order_id': {&#10;                                        'type': 'string',&#10;                                        'description': 'The customer\'s order ID.'&#10;                                    }&#10;                                },&#10;                                'required': ['order_id']&#10;                            }&#10;                        }&#10;                    }&#10;                ]&#10;            }]" variableName="testPayload"/>
+		<set-variable doc:id="7edeecec-4d47-4bfe-a699-23987b60ac14" doc:name="Set Variable" value="#[%dw 2.0
+            output application/json
+            ---
+            {
+                'template': 'You are an helpful assistant',
+                'instructions': 'Answer the request with politeness.',
+                'dataset': 'What is the capital of India',
+                'tools': [
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_current_temperature',
+                            'description': 'Get the current temperature for a specific location',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'location': {
+                                        'type': 'string',
+                                        'description': 'The city and state, e.g., San Francisco, CA'
+                                    },
+                                    'unit': {
+                                        'type': 'string',
+                                        'enum': ['Celsius', 'Fahrenheit'],
+                                        'description': 'The temperature unit to use. Infer this from the user\'s location.'&#10;                                    }&#10;                                },&#10;                                'required': ['location', 'unit']&#10;                            }&#10;                        }&#10;                    },&#10;                    {&#10;                        'type': 'function',&#10;                        'function': {&#10;                            'name': 'get_rain_probability',&#10;                            'description': 'Get the probability of rain for a specific location',&#10;                            'parameters': {&#10;                                'type': 'object',&#10;                                'properties': {&#10;                                    'location': {&#10;                                        'type': 'string',&#10;                                        'description': 'The city and state, e.g., San Francisco, CA'&#10;                                    }&#10;                                },&#10;                                'required': ['location']&#10;                            }&#10;                        }&#10;                    },&#10;                    {&#10;                        'type': 'function',&#10;                        'function': {&#10;                            'name': 'get_delivery_date',&#10;                            'description': 'Get the delivery date for a customer\'s order. Call this whenever you need to know the delivery date, for example when a customer asks \'Where is my package\'',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'order_id': {
+                                        'type': 'string',
+                                        'description': 'The customer\'s order ID.'&#10;                                    }&#10;                                },&#10;                                'required': ['order_id']&#10;                            }&#10;                        }&#10;                    }&#10;                ]&#10;            }]" variableName="testPayload"/>
 		<mac-inference:tools-native-template config-ref="${config}" doc:id="c98bbd6c-69b5-4334-a1db-ade5aa25897d" doc:name="[Tools] Native Template (Reasoning only)">
 			<mac-inference:template><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
 			<mac-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>

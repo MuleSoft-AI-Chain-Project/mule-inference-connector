@@ -97,6 +97,24 @@ Then add the following dependency to your application's `pom.xml`:
 </dependency>
 ```
 
+## Formatting
+
+The connector uses **formatter-maven-plugin** for formatting. 
+To format files use following maven command :
+
+```
+mvn formatter:format
+```
+
+## Import Sorting
+
+The connector uses **impsort-maven-plugin** for sorting imports.
+To sort imports use following maven command :
+
+```
+mvn impsort:sort
+```
+
 ## Installation into private Anypoint Exchange
 
 You can also make this connector available as an asset in your Anyooint Exchange.

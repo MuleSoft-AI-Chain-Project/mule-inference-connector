@@ -23,8 +23,10 @@ public class LLMResponseAttributes implements Serializable {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o)
+      return true;
+    if (o == null || getClass() != o.getClass())
+      return false;
     LLMResponseAttributes that = (LLMResponseAttributes) o;
     return Objects.equals(tokenUsage, that.tokenUsage) && Objects.equals(additionalAttributes, that.additionalAttributes);
   }
@@ -37,8 +39,8 @@ public class LLMResponseAttributes implements Serializable {
   @Override
   public String toString() {
     return "LLMResponseAttributes{" +
-            "tokenUsage=" + tokenUsage +
-            ", additionalAttributes=" + additionalAttributes +
-            '}';
+        "tokenUsage=" + tokenUsage +
+        ", additionalAttributes=" + additionalAttributes +
+        '}';
   }
 }
