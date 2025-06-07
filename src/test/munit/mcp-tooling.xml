@@ -18,6 +18,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="627" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
