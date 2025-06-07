@@ -5,6 +5,7 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.anthropic.AnthropicChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.anthropic.Content;
@@ -65,6 +66,14 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
                                      "function",
                                      new Function(content.name(), convertToJsonString(content.input()))))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+
+    return new TextGenerationResponse(null,
+                                      mapToolCalls(responseDTO),
+                                      toolExecutionResult);
   }
 
   private String convertToJsonString(Map<String, Object> input) {
