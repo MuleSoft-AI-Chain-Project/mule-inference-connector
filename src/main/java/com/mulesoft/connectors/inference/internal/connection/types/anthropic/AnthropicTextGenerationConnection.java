@@ -37,7 +37,7 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   @Override
   public AnthropicResponseMapper getResponseMapper() {
     if (responseMapper == null)
-      responseMapper = new AnthropicResponseMapper();
+      responseMapper = new AnthropicResponseMapper(this.getObjectMapper());
     return responseMapper;
   }
 

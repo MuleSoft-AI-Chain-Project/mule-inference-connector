@@ -115,7 +115,7 @@ public class TextGenerationService implements BaseService {
     TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
 
     return ResponseHelper.createLLMResponse(
-                                            objectMapper.writeValueAsString(responseParser.mapExecuteToolsResponse(chatResponse)),
+                                            objectMapper.writeValueAsString(responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
                                             responseParser.mapAdditionalAttributes(chatResponse));
   }

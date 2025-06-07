@@ -21,6 +21,7 @@
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="207" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">
@@ -28,6 +29,15 @@
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="349" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="684" />
+					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -75,7 +85,7 @@
 					doc:name="finish reason"
 					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"
 					actual="#[attributes.additionalAttributes.finishReason]"
-					expected="tool_calls"
+					expected="${finishReason}"
 					message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>

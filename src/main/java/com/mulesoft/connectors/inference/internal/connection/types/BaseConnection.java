@@ -67,7 +67,7 @@ public class BaseConnection {
   }
 
   protected DefaultResponseMapper getResponseMapper() {
-    return new DefaultResponseMapper();
+    return new DefaultResponseMapper(this.getObjectMapper());
   }
 
   public Map<String, String> getAdditionalHeaders() {

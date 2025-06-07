@@ -10,7 +10,15 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.Te
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 public class DefaultResponseMapper {
+
+  protected final ObjectMapper objectMapper;
+
+  public DefaultResponseMapper(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
