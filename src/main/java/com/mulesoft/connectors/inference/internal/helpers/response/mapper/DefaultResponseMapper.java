@@ -31,18 +31,6 @@ public class DefaultResponseMapper {
                                       null);
   }
 
-  // TODO can be deleted and merged into first method
-  public TextGenerationResponse mapExecuteToolsResponse(TextResponseDTO responseDTO) {
-    var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
-    var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
-    return new TextGenerationResponse(
-                                      chatRespFirstChoice
-                                          .message().content(),
-                                      chatRespFirstChoice
-                                          .message().toolCalls(),
-                                      null);
-  }
-
   public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
