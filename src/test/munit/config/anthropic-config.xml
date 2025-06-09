@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Text Generation Configuration -->
+    <mac-inference:text-generation-config name="AnthropicConfig" doc:name="Anthropic Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:anthropic-connection apiKey="${anthropic.apiKey}" anthropicModelName="${anthropic.llmModel}" timeout="60000">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+        </mac-inference:anthropic-connection>
+    </mac-inference:text-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="AnthropicVision" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
+        <mac-inference:anthropic-vision-connection apiKey="${anthropic.apiKey}" anthropicModelName="${anthropic.llmModel}" />
+    </mac-inference:vision-config>
+
+</mule> 

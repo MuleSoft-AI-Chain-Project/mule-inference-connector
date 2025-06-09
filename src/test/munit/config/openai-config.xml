@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Text Generation Configuration -->
+    <mac-inference:text-generation-config name="OpenAIConfig" doc:name="Open AI Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:openai-connection apiKey="${openai.apiKey}" openAIModelName="${openai.llmModel}" timeout="60000">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+        </mac-inference:openai-connection>
+    </mac-inference:text-generation-config>
+
+    <!-- Moderation Configuration -->
+    <mac-inference:moderation-config name="OpenAIModeration" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
+        <mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="${openai.moderation}"/>
+    </mac-inference:moderation-config>
+
+    <!-- Image Generation Configuration -->
+    <mac-inference:image-generation-config name="OpenAIImageGen" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
+        <mac-inference:openai-image-connection apiKey="${openai.apiKey}" openAIModelName="${openai.imageGenModel}" />
+    </mac-inference:image-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="OpenAIVision" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <mac-inference:openai-vision-connection apiKey="${openai.apiKey}" openAIModelName="${openai.visionModel}" />
+    </mac-inference:vision-config>
+
+</mule> 
