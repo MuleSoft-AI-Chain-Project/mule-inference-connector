@@ -53,6 +53,15 @@
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="347" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqConfig" />
+					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="1262" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
