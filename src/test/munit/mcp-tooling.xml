@@ -34,6 +34,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-openai-compatible">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
+					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="412"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
