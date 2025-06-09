@@ -2,12 +2,12 @@
 
 	<munit:config name="read-image-url.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-openai" >
+			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenAIVision" />
-					<munit:parameter propertyName="llmModel" value="${openai.visionModel}" />
-					<munit:parameter propertyName="inputCount" value="14178" />
-					<munit:parameter propertyName="finishReason" value="stop" />
+					<munit:parameter propertyName="config" value="AnthropicVision" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="439" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
@@ -18,20 +18,20 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-openai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenAIVision" />
+					<munit:parameter propertyName="llmModel" value="${openai.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="14178" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="15" />
 					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicVision" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="439" />
-					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

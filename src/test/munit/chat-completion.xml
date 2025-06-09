@@ -13,12 +13,12 @@
 
 	<munit:config name="chat-completion.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-openai" >
+			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenAIConfig" />
-					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="24" />
-					<munit:parameter propertyName="finishReason" value="stop" />
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="35" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
@@ -29,20 +29,12 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			<munit:parameterization name="config-openai" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenrouterConfig" />
-					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="19" />
+					<munit:parameter propertyName="config" value="OpenAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="24" />
 					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="35" />
-					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai-compatible">
@@ -50,6 +42,14 @@
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="24"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="19" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

@@ -11,12 +11,12 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
 		<munit:config name="agent-define-prompt-template.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-openai" >
+			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenAIConfig" />
-					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="123" />
-					<munit:parameter propertyName="finishReason" value="stop" />
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="137" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
@@ -27,20 +27,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			<munit:parameterization name="config-openai" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenrouterConfig" />
-					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="117" />
+					<munit:parameter propertyName="config" value="OpenAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="123" />
 					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="137" />
-					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai-compatible">
@@ -48,6 +40,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="123"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="117" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

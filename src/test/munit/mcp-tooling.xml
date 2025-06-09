@@ -2,12 +2,12 @@
 
 	<munit:config name="mcp-tooling.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-openai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="OpenAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="412"/>
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="993" />
+					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai">
@@ -18,20 +18,12 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="OpenrouterConfig" />
-					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="627" />
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="412"/>
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="993" />
-					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai-compatible">
@@ -40,6 +32,14 @@
 					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
 					<munit:parameter propertyName="inputCount" value="412"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-openrouter" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="OpenrouterConfig" />
+					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="627" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

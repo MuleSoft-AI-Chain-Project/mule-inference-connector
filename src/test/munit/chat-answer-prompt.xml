@@ -14,6 +14,22 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-mistralai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="MistralAIConfig"/>
+					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="10"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
@@ -30,28 +46,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="MistralAIConfig"/>
-					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="10"/>
-					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
-					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
