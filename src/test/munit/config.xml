@@ -73,4 +73,8 @@
     <mac-inference:vision-config name="OpenrouterVision" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
         <mac-inference:openrouter-vision-connection apiKey="${openrouter.apiKey}" openRouterModelName="${openrouter.visionModel}" />
     </mac-inference:vision-config>
+
+    <mac-inference:vision-config name="AnthropicVision" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
+        <mac-inference:anthropic-vision-connection apiKey="${anthropic.apiKey}" anthropicModelName="${anthropic.llmModel}" />
+    </mac-inference:vision-config>
 </mule>

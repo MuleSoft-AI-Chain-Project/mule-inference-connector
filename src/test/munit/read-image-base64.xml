@@ -7,6 +7,7 @@
 					<munit:parameter propertyName="config" value="OpenAIVision" />
 					<munit:parameter propertyName="llmModel" value="${openai.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="8511" />
+					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
@@ -14,6 +15,7 @@
 					<munit:parameter propertyName="config" value="MistralAIVision" />
 					<munit:parameter propertyName="llmModel" value="${mistral.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="55" />
+					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
@@ -21,6 +23,15 @@
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="15" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicVision" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="56" />
+					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -29,14 +40,14 @@
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read-image-base64_operation_test">
 		<munit:execution>
 			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read-image-base64_operation"/>
-			<logger level="INFO" message="#[payload]"/>
+			<!--<logger level="INFO" message="#[payload]"/>-->
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="red in payload" expression="#[payload.payload.response]" is="#[MunitTools::containsString('red')]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-that doc:name="car in payload" doc:id="1c9a0319-420e-4194-a0a1-6e8d21f28782" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('car')]" />
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="stop" message="Incorrect finish reason"/>
+			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
 
