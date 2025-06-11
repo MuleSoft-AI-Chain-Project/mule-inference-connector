@@ -40,7 +40,7 @@
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read_image_url_operation_test">
 		<munit:execution>
 			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
-			<logger level="INFO" message="#[payload]"/>
+			<!--<logger level="INFO" message="#[payload]"/>-->
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Eiffel Tower')]" message="Payload response is wrong answer"/>

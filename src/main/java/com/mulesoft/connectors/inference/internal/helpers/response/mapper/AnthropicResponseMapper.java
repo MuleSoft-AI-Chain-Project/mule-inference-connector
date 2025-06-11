@@ -12,7 +12,6 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.an
 
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -65,7 +64,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
                                      content.id(),
                                      "function",
                                      new Function(content.name(), convertToJsonString(content.input()))))
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override

@@ -38,6 +38,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-nvidia">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="NvidiaConfig"/>
+					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="17"/>
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
