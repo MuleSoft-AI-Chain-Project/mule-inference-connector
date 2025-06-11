@@ -30,7 +30,7 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
 					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="1086"/>
+					<munit:parameter propertyName="inputCount" value="1092"/>
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
