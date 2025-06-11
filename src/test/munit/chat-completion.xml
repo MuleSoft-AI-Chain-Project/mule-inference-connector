@@ -25,7 +25,7 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="33" />
+					<munit:parameter propertyName="inputCount" value="53" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

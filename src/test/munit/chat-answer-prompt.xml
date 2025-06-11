@@ -26,7 +26,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
+					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

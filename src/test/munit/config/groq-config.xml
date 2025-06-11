@@ -23,7 +23,8 @@
     </mac-inference:text-generation-config>
 
     <!-- Vision Configuration -->
+    <!-- To be checked for a common image URL in read operation that is accessible from groq
     <mac-inference:vision-config name="GroqVision" doc:name="MuleSoft Inference Vision config" doc:id="249c7f56-3d4b-40d5-8c17-266b2f02be13" >
         <mac-inference:groq-vision-connection apiKey="${groq.apiKey}" groqModelName="${groq.visionModel}" />
-    </mac-inference:vision-config>
+    </mac-inference:vision-config>-->
 </mule>
