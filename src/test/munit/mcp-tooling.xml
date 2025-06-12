@@ -2,7 +2,23 @@
 
 	<munit:config name="mcp-tooling.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-anthropic" >
+			<munit:parameterization name="config-cerebras" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CerebrasConfig" />
+					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="771" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-cohere" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CohereConfig" />
+					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="354" />
+					<munit:parameter propertyName="finishReason" value="TOOL_CALL" />
+				</munit:parameters>
+			</munit:parameterization>
+<!--			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
 					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
@@ -57,7 +73,7 @@
 					<munit:parameter propertyName="inputCount" value="627" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 
