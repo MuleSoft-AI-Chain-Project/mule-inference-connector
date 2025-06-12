@@ -56,6 +56,6 @@ public class VisionModelService implements BaseService {
     return ResponseHelper.createLLMResponse(objectMapper.writeValueAsString(
                                                                             responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
 }

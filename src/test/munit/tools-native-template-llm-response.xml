@@ -10,6 +10,22 @@
 					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-cerebras" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CerebrasConfig" />
+					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="493" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-cohere" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="CohereConfig" />
+					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="150" />
+					<munit:parameter propertyName="finishReason" value="COMPLETE" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />

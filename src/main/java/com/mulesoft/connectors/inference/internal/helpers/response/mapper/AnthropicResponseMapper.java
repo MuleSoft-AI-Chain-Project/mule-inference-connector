@@ -46,7 +46,10 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+
+    logger.debug("Map Additional attributes for model:{}", modelName);
+
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(chatCompletionResponse.id(), chatCompletionResponse.model(),

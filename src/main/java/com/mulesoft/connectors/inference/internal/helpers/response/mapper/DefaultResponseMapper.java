@@ -11,8 +11,12 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.Te
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DefaultResponseMapper {
+
+  private static final Logger logger = LoggerFactory.getLogger(DefaultResponseMapper.class);
 
   protected final ObjectMapper objectMapper;
 
@@ -47,7 +51,10 @@ public class DefaultResponseMapper {
     return new TokenUsage(chatRespUsage.promptTokens(), chatRespUsage.completionTokens(), chatRespUsage.totalTokens());
   }
 
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+
+    logger.debug("Map Additional attributes for model:{}", modelName);
+
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
 

@@ -105,7 +105,7 @@ public class TextGenerationService implements BaseService {
                                             objectMapper.writeValueAsString(responseParser
                                                 .mapMcpExecuteToolsResponse(chatResponse, toolExecutionResult)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
 
   private Result<InputStream, LLMResponseAttributes> executeToolsRequestAndFormatResponse(TextGenerationConnection connection,
@@ -117,7 +117,7 @@ public class TextGenerationService implements BaseService {
     return ResponseHelper.createLLMResponse(
                                             objectMapper.writeValueAsString(responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
 
   private Result<InputStream, LLMResponseAttributes> executeChatRequestAndFormatResponse(TextGenerationConnection connection,
@@ -129,7 +129,7 @@ public class TextGenerationService implements BaseService {
     return ResponseHelper.createLLMResponse(
                                             objectMapper.writeValueAsString(responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
 
   private TextResponseDTO executeChatRequest(TextGenerationConnection connection,
