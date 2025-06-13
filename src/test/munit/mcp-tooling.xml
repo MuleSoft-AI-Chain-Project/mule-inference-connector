@@ -2,6 +2,14 @@
 
 	<munit:config name="mcp-tooling.xml">
 		<munit:parameterizations>
+			<munit:parameterization name="config-anthropic" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AnthropicConfig" />
+					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="993" />
+					<munit:parameter propertyName="finishReason" value="tool_use" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
@@ -18,12 +26,12 @@
 					<munit:parameter propertyName="finishReason" value="TOOL_CALL" />
 				</munit:parameters>
 			</munit:parameterization>
-<!--			<munit:parameterization name="config-anthropic" >
+			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="993" />
-					<munit:parameter propertyName="finishReason" value="tool_use" />
+					<munit:parameter propertyName="config" value="DeepinfraConfig" />
+					<munit:parameter propertyName="llmModel" value="${deepinfra.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="910" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
@@ -73,7 +81,7 @@
 					<munit:parameter propertyName="inputCount" value="627" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
