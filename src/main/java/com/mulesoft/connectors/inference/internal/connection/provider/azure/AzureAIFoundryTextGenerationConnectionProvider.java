@@ -52,8 +52,8 @@ public class AzureAIFoundryTextGenerationConnectionProvider extends TextGenerati
   public AzureAIFoundryTextGenerationConnection connect() throws ConnectionException {
     logger.debug("AzureAIFoundryTextGenerationConnection connect ...");
     return new AzureAIFoundryTextGenerationConnection(getHttpClient(), getObjectMapper(), azureModelName,
-                                                      azureAIFoundryResourceName, azureAIFoundryApiVersion,
                                                       textGenerationConnectionParameters.getApiKey(),
+                                                      azureAIFoundryResourceName, azureAIFoundryApiVersion,
                                                       textGenerationConnectionParameters.getTemperature(),
                                                       textGenerationConnectionParameters.getTopP(),
                                                       textGenerationConnectionParameters.getMaxTokens(),

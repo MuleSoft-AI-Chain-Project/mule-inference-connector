@@ -21,6 +21,14 @@
 					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-azure-ai-foundry" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="20" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />

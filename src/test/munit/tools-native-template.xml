@@ -24,6 +24,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-azure-ai-foundry" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="427" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
@@ -84,7 +92,7 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
 					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="570"/>
+					<munit:parameter propertyName="inputCount" value="571"/>
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>

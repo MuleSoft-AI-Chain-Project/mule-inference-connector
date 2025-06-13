@@ -52,8 +52,8 @@ public class AzureAIFoundryVisionConnectionProvider extends VisionModelConnectio
   public AzureAIFoundryVisionConnection connect() throws ConnectionException {
     logger.debug("AzureAIFoundryVisionConnection connect ...");
     return new AzureAIFoundryVisionConnection(getHttpClient(), getObjectMapper(), azureAIFoundryModelName,
-                                              azureAIFoundryResourceName, azureAIFoundryApiVersion,
                                               visionConnectionParameters.getApiKey(),
+                                              azureAIFoundryResourceName, azureAIFoundryApiVersion,
                                               visionConnectionParameters.getTemperature(),
                                               visionConnectionParameters.getTopP(),
                                               visionConnectionParameters.getMaxTokens(),

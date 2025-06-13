@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Text Generation Configuration -->
+    <mac-inference:text-generation-config name="azureAiFoundryConfig" doc:name="MuleSoft Inference Text generation config" doc:id="9d6a6703-45e0-4cba-92e9-b479535128e3" >
+        <mac-inference:azure-ai-foundry-connection apiKey="${azure-ai-foundry.apiKey}" azureModelName="${azure-ai-foundry.llmModel}" azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}" azureAIFoundryResourceName="${azure-ai-foundry.resource}">
+            <mac-inference:mcp-sse-servers >
+                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+            </mac-inference:mcp-sse-servers>
+        </mac-inference:azure-ai-foundry-connection>
+    </mac-inference:text-generation-config>
+</mule> 
