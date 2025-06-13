@@ -69,7 +69,8 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!-- template payload error<munit:parameterization name="config-hugging-face" >
+			<!-- template payload error
+			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
 					<munit:parameter propertyName="llmModel" value="${hugging-face.llmModel}" />
@@ -77,6 +78,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
+			<munit:parameterization name="config-llmapi" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="llmapiConfig" />
+					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="53" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIConfig" />

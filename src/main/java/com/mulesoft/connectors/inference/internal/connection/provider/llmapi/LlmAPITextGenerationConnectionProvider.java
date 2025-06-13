@@ -28,7 +28,7 @@ public class LlmAPITextGenerationConnectionProvider extends TextGenerationConnec
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(LlmAPITextGenerationModelNameProvider.class)
-  private String llmAPIModelName;
+  private String llmApiModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
@@ -36,7 +36,7 @@ public class LlmAPITextGenerationConnectionProvider extends TextGenerationConnec
   @Override
   public LlmAPITextGenerationConnection connect() throws ConnectionException {
     logger.debug("LlmAPITextGenerationConnection connect ...");
-    return new LlmAPITextGenerationConnection(getHttpClient(), getObjectMapper(), llmAPIModelName,
+    return new LlmAPITextGenerationConnection(getHttpClient(), getObjectMapper(), llmApiModelName,
                                               textGenerationConnectionParameters.getApiKey(),
                                               textGenerationConnectionParameters.getTemperature(),
                                               textGenerationConnectionParameters.getTopP(),
