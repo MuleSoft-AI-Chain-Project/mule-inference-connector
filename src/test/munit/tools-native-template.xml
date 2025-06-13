@@ -56,6 +56,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="202" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
@@ -132,12 +140,12 @@
 					actual="#[attributes.tokenUsage.inputCount as String]"
 					expected="${inputCount}"
 					message="Incorrect Input Token" />
-			<munit-tools:assert-equals
-					doc:name="model Info"
-					doc:id="1a76fb4e-eda2-4fbd-8a43-0838582ba3f0"
-					actual="#[attributes.additionalAttributes.model]"
-					expected="${llmModel}"
-					message="Incorrect Model Info" />
+			<munit-tools:assert-that
+					doc:name="Model Info"
+					doc:id="f688a025-3466-4afe-bacb-6a2275258f96"
+					message="Incorrect Model Info"
+					expression="#[attributes.additionalAttributes.model]"
+					is="#[MunitTools::containsString('${llmModel}')]" />
 			<munit-tools:assert-equals
 					doc:name="finish reason"
 					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"

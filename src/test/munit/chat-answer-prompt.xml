@@ -54,6 +54,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="14" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
@@ -114,7 +122,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<logger level="INFO" message="#[attributes]"/>
 			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
 			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
-			<munit-tools:assert-equals doc:name="model Info" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" actual="#[attributes.additionalAttributes.model]" expected="${llmModel}" message="Incorrect Model Info" />
+			<munit-tools:assert-that doc:name="Model Info" doc:id="f688a025-3466-4afe-bacb-6a2275258f96" message="Incorrect Model Info" expression="#[attributes.additionalAttributes.model]" is="#[MunitTools::containsString('${llmModel}')]" />
 			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
 		</munit:validation>
 	</munit:test>

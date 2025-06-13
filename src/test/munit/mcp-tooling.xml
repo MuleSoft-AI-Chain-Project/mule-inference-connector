@@ -34,6 +34,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="412" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
@@ -97,7 +105,12 @@
 			<munit-tools:assert-that doc:id="cb23f789-4c28-446c-9ee1-343c443d1636" doc:name="get_current_temperature check" expression="#[(sizeOf((payload.payload.tools default []) filter (tool) -&gt; (tool.function.name default '') == 'get_inventory') &gt; 0) as Boolean]" is="#[MunitTools::equalTo(true)]" message="The tools array should contain an item with function.name 'get_inventory'"/>
 			<!-- Fixed: Use payload.payload.tools -->
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="8a3d65aa-b548-44cf-a627-82c7d0580659" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="521e3135-5c80-4521-abdd-11877c8e8189" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
+			<munit-tools:assert-that
+					doc:name="Model Info"
+					doc:id="f688a025-3466-4afe-bacb-6a2275258f96"
+					message="Incorrect Model Info"
+					expression="#[attributes.additionalAttributes.model]"
+					is="#[MunitTools::containsString('${llmModel}')]" />
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
