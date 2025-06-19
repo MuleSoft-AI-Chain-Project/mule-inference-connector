@@ -96,6 +96,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-nvidia">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="NvidiaConfig"/>
+					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
+					<munit:parameter propertyName="inputCount" value="571"/>
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
@@ -120,11 +128,11 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-nvidia">
-				<munit:parameters>
-					<munit:parameter propertyName="config" value="NvidiaConfig"/>
-					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="571"/>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyConfig" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="343" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
