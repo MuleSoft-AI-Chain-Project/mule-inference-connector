@@ -19,14 +19,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!--<munit:parameterization name="config-azure-ai-foundry" >
+			<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
 					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="117" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 			<munit:parameterization name="config-azure-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
