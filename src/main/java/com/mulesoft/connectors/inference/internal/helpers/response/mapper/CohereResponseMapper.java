@@ -60,7 +60,8 @@ public class CohereResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+  public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
+                                                                       List<ToolResult> toolExecutionResult) {
 
     return new TextGenerationResponse(null,
                                       mapToolCalls(responseDTO),

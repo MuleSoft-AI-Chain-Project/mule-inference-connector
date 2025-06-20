@@ -25,20 +25,15 @@ public class DefaultResponseMapper {
   }
 
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
-    var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
-    return new TextGenerationResponse(
-                                      chatRespFirstChoice
-                                          .message().content(),
-                                      chatRespFirstChoice
-                                          .message().toolCalls(),
-                                      null);
+    return mapChatResponseWithToolExecutionResult(responseDTO, null);
   }
 
-  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+  public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
+                                                                       List<ToolResult> toolExecutionResult) {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
-    return new TextGenerationResponse(null,
+    return new TextGenerationResponse(chatRespFirstChoice
+        .message().content(),
                                       chatRespFirstChoice
                                           .message().toolCalls(),
                                       toolExecutionResult);

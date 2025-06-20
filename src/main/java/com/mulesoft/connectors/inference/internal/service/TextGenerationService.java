@@ -103,7 +103,7 @@ public class TextGenerationService implements BaseService {
 
     return ResponseHelper.createLLMResponse(
                                             objectMapper.writeValueAsString(responseParser
-                                                .mapMcpExecuteToolsResponse(chatResponse, toolExecutionResult)),
+                                                .mapChatResponseWithToolExecutionResult(chatResponse, toolExecutionResult)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
                                             responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
