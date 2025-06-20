@@ -14,7 +14,7 @@ public class VertexAIExpressVisionConnection extends VisionModelConnection {
   public VertexAIExpressVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName), "VERTEXAI");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName));
   }
 
   private static String fetchApiURL(String modelName) {

@@ -18,7 +18,7 @@ public class XInferenceTextGenerationConnection extends TextGenerationConnection
                                             String apiKey, Number temperature, Number topP,
                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(xInferenceUrl), "XINFERENCE");
+          fetchApiURL(xInferenceUrl));
   }
 
   private static String fetchApiURL(String xInferenceUrl) {

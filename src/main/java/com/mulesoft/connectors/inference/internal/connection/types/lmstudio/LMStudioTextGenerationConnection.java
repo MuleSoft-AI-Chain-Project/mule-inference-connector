@@ -18,7 +18,7 @@ public class LMStudioTextGenerationConnection extends TextGenerationConnection {
                                           String apiKey, Number temperature, Number topP,
                                           Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(lmStudioBaseURL), "LMSTUDIO");
+          fetchApiURL(lmStudioBaseURL));
   }
 
   private static String fetchApiURL(String lmStudioBaseURL) {

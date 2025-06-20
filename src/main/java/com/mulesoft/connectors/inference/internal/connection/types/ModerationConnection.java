@@ -12,8 +12,8 @@ public class ModerationConnection extends BaseConnection {
 
   public ModerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
                               String apiKey, String modelName, int timeout,
-                              String apiURL, String inferenceType) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
+                              String apiURL) {
+    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
     this.setBaseService(getModerationService());
   }
 

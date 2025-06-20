@@ -17,7 +17,7 @@ public class DatabricksTextGenerationConnection extends TextGenerationConnection
                                             Number temperature, Number topP,
                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, databricksModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(databricksModelURL, databricksModelName), "DATABRICKS");
+          fetchApiURL(databricksModelURL, databricksModelName));
   }
 
   private static String fetchApiURL(String databricksModelURL, String databricksModelName) {

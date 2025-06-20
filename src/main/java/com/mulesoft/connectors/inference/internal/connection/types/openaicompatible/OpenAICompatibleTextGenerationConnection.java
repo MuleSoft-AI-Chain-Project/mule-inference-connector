@@ -18,7 +18,7 @@ public class OpenAICompatibleTextGenerationConnection extends TextGenerationConn
                                                   String apiKey, Number temperature, Number topP,
                                                   Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(openAICompatibleURL), "OPENAI_COMPATIBLE_ENDPOINT");
+          fetchApiURL(openAICompatibleURL));
   }
 
   private static String fetchApiURL(String openAICompatibleURL) {

@@ -11,8 +11,8 @@ public class ImageGenerationConnection extends BaseConnection {
   private ImageGenerationService imageGenerationService;
 
   public ImageGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
-                                   int timeout, String apiURL, String inferenceType) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
+                                   int timeout, String apiURL) {
+    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
     this.setBaseService(getImageGenerationService());
   }
 

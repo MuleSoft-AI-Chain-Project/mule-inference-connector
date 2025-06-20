@@ -40,8 +40,7 @@ public class MistralAIModerationConnectionProvider extends ModerationConnectionP
     logger.debug("ModerationConnection connect ...");
 
     return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(),
-                                    mistralAIModelName, baseConnectionParameters.getTimeout(), getModerationAPIURL(),
-                                    "MistralAI");
+                                    mistralAIModelName, baseConnectionParameters.getTimeout(), getModerationAPIURL());
   }
 
   private String getModerationAPIURL() {

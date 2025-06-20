@@ -14,8 +14,7 @@ public class HuggingFaceVisionConnection extends VisionModelConnection {
   public HuggingFaceVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                      Number temperature, Number topP,
                                      Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName),
-          "HUGGINGFACE");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(modelName));
   }
 
   private static String fetchApiURL(String modelName) {

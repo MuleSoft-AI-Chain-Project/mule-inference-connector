@@ -19,8 +19,7 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
                                          String virtualKey, String apiKey,
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL(),
-          "PORTKEY");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL());
     this.virtualKey = virtualKey;
   }
 

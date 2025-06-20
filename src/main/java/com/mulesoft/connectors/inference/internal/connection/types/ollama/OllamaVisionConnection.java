@@ -13,7 +13,7 @@ public class OllamaVisionConnection extends VisionModelConnection {
   public OllamaVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String ollamaUrl,
                                 String apiKey, Number temperature, Number topP,
                                 Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(ollamaUrl), "OLLAMA");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(ollamaUrl));
   }
 
   private static String fetchApiURL(String ollamaUrl) {

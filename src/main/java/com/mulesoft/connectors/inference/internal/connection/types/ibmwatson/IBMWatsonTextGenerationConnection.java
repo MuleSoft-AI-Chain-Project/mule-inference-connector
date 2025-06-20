@@ -32,7 +32,7 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
                                            String apiKey, Number temperature, Number topP,
                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(ibmWatsonApiVersion), "IBMWATSON");
+          fetchApiURL(ibmWatsonApiVersion));
     this.ibmWatsonApiVersion = ibmWatsonApiVersion;
   }
 

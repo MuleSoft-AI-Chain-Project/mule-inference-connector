@@ -14,7 +14,7 @@ public class XAIVisionConnection extends VisionModelConnection {
   public XAIVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                              Number temperature, Number topP,
                              Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL(), "XAI");
+    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL());
   }
 
   private static String fetchApiURL() {

@@ -17,7 +17,7 @@ public class GPT4AllTextGenerationConnection extends TextGenerationConnection {
                                          Number temperature, Number topP,
                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(gpt4AllBaseURL), "GPT4ALL");
+          fetchApiURL(gpt4AllBaseURL));
   }
 
   private static String fetchApiURL(String gpt4AllBaseURL) {

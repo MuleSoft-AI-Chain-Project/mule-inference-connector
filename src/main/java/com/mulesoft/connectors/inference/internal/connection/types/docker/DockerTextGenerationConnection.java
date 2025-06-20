@@ -18,7 +18,7 @@ public class DockerTextGenerationConnection extends TextGenerationConnection {
                                         Number temperature, Number topP,
                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, dockerModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(dockerModelUrl), "DOCKER");
+          fetchApiURL(dockerModelUrl));
   }
 
   private static String fetchApiURL(String dockerModelUrl) {

@@ -17,7 +17,7 @@ public class HuggingFaceTextGenerationConnection extends TextGenerationConnectio
                                              Number temperature, Number topP,
                                              Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(modelName), "HUGGINGFACE");
+          fetchApiURL(modelName));
   }
 
   private static String fetchApiURL(String modelName) {

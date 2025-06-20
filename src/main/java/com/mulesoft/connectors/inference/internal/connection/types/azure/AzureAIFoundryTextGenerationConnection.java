@@ -18,7 +18,7 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
                                                 Number temperature, Number topP,
                                                 Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion), "AZURE");
+          fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion));
   }
 
   @Override

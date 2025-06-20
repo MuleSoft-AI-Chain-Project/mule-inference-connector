@@ -35,7 +35,7 @@ public class VertexAITextGenerationConnection extends TextGenerationConnection {
                                           Number temperature, Number topP,
                                           Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(modelName, vertexAILocationId, vertexAIProjectId), "VERTEXAI");
+          fetchApiURL(modelName, vertexAILocationId, vertexAIProjectId));
     this.vertexAIServiceAccountKey = vertexAIServiceAccountKey;
   }
 

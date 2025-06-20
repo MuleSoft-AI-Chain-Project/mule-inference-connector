@@ -13,7 +13,7 @@ public class OpenAIImageGenerationConnection extends ImageGenerationConnection {
 
   public OpenAIImageGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
                                          int timeout, String apiURL, String inferenceType) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL, inferenceType);
+    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
   }
 
   @Override

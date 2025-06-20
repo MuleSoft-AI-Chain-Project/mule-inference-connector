@@ -40,7 +40,7 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
     logger.debug("ModerationConnection connect ...");
 
     return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(), openAIModelName,
-                                    baseConnectionParameters.getTimeout(), getModerationAPIURL(), "OpenAI");
+                                    baseConnectionParameters.getTimeout(), getModerationAPIURL());
   }
 
   private String getModerationAPIURL() {

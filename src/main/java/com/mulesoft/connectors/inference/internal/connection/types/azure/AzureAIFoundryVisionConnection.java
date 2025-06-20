@@ -16,7 +16,7 @@ public class AzureAIFoundryVisionConnection extends VisionModelConnection {
                                         Number temperature, Number topP,
                                         Number maxTokens, int timeout) {
     super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout,
-          fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion), "OPENAI");
+          fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion));
   }
 
   private static String fetchApiURL(String azureAIFoundryResourceName, String azureAIFoundryApiVersion) {
