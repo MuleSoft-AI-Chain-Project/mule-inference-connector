@@ -138,6 +138,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-zhipu" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="ZhipuConfig" />
+					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="737" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
