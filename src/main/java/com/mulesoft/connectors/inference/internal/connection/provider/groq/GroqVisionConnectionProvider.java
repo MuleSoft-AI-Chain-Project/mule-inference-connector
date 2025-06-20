@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.groq.GroqVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.groq.providers.GroqVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,17 @@ public class GroqVisionConnectionProvider extends VisionModelConnectionProvider 
   @Override
   public GroqVisionConnection connect() throws ConnectionException {
     logger.debug("GroqVisionConnection connect ...");
-    return new GroqVisionConnection(getHttpClient(), getObjectMapper(), groqModelName,
-                                    textGenerationConnectionParameters.getApiKey(),
-                                    textGenerationConnectionParameters.getTemperature(),
-                                    textGenerationConnectionParameters.getTopP(),
-                                    textGenerationConnectionParameters.getMaxTokens(),
-                                    textGenerationConnectionParameters.getTimeout());
+    return new GroqVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                          groqModelName,
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getApiKey(),
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getMaxTokens(),
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getTemperature(),
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getTopP(),
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getTimeout()));
   }
 }

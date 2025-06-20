@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.github.GithubVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.github.providers.GithubVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,17 @@ public class GithubVisionConnectionProvider extends VisionModelConnectionProvide
   @Override
   public GithubVisionConnection connect() throws ConnectionException {
     logger.debug("GithubVisionConnection connect ...");
-    return new GithubVisionConnection(getHttpClient(), getObjectMapper(), gitHubModelName,
-                                      textGenerationConnectionParameters.getApiKey(),
-                                      textGenerationConnectionParameters.getTemperature(),
-                                      textGenerationConnectionParameters.getTopP(),
-                                      textGenerationConnectionParameters.getMaxTokens(),
-                                      textGenerationConnectionParameters.getTimeout());
+    return new GithubVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                            gitHubModelName,
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getApiKey(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getMaxTokens(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTemperature(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTopP(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTimeout()));
   }
 }

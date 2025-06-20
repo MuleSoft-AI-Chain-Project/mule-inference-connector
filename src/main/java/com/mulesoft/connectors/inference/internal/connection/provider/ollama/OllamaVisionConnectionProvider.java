@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.ollama.OllamaVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.ollama.providers.OllamaVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -44,11 +45,18 @@ public class OllamaVisionConnectionProvider extends VisionModelConnectionProvide
   @Override
   public OllamaVisionConnection connect() throws ConnectionException {
     logger.debug("OllamaVisionConnection connect ...");
-    return new OllamaVisionConnection(getHttpClient(), getObjectMapper(), ollamaModelName, ollamaUrl,
-                                      textGenerationConnectionParameters.getApiKey(),
-                                      textGenerationConnectionParameters.getTemperature(),
-                                      textGenerationConnectionParameters.getTopP(),
-                                      textGenerationConnectionParameters.getMaxTokens(),
-                                      textGenerationConnectionParameters.getTimeout());
+    return new OllamaVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                            ollamaModelName,
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getApiKey(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getMaxTokens(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTemperature(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTopP(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getTimeout()),
+                                      ollamaUrl);
   }
 }

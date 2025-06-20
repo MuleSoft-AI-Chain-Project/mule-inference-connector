@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.anthropic;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.AnthropicRequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.AnthropicHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.AnthropicResponseMapper;
@@ -20,10 +21,9 @@ public class AnthropicVisionConnection extends VisionModelConnection {
   private AnthropicResponseMapper responseMapper;
   private AnthropicHttpResponseHelper httpResponseHelper;
 
-  public AnthropicVisionConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
-                                   Number temperature, Number topP,
-                                   Number maxTokens, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, fetchApiURL());
+  public AnthropicVisionConnection(HttpClient httpClient, ObjectMapper objectMapper,
+                                   ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

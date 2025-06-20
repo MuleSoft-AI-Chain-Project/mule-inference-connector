@@ -15,17 +15,6 @@ public class VisionModelConnection extends BaseConnection {
 
   private VisionModelService visionModelService;
 
-  protected VisionModelConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                  String apiKey, String modelName, Number maxTokens, Number temperature,
-                                  Number topP, int timeout,
-                                  String apiURL) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
-    this.maxTokens = maxTokens;
-    this.temperature = temperature;
-    this.topP = topP;
-    this.setBaseService(getVisionModelService());
-  }
-
   protected VisionModelConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO, String apiUrl) {
     super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(),
           parametersDTO.timeout(), apiUrl);

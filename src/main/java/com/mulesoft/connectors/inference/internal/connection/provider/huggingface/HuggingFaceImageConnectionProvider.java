@@ -42,7 +42,7 @@ public class HuggingFaceImageConnectionProvider extends ImageGenerationConnectio
     return new HuggingFaceImageGenerationConnection(getHttpClient(), getObjectMapper(), huggingFaceModelName,
                                                     baseConnectionParameters.getApiKey(),
                                                     baseConnectionParameters.getTimeout(),
-                                                    getImageGenerationAPIURL(huggingFaceModelName), "HUGGING_FACE");
+                                                    getImageGenerationAPIURL(huggingFaceModelName));
   }
 
   private String getImageGenerationAPIURL(String huggingFaceModelName) {

@@ -41,7 +41,7 @@ public class OpenAIImageGenerationConnectionProvider extends ImageGenerationConn
 
     return new OpenAIImageGenerationConnection(getHttpClient(), getObjectMapper(), openAIModelName,
                                                baseConnectionParameters.getApiKey(),
-                                               baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "OPENAI");
+                                               baseConnectionParameters.getTimeout(), getImageGenerationAPIURL());
   }
 
   private String getImageGenerationAPIURL() {

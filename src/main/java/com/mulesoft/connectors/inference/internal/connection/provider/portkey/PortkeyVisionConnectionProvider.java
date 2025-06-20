@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.portkey.PortkeyVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.portkey.providers.PortkeyVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,17 @@ public class PortkeyVisionConnectionProvider extends VisionModelConnectionProvid
   @Override
   public PortkeyVisionConnection connect() throws ConnectionException {
     logger.debug("PortkeyVisionConnection connect ...");
-    return new PortkeyVisionConnection(getHttpClient(), getObjectMapper(), portkeyModelName,
-                                       textGenerationConnectionParameters.getApiKey(),
-                                       textGenerationConnectionParameters.getTemperature(),
-                                       textGenerationConnectionParameters.getTopP(),
-                                       textGenerationConnectionParameters.getMaxTokens(),
-                                       textGenerationConnectionParameters.getTimeout());
+    return new PortkeyVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                             portkeyModelName,
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getApiKey(),
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getMaxTokens(),
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getTemperature(),
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getTopP(),
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getTimeout()));
   }
 }

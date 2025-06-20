@@ -134,9 +134,8 @@ public class IBMWatsonRequestPayloadHelper extends RequestPayloadHelper {
    *
    * @param params the parameters to encode
    * @return the URL-encoded string
-   * @throws IOException if encoding fails
    */
-  private static String getURLEncodedData(Map<String, String> params) throws IOException {
+  private static String getURLEncodedData(Map<String, String> params) {
     StringBuilder result = new StringBuilder();
     for (Map.Entry<String, String> entry : params.entrySet()) {
       result.append(URLEncoder.encode(entry.getKey(), StandardCharsets.UTF_8));

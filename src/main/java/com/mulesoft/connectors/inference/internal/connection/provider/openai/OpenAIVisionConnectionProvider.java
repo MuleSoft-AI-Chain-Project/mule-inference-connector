@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.openai.OpenAIVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,16 @@ public class OpenAIVisionConnectionProvider extends VisionModelConnectionProvide
   @Override
   public OpenAIVisionConnection connect() throws ConnectionException {
     logger.debug("OpenAIVisionConnection connect ...");
-    return new OpenAIVisionConnection(getHttpClient(), getObjectMapper(), openAIModelName,
-                                      visionConnectionParameters.getApiKey(),
-                                      visionConnectionParameters.getTemperature(),
-                                      visionConnectionParameters.getTopP(),
-                                      visionConnectionParameters.getMaxTokens(),
-                                      visionConnectionParameters.getTimeout());
+    return new OpenAIVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                            openAIModelName,
+                                                                                            visionConnectionParameters
+                                                                                                .getApiKey(),
+                                                                                            visionConnectionParameters
+                                                                                                .getMaxTokens(),
+                                                                                            visionConnectionParameters
+                                                                                                .getTemperature(),
+                                                                                            visionConnectionParameters.getTopP(),
+                                                                                            visionConnectionParameters
+                                                                                                .getTimeout()));
   }
 }

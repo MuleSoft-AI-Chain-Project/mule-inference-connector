@@ -41,8 +41,7 @@ public class StabilityAIImageConnectionProvider extends ImageGenerationConnectio
 
     return new StabilityAIImageGenerationConnection(getHttpClient(), getObjectMapper(), stabilityAIModelName,
                                                     baseConnectionParameters.getApiKey(),
-                                                    baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(),
-                                                    "STABILITY_AI");
+                                                    baseConnectionParameters.getTimeout(), getImageGenerationAPIURL());
   }
 
   private String getImageGenerationAPIURL() {

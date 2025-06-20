@@ -13,12 +13,8 @@ import java.util.List;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CohereResponseMapper extends DefaultResponseMapper {
-
-  private static final Logger logger = LoggerFactory.getLogger(CohereResponseMapper.class);
 
   public CohereResponseMapper(ObjectMapper objectMapper) {
     super(objectMapper);

@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.huggingface.HuggingFaceVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.huggingface.providers.HuggingFaceVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,17 @@ public class HuggingFaceVisionConnectionProvider extends VisionModelConnectionPr
   @Override
   public HuggingFaceVisionConnection connect() throws ConnectionException {
     logger.debug("HuggingFaceVisionConnection connect ...");
-    return new HuggingFaceVisionConnection(getHttpClient(), getObjectMapper(), huggingFaceModelName,
-                                           textGenerationConnectionParameters.getApiKey(),
-                                           textGenerationConnectionParameters.getTemperature(),
-                                           textGenerationConnectionParameters.getTopP(),
-                                           textGenerationConnectionParameters.getMaxTokens(),
-                                           textGenerationConnectionParameters.getTimeout());
+    return new HuggingFaceVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                                 huggingFaceModelName,
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getApiKey(),
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getMaxTokens(),
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getTemperature(),
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getTopP(),
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getTimeout()));
   }
 }

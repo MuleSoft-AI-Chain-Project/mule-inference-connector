@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.anthropic.AnthropicVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.anthropic.providers.AnthropicVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,11 +37,17 @@ public class AnthropicVisionConnectionProvider extends VisionModelConnectionProv
   @Override
   public AnthropicVisionConnection connect() throws ConnectionException {
     logger.debug("AnthropicVisionConnection connect ...");
-    return new AnthropicVisionConnection(getHttpClient(), getObjectMapper(), anthropicModelName,
-                                         visionConnectionParameters.getApiKey(),
-                                         visionConnectionParameters.getTemperature(),
-                                         visionConnectionParameters.getTopP(),
-                                         visionConnectionParameters.getMaxTokens(),
-                                         visionConnectionParameters.getTimeout());
+    return new AnthropicVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
+                                                                                               anthropicModelName,
+                                                                                               visionConnectionParameters
+                                                                                                   .getApiKey(),
+                                                                                               visionConnectionParameters
+                                                                                                   .getMaxTokens(),
+                                                                                               visionConnectionParameters
+                                                                                                   .getTemperature(),
+                                                                                               visionConnectionParameters
+                                                                                                   .getTopP(),
+                                                                                               visionConnectionParameters
+                                                                                                   .getTimeout()));
   }
 }

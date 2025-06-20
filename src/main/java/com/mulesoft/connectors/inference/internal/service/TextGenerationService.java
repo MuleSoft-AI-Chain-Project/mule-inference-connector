@@ -112,12 +112,7 @@ public class TextGenerationService implements BaseService {
                                                                                           TextGenerationRequestPayloadDTO requestPayloadDTO)
       throws IOException, TimeoutException {
 
-    TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
-
-    return ResponseHelper.createLLMResponse(
-                                            objectMapper.writeValueAsString(responseParser.mapChatResponse(chatResponse)),
-                                            responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
+    return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
   }
 
   private Result<InputStream, LLMResponseAttributes> executeChatRequestAndFormatResponse(TextGenerationConnection connection,

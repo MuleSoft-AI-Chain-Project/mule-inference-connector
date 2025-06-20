@@ -41,7 +41,7 @@ public class XAIImageConnectionProvider extends ImageGenerationConnectionProvide
 
     return new XAIImageGenerationConnection(getHttpClient(), getObjectMapper(), xAIModelName,
                                             baseConnectionParameters.getApiKey(),
-                                            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL(), "XAI");
+                                            baseConnectionParameters.getTimeout(), getImageGenerationAPIURL());
   }
 
   private String getImageGenerationAPIURL() {
