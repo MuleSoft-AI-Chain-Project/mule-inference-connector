@@ -69,7 +69,7 @@ public class RequestPayloadHelper {
                                                                     String instructions, String data) {
 
     List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                connection, template + " - " + instructions,
+                                                                                template + " - " + instructions,
                                                                                 data);
 
     return buildPayload(connection, messagesArray, null);
@@ -91,7 +91,7 @@ public class RequestPayloadHelper {
                                                                    List<FunctionDefinitionRecord> tools) {
 
     List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                connection, template + " - " + instructions,
+                                                                                template + " - " + instructions,
                                                                                 data);
 
     return buildPayload(connection, messagesArray, tools);
@@ -125,13 +125,12 @@ public class RequestPayloadHelper {
   }
 
   protected List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
-                                                                        TextGenerationConnection connection, String systemContent,
+                                                                        String systemContent,
                                                                         String userContent) {
 
     // Create system/assistant message based on provider
     ChatPayloadRecord systemMessage = new ChatPayloadRecord(
-                                                            "ANTHROPIC".equals(connection.getInferenceType()) ? "assistant"
-                                                                : "system",
+                                                            "system",
                                                             systemContent);
 
     // Create user message

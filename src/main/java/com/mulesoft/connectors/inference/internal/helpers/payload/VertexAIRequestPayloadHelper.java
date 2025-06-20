@@ -123,7 +123,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     getAnthropicRequestPayloadDTO(connection, data,template + " - " + instructions);
             default -> {
                 List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                        connection, template + " - " + instructions, data);
+                         template + " - " + instructions, data);
 
                 yield buildPayload(connection, messagesArray,null);
             }

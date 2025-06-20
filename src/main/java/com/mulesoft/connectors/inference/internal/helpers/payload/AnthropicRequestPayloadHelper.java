@@ -42,7 +42,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
     logger.debug("toolsArray: {}", toolsRecord);
 
     List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                connection, template + " - " + instructions,
+                                                                                template + " - " + instructions,
                                                                                 data);
 
     return buildPayload(connection, messagesArray, toolsRecord);
@@ -65,6 +65,19 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
                                                  tool.function().description(),
                                                  tool.function().parameters()))
         .toList()).orElse(null);
+  }
+
+  @Override
+  protected List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(String systemContent,
+                                                                        String userContent) {
+
+    ChatPayloadRecord systemMessage = new ChatPayloadRecord("assistant",
+                                                            systemContent);
+
+    // Create user message
+    ChatPayloadRecord userMessage = new ChatPayloadRecord("user", userContent);
+
+    return List.of(systemMessage, userMessage);
   }
 
   @Override
