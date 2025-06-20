@@ -37,34 +37,37 @@ public class McpHelper {
   private final ObjectMapper objectMapper;
   private List<FunctionDefinitionRecord> mcpTools = null;
   private List<ServerInfo> mcpToolsArrayByServer = null;
+  private boolean mcpToolsLoaded = false;
 
   public McpHelper(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
   }
 
   public List<FunctionDefinitionRecord> getMcpToolsFromMultiple(TextGenerationConnection connection) {
+    if (!mcpToolsLoaded) {
+      mcpToolsArrayByServer = new ArrayList<>();
+      mcpTools = new ArrayList<>();
 
-    mcpToolsArrayByServer = new ArrayList<>();
-    mcpTools = new ArrayList<>();
+      Map<String, String> mcpServers = connection.getMcpSseServers();
+      String httpPattern = "^https?://.*";
 
-    Map<String, String> mcpServers = connection.getMcpSseServers();
-    String httpPattern = "^https?://.*";
+      mcpServers.entrySet().stream()
+          .filter(entry -> entry.getValue() != null && entry.getValue().matches(httpPattern))
+          .forEach(entry -> {
+            String url = entry.getValue();
+            String key = entry.getKey();
+            List<FunctionDefinitionRecord> tools = getMcpTools(url, connection.getTimeout());
+            mcpTools.addAll(tools);
 
-    mcpServers.entrySet().stream()
-        .filter(entry -> entry.getValue() != null && entry.getValue().matches(httpPattern))
-        .forEach(entry -> {
-          String url = entry.getValue();
-          String key = entry.getKey();
-          List<FunctionDefinitionRecord> tools = getMcpTools(url, connection.getTimeout());
-          mcpTools.addAll(tools);
+            boolean serverExists = mcpToolsArrayByServer.stream()
+                .anyMatch(server -> server.serverUrl().equals(url));
 
-          boolean serverExists = mcpToolsArrayByServer.stream()
-              .anyMatch(server -> server.serverUrl().equals(url));
-
-          if (!serverExists) {
-            mcpToolsArrayByServer.add(new ServerInfo(url, key, tools));
-          }
-        });
+            if (!serverExists) {
+              mcpToolsArrayByServer.add(new ServerInfo(url, key, tools));
+            }
+          });
+      mcpToolsLoaded = true;
+    }
     return mcpTools;
   }
 
@@ -159,6 +162,7 @@ public class McpHelper {
                                 tool.name(),
                                 tool.description(),
                                 parameters);
+    logger.debug("20250616 function: {}", fun);
     return fun;
   }
 
@@ -172,7 +176,6 @@ public class McpHelper {
         .capabilities(getClientCapabilities())
         .build();
 
-    logger.debug("Initializing MCP Client for server {}", mcpServerUrl);
     client.initialize();
     return client;
   }
@@ -276,38 +279,26 @@ public class McpHelper {
     private Property convertJsonNodeToProperty(JsonNode propertyNode) {
       // Extract type
       String type = extractStringValue(propertyNode, "type");
+
+      // Extract description
       String description = extractStringValue(propertyNode, "description");
+
+      // Extract enum values
       List<String> enumValues = extractEnumValues(propertyNode);
+
+      // Extract nested properties (for object types only)
       Map<String, Property> nestedProperties = extractNestedProperties(propertyNode);
+
+      // Extract items for array types separately
       Property itemsProperty = null;
-      Integer minItems = null;
-      List<String> required = null;
-      Boolean additionalProperties = null;
       if ("array".equals(type)) {
         JsonNode itemsNode = propertyNode.get("items");
         if (itemsNode != null) {
           itemsProperty = convertJsonNodeToProperty(itemsNode);
         }
-        JsonNode minItemsNode = propertyNode.get("minItems");
-        if (minItemsNode != null && minItemsNode.isInt()) {
-          minItems = minItemsNode.asInt();
-        }
       }
-      if ("object".equals(type)) {
-        JsonNode requiredNode = propertyNode.get("required");
-        if (requiredNode != null && requiredNode.isArray()) {
-          required = new ArrayList<>();
-          for (JsonNode req : requiredNode) {
-            required.add(req.asText());
-          }
-        }
-        JsonNode addPropsNode = propertyNode.get("additionalProperties");
-        if (addPropsNode != null && addPropsNode.isBoolean()) {
-          additionalProperties = addPropsNode.asBoolean();
-        }
-      }
-      return new Property(type, description, enumValues, nestedProperties, itemsProperty, minItems, required,
-                          additionalProperties);
+
+      return new Property(type, description, enumValues, nestedProperties, itemsProperty);
     }
 
     /**
@@ -349,6 +340,8 @@ public class McpHelper {
      */
     private Map<String, Property> extractNestedProperties(JsonNode propertyNode) {
       Map<String, Property> nestedProperties = new HashMap<>();
+
+      // Handle object properties
       JsonNode propertiesNode = propertyNode.get("properties");
       if (propertiesNode != null && propertiesNode.isObject()) {
         Iterator<Map.Entry<String, JsonNode>> fields = propertiesNode.fields();
@@ -356,11 +349,15 @@ public class McpHelper {
           Map.Entry<String, JsonNode> field = fields.next();
           String nestedPropertyName = field.getKey();
           JsonNode nestedPropertyNode = field.getValue();
+
           Property nestedProperty = convertJsonNodeToProperty(nestedPropertyNode);
           nestedProperties.put(nestedPropertyName, nestedProperty);
         }
       }
+
+      // Handle anyOf, oneOf, and allOf schemas
       handleSchemaComposition(propertyNode, nestedProperties);
+
       return nestedProperties.isEmpty() ? null : nestedProperties;
     }
 
