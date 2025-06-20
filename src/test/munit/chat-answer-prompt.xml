@@ -62,6 +62,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-fireworks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="FireworksConfig" />
+					<munit:parameter propertyName="llmModel" value="${fireworks.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="22" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
