@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mulesoft.connectors</groupId>
     <artifactId>mule4-inference-connector</artifactId>
-    <version>0.5.9-SNAPSHOT</version>
+    <version>0.5.8-SNAPSHOT</version>
     <packaging>mule-extension</packaging>
     <name>MuleSoft Inference Connector - Mule 4</name>
 	<description>MuleSoft Inference Connector for integrating LLM Inference APIs into MuleSoft.</description>
@@ -25,7 +25,7 @@
 
 	<properties>
 		<slf4jApi.version>2.0.17</slf4jApi.version>
-		<mcp.version>0.10.0</mcp.version>
+		<mcp.version>0.9.0</mcp.version>
 		<munit.extensions.maven.plugin.version>1.5.0</munit.extensions.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
 		<jacoco.version>0.8.13</jacoco.version>
