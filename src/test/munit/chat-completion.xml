@@ -29,6 +29,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
+			<munit:parameterization name="config-azure-openai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
+					<munit:parameter propertyName="llmModel" value="${azure-openai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="24" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
