@@ -16,6 +16,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.openaicompatible.OpenAICompatibleTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAITextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -47,13 +48,15 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
   @Override
   public OpenAICompatibleTextGenerationConnection connect() throws ConnectionException {
     logger.debug("OpenAICompatibleTextGenerationConnection connect ...");
-    return new OpenAICompatibleTextGenerationConnection(getHttpClient(), getObjectMapper(), openAICompatibleModelName,
+    return new OpenAICompatibleTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                                        new ParametersDTO(openAICompatibleModelName,
+                                                                          openAITextGenerationConnectionParameters.getApiKey(),
+                                                                          openAITextGenerationConnectionParameters.getMaxTokens(),
+                                                                          openAITextGenerationConnectionParameters
+                                                                              .getTemperature(),
+                                                                          openAITextGenerationConnectionParameters.getTopP(),
+                                                                          openAITextGenerationConnectionParameters.getTimeout()),
                                                         openAICompatibleURL,
-                                                        openAITextGenerationConnectionParameters.getApiKey(),
-                                                        openAITextGenerationConnectionParameters.getTemperature(),
-                                                        openAITextGenerationConnectionParameters.getTopP(),
-                                                        openAITextGenerationConnectionParameters.getMaxTokens(),
-                                                        openAITextGenerationConnectionParameters.getMcpSseServers(),
-                                                        openAITextGenerationConnectionParameters.getTimeout());
+                                                        openAITextGenerationConnectionParameters.getMcpSseServers());
   }
 }

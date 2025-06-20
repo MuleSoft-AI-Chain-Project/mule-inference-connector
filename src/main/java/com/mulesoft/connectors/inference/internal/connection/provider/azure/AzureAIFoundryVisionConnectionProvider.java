@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.VisionConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.VisionModelConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureAIFoundryVisionConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureAIFoundryVisionModelNameProvider;
 
 import org.slf4j.Logger;
@@ -51,12 +52,19 @@ public class AzureAIFoundryVisionConnectionProvider extends VisionModelConnectio
   @Override
   public AzureAIFoundryVisionConnection connect() throws ConnectionException {
     logger.debug("AzureAIFoundryVisionConnection connect ...");
-    return new AzureAIFoundryVisionConnection(getHttpClient(), getObjectMapper(), azureAIFoundryModelName,
-                                              visionConnectionParameters.getApiKey(),
-                                              azureAIFoundryResourceName, azureAIFoundryApiVersion,
-                                              visionConnectionParameters.getTemperature(),
-                                              visionConnectionParameters.getTopP(),
-                                              visionConnectionParameters.getMaxTokens(),
-                                              visionConnectionParameters.getTimeout());
+
+    return new AzureAIFoundryVisionConnection(getHttpClient(), getObjectMapper(),
+                                              new ParametersDTO(azureAIFoundryModelName,
+                                                                visionConnectionParameters
+                                                                    .getApiKey(),
+                                                                visionConnectionParameters
+                                                                    .getMaxTokens(),
+                                                                visionConnectionParameters
+                                                                    .getTemperature(),
+                                                                visionConnectionParameters
+                                                                    .getTopP(),
+                                                                visionConnectionParameters
+                                                                    .getTimeout()),
+                                              azureAIFoundryResourceName, azureAIFoundryApiVersion);
   }
 }

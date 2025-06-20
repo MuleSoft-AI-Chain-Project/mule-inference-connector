@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.openai;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.OpenAIRequestPayloadHelper;
 
 import java.util.Map;
@@ -15,10 +16,9 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
   public static final String OPENAI_URL = "https://api.openai.com/v1";
   private OpenAIRequestPayloadHelper requestPayloadHelper;
 
-  public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
-                                        Number temperature, Number topP,
-                                        Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL());
+  public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
+                                        Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
   }
 
   @Override

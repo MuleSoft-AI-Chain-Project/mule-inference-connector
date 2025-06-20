@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureOpenAITextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.azure.providers.AzureOpenAITextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -51,13 +52,15 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
   @Override
   public AzureOpenAITextGenerationConnection connect() throws ConnectionException {
     logger.debug("AzureTextGenerationConnection connect ...");
-    return new AzureOpenAITextGenerationConnection(getHttpClient(), getObjectMapper(), azureModelName,
+    return new AzureOpenAITextGenerationConnection(
+                                                   getHttpClient(), getObjectMapper(),
+                                                   new ParametersDTO(azureModelName,
+                                                                     textGenerationConnectionParameters.getApiKey(),
+                                                                     textGenerationConnectionParameters.getMaxTokens(),
+                                                                     textGenerationConnectionParameters.getTemperature(),
+                                                                     textGenerationConnectionParameters.getTopP(),
+                                                                     textGenerationConnectionParameters.getTimeout()),
                                                    azureOpenaiResourceName, azureOpenaiDeploymentId,
-                                                   textGenerationConnectionParameters.getApiKey(),
-                                                   textGenerationConnectionParameters.getTemperature(),
-                                                   textGenerationConnectionParameters.getTopP(),
-                                                   textGenerationConnectionParameters.getMaxTokens(),
-                                                   textGenerationConnectionParameters.getMcpSseServers(),
-                                                   textGenerationConnectionParameters.getTimeout());
+                                                   textGenerationConnectionParameters.getMcpSseServers());
   }
 }

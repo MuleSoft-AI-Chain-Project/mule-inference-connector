@@ -15,6 +15,7 @@ import com.mulesoft.connectors.inference.internal.connection.parameters.TextGene
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.docker.DockerTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.docker.providers.DockerTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -44,12 +45,14 @@ public class DockerTextGenerationConnectionProvider extends TextGenerationConnec
   @Override
   public DockerTextGenerationConnection connect() throws ConnectionException {
     logger.debug("DockerTextGenerationConnection connect ...");
-    return new DockerTextGenerationConnection(getHttpClient(), getObjectMapper(), dockerModelName, dockerModelUrl,
-                                              textGenerationConnectionParameters.getApiKey(),
-                                              textGenerationConnectionParameters.getTemperature(),
-                                              textGenerationConnectionParameters.getTopP(),
-                                              textGenerationConnectionParameters.getMaxTokens(),
-                                              textGenerationConnectionParameters.getMcpSseServers(),
-                                              textGenerationConnectionParameters.getTimeout());
+    return new DockerTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                              new ParametersDTO(dockerModelName,
+                                                                textGenerationConnectionParameters.getApiKey(),
+                                                                textGenerationConnectionParameters.getMaxTokens(),
+                                                                textGenerationConnectionParameters.getTemperature(),
+                                                                textGenerationConnectionParameters.getTopP(),
+                                                                textGenerationConnectionParameters.getTimeout()),
+                                              dockerModelUrl,
+                                              textGenerationConnectionParameters.getMcpSseServers());
   }
 }

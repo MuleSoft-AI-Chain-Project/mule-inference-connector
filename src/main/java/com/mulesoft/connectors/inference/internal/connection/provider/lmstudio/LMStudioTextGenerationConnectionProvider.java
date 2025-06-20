@@ -15,6 +15,7 @@ import com.mulesoft.connectors.inference.internal.connection.parameters.TextGene
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.lmstudio.LMStudioTextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.lmstudio.providers.LMStudioTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -45,12 +46,14 @@ public class LMStudioTextGenerationConnectionProvider extends TextGenerationConn
   @Override
   public LMStudioTextGenerationConnection connect() throws ConnectionException {
     logger.debug("LMStudioTextGenerationConnection connect ...");
-    return new LMStudioTextGenerationConnection(getHttpClient(), getObjectMapper(), lmStudioModelName, lmStudioBaseURL,
-                                                textGenerationConnectionParameters.getApiKey(),
-                                                textGenerationConnectionParameters.getTemperature(),
-                                                textGenerationConnectionParameters.getTopP(),
-                                                textGenerationConnectionParameters.getMaxTokens(),
-                                                textGenerationConnectionParameters.getMcpSseServers(),
-                                                textGenerationConnectionParameters.getTimeout());
+    return new LMStudioTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                                new ParametersDTO(lmStudioModelName,
+                                                                  textGenerationConnectionParameters.getApiKey(),
+                                                                  textGenerationConnectionParameters.getMaxTokens(),
+                                                                  textGenerationConnectionParameters.getTemperature(),
+                                                                  textGenerationConnectionParameters.getTopP(),
+                                                                  textGenerationConnectionParameters.getTimeout()),
+                                                lmStudioBaseURL,
+                                                textGenerationConnectionParameters.getMcpSseServers());
   }
 }

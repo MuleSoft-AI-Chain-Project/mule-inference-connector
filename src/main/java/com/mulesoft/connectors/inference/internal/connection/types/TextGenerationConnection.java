@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.types;
 
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 
 import java.util.Map;
@@ -16,14 +17,13 @@ public abstract class TextGenerationConnection extends BaseConnection {
   private final Map<String, String> mcpSseServers;
   private TextGenerationService textGenerationService;
 
-  protected TextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                     String apiKey, String modelName, Number maxTokens, Number temperature,
-                                     Number topP, int timeout, Map<String, String> mcpSseServers,
-                                     String apiURL) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
-    this.maxTokens = maxTokens;
-    this.temperature = temperature;
-    this.topP = topP;
+  protected TextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
+                                     Map<String, String> mcpSseServers, String apiURL) {
+    super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(),
+          parametersDTO.timeout(), apiURL);
+    this.maxTokens = parametersDTO.maxTokens();
+    this.temperature = parametersDTO.temperature();
+    this.topP = parametersDTO.topP();
     this.mcpSseServers = mcpSseServers;
 
     this.setBaseService(getTextGenerationService());

@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.huggingface;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
 import java.util.Map;
 
@@ -13,11 +14,10 @@ public class HuggingFaceTextGenerationConnection extends TextGenerationConnectio
   private static final String URI_CHAT_COMPLETIONS = "/models/{model-name}/v1/chat/completions";
   public static final String HUGGINGFACE_URL = "https://router.huggingface.co/hf-inference";
 
-  public HuggingFaceTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
-                                             Number temperature, Number topP,
-                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(modelName));
+  public HuggingFaceTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
+                                             Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+          fetchApiURL(parametersDTO.modelName()));
   }
 
   private static String fetchApiURL(String modelName) {

@@ -13,6 +13,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.anthropic.AnthropicTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.anthropic.providers.AnthropicTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -36,12 +37,13 @@ public class AnthropicTextGenerationConnectionProvider extends TextGenerationCon
   @Override
   public AnthropicTextGenerationConnection connect() throws ConnectionException {
     logger.debug("AnthropicTextGenerationConnection connect ...");
-    return new AnthropicTextGenerationConnection(getHttpClient(), getObjectMapper(), anthropicModelName,
-                                                 textGenerationConnectionParameters.getApiKey(),
-                                                 textGenerationConnectionParameters.getTemperature(),
-                                                 textGenerationConnectionParameters.getTopP(),
-                                                 textGenerationConnectionParameters.getMaxTokens(),
-                                                 textGenerationConnectionParameters.getMcpSseServers(),
-                                                 textGenerationConnectionParameters.getTimeout());
+    return new AnthropicTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                                 new ParametersDTO(anthropicModelName,
+                                                                   textGenerationConnectionParameters.getApiKey(),
+                                                                   textGenerationConnectionParameters.getMaxTokens(),
+                                                                   textGenerationConnectionParameters.getTemperature(),
+                                                                   textGenerationConnectionParameters.getTopP(),
+                                                                   textGenerationConnectionParameters.getTimeout()),
+                                                 textGenerationConnectionParameters.getMcpSseServers());
   }
 }

@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.databricks.DatabricksTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.databricks.providers.DatabricksTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -43,12 +44,14 @@ public class DatabricksTextGenerationConnectionProvider extends TextGenerationCo
   @Override
   public DatabricksTextGenerationConnection connect() throws ConnectionException {
     logger.debug("DatabricksTextGenerationConnection connect ...");
-    return new DatabricksTextGenerationConnection(getHttpClient(), getObjectMapper(), databricksModelName, dataBricksModelUrl,
-                                                  textGenerationConnectionParameters.getApiKey(),
-                                                  textGenerationConnectionParameters.getTemperature(),
-                                                  textGenerationConnectionParameters.getTopP(),
-                                                  textGenerationConnectionParameters.getMaxTokens(),
-                                                  textGenerationConnectionParameters.getMcpSseServers(),
-                                                  textGenerationConnectionParameters.getTimeout());
+    return new DatabricksTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                                  new ParametersDTO(databricksModelName,
+                                                                    textGenerationConnectionParameters.getApiKey(),
+                                                                    textGenerationConnectionParameters.getMaxTokens(),
+                                                                    textGenerationConnectionParameters.getTemperature(),
+                                                                    textGenerationConnectionParameters.getTopP(),
+                                                                    textGenerationConnectionParameters.getTimeout()),
+                                                  dataBricksModelUrl,
+                                                  textGenerationConnectionParameters.getMcpSseServers());
   }
 }

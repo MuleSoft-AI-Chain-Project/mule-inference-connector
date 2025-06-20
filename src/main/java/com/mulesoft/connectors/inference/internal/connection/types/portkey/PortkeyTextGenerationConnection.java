@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.portkey;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
 import java.util.Map;
 
@@ -15,11 +16,10 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
 
   private final String virtualKey;
 
-  public PortkeyTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
-                                         String virtualKey, String apiKey,
-                                         Number temperature, Number topP,
-                                         Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers, fetchApiURL());
+  public PortkeyTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
+                                         ParametersDTO parametersDTO, String virtualKey,
+                                         Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
     this.virtualKey = virtualKey;
   }
 

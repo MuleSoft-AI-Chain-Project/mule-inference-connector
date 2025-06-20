@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.ibmwatson.IBMWatsonTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.ibmwatson.providers.IBMWatsonTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -44,12 +45,14 @@ public class IBMWatsonTextGenerationConnectionProvider extends TextGenerationCon
   @Override
   public IBMWatsonTextGenerationConnection connect() throws ConnectionException {
     logger.debug("IBMWatsonTextGenerationConnection connect ...");
-    return new IBMWatsonTextGenerationConnection(getHttpClient(), getObjectMapper(), ibmWatsonModelName, ibmWatsonApiVersion,
-                                                 textGenerationConnectionParameters.getApiKey(),
-                                                 textGenerationConnectionParameters.getTemperature(),
-                                                 textGenerationConnectionParameters.getTopP(),
-                                                 textGenerationConnectionParameters.getMaxTokens(),
-                                                 textGenerationConnectionParameters.getMcpSseServers(),
-                                                 textGenerationConnectionParameters.getTimeout());
+    return new IBMWatsonTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                                 new ParametersDTO(ibmWatsonModelName,
+                                                                   textGenerationConnectionParameters.getApiKey(),
+                                                                   textGenerationConnectionParameters.getMaxTokens(),
+                                                                   textGenerationConnectionParameters.getTemperature(),
+                                                                   textGenerationConnectionParameters.getTopP(),
+                                                                   textGenerationConnectionParameters.getTimeout()),
+                                                 ibmWatsonApiVersion,
+                                                 textGenerationConnectionParameters.getMcpSseServers());
   }
 }

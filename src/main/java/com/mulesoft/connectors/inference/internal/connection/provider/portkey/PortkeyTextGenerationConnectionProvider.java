@@ -14,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.portkey.PortkeyTextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.llmmodels.portkey.providers.PortkeyTextGenerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -44,12 +45,14 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
   @Override
   public PortkeyTextGenerationConnection connect() throws ConnectionException {
     logger.debug("PortkeyTextGenerationConnection connect ...");
-    return new PortkeyTextGenerationConnection(getHttpClient(), getObjectMapper(), portkeyModelName, virtualKey,
-                                               textGenerationConnectionParameters.getApiKey(),
-                                               textGenerationConnectionParameters.getTemperature(),
-                                               textGenerationConnectionParameters.getTopP(),
-                                               textGenerationConnectionParameters.getMaxTokens(),
-                                               textGenerationConnectionParameters.getMcpSseServers(),
-                                               textGenerationConnectionParameters.getTimeout());
+    return new PortkeyTextGenerationConnection(getHttpClient(), getObjectMapper(),
+                                               new ParametersDTO(portkeyModelName,
+                                                                 textGenerationConnectionParameters.getApiKey(),
+                                                                 textGenerationConnectionParameters.getMaxTokens(),
+                                                                 textGenerationConnectionParameters.getTemperature(),
+                                                                 textGenerationConnectionParameters.getTopP(),
+                                                                 textGenerationConnectionParameters.getTimeout()),
+                                               virtualKey,
+                                               textGenerationConnectionParameters.getMcpSseServers());
   }
 }

@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.databricks;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
 import java.util.Map;
 
@@ -12,12 +13,11 @@ public class DatabricksTextGenerationConnection extends TextGenerationConnection
 
   private static final String URI_CHAT_COMPLETIONS = "/serving-endpoints/{model_name}/invocations";
 
-  public DatabricksTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String databricksModelName,
-                                            String databricksModelURL, String apiKey,
-                                            Number temperature, Number topP,
-                                            Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, databricksModelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(databricksModelURL, databricksModelName));
+  public DatabricksTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
+                                            ParametersDTO parametersDTO, String databricksModelURL,
+                                            Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+          fetchApiURL(databricksModelURL, parametersDTO.modelName()));
   }
 
   private static String fetchApiURL(String databricksModelURL, String databricksModelName) {

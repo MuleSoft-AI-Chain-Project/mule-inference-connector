@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types.azure;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.AzureOpenAIRequestPayloadHelper;
 
 import java.util.Map;
@@ -16,13 +17,11 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
   private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
 
-  public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
-                                             String openaiResourceName, String openaiDeploymentId,
-                                             String apiKey,
-                                             Number temperature, Number topP,
-                                             Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(openaiResourceName, openaiDeploymentId));
+  public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
+                                             String azureOpenaiResourceName, String azureOpenaiDeploymentId,
+                                             Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+          fetchApiURL(azureOpenaiResourceName, azureOpenaiDeploymentId));
   }
 
   @Override

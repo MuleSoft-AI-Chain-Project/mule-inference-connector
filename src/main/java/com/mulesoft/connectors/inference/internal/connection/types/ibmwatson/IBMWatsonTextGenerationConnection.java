@@ -6,6 +6,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.payload.IBMWatsonRequestPayloadHelper;
 
@@ -27,11 +28,10 @@ public class IBMWatsonTextGenerationConnection extends TextGenerationConnection 
 
   private IBMWatsonRequestPayloadHelper requestPayloadHelper;
 
-  public IBMWatsonTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
-                                           String ibmWatsonApiVersion,
-                                           String apiKey, Number temperature, Number topP,
-                                           Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
+  public IBMWatsonTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
+                                           ParametersDTO parametersDTO, String ibmWatsonApiVersion,
+                                           Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
           fetchApiURL(ibmWatsonApiVersion));
     this.ibmWatsonApiVersion = ibmWatsonApiVersion;
   }

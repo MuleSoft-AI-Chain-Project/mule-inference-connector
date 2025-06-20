@@ -7,6 +7,7 @@ import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.payload.VertexAIRequestPayloadHelper;
 
@@ -29,13 +30,13 @@ public class VertexAITextGenerationConnection extends TextGenerationConnection {
   private VertexAIRequestPayloadHelper requestPayloadHelper;
   private final String vertexAIServiceAccountKey;
 
-  public VertexAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName,
+  public VertexAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
+                                          ParametersDTO parametersDTO,
                                           String vertexAILocationId,
-                                          String vertexAIProjectId, String vertexAIServiceAccountKey, String apiKey,
-                                          Number temperature, Number topP,
-                                          Number maxTokens, Map<String, String> mcpSseServers, int timeout) {
-    super(httpClient, objectMapper, apiKey, modelName, maxTokens, temperature, topP, timeout, mcpSseServers,
-          fetchApiURL(modelName, vertexAILocationId, vertexAIProjectId));
+                                          String vertexAIProjectId, String vertexAIServiceAccountKey,
+                                          Map<String, String> mcpSseServers) {
+    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+          fetchApiURL(parametersDTO.modelName(), vertexAILocationId, vertexAIProjectId));
     this.vertexAIServiceAccountKey = vertexAIServiceAccountKey;
   }
 
