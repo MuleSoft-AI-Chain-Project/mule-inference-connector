@@ -122,6 +122,14 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-together" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="TogetherConfig" />
+					<munit:parameter propertyName="llmModel" value="${together.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="818" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
