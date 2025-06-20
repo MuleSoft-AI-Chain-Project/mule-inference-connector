@@ -147,6 +147,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-xai" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XAiConfig" />
+					<munit:parameter propertyName="llmModel" value="${xai.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="123" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 	<munit:test name="agent-define-prompt-template-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
