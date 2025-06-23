@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Image Generation Configuration -->
+    <mac-inference:image-generation-config name="StabilityAIImageGenConfig" doc:name="Stability AI Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:stability-ai-image-connection apiKey="${stability.apiKey}" stabilityAIModelName="${stability.imageGenModel}" timeout="60000"/>
+    </mac-inference:image-generation-config>
+</mule>
