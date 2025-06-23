@@ -4,10 +4,26 @@
 		<munit:parameterizations>
 			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
-					<munit:parameter propertyName="config" value="AnthropicVision" />
+					<munit:parameter propertyName="config" value="AnthropicVisionConfig" />
 					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="439" />
 					<munit:parameter propertyName="finishReason" value="end_turn" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-azure-ai-foundry" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="AzureAiFoundryVisionConfig" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.visionModelResponse}" />
+					<munit:parameter propertyName="inputCount" value="771" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-github" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GithubVisionConfig" />
+					<munit:parameter propertyName="llmModel" value="${github.visionModelResponse}" />
+					<munit:parameter propertyName="inputCount" value="360" />
+					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >

@@ -180,7 +180,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_answer_prompt_operation-Test">
 		<munit:execution>
 			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
-			<!--<logger level="INFO" message="#[payload]"/>-->
 		</munit:execution>
 		<munit:validation>
 			<logger level="INFO" message="#[attributes]"/>
