@@ -12,7 +12,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
-import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.llmmodels.mistral.providers.MistralAIModerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ public class MistralAIModerationConnectionProvider extends ModerationConnectionP
   private static final Logger logger = LoggerFactory.getLogger(MistralAIModerationConnectionProvider.class);
 
   public static final String MISTRAL_AI_URL = "https://api.mistral.ai/v1";
+  public static final String MODERATIONS_PATH = "/moderations";
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
@@ -44,6 +44,6 @@ public class MistralAIModerationConnectionProvider extends ModerationConnectionP
   }
 
   private String getModerationAPIURL() {
-    return MISTRAL_AI_URL + InferenceConstants.MODERATIONS_PATH;
+    return MISTRAL_AI_URL + MODERATIONS_PATH;
   }
 }

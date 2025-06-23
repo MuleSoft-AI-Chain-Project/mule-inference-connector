@@ -12,7 +12,6 @@ import org.mule.runtime.extension.api.annotation.values.OfValues;
 import com.mulesoft.connectors.inference.internal.connection.parameters.BaseConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.ModerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
-import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.llmmodels.openai.providers.OpenAIModerationModelNameProvider;
 
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
   private static final Logger logger = LoggerFactory.getLogger(OpenAIModerationConnectionProvider.class);
 
   public static final String OPEN_AI_URL = "https://api.openai.com/v1";
+  public static final String MODERATIONS_PATH = "/moderations";
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
@@ -44,6 +44,6 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
   }
 
   private String getModerationAPIURL() {
-    return OPEN_AI_URL + InferenceConstants.MODERATIONS_PATH;
+    return OPEN_AI_URL + MODERATIONS_PATH;
   }
 }

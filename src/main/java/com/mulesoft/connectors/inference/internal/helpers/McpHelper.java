@@ -27,7 +27,6 @@ import io.modelcontextprotocol.client.McpClient;
 import io.modelcontextprotocol.client.McpSyncClient;
 import io.modelcontextprotocol.client.transport.HttpClientSseClientTransport;
 import io.modelcontextprotocol.spec.McpSchema;
-import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -176,7 +175,7 @@ public class McpHelper {
         .orElse(new HashMap<>());
   }
 
-  private Map.@Nullable Entry<String, Property> getMapEntry(Map.Entry<String, Object> entry) {
+  private Map.Entry<String, Property> getMapEntry(Map.Entry<String, Object> entry) {
     Map<String, Object> propMap = convertToTypedMap((Map<?, ?>) entry.getValue());
     if (propMap == null) {
       return null;

@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers.response;
 
 import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
+import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.HugginFaceImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageData;
@@ -32,7 +33,7 @@ public class HuggingFaceHttpResponseHelper extends HttpResponseHelper {
     int statusCode = response.getStatusCode();
 
     if (statusCode == 200) {
-      if (StringUtils.isNotBlank(response.getHeaderValue("Content-Type")) &&
+      if (StringUtils.isNotBlank(response.getHeaderValue(InferenceConstants.HEADER_CONTENT_TYPE)) &&
           response.getHeaderValue("Content-Type").startsWith("image/")) {
 
         String base64Image = encodeImageToBase64(response.getEntity().getBytes());

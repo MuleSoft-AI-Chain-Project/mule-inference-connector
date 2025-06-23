@@ -15,7 +15,7 @@ import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.logging.log4j.util.Strings;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.content().stream()
-        .filter(x -> "text".equals(x.type()) && Strings.isNotBlank(x.text())).findFirst();
+        .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
     return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
                                       mapToolCalls(responseDTO), null);
   }
