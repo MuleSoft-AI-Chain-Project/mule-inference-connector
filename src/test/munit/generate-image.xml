@@ -11,6 +11,12 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="generate-image.xml" >
 		<munit:parameterizations >
+			<munit:parameterization name="hugging-face-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${hugging-face.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="openai-config" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIImageGen" />
@@ -21,6 +27,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="StabilityAIImageGenConfig" />
 					<munit:parameter propertyName="imageGenModel" value="${stability.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="XAI-config" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XAiImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${xai.imageGenModel}" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

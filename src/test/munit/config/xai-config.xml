@@ -21,4 +21,10 @@
             </mac-inference:mcp-sse-servers>
         </mac-inference:xai-connection>
     </mac-inference:text-generation-config>
+
+    <!-- Image Generation Configuration -->
+    <mac-inference:image-generation-config name="XAiImageGenConfig" doc:name="XAi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:xai-image-connection apiKey="${xai.apiKey}" xAIModelName="${xai.imageGenModel}" timeout="60000"/>
+    </mac-inference:image-generation-config>
+    
 </mule>
