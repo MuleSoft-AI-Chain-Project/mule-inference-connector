@@ -12,6 +12,13 @@
 
     <munit:config name="TextGenerationModelNameValueProvidersTest.xml"/>
 
+    <mtf:tooling-test name="ai21labs-model-name-values-test">
+        <mtf:get-values-from-config config-ref="Ai21labsConfig" parameter="ai21LabsModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="anthropic-model-name-values-test">
         <mtf:get-values-from-config config-ref="AnthropicConfig" parameter="anthropicModelName"/>
         <mtf:validation>
@@ -54,12 +61,12 @@
         </mtf:validation>
     </mtf:tooling-test>
 
-   <!-- <mtf:tooling-test name="deepseek-model-name-values-test">
+    <mtf:tooling-test name="deepseek-model-name-values-test">
         <mtf:get-values-from-config config-ref="DeepseekConfig" parameter="deepseekModelName"/>
         <mtf:validation>
             <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
         </mtf:validation>
-    </mtf:tooling-test>-->
+    </mtf:tooling-test>
 
     <mtf:tooling-test name="fireworks-model-name-values-test">
         <mtf:get-values-from-config config-ref="FireworksConfig" parameter="fireworksModelName"/>
