@@ -26,6 +26,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-hugging-face" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
+					<munit:parameter propertyName="llmModel" value="${hugging-face.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="41" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
@@ -47,6 +55,14 @@
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.visionModel}" />
 					<munit:parameter propertyName="inputCount" value="15" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-portkey" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PortkeyVisionConfig" />
+					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="55" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

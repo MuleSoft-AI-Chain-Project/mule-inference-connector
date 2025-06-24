@@ -22,6 +22,11 @@
         </mac-inference:hugging-face-connection>
     </mac-inference:text-generation-config>
 
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="HuggingFaceVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
+        <mac-inference:hugging-face-vision-connection apiKey="${hugging-face.apiKey}" huggingFaceModelName="${hugging-face.visionModel}" />
+    </mac-inference:vision-config>
+
     <!-- Image Generation Configuration -->
     <mac-inference:image-generation-config name="HuggingFaceImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
         <mac-inference:hugging-face-image-connection apiKey="${hugging-face.apiKey}" huggingFaceModelName="${hugging-face.imageGenModel}" />

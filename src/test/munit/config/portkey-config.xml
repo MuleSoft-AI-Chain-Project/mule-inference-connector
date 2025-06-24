@@ -21,4 +21,10 @@
             </mac-inference:mcp-sse-servers>
         </mac-inference:portkey-connection>
     </mac-inference:text-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="PortkeyVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="43158d4f-b08f-4ddc-8ff1-9865c406316e" >
+        <mac-inference:portkey-vision-connection apiKey="${portkey.apiKey}" portkeyModelName="${portkey.llmModel}" virtualKey="${portkey.virtualKey}"/>
+    </mac-inference:vision-config>
+    
 </mule>
