@@ -22,7 +22,7 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubVisionConfig" />
 					<munit:parameter propertyName="llmModel" value="${github.visionModelResponse}" />
-					<munit:parameter propertyName="inputCount" value="360" />
+					<munit:parameter propertyName="inputCount" value="221" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
