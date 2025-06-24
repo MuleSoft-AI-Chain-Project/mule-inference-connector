@@ -12,13 +12,6 @@
 
     <munit:config name="ImageModelNameValueProvidersTest.xml" />
 
-    <mtf:tooling-test name="openai-image-model-name-values-test">
-        <mtf:get-values-from-config config-ref="OpenAIImageGen" parameter="openAIModelName"/>
-        <mtf:validation>
-            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]"/>
-        </mtf:validation>
-    </mtf:tooling-test>
-
     <mtf:tooling-test name="huggingface-image-model-name-values-test">
         <mtf:get-values-from-config config-ref="HuggingFaceImageGenConfig" parameter="huggingFaceModelName"/>
         <mtf:validation>
@@ -26,10 +19,10 @@
         </mtf:validation>
     </mtf:tooling-test>
 
-    <mtf:tooling-test name="xai-image-model-name-values-test">
-        <mtf:get-values-from-config config-ref="XAiImageGenConfig" parameter="xAIModelName"/>
+    <mtf:tooling-test name="openai-image-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OpenAIImageGen" parameter="openAIModelName"/>
         <mtf:validation>
-            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]"/>
         </mtf:validation>
     </mtf:tooling-test>
 
@@ -40,4 +33,10 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="xai-image-model-name-values-test">
+        <mtf:get-values-from-config config-ref="XAiImageGenConfig" parameter="xAiModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
 </mule> 

@@ -10,7 +10,7 @@
         http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
         http://www.mulesoft.org/schema/mule/mtf http://www.mulesoft.org/schema/mule/mtf/current/mule-mtf.xsd">
 
-    <munit:config name="ModelNameValueProvidersTest.xml"/>
+    <munit:config name="TextGenerationModelNameValueProvidersTest.xml"/>
 
     <mtf:tooling-test name="anthropic-model-name-values-test">
         <mtf:get-values-from-config config-ref="AnthropicConfig" parameter="anthropicModelName"/>
@@ -146,7 +146,7 @@
     </mtf:tooling-test>
 
     <mtf:tooling-test name="xai-model-name-values-test">
-        <mtf:get-values-from-config config-ref="XAiConfig" parameter="xaiModelName"/>
+        <mtf:get-values-from-config config-ref="XAiConfig" parameter="xAiModelName"/>
         <mtf:validation>
             <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(4)]"/>
         </mtf:validation>
