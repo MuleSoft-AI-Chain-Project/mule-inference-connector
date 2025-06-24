@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+      xmlns:mtf="http://www.mulesoft.org/schema/mule/mtf"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/mtf http://www.mulesoft.org/schema/mule/mtf/current/mule-mtf.xsd">
+
+    <munit:config name="VisionModelNameValueProvidersTest.xml"/>
+
+    <mtf:tooling-test name="anthropic-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="AnthropicVisionConfig" parameter="anthropicModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(4)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="azure-ai-foundry-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="AzureAiFoundryVisionConfig" parameter="azureAIFoundryModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="github-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="GithubVisionConfig" parameter="gitHubModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(4)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <!--<mtf:tooling-test name="groq-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="GroqVisionConfig" parameter="groqModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>-->
+
+    <mtf:tooling-test name="huggingface-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="HuggingFaceVisionConfig" parameter="huggingFaceModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(4)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="mistralai-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="MistralAIVision" parameter="mistralAIModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(3)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="openai-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OpenAIVision" parameter="openAIModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(5)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="openrouter-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OpenrouterVision" parameter="openRouterModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(5)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="portkey-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="PortkeyVisionConfig" parameter="portkeyModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
+    <mtf:tooling-test name="xai-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="XAiVisionConfig" parameter="xAiModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(2)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+</mule>
