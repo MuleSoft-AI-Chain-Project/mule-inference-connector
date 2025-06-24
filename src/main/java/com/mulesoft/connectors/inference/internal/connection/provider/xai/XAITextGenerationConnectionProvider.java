@@ -29,7 +29,7 @@ public class XAITextGenerationConnectionProvider extends TextGenerationConnectio
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(XAITextGenerationModelNameProvider.class)
-  private String xaiModelName;
+  private String xAiModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
@@ -38,7 +38,7 @@ public class XAITextGenerationConnectionProvider extends TextGenerationConnectio
   public XAITextGenerationConnection connect() throws ConnectionException {
     logger.debug("XAITextGenerationConnection connect ...");
     return new XAITextGenerationConnection(getHttpClient(), getObjectMapper(),
-                                           new ParametersDTO(xaiModelName,
+                                           new ParametersDTO(xAiModelName,
                                                              textGenerationConnectionParameters.getApiKey(),
                                                              textGenerationConnectionParameters.getMaxTokens(),
                                                              textGenerationConnectionParameters.getTemperature(),

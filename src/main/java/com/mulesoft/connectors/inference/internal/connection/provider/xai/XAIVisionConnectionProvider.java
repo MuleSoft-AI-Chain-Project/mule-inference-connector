@@ -29,7 +29,7 @@ public class XAIVisionConnectionProvider extends VisionModelConnectionProvider {
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(XAIVisionModelNameProvider.class)
-  private String xaiModelName;
+  private String xAiModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
@@ -38,7 +38,7 @@ public class XAIVisionConnectionProvider extends VisionModelConnectionProvider {
   public XAIVisionConnection connect() throws ConnectionException {
     logger.debug("XAIVisionConnection connect ...");
     return new XAIVisionConnection(getHttpClient(), getObjectMapper(), new ParametersDTO(
-                                                                                         xaiModelName,
+                                                                                         xAiModelName,
                                                                                          textGenerationConnectionParameters
                                                                                              .getApiKey(),
                                                                                          textGenerationConnectionParameters

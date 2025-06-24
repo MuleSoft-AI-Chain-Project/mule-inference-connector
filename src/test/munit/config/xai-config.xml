@@ -14,7 +14,7 @@
 
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="XAiConfig" doc:name="xai Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
-        <mac-inference:xai-connection apiKey="${xai.apiKey}" xaiModelName="${xai.llmModel}" timeout="60000">
+        <mac-inference:xai-connection apiKey="${xai.apiKey}" xAiModelName="${xai.llmModel}" timeout="60000">
             <mac-inference:mcp-sse-servers >
                 <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
                 <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
@@ -24,7 +24,12 @@
 
     <!-- Image Generation Configuration -->
     <mac-inference:image-generation-config name="XAiImageGenConfig" doc:name="XAi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
-        <mac-inference:xai-image-connection apiKey="${xai.apiKey}" xAIModelName="${xai.imageGenModel}" timeout="60000"/>
+        <mac-inference:xai-image-connection apiKey="${xai.apiKey}" xAiModelName="${xai.imageGenModel}" timeout="60000"/>
     </mac-inference:image-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="XAiVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
+        <mac-inference:xai-vision-connection apiKey="${xai.apiKey}" xAiModelName="${xai.visionModel}" />
+    </mac-inference:vision-config>
     
 </mule>

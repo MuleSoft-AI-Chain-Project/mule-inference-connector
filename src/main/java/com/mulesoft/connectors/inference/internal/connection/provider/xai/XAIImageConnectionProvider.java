@@ -30,7 +30,7 @@ public class XAIImageConnectionProvider extends ImageGenerationConnectionProvide
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(XAIImageModelNameProvider.class)
   @Placement(order = 1)
-  private String xAIModelName;
+  private String xAiModelName;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private BaseConnectionParameters baseConnectionParameters;
@@ -39,7 +39,7 @@ public class XAIImageConnectionProvider extends ImageGenerationConnectionProvide
   public XAIImageGenerationConnection connect() {
     logger.debug("XAIImageConnection connect ...");
 
-    return new XAIImageGenerationConnection(getHttpClient(), getObjectMapper(), xAIModelName,
+    return new XAIImageGenerationConnection(getHttpClient(), getObjectMapper(), xAiModelName,
                                             baseConnectionParameters.getApiKey(),
                                             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL());
   }
