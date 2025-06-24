@@ -34,7 +34,7 @@ public class XInferenceTextGenerationConnectionProvider extends TextGenerationCo
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @Optional(defaultValue = "http://127.0.0.1:9997/v1 or https://inference.top/api/v1")
+  @Optional(defaultValue = "https://inference.top/api/v1")
   @Placement(order = 2)
   @DisplayName("[Xinference] Base URL")
   private String xInferenceUrl;

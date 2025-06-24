@@ -12,7 +12,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class XInferenceTextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
-  public static final String XINFERENCE_URL = "http://localhost:9997/v1";
 
   public XInferenceTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
                                             ParametersDTO parametersDTO, String xInferenceUrl,

@@ -159,12 +159,12 @@
         </mtf:validation>
     </mtf:tooling-test>
 
-    <!--<mtf:tooling-test name="xinference-model-name-values-test">
+    <mtf:tooling-test name="xinference-model-name-values-test">
         <mtf:get-values-from-config config-ref="XInferenceConfig" parameter="xInferenceModelName"/>
         <mtf:validation>
             <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(5)]"/>
         </mtf:validation>
-    </mtf:tooling-test>-->
+    </mtf:tooling-test>
 
     <mtf:tooling-test name="zhipu-model-name-values-test">
         <mtf:get-values-from-config config-ref="ZhipuConfig" parameter="zhipuAIModelName"/>

@@ -176,6 +176,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-xinference" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="XInferenceConfig" />
+					<munit:parameter propertyName="llmModel" value="${xinference.modelResponse}" />
+					<munit:parameter propertyName="inputCount" value="446" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-zhipu" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
