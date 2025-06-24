@@ -3,8 +3,8 @@ package com.mulesoft.connectors.inference.internal.helpers.response;
 import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
 import com.mulesoft.connectors.inference.internal.constants.InferenceConstants;
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.StabilityAIImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageData;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.response.ImageGenerationRestResponse;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
@@ -49,7 +49,7 @@ public class StabilityAIHttpResponseHelper extends HttpResponseHelper {
         // Log base64 length for debugging
         logger.debug("Base64 image length for image generation response process: {}", base64Image.length());
 
-        DefaultImageRequestPayloadRecord payloadRecord = (DefaultImageRequestPayloadRecord) requestPayloadDTO;
+        StabilityAIImageRequestPayloadRecord payloadRecord = (StabilityAIImageRequestPayloadRecord) requestPayloadDTO;
 
         return new ImageGenerationRestResponse(null, List.of(new ImageData(base64Image, payloadRecord.prompt())));
       }

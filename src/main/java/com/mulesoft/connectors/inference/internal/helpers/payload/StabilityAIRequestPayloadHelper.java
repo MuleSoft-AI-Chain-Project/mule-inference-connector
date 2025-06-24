@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.helpers.payload;
 
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.StabilityAIImageRequestPayloadRecord;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -11,7 +11,7 @@ public class StabilityAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public DefaultImageRequestPayloadRecord createRequestImageGeneration(String model, String prompt) {
-    return new DefaultImageRequestPayloadRecord(prompt, null);
+  public StabilityAIImageRequestPayloadRecord createRequestImageGeneration(String model, String prompt) {
+    return new StabilityAIImageRequestPayloadRecord(prompt, null);
   }
 }

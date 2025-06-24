@@ -98,8 +98,7 @@ public class RequestPayloadHelper {
   }
 
   public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
-    logger.debug("Model:{} and prompt: {}", model, prompt);
-    return new DefaultImageRequestPayloadRecord(prompt, "b64_json");
+    return new DefaultImageRequestPayloadRecord(model, prompt, "b64_json");
   }
 
   public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)

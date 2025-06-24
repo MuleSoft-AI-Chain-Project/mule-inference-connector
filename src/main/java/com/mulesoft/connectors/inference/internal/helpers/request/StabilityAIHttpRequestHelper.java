@@ -12,8 +12,8 @@ import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
 import com.mulesoft.connectors.inference.internal.connection.types.BaseConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
-import com.mulesoft.connectors.inference.internal.dto.imagegeneration.DefaultImageRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.ImageGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.imagegeneration.StabilityAIImageRequestPayloadRecord;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -37,7 +37,7 @@ public class StabilityAIHttpRequestHelper extends HttpRequestHelper {
   public HttpResponse executeImageGenerationRestRequest(ImageGenerationConnection connection, String resourceUrl,
                                                         ImageGenerationRequestPayloadDTO payload)
       throws IOException, TimeoutException {
-    DefaultImageRequestPayloadRecord payloadRecord = (DefaultImageRequestPayloadRecord) payload;
+    StabilityAIImageRequestPayloadRecord payloadRecord = (StabilityAIImageRequestPayloadRecord) payload;
     return executeRestRequestStabilityAi(connection, resourceUrl, payloadRecord.prompt());
   }
 
