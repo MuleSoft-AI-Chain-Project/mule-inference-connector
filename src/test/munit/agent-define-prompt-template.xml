@@ -11,6 +11,14 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
 		<munit:config name="agent-define-prompt-template.xml">
 		<munit:parameterizations >
+			<munit:parameterization name="config-ai21labs" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="Ai21labsConfig" />
+					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="122" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
