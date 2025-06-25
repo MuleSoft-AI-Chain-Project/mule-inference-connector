@@ -60,4 +60,9 @@
     <mac-inference:image-generation-config name="OpenAIInvalidApiKeyImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
         <mac-inference:openai-image-connection apiKey="InvalidApiKey" openAIModelName="${openai.imageGenModel}" />
     </mac-inference:image-generation-config>
+
+    <!-- Vision Incorrect Configuration -->
+    <mac-inference:vision-config name="OpenAIInvalidApiKeyVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <mac-inference:openai-vision-connection apiKey="InvalidApiKey" openAIModelName="${openai.visionModel}" />
+    </mac-inference:vision-config>
 </mule> 

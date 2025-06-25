@@ -4,9 +4,11 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -31,10 +33,14 @@ public abstract class VisionModelConnectionProvider extends BaseConnectionProvid
       if (textResponse.response().contains("Eiffel Tower")) {
         return ConnectionValidationResult.success();
       }
-    } catch (IOException | TimeoutException e) {
-      return ConnectionValidationResult.failure("Failed to validate VisionModelConnection", e);
+    } catch (IOException | TimeoutException | ModuleException e) {
+      return ConnectionValidationResult.failure("Failed to validate VisionModelConnection",
+                                                new ModuleException("Error validating connection.",
+                                                                    InferenceErrorType.INVALID_CONNECTION, e));
     }
-    return ConnectionValidationResult.failure("Failed to validate VisionModelConnection", null);
+    return ConnectionValidationResult.failure("Failed to validate VisionModelConnection",
+                                              new ModuleException("Error validating connection.",
+                                                                  InferenceErrorType.INVALID_CONNECTION));
   }
 
   @Override
