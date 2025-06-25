@@ -177,7 +177,7 @@ public class McpHelper {
 
   private Map.Entry<String, Property> getMapEntry(Map.Entry<String, Object> entry) {
     Map<String, Object> propMap = convertToTypedMap((Map<?, ?>) entry.getValue());
-    if (propMap == null) {
+    if (propMap.isEmpty()) {
       return null;
     }
     String type = getStringValue(propMap, "type");
@@ -218,7 +218,7 @@ public class McpHelper {
       if (entry.getKey() instanceof String key) {
         typedMap.put(key, entry.getValue());
       } else {
-        return null; // Invalid key type
+        return Collections.emptyMap(); // Invalid key type
       }
     }
     return typedMap;

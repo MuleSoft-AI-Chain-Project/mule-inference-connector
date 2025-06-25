@@ -37,4 +37,19 @@
         <mac-inference:openai-vision-connection apiKey="${openai.apiKey}" openAIModelName="${openai.visionModel}" />
     </mac-inference:vision-config>
 
+
+    <!-- Text Generation Incorrect Configuration -->
+    <mac-inference:text-generation-config name="OpenAIInvalidModelConfig" doc:name="Open AI Text generation incorrect model config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:openai-connection apiKey="${openai.apiKey}" openAIModelName="InvalidModelName" timeout="60000" />
+    </mac-inference:text-generation-config>
+
+    <mac-inference:text-generation-config name="OpenAIInvalidApiConfig" doc:name="Open AI Text generation invalid apikey config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:openai-connection apiKey="InvalidApiKey" openAIModelName="${openai.llmModel}" timeout="60000" />
+    </mac-inference:text-generation-config>
+
+    <!-- Moderation Incorrect Configuration -->
+    <mac-inference:moderation-config name="OpenAIInvalidModelModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
+        <mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="InvalidModelName"/>
+    </mac-inference:moderation-config>
+
 </mule> 
