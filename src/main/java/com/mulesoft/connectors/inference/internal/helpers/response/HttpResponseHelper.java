@@ -60,7 +60,7 @@ public class HttpResponseHelper {
     if (statusCode == 200) {
       return objectMapper.readValue(response.getEntity().getBytes(), ModerationRestResponse.class);
     }
-    throw handleErrorResponse(response, statusCode, InferenceErrorType.IMAGE_GENERATION_FAILURE);
+    throw handleErrorResponse(response, statusCode, InferenceErrorType.TOXICITY_DETECTION_OPERATION_FAILURE);
   }
 
   public ModerationResponse mapModerationFinalResponse(ModerationRestResponse moderationRestResponse) {
