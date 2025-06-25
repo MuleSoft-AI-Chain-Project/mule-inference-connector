@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:mtf="http://www.mulesoft.org/schema/mule/mtf"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="
+      http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/mtf  http://www.mulesoft.org/schema/mule/mtf/current/mule-mtf.xsd">
+
+    <munit:config name="TextGenerationConnectionTest.xml"/>
+
+    <munit:test name="OpenAITextGenConnectionSuccessTest">
+        <munit:execution>
+            <mtf:test-connectivity config-ref="OpenAIConfig"/>
+        </munit:execution>
+    </munit:test>
+
+    <munit:test name="OpenAITextGenConnectionFailureTest" expectedErrorType="MAC-INFERENCE:INVALID_CONNECTION">
+        <munit:execution>
+            <mtf:test-connectivity config-ref="OpenAIInvalidApiKeyConfig"/>
+        </munit:execution>
+    </munit:test>
+</mule>

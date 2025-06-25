@@ -125,7 +125,7 @@ public class TextGenerationOperations {
   @Alias("Tools-native-template")
   @DisplayName("[Tools] Native Template (Reasoning only)")
   @OutputJsonType(schema = "api/response/Response.json")
-  @Summary("Define a prompt template with instructions, data and tools")
+  @Summary("[Tools] Native Template (Reasoning only)")
   public Result<InputStream, LLMResponseAttributes> toolsTemplate(
                                                                   @Connection TextGenerationConnection connection,
                                                                   @Content String template,
@@ -158,7 +158,7 @@ public class TextGenerationOperations {
   @Alias("Mcp-tools-native-template")
   @DisplayName("[MCP] Tooling")
   @OutputJsonType(schema = "api/response/Response.json")
-  @Summary("Define a prompt template with instructions and data")
+  @Summary("MCP Tooling support")
   public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(
                                                                      @Connection TextGenerationConnection connection,
                                                                      @Content String template,

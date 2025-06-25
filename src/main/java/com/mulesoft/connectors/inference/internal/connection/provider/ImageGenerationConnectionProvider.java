@@ -4,9 +4,11 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import com.mulesoft.connectors.inference.api.response.ImageGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -32,10 +34,14 @@ public abstract class ImageGenerationConnectionProvider extends BaseConnectionPr
       if (StringUtils.isNotBlank(imageGenerationResponse.response())) {
         return ConnectionValidationResult.success();
       }
-    } catch (IOException | TimeoutException e) {
-      return ConnectionValidationResult.failure("Failed to validate ImageGenerationConnection", e);
+    } catch (IOException | TimeoutException | ModuleException e) {
+      return ConnectionValidationResult.failure("Failed to validate ImageGenerationConnection",
+                                                new ModuleException("Error validating connection.",
+                                                                    InferenceErrorType.INVALID_CONNECTION, e));
     }
-    return ConnectionValidationResult.failure("Failed to validate ImageGenerationConnection", null);
+    return ConnectionValidationResult.failure("Failed to validate ImageGenerationConnection",
+                                              new ModuleException("Error validating connection.",
+                                                                  InferenceErrorType.INVALID_CONNECTION));
   }
 
   @Override

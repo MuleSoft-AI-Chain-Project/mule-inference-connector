@@ -43,7 +43,7 @@
         <mac-inference:openai-connection apiKey="${openai.apiKey}" openAIModelName="InvalidModelName" timeout="60000" />
     </mac-inference:text-generation-config>
 
-    <mac-inference:text-generation-config name="OpenAIInvalidApiConfig" doc:name="Open AI Text generation invalid apikey config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+    <mac-inference:text-generation-config name="OpenAIInvalidApiKeyConfig" doc:name="Open AI Text generation invalid apikey config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
         <mac-inference:openai-connection apiKey="InvalidApiKey" openAIModelName="${openai.llmModel}" timeout="60000" />
     </mac-inference:text-generation-config>
 
@@ -52,4 +52,12 @@
         <mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="InvalidModelName"/>
     </mac-inference:moderation-config>
 
+    <mac-inference:moderation-config name="OpenAIInvalidApiKeyModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
+        <mac-inference:openai-moderation-connection apiKey="InvalidApiKey" openAIModelName="${openai.llmModel}"/>
+    </mac-inference:moderation-config>
+
+    <!-- Image Generation Incorrect Configuration -->
+    <mac-inference:image-generation-config name="OpenAIInvalidApiKeyImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="aba51427-1dd3-4915-a411-8fe6543ee6ac" >
+        <mac-inference:openai-image-connection apiKey="InvalidApiKey" openAIModelName="${openai.imageGenModel}" />
+    </mac-inference:image-generation-config>
 </mule> 

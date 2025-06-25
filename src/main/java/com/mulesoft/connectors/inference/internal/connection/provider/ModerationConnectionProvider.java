@@ -4,9 +4,11 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import com.mulesoft.connectors.inference.api.response.ModerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.ModerationConnection;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -27,17 +29,22 @@ public abstract class ModerationConnectionProvider extends BaseConnectionProvide
     logger.debug("Validating ModerationConnection... ");
     try {
       var resp = connection.getModerationService().executeTextModeration(connection,
-                                                                         IOUtils.toInputStream("You are fat",
-                                                                                               Charset.defaultCharset()));
+                                                                         IOUtils
+                                                                             .toInputStream("\"You are fat\"",
+                                                                                            Charset.defaultCharset()));
       var moderationResponse = this.getObjectMapper().readValue(resp.getOutput(), ModerationResponse.class);
 
       if (moderationResponse.flagged()) {
         return ConnectionValidationResult.success();
       }
-    } catch (IOException | TimeoutException e) {
-      return ConnectionValidationResult.failure("Failed to validate ModerationConnection", e);
+    } catch (IOException | TimeoutException | ModuleException e) {
+      return ConnectionValidationResult.failure("Failed to validate ModerationConnection",
+                                                new ModuleException("Error validating connection.",
+                                                                    InferenceErrorType.INVALID_CONNECTION, e));
     }
-    return ConnectionValidationResult.failure("Failed to validate ModerationConnection", null);
+    return ConnectionValidationResult.failure("Failed to validate ModerationConnection",
+                                              new ModuleException("Error validating connection.",
+                                                                  InferenceErrorType.INVALID_CONNECTION));
   }
 
   @Override

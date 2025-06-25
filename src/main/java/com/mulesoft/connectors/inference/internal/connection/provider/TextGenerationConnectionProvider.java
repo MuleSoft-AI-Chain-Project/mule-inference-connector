@@ -4,9 +4,11 @@ import org.mule.runtime.api.connection.CachedConnectionProvider;
 import org.mule.runtime.api.connection.ConnectionValidationResult;
 import org.mule.runtime.api.lifecycle.Disposable;
 import org.mule.runtime.api.lifecycle.Initialisable;
+import org.mule.runtime.extension.api.exception.ModuleException;
 
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
 import java.util.concurrent.TimeoutException;
@@ -30,10 +32,14 @@ public abstract class TextGenerationConnectionProvider extends BaseConnectionPro
       if (textResponse.response().contains("Paris")) {
         return ConnectionValidationResult.success();
       }
-    } catch (IOException | TimeoutException e) {
-      return ConnectionValidationResult.failure("Failed to validate TextGenerationConnection", e);
+    } catch (IOException | TimeoutException | ModuleException e) {
+      return ConnectionValidationResult.failure("Failed to validate TextGenerationConnection",
+                                                new ModuleException("Error validating connection.",
+                                                                    InferenceErrorType.INVALID_CONNECTION, e));
     }
-    return ConnectionValidationResult.failure("Failed to validate TextGenerationConnection", null);
+    return ConnectionValidationResult.failure("Failed to validate TextGenerationConnection",
+                                              new ModuleException("Error validating connection.",
+                                                                  InferenceErrorType.INVALID_CONNECTION));
   }
 
   @Override
