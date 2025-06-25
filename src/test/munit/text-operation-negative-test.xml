@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="
+	  http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+
+	<munit:config name="text-operation-negative-test.xml" />
+
+	<!-- Chat answer prompt tests-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_invalid-model-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="OpenAIInvalidModelConfig">
+				<mac-inference:prompt ><![CDATA[#['Some payload']]]></mac-inference:prompt>
+			</mac-inference:chat-answer-prompt>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="XInferenceInvalidConfig">
+				<mac-inference:prompt ><![CDATA[#['Some payload']]]></mac-inference:prompt>
+			</mac-inference:chat-answer-prompt>
+		</munit:execution>
+	</munit:test>
+
+	<!-- Agent define prompt template tests-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="agent-define-prompt-invalid-model-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:agent-define-prompt-template doc:name="[Agent] Define Prompt Template" doc:id="d4f74b68-3202-4154-b0ee-1489ef42e870" config-ref="OpenAIInvalidModelConfig">
+				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
+			</mac-inference:agent-define-prompt-template>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="agent-define-prompt-invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:agent-define-prompt-template doc:name="[Agent] Define Prompt Template" doc:id="d4f74b68-3202-4154-b0ee-1489ef42e870" config-ref="XInferenceInvalidConfig">
+				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
+			</mac-inference:agent-define-prompt-template>
+		</munit:execution>
+	</munit:test>
+
+	<!-- Chat completion tests-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_completion-invalid-model-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="OpenAIInvalidModelConfig">
+				<mac-inference:messages ><![CDATA[#['Some payload']]]></mac-inference:messages>
+			</mac-inference:chat-completions>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat-completion-invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="XInferenceInvalidConfig">
+				<mac-inference:messages ><![CDATA[#['Some payload']]]></mac-inference:messages>
+			</mac-inference:chat-completions>
+		</munit:execution>
+	</munit:test>
+
+	<!-- Tools native template tests-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="tools-native-template-invalid-model-Test" expectedErrorType="MAC-INFERENCE:TOOLS_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:tools-native-template
+					config-ref="OpenAIInvalidModelConfig">
+				<mac-inference:template><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data><![CDATA[#['Some payload']]]></mac-inference:data>
+				<mac-inference:tools><![CDATA[#['Some payload']]]></mac-inference:tools>
+			</mac-inference:tools-native-template>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="tools-native-template-invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:TOOLS_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:tools-native-template
+					config-ref="XInferenceInvalidConfig">
+				<mac-inference:template><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data><![CDATA[#['Some payload']]]></mac-inference:data>
+				<mac-inference:tools><![CDATA[#['Some payload']]]></mac-inference:tools>
+			</mac-inference:tools-native-template>
+		</munit:execution>
+	</munit:test>
+
+	<!-- MCP tooling negative tests-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="mcp-tooling-invalid-model-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9" config-ref="OpenAIInvalidModelConfig">
+				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
+			</mac-inference:mcp-tools-native-template>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="mcp-tooling-invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:MCP_TOOLS_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" config-ref="XInferenceInvalidConfig">
+				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
+				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
+				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
+			</mac-inference:mcp-tools-native-template>
+		</munit:execution>
+	</munit:test>
+</mule>

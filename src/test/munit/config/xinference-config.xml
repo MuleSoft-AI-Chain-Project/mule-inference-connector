@@ -21,4 +21,9 @@
             </mac-inference:mcp-sse-servers>
         </mac-inference:xinference-connection>
     </mac-inference:text-generation-config>
+
+    <!-- Text Generation Configuration negative test-->
+    <mac-inference:text-generation-config name="XInferenceInvalidConfig" doc:name="xInference Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:xinference-connection apiKey="${xinference.apiKey}" xInferenceModelName="${xinference.llmModel}" xInferenceUrl="InvalidBaseUrl" timeout="60000"/>
+    </mac-inference:text-generation-config>
 </mule>
