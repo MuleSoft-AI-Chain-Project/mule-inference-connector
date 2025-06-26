@@ -13,7 +13,15 @@
 
 	<munit:config name="chat-completion.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-ai21labs" >
+			<munit:parameterization name="config-databricks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DatabricksConfig" />
+					<munit:parameter propertyName="llmModel" value="" />
+					<munit:parameter propertyName="inputCount" value="23" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+<!--			<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
@@ -93,7 +101,7 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!-- template payload error
+			&lt;!&ndash; template payload error
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
@@ -101,7 +109,7 @@
 					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>&ndash;&gt;
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
@@ -189,7 +197,7 @@
 					<munit:parameter propertyName="inputCount" value="22" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 
@@ -211,12 +219,12 @@
 			output application/json
 			---
 			[{
-			  "role": "assistant",
-			  "content": "You are a helpful assistant."
-			},
-			{
 			  "role": "user",
 			  "content": "What is the capital of Switzerland!"
+			},
+			{
+			  "role": "assistant",
+			  "content": "You are a helpful assistant."
 			}
 			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="${config}">

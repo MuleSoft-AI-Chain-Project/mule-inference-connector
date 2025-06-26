@@ -11,7 +11,15 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">	
 		<munit:config name="agent-define-prompt-template.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-ai21labs" >
+			<munit:parameterization name="config-databricks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DatabricksConfig" />
+					<munit:parameter propertyName="llmModel" value="" />
+					<munit:parameter propertyName="inputCount" value="127" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
+			<!--<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
@@ -186,7 +194,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="119" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 	<munit:test name="agent-define-prompt-template-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">

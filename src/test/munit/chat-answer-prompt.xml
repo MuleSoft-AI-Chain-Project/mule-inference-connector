@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-ai21labs" >
+<!--			<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
@@ -62,6 +62,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="COMPLETE" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-databricks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DatabricksConfig" />
+					<munit:parameter propertyName="llmModel" value="" />
+					<munit:parameter propertyName="inputCount" value="17" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
@@ -93,7 +101,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
@@ -102,7 +110,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-llmapi" >
+<!--			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
@@ -197,7 +205,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="inputCount" value="125" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 

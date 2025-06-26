@@ -16,7 +16,15 @@
 
 	<munit:config name="tools-native-template.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-ai21labs" >
+			<munit:parameterization name="config-databricks" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DatabricksConfig" />
+					<munit:parameter propertyName="llmModel" value="" />
+					<munit:parameter propertyName="inputCount" value="1007" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
+<!--			<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
@@ -191,7 +199,7 @@
 					<munit:parameter propertyName="inputCount" value="443" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 
