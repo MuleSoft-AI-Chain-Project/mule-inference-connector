@@ -48,9 +48,6 @@
     </mac-inference:text-generation-config>
 
     <!-- Moderation Incorrect Configuration -->
-    <mac-inference:moderation-config name="OpenAIInvalidModelModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
-        <mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="InvalidModelName"/>
-    </mac-inference:moderation-config>
 
     <mac-inference:moderation-config name="OpenAIInvalidApiKeyModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >
         <mac-inference:openai-moderation-connection apiKey="InvalidApiKey" openAIModelName="${openai.llmModel}"/>

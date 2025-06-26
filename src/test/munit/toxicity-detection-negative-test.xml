@@ -9,11 +9,28 @@
 
 	<munit:config name="toxicity-detection-negative-test.xml"/>
 
-	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-model-Test" expectedErrorType="MAC-INFERENCE:TOXICITY_DETECTION_OPERATION_FAILURE">
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-apikey-Test" expectedErrorType="MAC-INFERENCE:TOXICITY_DETECTION_OPERATION_FAILURE">
 		<munit:execution>
-			<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection Invalid model name" doc:id="a1c83599-a970-45a6-8ad2-1edc992e2aed" config-ref="OpenAIInvalidModelModerationConfig">
-				<mac-inference:text ><![CDATA[#['Some payload']]]></mac-inference:text>
+			<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+    			"prompt": "You are fat"
+   			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
+			<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection Invalid API key"
+												   config-ref="OpenAIInvalidApiKeyModerationConfig">
+				<mac-inference:text ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:text>
 			</mac-inference:toxicity-detection-text>
 		</munit:execution>
 	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-payload-Test" expectedErrorType="MAC-INFERENCE:TOXICITY_DETECTION_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection Invalid Payload Test"
+												   config-ref="OpenAIModeration">
+				<mac-inference:text ><![CDATA[#['Some Payload']]]></mac-inference:text>
+			</mac-inference:toxicity-detection-text>
+		</munit:execution>
+	</munit:test>
+
 </mule>

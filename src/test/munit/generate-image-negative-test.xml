@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<munit:config name="generate-image-negative-test.xml"/>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-apikey-Test" expectedErrorType="MAC-INFERENCE:IMAGE_GENERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:generate-image config-ref="OpenAIInvalidApiKeyImageGenConfig">
+				<mac-inference:prompt ><![CDATA[#['Some Payload']]]></mac-inference:prompt>
+			</mac-inference:generate-image>
+		</munit:execution>
+	</munit:test>
+</mule>
