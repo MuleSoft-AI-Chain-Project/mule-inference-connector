@@ -138,6 +138,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="Perplexity-model-name-values-test">
+        <mtf:get-values-from-config config-ref="PerplexityConfig" parameter="perplexityModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(5)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="portkey-model-name-values-test">
         <mtf:get-values-from-config config-ref="PortkeyConfig" parameter="portkeyModelName"/>
         <mtf:validation>
