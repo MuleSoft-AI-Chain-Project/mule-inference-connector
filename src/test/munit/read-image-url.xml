@@ -26,6 +26,14 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-groq" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GroqVision" />
+					<munit:parameter propertyName="llmModel" value="${groq.visionModel}" />
+					<munit:parameter propertyName="inputCount" value="2340" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
@@ -83,7 +91,7 @@
 			<!--<logger level="INFO" message="#[payload]"/>-->
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Eiffel Tower')]" message="Payload response is wrong answer"/>
+			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Eiffel Tower') or contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-equals actual="#[attributes.tokenUsage.inputCount as String]" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" doc:name="Input Token" expected="${inputCount}" message="Incorrect Input Token"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.model]" doc:id="ba201df7-81f2-4404-baee-755c49b3a20f" doc:name="model Info" expected="${llmModel}" message="Incorrect Model Info"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
@@ -96,7 +104,7 @@
 		    ---
 			{
 				"prompt":"What do you see",
-				"imageUrl": "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg"
+				"imageUrl":  if (p("config") == "GroqVision") "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg" else "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg",
 			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
