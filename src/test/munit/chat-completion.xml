@@ -69,6 +69,15 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
+			<munit:parameterization name="config-deepseek" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DeepseekConfig" />
+					<munit:parameter propertyName="llmModel" value="${deepseek.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="17" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-fireworks" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
