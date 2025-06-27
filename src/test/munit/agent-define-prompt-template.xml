@@ -156,6 +156,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-perplexity" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="PerplexityConfig" />
+					<munit:parameter propertyName="llmModel" value="${perplexity.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="112" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-portkey" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
