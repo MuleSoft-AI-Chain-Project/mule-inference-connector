@@ -14,7 +14,7 @@
 
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="PerplexityConfig" doc:name="Perplexity Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
-        <mac-inference:perplexity-connection apiKey="${perplexity.apiKey}" perplexityModelName="${perplexity.llmModel}" timeout="60000" />
+        <mac-inference:perplexity-connection apiKey="${perplexity.apiKey}" perplexityModelName="${perplexity.llmModel}" maxTokens="2000" timeout="60000" />
     </mac-inference:text-generation-config>
 
 </mule>
