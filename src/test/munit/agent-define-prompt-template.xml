@@ -180,6 +180,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-vertexai-express" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="VertexAiExpressConfig" />
+					<munit:parameter propertyName="llmModel" value="${vertexaiexpress.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="112" />
+					<munit:parameter propertyName="finishReason" value="STOP" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiConfig" />

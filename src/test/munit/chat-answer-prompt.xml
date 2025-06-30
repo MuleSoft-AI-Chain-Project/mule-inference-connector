@@ -183,6 +183,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-vertexai-express" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="VertexAiExpressConfig" />
+					<munit:parameter propertyName="llmModel" value="${vertexaiexpress.llmModel}" />
+					<munit:parameter propertyName="inputCount" value="7" />
+					<munit:parameter propertyName="finishReason" value="STOP" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiConfig" />
@@ -204,14 +212,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
 					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
 					<munit:parameter propertyName="inputCount" value="14" />
-					<munit:parameter propertyName="finishReason" value="stop" />
-				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-xinference" >
-				<munit:parameters >
-					<munit:parameter propertyName="config" value="XInferenceConfig" />
-					<munit:parameter propertyName="llmModel" value="${xinference.modelResponse}" />
-					<munit:parameter propertyName="inputCount" value="125" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>

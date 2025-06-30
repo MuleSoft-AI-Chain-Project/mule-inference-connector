@@ -311,7 +311,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     // create the generationConfig
     VertexAIGoogleGenerationConfigRecord generationConfig =
-        buildVertexAIGoogleGenerationConfig(connection.getTemperature(), connection.getMaxTokens(), connection.getTopP());
+        buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(), connection.getTemperature(), connection.getTopP());
 
     return new VertexAIGoogleChatPayloadRecord(List.of(userContentRecord),
                                                systemInstruction,
@@ -324,7 +324,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                                                                                    Number topP) {
     // create the generationConfig
     return new VertexAIGoogleGenerationConfigRecord(List.of("TEXT"), temperature,
-                                                    maxTokens, topP);
+                                                    topP, maxTokens);
   }
 
   private String getMimeTypeFromUrl(String imageUrl) {

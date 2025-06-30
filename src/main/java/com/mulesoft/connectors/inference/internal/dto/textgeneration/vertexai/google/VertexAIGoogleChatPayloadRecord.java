@@ -4,4 +4,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerat
 
 import java.util.List;
 
-public record VertexAIGoogleChatPayloadRecord(List<UserContentRecord>contents,SystemInstructionRecord systemInstruction,VertexAIGoogleGenerationConfigRecord generationConfig,List<String>safetySettings,List<String>tools)implements TextGenerationRequestPayloadDTO{}
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategies.LowerCamelCaseStrategy.class)public record VertexAIGoogleChatPayloadRecord(List<UserContentRecord>contents,SystemInstructionRecord systemInstruction,VertexAIGoogleGenerationConfigRecord generationConfig,List<String>safetySettings,List<String>tools)implements TextGenerationRequestPayloadDTO{}
