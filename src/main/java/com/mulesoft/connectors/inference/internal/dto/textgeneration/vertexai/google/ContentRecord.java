@@ -2,4 +2,4 @@ package com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.g
 
 import java.util.List;
 
-public record UserContentRecord(String role,List<PartRecord>parts){}
+public record ContentRecord(String role,List<PartRecord>parts){}

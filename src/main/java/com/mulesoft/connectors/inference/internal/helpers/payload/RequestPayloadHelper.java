@@ -47,6 +47,18 @@ public class RequestPayloadHelper {
                         null);
   }
 
+  public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
+                                                                            InputStream messages)
+      throws IOException {
+    List<ChatPayloadRecord> messagesArray = objectMapper.readValue(
+                                                                   messages,
+                                                                   objectMapper.getTypeFactory()
+                                                                       .constructCollectionType(List.class,
+                                                                                                ChatPayloadRecord.class));
+
+    return this.buildPayload(connection, messagesArray, null);
+  }
+
   public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
                                                       List<FunctionDefinitionRecord> tools) {
     return new DefaultRequestPayloadRecord(connection.getModelName(),
@@ -55,14 +67,6 @@ public class RequestPayloadHelper {
                                            connection.getTemperature(),
                                            connection.getTopP(),
                                            tools);
-  }
-
-  public List<ChatPayloadRecord> parseInputStreamToChatList(InputStream inputStream) throws IOException {
-
-    return objectMapper.readValue(
-                                  inputStream,
-                                  objectMapper.getTypeFactory()
-                                      .constructCollectionType(List.class, ChatPayloadRecord.class));
   }
 
   public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template,
@@ -170,4 +174,5 @@ public class RequestPayloadHelper {
         ? "data:" + getMimeType(imageUrl) + ";base64," + imageUrl
         : imageUrl;
   }
+
 }

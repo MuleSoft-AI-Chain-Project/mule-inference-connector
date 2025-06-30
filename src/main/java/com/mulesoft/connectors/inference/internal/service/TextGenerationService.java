@@ -3,7 +3,6 @@ package com.mulesoft.connectors.inference.internal.service;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
@@ -59,9 +58,7 @@ public class TextGenerationService implements BaseService {
                                                                           InputStream messages)
       throws IOException, TimeoutException {
 
-    List<ChatPayloadRecord> messagesArray = payloadHelper.parseInputStreamToChatList(messages);
-
-    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.buildPayload(connection, messagesArray, null);
+    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.parseAndBuildChatCompletionPayload(connection, messages);
 
     return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
   }

@@ -11,10 +11,9 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequ
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.ContentRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.UserContentRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleChatPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta.VertexAIMetaPayloadRecord;
@@ -77,33 +76,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
   @Override
-    public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray, List<FunctionDefinitionRecord> tools) {
-
-        String provider = getProviderByModel(connection.getModelName());
-
-        return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
-                    null,
-                    buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
-                    null,
-                    tools);
-            case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                    messagesArray,
-                    connection.getMaxTokens(),
-                    connection.getTemperature(),
-                    connection.getTopP(),
-                    null);
-            case META_PROVIDER_TYPE -> new VertexAIMetaPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                    messagesArray,
-                    connection.getMaxTokens(),
-                    connection.getTemperature(),
-                    connection.getTopP(),
-                    false);
-            default -> getDefaultRequestPayloadDTO(connection,messagesArray);
-        };
-    }
-
-  @Override
     public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
 
         String provider = getProviderByModel(connection.getModelName());
@@ -129,6 +101,48 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
             }
         };
     }
+
+  @Override
+  public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
+                                                                            InputStream messages)
+          throws IOException {
+      List<ContentRecord> messagesArray = objectMapper.readValue(
+              messages,
+              objectMapper.getTypeFactory()
+                      .constructCollectionType(List.class, ContentRecord.class));
+
+      String provider = getProviderByModel(connection.getModelName());
+
+      return switch (provider) {
+          case GOOGLE_PROVIDER_TYPE ->
+                  new VertexAIGooglePayloadRecord<>(messagesArray,
+                          null,
+                          buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
+                          null,
+                          null);
+          case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
+                  messagesArray,
+                  connection.getMaxTokens(),
+                  connection.getTemperature(),
+                  connection.getTopP(),
+                  null);
+          case META_PROVIDER_TYPE -> new VertexAIMetaPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
+                  messagesArray,
+                  connection.getMaxTokens(),
+                  connection.getTemperature(),
+                  connection.getTopP(),
+                  false);
+          default -> throw new UnsupportedOperationException("Model not supported: " + connection.getModelName());
+      };
+  }
+
+  @Override
+  public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                   String instructions, String data,
+                                                                   List<FunctionDefinitionRecord> tools) {
+
+    throw new UnsupportedOperationException("Currently not supported");
+  }
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
@@ -302,22 +316,21 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                                                  connection.getTopP());
   }
 
-  private VertexAIGoogleChatPayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,
-                                                                     List<String> safetySettings,
-                                                                     SystemInstructionRecord systemInstruction,
-                                                                     List<String> tools) {
+  private VertexAIGooglePayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,
+                                                                 List<String> safetySettings,
+                                                                 SystemInstructionRecord systemInstruction,
+                                                                 List<FunctionDefinitionRecord> tools) {
+
     PartRecord partRecord = new PartRecord(prompt);
-    UserContentRecord userContentRecord = new UserContentRecord("user", List.of(partRecord));
+    ContentRecord contentRecord = new ContentRecord("user", List.of(partRecord));
 
-    // create the generationConfig
-    VertexAIGoogleGenerationConfigRecord generationConfig =
-        buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(), connection.getTemperature(), connection.getTopP());
-
-    return new VertexAIGoogleChatPayloadRecord(List.of(userContentRecord),
-                                               systemInstruction,
-                                               generationConfig,
-                                               safetySettings != null && !safetySettings.isEmpty() ? safetySettings : null,
-                                               tools != null && !tools.isEmpty() ? tools : null);
+    return new VertexAIGooglePayloadRecord<>(List.of(contentRecord),
+                                             systemInstruction,
+                                             buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),
+                                                                                 connection.getTemperature(),
+                                                                                 connection.getTopP()),
+                                             safetySettings,
+                                             tools != null && !tools.isEmpty() ? tools : null);
   }
 
   private VertexAIGoogleGenerationConfigRecord buildVertexAIGoogleGenerationConfig(Number maxTokens, Number temperature,
