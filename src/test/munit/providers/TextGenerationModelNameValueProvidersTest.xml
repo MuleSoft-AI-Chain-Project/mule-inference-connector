@@ -159,6 +159,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="vertexai-express-model-name-values-test">
+        <mtf:get-values-from-config config-ref="VertexAiExpressConfig" parameter="vertexAIExpressModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="xai-model-name-values-test">
         <mtf:get-values-from-config config-ref="XAiConfig" parameter="xAiModelName"/>
         <mtf:validation>
