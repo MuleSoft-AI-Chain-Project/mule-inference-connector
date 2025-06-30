@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<munit:config name="chat-completion-with-varying-input.xml"/>
+
+	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_hugging-face">
+		<munit:execution>
+			<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			[{
+			  "role": "system",
+			  "content": "You are a helpful assistant."
+			},
+			{
+			  "role": "user",
+			  "content": "What is the capital of Switzerland!"
+			}
+			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithSystem"/>
+			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+											config-ref="HuggingFaceConfig">
+				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></mac-inference:messages>
+			</mac-inference:chat-completions>
+			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
+									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
+			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
+									   expected="18" message="Incorrect Input Token" />
+			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
+									 expression="#[attributes.additionalAttributes.model]"
+									 is="#[MunitTools::containsString('${hugging-face.llmModel}')]" />
+			<munit-tools:assert-equals doc:name="finish reason" actual="#[attributes.additionalAttributes.finishReason]"
+									   expected="stop" message="Incorrect finish reason" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_perplexity">
+		<munit:execution>
+			<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			[{
+			  "role": "system",
+			  "content": "You are a helpful assistant."
+			},
+			{
+			  "role": "user",
+			  "content": "What is the capital of Switzerland!"
+			}
+			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithSystem"/>
+			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+											config-ref="PerplexityConfig">
+				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></mac-inference:messages>
+			</mac-inference:chat-completions>
+			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
+									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
+			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
+									   expected="13" message="Incorrect Input Token" />
+			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
+									 expression="#[attributes.additionalAttributes.model]"
+									 is="#[MunitTools::containsString('${perplexity.llmModel}')]" />
+			<munit-tools:assert-equals doc:name="finish reason" actual="#[attributes.additionalAttributes.finishReason]"
+									   expected="stop" message="Incorrect finish reason" />
+		</munit:validation>
+	</munit:test>
+
+	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_with_vertex_ai_input">
+		<munit:execution>
+			<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			[{
+			  "role": "assistant",
+			  "parts":[{
+			   "text":"You are a helpful assistant."
+				}]
+			},
+			{
+			  "role": "user",
+			  "parts":[{
+			   "text":"What is the capital of Switzerland!"
+				}]
+			}
+			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithVetexAiInput"/>
+			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+											config-ref="VertexAiExpressConfig">
+				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithVetexAiInput]]]></mac-inference:messages>
+			</mac-inference:chat-completions>
+			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
+				<ee:message >
+					<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+				</ee:message>
+			</ee:transform>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
+									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
+			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
+									   expected="13" message="Incorrect Input Token" />
+			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
+									 expression="#[attributes.additionalAttributes.model]"
+									 is="#[MunitTools::containsString('${vertexaiexpress.llmModel}')]" />
+			<munit-tools:assert-equals doc:name="finish reason" actual="#[attributes.additionalAttributes.finishReason]"
+									   expected="STOP" message="Incorrect finish reason" />
+		</munit:validation>
+	</munit:test>
+
+</mule>
