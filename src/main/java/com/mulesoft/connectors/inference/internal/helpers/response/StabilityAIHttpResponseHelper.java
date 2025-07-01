@@ -33,6 +33,9 @@ public class StabilityAIHttpResponseHelper extends HttpResponseHelper {
       throws IOException {
     int statusCode = response.getStatusCode();
     String contentType = response.getHeaderValue(InferenceConstants.HEADER_CONTENT_TYPE);
+
+    logger.debug("Processing StabilityAI image generation response. Response Code:{}", statusCode);
+
     if (statusCode == 200) {
       String responseBody = new String(response.getEntity().getBytes(), StandardCharsets.UTF_8);
       JSONObject stabilityResponse = new JSONObject(responseBody);

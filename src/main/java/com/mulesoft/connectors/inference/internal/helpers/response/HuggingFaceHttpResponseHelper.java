@@ -13,8 +13,12 @@ import java.util.Base64;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class HuggingFaceHttpResponseHelper extends HttpResponseHelper {
+
+  private static final Logger logger = LoggerFactory.getLogger(HuggingFaceHttpResponseHelper.class);
 
   public HuggingFaceHttpResponseHelper(ObjectMapper objectMapper) {
     super(objectMapper);
@@ -24,7 +28,10 @@ public class HuggingFaceHttpResponseHelper extends HttpResponseHelper {
   public ImageGenerationRestResponse processImageGenerationResponse(ImageGenerationRequestPayloadDTO requestPayloadDTO,
                                                                     HttpResponse response)
       throws IOException {
+
     int statusCode = response.getStatusCode();
+
+    logger.debug("Processing Huggingface chat response. Response Code:{}", statusCode);
 
     if (statusCode == 200) {
       String base64Image = encodeImageToBase64(response.getEntity().getBytes());

@@ -23,7 +23,7 @@ public class CohereHttpResponseHelper extends HttpResponseHelper {
   public CohereChatCompletionResponse processChatResponse(HttpResponse response, InferenceErrorType errorType)
       throws IOException {
 
-    logger.debug("Processing Anthropic chat response. Response Code:{}", response.getStatusCode());
+    logger.debug("Processing Cohere chat response. Response Code:{}", response.getStatusCode());
     int statusCode = response.getStatusCode();
 
     if (statusCode == 200) {
