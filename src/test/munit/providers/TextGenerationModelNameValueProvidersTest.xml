@@ -138,6 +138,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="ollama-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OllamaConfig" parameter="ollamaModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="Perplexity-model-name-values-test">
         <mtf:get-values-from-config config-ref="PerplexityConfig" parameter="perplexityModelName"/>
         <mtf:validation>
