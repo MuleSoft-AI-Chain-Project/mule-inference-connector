@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+	<mac-inference:text-generation-config name="OpenAI_Text_generation_config" doc:name="MuleSoft Inference Text generation config" doc:id="3c24c806-bb9f-4512-bc9b-a51cda5c710a" >
+		<mac-inference:openai-connection openAIModelName="${config.llmModel}" apiKey="${config.apiKey}" timeout="60000" >
+			<mac-inference:mcp-sse-servers >
+				<mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+			</mac-inference:mcp-sse-servers>
+		</mac-inference:openai-connection>
+	</mac-inference:text-generation-config>
+
+	<flow name="AgentDefinePromptTemplateFlow" doc:id="1ee32ee4-8c15-4636-9a49-0784f782cb98" >
+		<http:listener doc:name="Listener" doc:id="8725c446-5f45-4732-8fca-ea9006aabed6" config-ref="HTTP_Listener_config" path="/prompttemplate"/>
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			{
+			"template": "You are a customer satisfaction agent, who analyses the customer feedback in the dataset. Answer via json output and add a type for the result only with positive or negative as well as the complete answer",
+			"instructions":"If the customer feedback in the dataset is negative, open a service satisfaction case and apologize to the customer. If the customer feedback in the dataset is positive, thank the customer and wish them a nice day. Do not repeat the feedback and be more direct starting the conversation with formal greetings",
+			"dataset": "The training last week was amazing, we learned so much and the trainer was very friendly"
+		}]' doc:name="Set Variable" doc:id="209a7846-c3e3-4a8a-9c63-6ab02a772ec4" variableName="testPayload"/>
+		<mac-inference:agent-define-prompt-template doc:name="[Agent] Define Prompt Template" doc:id="699b48f4-0ac8-46b5-9f3b-418070e7157d" config-ref="OpenAI_Text_generation_config">
+			<mac-inference:template ><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+		</mac-inference:agent-define-prompt-template>
+	</flow>
+
+	<flow name="ChatAnswerPromptFlow" doc:id="698ff181-7968-4294-8f08-51387fbf1dfa" >
+		<http:listener doc:name="Listener" doc:id="3ae26012-7b44-41ee-8d6d-bdb51ed9e39e" config-ref="HTTP_Listener_config" path="/chatprompt"/>
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			{
+			    "prompt": "What is the capital of Germany?"
+			}]' doc:name="Set Variable" doc:id="774dde86-5241-4151-b7fa-b5d7bf412508" variableName="testPayload"/>
+		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="53e77f54-95c1-42da-b447-b5703212e9ca" config-ref="OpenAI_Text_generation_config">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+		</mac-inference:chat-answer-prompt>
+	</flow>
+
+	<flow name="ChatCompletionsFlow" doc:id="ae0b651f-950d-40d0-8c98-9ef050779c06" >
+		<http:listener doc:name="Listener" doc:id="a2a68fe6-47da-41b0-954f-3cf51e80d6f2" config-ref="HTTP_Listener_config" path="/chatcompletion"/>
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			[{
+			  "role": "assistant",
+			  "content": "You are a helpful assistant."
+			},
+			{
+			  "role": "user",
+			  "content": "What is the capital of Switzerland!"
+			}
+			]]' doc:name="Set Variable" doc:id="860b37bd-9fa9-4584-90d4-2723b2e00cc5" variableName="testPayload"/>
+		<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="f2eedc4f-a87b-4579-92a6-4022db9f3c03" config-ref="OpenAI_Text_generation_config">
+			<mac-inference:messages ><![CDATA[#[vars.testPayload]]]></mac-inference:messages>
+		</mac-inference:chat-completions>
+	</flow>
+</mule>
+

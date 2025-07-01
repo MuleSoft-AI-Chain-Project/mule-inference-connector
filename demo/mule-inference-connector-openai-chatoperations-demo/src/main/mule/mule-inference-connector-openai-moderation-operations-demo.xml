@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+	<mac-inference:moderation-config name="OpenAIInvalidApiKeyModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="c28800c5-75d8-4904-8e98-a6b8d965e054" >
+		<mac-inference:openai-moderation-connection apiKey="${openai.apiKey}" openAIModelName="${openai.llmModel}"/>
+	</mac-inference:moderation-config>
+
+	<flow name="ToxicityDetectionFlow" doc:id="1ee32ee4-8c15-4636-9a49-0784f782cb98" >
+		<http:listener doc:name="Listener" doc:id="8725c446-5f45-4732-8fca-ea9006aabed6" config-ref="HTTP_Listener_config" path="/toxicitydetection"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+    			"prompt": "You are fat"
+   			}]' doc:name="Set Variable" doc:id="7ced3e9a-a3ec-4768-85b1-081849fca0fc" variableName="testPayload"/>
+		<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection by Text" doc:id="cd45c2f9-cb7f-4fe0-8311-2a58cc6c11ac" config-ref="OpenAIInvalidApiKeyModerationConfig">
+			<mac-inference:text ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:text>
+		</mac-inference:toxicity-detection-text>
+	</flow>
+</mule>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+	<mac-inference:text-generation-config name="OpenAI_Text_generation_config" doc:name="MuleSoft Inference Text generation config" doc:id="3c24c806-bb9f-4512-bc9b-a51cda5c710a" >
+		<mac-inference:openai-connection openAIModelName="${config.llmModel}" apiKey="${config.apiKey}" timeout="60000" >
+			<mac-inference:mcp-sse-servers >
+				<mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
+			</mac-inference:mcp-sse-servers>
+		</mac-inference:openai-connection>
+	</mac-inference:text-generation-config>
+
+	<flow name="ToolsNativeTemplateFlow" doc:id="1ee32ee4-8c15-4636-9a49-0784f782cb98" >
+		<http:listener doc:name="Listener" doc:id="8725c446-5f45-4732-8fca-ea9006aabed6" config-ref="HTTP_Listener_config" path="/toolstemplate"/>
+		<set-variable
+				value="#[%dw 2.0
+            output application/json
+            ---
+            {
+                'template': 'You are an helpful assistant',
+                'instructions': 'Answer the request with politeness.',
+                'dataset': 'What is the current temperature in Zurich in Celsius?',
+                'tools': [
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_current_temperature',
+                            'description': 'Get the current temperature for a specific location',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'location': {
+                                        'type': 'string',
+                                        'description': 'The city and state, e.g., San Francisco, CA'
+                                    },
+                                    'unit': {
+                                        'type': 'string',
+                                        'enum': ['Celsius', 'Fahrenheit'],
+                                        'description': 'The temperature unit to use. Infer this from the user\'s location.'
+                                    }
+                                },
+                                'required': ['location', 'unit']
+                            }
+                        }
+                    },
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_rain_probability',
+                            'description': 'Get the probability of rain for a specific location',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'location': {
+                                        'type': 'string',
+                                        'description': 'The city and state, e.g., San Francisco, CA'
+                                    }
+                                },
+                                'required': ['location']
+                            }
+                        }
+                    },
+                    {
+                        'type': 'function',
+                        'function': {
+                            'name': 'get_delivery_date',
+                            'description': 'Get the delivery date for a customer\'s order. Call this whenever you need to know the delivery date, for example when a customer asks \'Where is my package\'',
+                            'parameters': {
+                                'type': 'object',
+                                'properties': {
+                                    'order_id': {
+                                        'type': 'string',
+                                        'description': 'The customer\'s order ID.'
+                                    }
+                                },
+                                'required': ['order_id']
+                            }
+                        }
+                    }
+                ]
+            }]"
+				doc:name="Set Variable"
+				doc:id="9b80bd71-922a-4739-804b-29ac2ba7ef7a"
+				variableName="testPayload" />
+		<mac-inference:tools-native-template
+				doc:name="[Tools] Native Template (Reasoning only)"
+				doc:id="e87a2e5e-b19b-4c2d-a4a0-8e991291de97"
+				config-ref="OpenAI_Text_generation_config">
+			<mac-inference:template><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+			<mac-inference:tools><![CDATA[#[vars.testPayload.tools]]]></mac-inference:tools>
+		</mac-inference:tools-native-template>
+	</flow>
+
+	<flow name="McpToolingFlow" doc:id="698ff181-7968-4294-8f08-51387fbf1dfa" >
+		<http:listener doc:name="Listener" doc:id="3ae26012-7b44-41ee-8d6d-bdb51ed9e39e" config-ref="HTTP_Listener_config" path="/mcptooling"/>
+		<set-variable doc:id="670f5911-2f8e-45f6-abb3-730d5db5ae81" doc:name="Set Variable" value='#[%dw 2.0             &#10;output application/json&#10;---&#10;{&#10;    "template": "You are an helpful assistant",&#10;    "instructions":"Answer the request with politeness.",&#10;    "dataset": "Check Inventory for MULETEST0"&#10;&#10;}]' variableName="testPayload"/>
+		<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="e1999d3c-a852-4ab2-8e82-a9bfadc88344" config-ref="OpenAI_Text_generation_config">
+			<mac-inference:template ><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
+			<mac-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
+			<mac-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
+		</mac-inference:mcp-tools-native-template>
+	</flow>
+</mule>

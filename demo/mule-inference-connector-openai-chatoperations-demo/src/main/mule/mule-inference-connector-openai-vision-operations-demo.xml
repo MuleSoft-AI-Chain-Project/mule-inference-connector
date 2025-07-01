@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+	<mac-inference:vision-config name="OpenAIVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="68ed828a-f058-4c77-b79c-3255e3cc0e17" >
+		<mac-inference:openai-vision-connection apiKey="${openai.apiKey}" openAIModelName="${openai.visionModel}" />
+	</mac-inference:vision-config>
+
+	<flow name="ReadImageFlow" doc:id="1ee32ee4-8c15-4636-9a49-0784f782cb98" >
+		<http:listener doc:name="Listener" doc:id="8725c446-5f45-4732-8fca-ea9006aabed6" config-ref="HTTP_Listener_config" path="/readimage"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+				"prompt":"What do you see",
+				"imageUrl":  "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg",
+			}]' doc:name="Set Variable" doc:id="d171b6b1-d202-4262-9b65-401cad56a68d" variableName="testPayload"/>
+		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="709c200c-60c6-406a-88f7-9f1933256c56" config-ref="OpenAIVisionConfig">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+			<mac-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></mac-inference:image-url>
+		</mac-inference:read-image>
+	</flow>
+</mule>
