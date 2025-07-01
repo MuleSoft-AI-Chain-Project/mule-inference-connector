@@ -29,11 +29,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
 
   @Override
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
-    var chatRespFirstChoice = chatCompletionResponse.content().stream()
-        .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
-    return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO), null);
+    return mapChatResponseWithToolExecutionResult(responseDTO, null);
   }
 
   @Override
@@ -73,8 +69,10 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
   @Override
   public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
                                                                        List<ToolResult> toolExecutionResult) {
-
-    return new TextGenerationResponse(null,
+    var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = chatCompletionResponse.content().stream()
+        .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
+    return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
                                       mapToolCalls(responseDTO),
                                       toolExecutionResult);
   }

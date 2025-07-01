@@ -12,7 +12,6 @@ public class Ai21labsResponseMapper extends DefaultResponseMapper {
     super(objectMapper);
   }
 
-
   @Override
   public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;

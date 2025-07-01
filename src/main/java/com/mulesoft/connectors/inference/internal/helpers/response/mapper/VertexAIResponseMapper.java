@@ -11,9 +11,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ve
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +26,7 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
 
   @Override
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    var chatCompletionResponse = (VertexAiChatCompletionResponse) responseDTO;
-    var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
-
-    return new TextGenerationResponse(chatRespFirstChoice.map(x -> x.content().parts().get(0).text()).orElse(null),
-                                      mapToolCalls(responseDTO), null);
+    return mapChatResponseWithToolExecutionResult(responseDTO, null);
   }
 
   @Override
@@ -59,8 +53,6 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
   @Override
   public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
 
-    var chatCompletionResponse = (VertexAiChatCompletionResponse) responseDTO;
-
     return Collections.emptyList();
   }
 
@@ -68,17 +60,12 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
   public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
                                                                        List<ToolResult> toolExecutionResult) {
 
-    return new TextGenerationResponse(null,
+    var chatCompletionResponse = (VertexAiChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
+
+    return new TextGenerationResponse(chatRespFirstChoice.map(x -> x.content().parts().get(0).text()).orElse(null),
                                       mapToolCalls(responseDTO),
                                       toolExecutionResult);
   }
 
-  private String convertToJsonString(Map<String, Object> input) {
-    try {
-      return objectMapper.writeValueAsString(input);
-    } catch (JsonProcessingException e) {
-      logger.error("Error converting input to JSON string for tool call. Value for input field: {}", input, e);
-      return null;
-    }
-  }
 }

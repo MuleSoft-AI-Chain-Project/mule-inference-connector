@@ -22,12 +22,7 @@ public class CohereResponseMapper extends DefaultResponseMapper {
 
   @Override
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
-    var chatRespFirstChoice = Optional.ofNullable(chatCompletionResponse.message())
-        .flatMap(msg -> Optional.ofNullable(msg.content()).map(contents -> contents.get(0))).orElse(null);
-
-    return new TextGenerationResponse(Optional.ofNullable(chatRespFirstChoice).map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO), null);
+    return mapChatResponseWithToolExecutionResult(responseDTO, null);
   }
 
   @Override
@@ -58,8 +53,11 @@ public class CohereResponseMapper extends DefaultResponseMapper {
   @Override
   public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
                                                                        List<ToolResult> toolExecutionResult) {
+    var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = Optional.ofNullable(chatCompletionResponse.message())
+        .flatMap(msg -> Optional.ofNullable(msg.content()).map(contents -> contents.get(0))).orElse(null);
 
-    return new TextGenerationResponse(null,
+    return new TextGenerationResponse(Optional.ofNullable(chatRespFirstChoice).map(Content::text).orElse(null),
                                       mapToolCalls(responseDTO),
                                       toolExecutionResult);
   }
