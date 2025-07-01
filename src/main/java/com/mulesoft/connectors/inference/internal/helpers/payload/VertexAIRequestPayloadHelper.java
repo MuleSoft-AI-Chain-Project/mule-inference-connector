@@ -218,8 +218,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
       parts.add(new Part(null, fileData, null));
     }
 
-    TextContent textContent = new TextContent(null, prompt);
-    parts.add(new Part(null, null, textContent));
+    parts.add(new Part(null, null, prompt));
 
     return new VisionContentRecord("user", parts);
   }

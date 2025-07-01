@@ -6,6 +6,10 @@ import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloa
 
 import java.util.List;
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+
+@JsonNaming(PropertyNamingStrategies.LowerCamelCaseStrategy.class)
 public record VertexAIGooglePayloadRecord<T>(List<T> contents, SystemInstructionRecord systemInstruction,
                                              VertexAIGoogleGenerationConfigRecord generationConfig, List<String> safetySettings, List<FunctionDefinitionRecord> tools)
 implements TextGenerationRequestPayloadDTO, VisionRequestPayloadDTO {
