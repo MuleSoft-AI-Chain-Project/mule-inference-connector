@@ -315,10 +315,11 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                                                  connection.getTopP());
   }
 
-  private VertexAIGooglePayloadRecord buildVertexAIGooglePayload(TextGenerationConnection connection, String prompt,
-                                                                 List<String> safetySettings,
-                                                                 SystemInstructionRecord systemInstruction,
-                                                                 List<FunctionDefinitionRecord> tools) {
+  private VertexAIGooglePayloadRecord<ContentRecord> buildVertexAIGooglePayload(TextGenerationConnection connection,
+                                                                                String prompt,
+                                                                                List<String> safetySettings,
+                                                                                SystemInstructionRecord systemInstruction,
+                                                                                List<FunctionDefinitionRecord> tools) {
 
     PartRecord partRecord = new PartRecord(prompt);
     ContentRecord contentRecord = new ContentRecord("user", List.of(partRecord));
