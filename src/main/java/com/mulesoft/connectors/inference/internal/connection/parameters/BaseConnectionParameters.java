@@ -13,12 +13,19 @@ import java.util.concurrent.TimeUnit;
 
 public class BaseConnectionParameters {
 
+
+  /**
+   * The api key as required by the inference provider
+   */
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("API Key")
   @Placement(order = 1)
   private String apiKey;
 
+  /**
+   * The response timeout value set for each inference HTTP request
+   */
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @DisplayName("Timeout")
@@ -26,6 +33,9 @@ public class BaseConnectionParameters {
   @Optional(defaultValue = "60")
   private int timeout;
 
+  /**
+   * The response timeout unit set for each inference HTTP request
+   */
   @Parameter
   @Optional(defaultValue = "SECONDS")
   @Placement(tab = ADVANCED_TAB, order = 2)

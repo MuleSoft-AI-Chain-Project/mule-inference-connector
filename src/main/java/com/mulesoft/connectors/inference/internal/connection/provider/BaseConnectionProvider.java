@@ -15,6 +15,7 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.RefName;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.http.api.HttpService;
 import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpClientConfiguration;
@@ -35,6 +36,9 @@ public class BaseConnectionProvider implements Initialisable, Disposable {
   @RefName
   private String configName;
 
+  /**
+   * Proxy Configuration
+   */
   @Parameter
   @Optional
   @Placement(tab = "Proxy", order = 3)
@@ -42,11 +46,17 @@ public class BaseConnectionProvider implements Initialisable, Disposable {
   @DisplayName("Proxy Configuration")
   private HttpProxyConfig proxyConfig;
 
+  /**
+   * Protocol to use for communication. Valid values are HTTP and HTTPS. Default value is HTTP. When using HTTPS the HTTP
+   * communication is going to be secured using TLS / SSL. If HTTPS was configured as protocol then the user needs to configure at
+   * least the keystore.
+   */
   @Expression(NOT_SUPPORTED)
   @Placement(tab = "Security", order = 1)
   @Parameter
   @Optional
   @DisplayName("TLS Configuration")
+  @Summary("If the HTTPS was configured as protocol, then the user needs to configure at least the keystore configuration")
   private TlsContextFactory tlsContextFactory;
 
   @Inject
