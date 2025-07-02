@@ -28,20 +28,12 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
+  public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
+                                                                       List<ToolResult> toolExecutionResult) {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new TextGenerationResponse(chatCompletionResponse.message().content(),
-                                      this.mapToolCalls(responseDTO), null);
-  }
-
-  @Override
-  public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
-                                                                       List<ToolResult> toolExecutionResult) {
-
-    return new TextGenerationResponse(null,
-                                      mapToolCalls(responseDTO),
-                                      toolExecutionResult);
+                                      this.mapToolCalls(responseDTO), toolExecutionResult);
   }
 
   @Override

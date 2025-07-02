@@ -25,11 +25,6 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    return mapChatResponseWithToolExecutionResult(responseDTO, null);
-  }
-
-  @Override
   public TokenUsage mapTokenUsageFromResponse(TextResponseDTO responseDTO) {
     var chatCompletionResponse = (VertexAiChatCompletionResponse) responseDTO;
     var chatRespUsage = chatCompletionResponse.usageMetadata();

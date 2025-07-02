@@ -28,11 +28,6 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    return mapChatResponseWithToolExecutionResult(responseDTO, null);
-  }
-
-  @Override
   public TokenUsage mapTokenUsageFromResponse(TextResponseDTO responseDTO) {
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
     var chatRespUsage = chatCompletionResponse.usage();

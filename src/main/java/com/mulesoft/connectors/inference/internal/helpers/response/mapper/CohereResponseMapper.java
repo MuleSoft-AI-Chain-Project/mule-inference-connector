@@ -21,11 +21,6 @@ public class CohereResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
-    return mapChatResponseWithToolExecutionResult(responseDTO, null);
-  }
-
-  @Override
   public TokenUsage mapTokenUsageFromResponse(TextResponseDTO responseDTO) {
     var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
     var chatRespUsage = chatCompletionResponse.usage();
