@@ -4,9 +4,9 @@
  * license, a copy of which has been included with this distribution in the
  * LICENSE.txt file.
  */
-package com.mulesoft.connectors.inference.internal.config.proxy;
+package com.mulesoft.connectors.inference.api.proxy;
 
-import static com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig.HttpNtlmProxyConfig;
+import static com.mulesoft.connectors.inference.api.proxy.HttpProxyConfig.HttpNtlmProxyConfig;
 
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.dsl.xml.TypeDsl;

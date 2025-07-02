@@ -20,7 +20,7 @@ import org.mule.runtime.http.api.HttpService;
 import org.mule.runtime.http.api.client.HttpClient;
 import org.mule.runtime.http.api.client.HttpClientConfiguration;
 
-import com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig;
+import com.mulesoft.connectors.inference.api.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.inference.internal.utils.ObjectMapperProvider;
 
 import javax.inject.Inject;

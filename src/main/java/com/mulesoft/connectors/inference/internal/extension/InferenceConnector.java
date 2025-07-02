@@ -10,13 +10,13 @@ import org.mule.runtime.extension.api.annotation.dsl.xml.Xml;
 import org.mule.runtime.extension.api.annotation.error.ErrorTypes;
 import org.mule.sdk.api.annotation.JavaVersionSupport;
 
+import com.mulesoft.connectors.inference.api.proxy.DefaultNtlmProxyConfig;
+import com.mulesoft.connectors.inference.api.proxy.DefaultProxyConfig;
+import com.mulesoft.connectors.inference.api.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.inference.internal.config.ImageGenerationConfig;
 import com.mulesoft.connectors.inference.internal.config.ModerationConfig;
 import com.mulesoft.connectors.inference.internal.config.TextGenerationConfig;
 import com.mulesoft.connectors.inference.internal.config.VisionConfig;
-import com.mulesoft.connectors.inference.internal.config.proxy.DefaultNtlmProxyConfig;
-import com.mulesoft.connectors.inference.internal.config.proxy.DefaultProxyConfig;
-import com.mulesoft.connectors.inference.internal.config.proxy.HttpProxyConfig;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 /**
