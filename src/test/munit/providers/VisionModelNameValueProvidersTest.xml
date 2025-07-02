@@ -82,6 +82,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="vertexai-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="VertexAiExpressVisionConfig" parameter="vertexAIExpressModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="xai-vision-model-name-values-test">
         <mtf:get-values-from-config config-ref="XAiVisionConfig" parameter="xAiModelName"/>
         <mtf:validation>

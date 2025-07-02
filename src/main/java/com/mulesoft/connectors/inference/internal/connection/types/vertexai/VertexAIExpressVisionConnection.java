@@ -8,6 +8,9 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.VertexAIReques
 import com.mulesoft.connectors.inference.internal.helpers.response.VertexAIHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.VertexAIResponseMapper;
 
+import java.util.Collections;
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class VertexAIExpressVisionConnection extends VisionModelConnection {
@@ -43,6 +46,16 @@ public class VertexAIExpressVisionConnection extends VisionModelConnection {
     if (httpResponseHelper == null)
       httpResponseHelper = new VertexAIHttpResponseHelper(getObjectMapper());
     return httpResponseHelper;
+  }
+
+  @Override
+  public Map<String, String> getQueryParams() {
+    return Map.of("key", this.getApiKey());
+  }
+
+  @Override
+  public Map<String, String> getAdditionalHeaders() {
+    return Collections.emptyMap();
   }
 
   private static String fetchApiURL(String modelName) {
