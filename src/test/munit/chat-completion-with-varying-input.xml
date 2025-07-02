@@ -48,7 +48,7 @@
 									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
 			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
 									 expression="#[attributes.additionalAttributes.model]"
-									 is="#[MunitTools::containsString('${hugging-face.llmModel}')]" />
+									 is="#[MunitTools::containsString('meta-llama/Llama-3.2-11B-Vision-Instruct')]" />
 			<munit-tools:assert-equals doc:name="finish reason" actual="#[attributes.additionalAttributes.finishReason]"
 									   expected="stop" message="Incorrect finish reason" />
 		</munit:validation>

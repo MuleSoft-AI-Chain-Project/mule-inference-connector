@@ -14,7 +14,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
-			<!--<munit:parameterization name="config-ai21labs" >
+			<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
@@ -63,7 +63,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			&lt;!&ndash; Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline&ndash;&gt;
+			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
 			<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
@@ -95,10 +95,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
-					<munit:parameter propertyName="llmModel" value="${hugging-face.llmModel}" />
+					<munit:parameter propertyName="llmModel" value="meta-llama/Llama-3.2-11B-Vision-Instruct" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
@@ -106,7 +106,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!--<munit:parameterization name="config-mistralai">
+			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
@@ -189,7 +189,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 

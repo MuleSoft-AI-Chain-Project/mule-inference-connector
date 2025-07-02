@@ -97,7 +97,7 @@
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
-					<munit:parameter propertyName="llmModel" value="${hugging-face.llmModel}" />
+					<munit:parameter propertyName="llmModel" value="meta-llama/Llama-3.2-11B-Vision-Instruct" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
