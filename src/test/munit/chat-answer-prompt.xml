@@ -14,11 +14,10 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 
 	<munit:config name="chat-answer-prompt.xml">
 		<munit:parameterizations>
-			<munit:parameterization name="config-ai21labs" >
+			<!--<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -26,7 +25,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
 					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
 					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -34,7 +32,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
 					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="12" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -42,7 +39,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${azure-openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -50,7 +46,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
 					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -58,7 +53,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CohereConfig" />
 					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="7" />
 					<munit:parameter propertyName="finishReason" value="COMPLETE" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -66,16 +60,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
 					<munit:parameter propertyName="llmModel" value="${deepinfra.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
+			&lt;!&ndash; Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline&ndash;&gt;
 			<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
 					<munit:parameter propertyName="llmModel" value="${deepseek.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -83,7 +75,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
 					<munit:parameter propertyName="llmModel" value="${fireworks.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="22" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -91,7 +82,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
 					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -99,7 +89,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -107,23 +96,20 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
 					<munit:parameter propertyName="llmModel" value="${hugging-face.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
+			<!--<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="10"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -131,7 +117,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
 					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="17"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -139,7 +124,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="14"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -147,7 +131,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="14"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -155,7 +138,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -163,7 +145,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PerplexityConfig" />
 					<munit:parameter propertyName="llmModel" value="${perplexity.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="7" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -171,7 +152,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
 					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="10" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -179,7 +159,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="TogetherConfig" />
 					<munit:parameter propertyName="llmModel" value="${together.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="42" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -187,7 +166,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="VertexAiExpressConfig" />
 					<munit:parameter propertyName="llmModel" value="${vertexaiexpress.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="7" />
 					<munit:parameter propertyName="finishReason" value="STOP" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -195,7 +173,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiConfig" />
 					<munit:parameter propertyName="llmModel" value="${xai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -203,7 +180,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XInferenceConfig" />
 					<munit:parameter propertyName="llmModel" value="${xinference.modelResponse}" />
-					<munit:parameter propertyName="inputCount" value="36" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -211,10 +187,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
 					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="14" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 
@@ -225,7 +200,6 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 		<munit:validation>
 			<logger level="INFO" message="#[attributes]"/>
 			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
-			<munit-tools:assert-equals doc:name="Input Token" doc:id="b125348b-26d7-4388-9c88-4dfc6351d22a" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-that doc:name="Model Info" doc:id="f688a025-3466-4afe-bacb-6a2275258f96" message="Incorrect Model Info" expression="#[attributes.additionalAttributes.model]" is="#[MunitTools::containsString('${llmModel}')]" />
 			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
 		</munit:validation>

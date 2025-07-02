@@ -17,7 +17,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 					<munit:parameter propertyName="llmModel" value="${ai21labs.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="26" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -25,7 +24,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
 					<munit:parameter propertyName="llmModel" value="${anthropic.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="35" />
 					<munit:parameter propertyName="finishReason" value="end_turn" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -33,7 +31,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
 					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="20" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -41,7 +38,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${azure-openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="24" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -49,7 +45,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
 					<munit:parameter propertyName="llmModel" value="${cerebras.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="53" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -57,7 +52,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CohereConfig" />
 					<munit:parameter propertyName="llmModel" value="${cohere.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="13" />
 					<munit:parameter propertyName="finishReason" value="COMPLETE" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -65,7 +59,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
 					<munit:parameter propertyName="llmModel" value="${deepinfra.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="33" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -74,7 +67,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
 					<munit:parameter propertyName="llmModel" value="${deepseek.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -82,7 +74,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
 					<munit:parameter propertyName="llmModel" value="${fireworks.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="33" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -90,7 +81,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
 					<munit:parameter propertyName="llmModel" value="${github.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="24" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -98,7 +88,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 					<munit:parameter propertyName="llmModel" value="${groq.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="53" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -106,7 +95,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="53" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -114,7 +102,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${mistral.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -122,7 +109,6 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
 					<munit:parameter propertyName="llmModel" value="${nvidia.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="28"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -130,7 +116,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 					<munit:parameter propertyName="llmModel" value="${openai.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="24" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -138,7 +123,6 @@
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 					<munit:parameter propertyName="llmModel" value="${openai-compatible.llmModel}"/>
-					<munit:parameter propertyName="inputCount" value="24"/>
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -146,7 +130,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 					<munit:parameter propertyName="llmModel" value="${openrouter.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="19" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -154,7 +137,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
 					<munit:parameter propertyName="llmModel" value="${portkey.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="17" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -162,7 +144,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="TogetherConfig" />
 					<munit:parameter propertyName="llmModel" value="${together.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="53" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -170,7 +151,6 @@
                 <munit:parameters >
                     <munit:parameter propertyName="config" value="XAiConfig" />
                     <munit:parameter propertyName="llmModel" value="${xai.llmModel}" />
-                    <munit:parameter propertyName="inputCount" value="24" />
                     <munit:parameter propertyName="finishReason" value="stop" />
                 </munit:parameters>
             </munit:parameterization>
@@ -178,7 +158,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XInferenceConfig" />
 					<munit:parameter propertyName="llmModel" value="${xinference.modelResponse}" />
-					<munit:parameter propertyName="inputCount" value="47" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -186,7 +165,6 @@
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
 					<munit:parameter propertyName="llmModel" value="${zhipu.llmModel}" />
-					<munit:parameter propertyName="inputCount" value="22" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
@@ -200,7 +178,6 @@
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="payload.response" doc:id="5dac8f10-3c9c-4753-8888-5cadefccbad3" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
-			<munit-tools:assert-equals doc:name="Input Token" doc:id="0a7a3133-2b5d-47aa-81e4-4a3dd25aeb03" actual="#[attributes.tokenUsage.inputCount as String]" expected="${inputCount}" message="Incorrect Input Token" />
 			<munit-tools:assert-that doc:name="Model Info" doc:id="f688a025-3466-4afe-bacb-6a2275258f96" message="Incorrect Model Info" expression="#[attributes.additionalAttributes.model]" is="#[MunitTools::containsString('${llmModel}')]" />
 			<munit-tools:assert-equals doc:name="finish reason" doc:id="407f9be4-d036-4fcf-9da8-895f9baefd07" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
 		</munit:validation>

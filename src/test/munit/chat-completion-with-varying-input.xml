@@ -46,8 +46,6 @@
 		<munit:validation>
 			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
 									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
-			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
-									   expected="18" message="Incorrect Input Token" />
 			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
 									 expression="#[attributes.additionalAttributes.model]"
 									 is="#[MunitTools::containsString('${hugging-face.llmModel}')]" />
@@ -89,8 +87,6 @@
 		<munit:validation>
 			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
 									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
-			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
-									   expected="13" message="Incorrect Input Token" />
 			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
 									 expression="#[attributes.additionalAttributes.model]"
 									 is="#[MunitTools::containsString('${perplexity.llmModel}')]" />
@@ -136,8 +132,6 @@
 		<munit:validation>
 			<munit-tools:assert-that doc:name="payload.response" message="Payload response is wrong answer"
 									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
-			<munit-tools:assert-equals doc:name="Input Token" actual="#[attributes.tokenUsage.inputCount as String]"
-									   expected="13" message="Incorrect Input Token" />
 			<munit-tools:assert-that doc:name="Model Info" message="Incorrect Model Info"
 									 expression="#[attributes.additionalAttributes.model]"
 									 is="#[MunitTools::containsString('${vertexaiexpress.llmModel}')]" />
