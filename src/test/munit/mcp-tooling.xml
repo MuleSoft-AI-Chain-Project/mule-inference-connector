@@ -44,13 +44,14 @@
 					<munit:parameter propertyName="finishReason" value="TOOL_CALL" />
 				</munit:parameters>
 			</munit:parameterization>
+<!--			Commenting as its failing due to rate limit
 			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
 					<munit:parameter propertyName="llmModel" value="${deepinfra.llmModel}" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
 			<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
@@ -80,6 +81,7 @@
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
+<!--			Commenting as its failing due to rate limit
 			<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
@@ -93,7 +95,7 @@
 					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
 					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>

@@ -99,13 +99,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+<!--			Commenting as its failing due to rate limit
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="llmModel" value="${llmapi.llmModel}" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
@@ -141,13 +142,14 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+<!--			Commenting as its failing due to rate limit
 			<munit:parameterization name="config-perplexity" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PerplexityConfig" />
 					<munit:parameter propertyName="llmModel" value="${perplexity.llmModel}" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-portkey" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
