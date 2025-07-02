@@ -21,4 +21,10 @@
             </mac-inference:mcp-sse-servers>
         </mac-inference:ollama-connection>
     </mac-inference:text-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="OllamaVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <mac-inference:ollama-vision-connection apiKey="fakeKey" ollamaModelName="llama3.2-vision" />
+    </mac-inference:vision-config>
+
 </mule>

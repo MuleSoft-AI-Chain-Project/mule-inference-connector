@@ -54,6 +54,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="ollama-vision-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OllamaVisionConfig" parameter="ollamaModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="openai-vision-model-name-values-test">
         <mtf:get-values-from-config config-ref="OpenAIVision" parameter="openAIModelName"/>
         <mtf:validation>

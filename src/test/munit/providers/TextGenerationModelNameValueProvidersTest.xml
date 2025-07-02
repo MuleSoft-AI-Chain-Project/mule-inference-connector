@@ -117,6 +117,13 @@
         </mtf:validation>
     </mtf:tooling-test>
 
+    <mtf:tooling-test name="ollama-model-name-values-test">
+        <mtf:get-values-from-config config-ref="OllamaConfig" parameter="ollamaModelName"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="openaicompatible-model-name-values-test">
         <mtf:get-values-from-config config-ref="OpenAICompatibleConfig" parameter="openAICompatibleModelName"/>
         <mtf:validation>
@@ -135,13 +142,6 @@
         <mtf:get-values-from-config config-ref="OpenrouterConfig" parameter="openRouterModelName"/>
         <mtf:validation>
             <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(32)]"/>
-        </mtf:validation>
-    </mtf:tooling-test>
-
-    <mtf:tooling-test name="ollama-model-name-values-test">
-        <mtf:get-values-from-config config-ref="OllamaConfig" parameter="ollamaModelName"/>
-        <mtf:validation>
-            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
         </mtf:validation>
     </mtf:tooling-test>
 
