@@ -31,7 +31,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
-					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModel}" />
+					<munit:parameter propertyName="llmModel" value="${azure-ai-foundry.llmModelResponse}" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
