@@ -14,7 +14,10 @@
 
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="azureAiFoundryConfig" doc:name="MuleSoft Inference Text generation config" doc:id="9d6a6703-45e0-4cba-92e9-b479535128e3" >
-        <mac-inference:azure-ai-foundry-connection apiKey="${azure-ai-foundry.apiKey}" azureModelName="${azure-ai-foundry.llmModel}" azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}" azureAIFoundryResourceName="${azure-ai-foundry.resource}">
+        <mac-inference:azure-ai-foundry-connection apiKey="${azure-ai-foundry.apiKey}" azureModelName="${azure-ai-foundry.llmModel}"
+                                                   azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}"
+                                                   azureAIFoundryResourceName="${azure-ai-foundry.resource}"
+                                                   maxTokens="2000" >
             <mac-inference:mcp-sse-servers >
                 <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
                 <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
@@ -24,7 +27,10 @@
 
     <!-- Vision Configuration -->
     <mac-inference:vision-config name="AzureAiFoundryVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
-        <mac-inference:azure-ai-foundry-vision-connection apiKey="${azure-ai-foundry.apiKey}" azureAIFoundryModelName="${azure-ai-foundry.visionModel}" azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}" azureAIFoundryResourceName="${azure-ai-foundry.resource}"/>
+        <mac-inference:azure-ai-foundry-vision-connection apiKey="${azure-ai-foundry.apiKey}" azureAIFoundryModelName="${azure-ai-foundry.visionModel}"
+                                                          azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}"
+                                                          azureAIFoundryResourceName="${azure-ai-foundry.resource}"
+                                                          maxTokens="2000" />
     </mac-inference:vision-config>
 
 </mule> 
