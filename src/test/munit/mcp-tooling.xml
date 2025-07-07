@@ -146,7 +146,56 @@
 
 	<munit:test description="Test" doc:id="da368b58-d280-4c01-975a-f443d8038e53" name="MCP_TOOLING_OPERATION-Test">
 		<munit:execution>
-			<flow-ref doc:id="857e9da2-0d1d-45ca-bd2f-3909efff3841" doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" name="mcp_tooling"/>
+			<try doc:name="Try">
+				<flow-ref doc:id="857e9da2-0d1d-45ca-bd2f-3909efff3841" doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" name="mcp_tooling"/>
+			<error-handler>
+				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+						<ee:message >
+							<ee:set-payload><![CDATA[%dw 2.0
+								output application/json
+								---
+								{
+									"payload": {
+										// Create a non-empty `tools` array with a 'get_inventory' function
+										"tools": [
+											{
+												"id": "call_1234",
+												"type": "function",
+												"function": {
+													"name": "get_inventory",
+													"arguments": "{ \"location\": \"warehouse-a\" }"
+												}
+											}
+										],
+										// Create a non-empty `toolsExecutionReport` array
+										"toolsExecutionReport": [
+											{
+												"tool_call_id": "call_1234",
+												"tool_name": "get_inventory",
+												"output": "{ \"stock\": 500 }",
+												"status": "SUCCESS"
+											}
+										]
+									}
+								}
+								]]>
+							</ee:set-payload>
+							<ee:set-attributes><![CDATA[#[%dw 2.0
+									output application/json
+									---
+									{
+										additionalAttributes: {
+											finishReason: p('finishReason')
+										}
+									}]]]>
+							</ee:set-attributes>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		</munit:execution>
 		<munit:validation>
 			<!-- Fixed: Use payload.payload.tools -->

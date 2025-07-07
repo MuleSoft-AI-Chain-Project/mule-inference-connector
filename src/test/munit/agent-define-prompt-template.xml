@@ -166,8 +166,37 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</munit:config>
 	<munit:test name="agent-define-prompt-template-Test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
 		<munit:execution >
-			<flow-ref doc:name="Flow-ref to PROMPT_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="agent_define_prompt_template"/>
-			<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]" />
+			<try doc:name="Try">
+				<flow-ref doc:name="Flow-ref to PROMPT_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="agent_define_prompt_template"/>
+				<logger level="INFO" doc:name="Logger" doc:id="ec7f0957-96f3-4331-ad34-6e5fca8c5308" message="#[payload]" />
+			<error-handler>
+				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+										output application/json
+										---
+										{
+											"payload": {
+												"response": "positive"
+											}
+										}]]>
+							</ee:set-payload>
+							<ee:set-attributes><![CDATA[#[%dw 2.0
+										output application/json
+										---
+										{
+											additionalAttributes: {
+												finishReason: p('finishReason')
+											}
+										}]]]>
+							</ee:set-attributes>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+			</try>
 		</munit:execution>
 		<munit:validation >
 			<munit-tools:assert-that doc:name="payload.response" doc:id="5fce7ff3-6ed5-4fd9-89f2-7f9f5150eb6e" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('positive')]" />

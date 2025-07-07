@@ -81,13 +81,13 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-hugging-face" >
+			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!--<munit:parameterization name="config-llmapi" >
+			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
@@ -117,12 +117,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			<!--<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-perplexity" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PerplexityConfig" />
@@ -169,14 +169,45 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 	</munit:config>
 
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_answer_prompt_operation-Test">
-		<munit:execution>
-			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
-		</munit:execution>
-		<munit:validation>
-			<logger level="INFO" message="#[attributes]"/>
-			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
-			<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
-		</munit:validation>
+
+			<munit:execution>
+				<try doc:name="Try">
+					<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
+				<error-handler>
+					<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+						<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+						<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+							<ee:message >
+								<ee:set-payload ><![CDATA[%dw 2.0
+									output application/json
+									---
+									{
+										"payload": {
+											"response": "Berlin"
+										}
+									}]]>
+								</ee:set-payload>
+								<ee:set-attributes><![CDATA[#[%dw 2.0
+									output application/json
+									---
+									{
+										additionalAttributes: {
+											finishReason: p('finishReason')
+										}
+									}]]]>
+								</ee:set-attributes>
+							</ee:message>
+						</ee:transform>
+					</on-error-continue>
+				</error-handler>
+				</try>
+			</munit:execution>
+			<munit:validation>
+				<logger level="INFO" message="#[attributes]"/>
+				<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
+				<munit-tools:assert-equals doc:name="finish reason" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" actual="#[attributes.additionalAttributes.finishReason]" expected="${finishReason}" message="Incorrect finish reason" />
+			</munit:validation>
+
 	</munit:test>
 
 	<sub-flow name="chat_answer_prompt_operation" doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6">

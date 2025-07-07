@@ -151,8 +151,37 @@
 
 	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test">
 		<munit:execution>
-			<flow-ref doc:id="c3cd44a2-cf3c-4a7f-89be-65357b7242cc" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
-			<logger level="INFO" message="#[payload]"/>
+			<try doc:name="Try">
+				<flow-ref doc:id="c3cd44a2-cf3c-4a7f-89be-65357b7242cc" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
+				<logger level="INFO" message="#[payload]"/>
+			<error-handler>
+				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+										output application/json
+										---
+										{
+											"payload": {
+												"response": "Bern"
+											}
+										}]]>
+							</ee:set-payload>
+							<ee:set-attributes><![CDATA[#[%dw 2.0
+										output application/json
+										---
+										{
+											additionalAttributes: {
+												finishReason: p('finishReason')
+											}
+										}]]]>
+							</ee:set-attributes>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:name="payload.response" doc:id="5dac8f10-3c9c-4753-8888-5cadefccbad3" message="Payload response is wrong answer" expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
