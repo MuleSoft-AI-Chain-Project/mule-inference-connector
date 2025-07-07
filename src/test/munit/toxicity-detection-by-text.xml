@@ -39,7 +39,7 @@
 								]]>
 							</ee:set-payload>
 							<ee:set-attributes><![CDATA[#[%dw 2.0
-									output application/json
+									output application/java
 									---
 									{
 										additionalAttributes: {

@@ -188,7 +188,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 									}]]>
 								</ee:set-payload>
 								<ee:set-attributes><![CDATA[#[%dw 2.0
-									output application/json
+									output application/java
 									---
 									{
 										additionalAttributes: {
