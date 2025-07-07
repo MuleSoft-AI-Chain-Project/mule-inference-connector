@@ -95,30 +95,31 @@ public class McpHelper {
     logger.debug("ExecuteTools - Response from the tools server: {}", toolCallList);
 
     List<ToolResult> toolResults = new ArrayList<>();
+    if (toolCallList != null) {
+      for (ToolCall toolCall : toolCallList) {
+        String functionName = toolCall.function().name();
+        Map<String, Object> arguments = getArgumentsAsMap(toolCall.function().arguments());
 
-    for (ToolCall toolCall : toolCallList) {
-      String functionName = toolCall.function().name();
-      Map<String, Object> arguments = getArgumentsAsMap(toolCall.function().arguments());
+        ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer, functionName);
+        if (serverInfo != null) {
+          String serverUrl = serverInfo.serverUrl();
+          String serverName = serverInfo.serverName();
 
-      ServerInfo serverInfo = findServerInfoForTool(mcpToolsArrayByServer, functionName);
-      if (serverInfo != null) {
-        String serverUrl = serverInfo.serverUrl();
-        String serverName = serverInfo.serverName();
+          try (McpSyncClient client = establishClientMCP(serverUrl, timeout)) {
 
-        try (McpSyncClient client = establishClientMCP(serverUrl, timeout)) {
+            McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
 
-          McpSchema.CallToolResult result = executeMcpCallToolRequest(client, functionName, arguments);
-
-          Object contentObj = null;
-          for (McpSchema.Content content : result.content()) {
-            if (content instanceof McpSchema.TextContent textContent) {
-              contentObj = textContent.text();
-              logger.debug("TextContent is {} ", contentObj);
-              break;
+            Object contentObj = null;
+            for (McpSchema.Content content : result.content()) {
+              if (content instanceof McpSchema.TextContent textContent) {
+                contentObj = textContent.text();
+                logger.debug("TextContent is {} ", contentObj);
+                break;
+              }
             }
+            ToolResult resultObject = new ToolResult(functionName, contentObj, serverUrl, serverName, Instant.now());
+            toolResults.add(resultObject);
           }
-          ToolResult resultObject = new ToolResult(functionName, contentObj, serverUrl, serverName, Instant.now());
-          toolResults.add(resultObject);
         }
       }
     }
