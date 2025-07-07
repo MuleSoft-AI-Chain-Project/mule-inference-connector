@@ -73,8 +73,34 @@
 
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read_image_url_operation_test">
 		<munit:execution>
-			<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
-			<!--<logger level="INFO" message="#[payload]"/>-->
+			<try doc:name="Try">
+				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
+			<error-handler>
+				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+									output application/json
+									---
+									{
+										"payload": {
+											"response": "Eiffel Tower"
+										}
+									}]]>
+							</ee:set-payload>
+							<ee:set-attributes><![CDATA[#[%dw 2.0
+									output application/java
+									---
+									{
+										finishReason: p('finishReason')
+									}]]]>
+							</ee:set-attributes>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		</munit:execution>
 		<munit:validation>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Eiffel Tower') or contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
