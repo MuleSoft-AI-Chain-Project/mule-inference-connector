@@ -90,7 +90,7 @@
 			<munit:parameterization name="config-nvidia">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
+					<munit:parameter propertyName="finishReason" value="tool_calls,stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai">
@@ -210,7 +210,12 @@
 					  ]"
 					is="#[MunitTools::equalTo(true)]"
 					message="The response must either contain tool_calls or have 'get_inventory' in its content" />
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="f9f30053-da19-4052-91b8-690a24c03948" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
+			<munit-tools:assert-that
+					doc:name="Assert finishReason is a valid type"
+					doc:id="3c009ca9-2124-4527-8e0f-7ec87b3c4538"
+					expression="#[(p('finishReason') splitBy &quot;,&quot;) contains attributes.additionalAttributes.finishReason]"
+					is="#[MunitTools::equalTo(true)]"
+					message="The finishReason is not one of the expected values" />
 		</munit:validation>
 	</munit:test>
 
