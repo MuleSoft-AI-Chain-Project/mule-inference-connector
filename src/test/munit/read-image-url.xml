@@ -2,7 +2,7 @@
 
 	<munit:config name="read-image-url.xml">
 		<munit:parameterizations>
-			<!--<munit:parameterization name="config-anthropic" >
+			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="end_turn" />
@@ -26,12 +26,12 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			&lt;!&ndash;<munit:parameterization name="config-hugging-face" >
+			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>&ndash;&gt;
+			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
@@ -43,14 +43,14 @@
 					<munit:parameter propertyName="config" value="OpenAIVision" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<!--<munit:parameterization name="config-portkey" >
+			<munit:parameterization name="config-portkey" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
@@ -67,7 +67,7 @@
 					<munit:parameter propertyName="config" value="XAiVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 

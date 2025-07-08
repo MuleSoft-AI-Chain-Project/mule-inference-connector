@@ -2,7 +2,7 @@
 
 	<munit:config name="read-image-base64.xml">
 		<munit:parameterizations >
-			<!--<munit:parameterization name="config-anthropic" >
+			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="end_turn" />
@@ -13,7 +13,7 @@
 					<munit:parameter propertyName="config" value="AzureAiFoundryVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 			<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubVisionConfig" />
@@ -25,7 +25,7 @@
 					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
@@ -61,7 +61,7 @@
 					<munit:parameter propertyName="config" value="XAiVisionConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>-->
+			</munit:parameterization>
 		</munit:parameterizations>
 	</munit:config>
 
