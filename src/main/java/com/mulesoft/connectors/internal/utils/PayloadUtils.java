@@ -106,6 +106,10 @@ public class PayloadUtils {
             if ("COHERE".equals(configuration.getInferenceType())) {
                 payload.remove(InferenceConstants.TOP_P);
             }
+            // Add user information for Azure OpenAI
+            if ("AZURE_OPENAI".equals(configuration.getInferenceType())) {
+	            payload.put("user", configuration.getAzureOpenaiUser());
+	        }
 		}
     	
 		

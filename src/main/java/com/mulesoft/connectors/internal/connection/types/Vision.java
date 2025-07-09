@@ -117,6 +117,11 @@ public class Vision implements ChatCompletionBase {
   }
 
   @Override
+  public String getAzureOpenaiUser() {
+    return "";
+  }
+
+  @Override
   public String getDockerModelUrl() {
     return "";
   }

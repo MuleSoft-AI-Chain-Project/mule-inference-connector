@@ -130,6 +130,15 @@ public class TextGenerationProvider implements CachedConnectionProvider<TextGene
 
   public void setAzureOpenaiResourceName(String azureOpenaiResourceName) { this.azureOpenaiResourceName = azureOpenaiResourceName; }
 
+  @Parameter
+  @Expression(ExpressionSupport.SUPPORTED)
+  @Optional
+  @Placement(tab = "Additional Properties")
+  @DisplayName("[Azure OpenAI] User")
+  private String azureOpenaiUser;
+
+  public void setAzureOpenaiUser(String azureOpenaiUser) { this.azureOpenaiUser = azureOpenaiUser; }
+
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
@@ -284,6 +293,7 @@ public class TextGenerationProvider implements CachedConnectionProvider<TextGene
             azureAIFoundryResourceName,
             azureOpenaiDeploymentId,
             azureOpenaiResourceName,
+            azureOpenaiUser,
             dataBricksModelUrl,
             dockerModelUrl,
             gpt4All,
