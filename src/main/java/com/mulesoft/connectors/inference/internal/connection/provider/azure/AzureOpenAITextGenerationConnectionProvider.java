@@ -46,6 +46,13 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
   @Placement(order = 3)
   private String azureOpenaiDeploymentId;
 
+  @Parameter
+  @Expression(ExpressionSupport.SUPPORTED)
+  @Optional
+  @DisplayName("[Azure OpenAI] User")
+  @Placement(order = 4)
+  private String azureOpenaiUser;
+
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
@@ -60,7 +67,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getTemperature(),
                                                                      textGenerationConnectionParameters.getTopP(),
                                                                      textGenerationConnectionParameters.getTimeout()),
-                                                   azureOpenaiResourceName, azureOpenaiDeploymentId,
+                                                   azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser,
                                                    textGenerationConnectionParameters.getMcpSseServers());
   }
 }
