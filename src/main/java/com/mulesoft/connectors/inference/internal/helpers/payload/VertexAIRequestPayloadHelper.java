@@ -1,45 +1,30 @@
 package com.mulesoft.connectors.inference.internal.helpers.payload;
 
-import org.mule.runtime.extension.api.exception.ModuleException;
-
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
-import com.mulesoft.connectors.inference.internal.connection.types.vertexai.VertexAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.VertexAIAnthropicChatPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.anthropic.VertexAIAnthropicPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.ContentRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.meta.VertexAIMetaPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.vision.Content;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.vision.ImageContent;
-import com.mulesoft.connectors.inference.internal.dto.vision.ImageSource;
-import com.mulesoft.connectors.inference.internal.dto.vision.Message;
-import com.mulesoft.connectors.inference.internal.dto.vision.TextContent;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.FileData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.InlineData;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.Part;
 import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.VisionContentRecord;
-import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.auth.oauth2.GoogleCredentials;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -70,7 +55,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     Collections.emptyList(),
                     null,
                     Collections.emptyList());
-            case ANTHROPIC_PROVIDER_TYPE  -> getAnthropicRequestPayloadDTO(connection, prompt,null);
             default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadRecord("user", prompt)));
         };
     }
@@ -91,8 +75,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                         systemInstructionRecord,
                         Collections.emptyList());
             }
-            case ANTHROPIC_PROVIDER_TYPE ->
-                    getAnthropicRequestPayloadDTO(connection, data,template + " - " + instructions);
             default -> {
                 List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                          template + " - " + instructions, data);
@@ -120,18 +102,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                           buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
                           null,
                           null);
-          case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                  messagesArray,
-                  connection.getMaxTokens(),
-                  connection.getTemperature(),
-                  connection.getTopP(),
-                  null);
-          case META_PROVIDER_TYPE -> new VertexAIMetaPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                  messagesArray,
-                  connection.getMaxTokens(),
-                  connection.getTemperature(),
-                  connection.getTopP(),
-                  false);
           default -> throw new UnsupportedOperationException("Model not supported: " + connection.getModelName());
       };
   }
@@ -161,8 +131,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
         Object content =  switch (provider) {
             case GOOGLE_PROVIDER_TYPE -> getGoogleVisionContentRecord(prompt, imageUrl);
-            case ANTHROPIC_PROVIDER_TYPE -> getAnthropicVisionContentRecord(
-                    connection,prompt,imageUrl);
             default -> throw new IllegalArgumentException("Unknown provider");
         };
 
@@ -179,31 +147,8 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
     if (upperName.startsWith("GEMINI")) {
       return GOOGLE_PROVIDER_TYPE;
-    } else if (upperName.startsWith("CLAUDE")) {
-      return ANTHROPIC_PROVIDER_TYPE;
-    } else if (upperName.startsWith("META")) {
-      return META_PROVIDER_TYPE;
     } else {
       return "Unknown";
-    }
-  }
-
-  // get access token from google service acc key file
-  public static String getAccessTokenFromServiceAccountKey(TextGenerationConnection connection) {
-
-    try {
-      VertexAITextGenerationConnection textGenerationConnection = (VertexAITextGenerationConnection) connection;
-      FileInputStream serviceAccountStream = new FileInputStream(textGenerationConnection.getVertexAIServiceAccountKey());
-      GoogleCredentials credentials = GoogleCredentials
-          .fromStream(serviceAccountStream)
-          .createScoped(Collections.singletonList("https://www.googleapis.com/auth/cloud-platform"));
-
-      credentials.refreshIfExpired();
-      String token = credentials.getAccessToken().getTokenValue();
-      logger.debug("gcp access token {}", token);
-      return token;
-    } catch (IOException e) {
-      throw new ModuleException("Error fetching the token for ibm watson.", InferenceErrorType.INVALID_CONNECTION, e);
     }
   }
 
@@ -223,31 +168,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     return new VisionContentRecord("user", parts);
   }
 
-  private DefaultVisionRequestPayloadRecord getAnthropicVisionContentRecord(VisionModelConnection connection,
-                                                                            String prompt, String imageUrl)
-      throws IOException {
-    List<Content> contentArray = new ArrayList<>();
-
-    contentArray.add(new TextContent("text", prompt));
-
-    // Add image content
-    ImageSource imageSource;
-    if (isBase64String(imageUrl)) {
-      imageSource = new ImageSource("base64", getMimeType(imageUrl), imageUrl, null);
-    } else {
-      imageSource = new ImageSource("url", null, null, imageUrl);
-    }
-    contentArray.add(new ImageContent("image", imageSource));
-
-    Message message = new Message("user", contentArray);
-
-    return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
-                                                 List.of(message),
-                                                 connection.getMaxTokens(),
-                                                 connection.getTemperature(),
-                                                 connection.getTopP());
-  }
-
   private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
 
         String provider = getProviderByModel(connection.getModelName());
@@ -258,44 +178,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                     buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),connection.getTopP()),
                     null,
                     null);
-            case ANTHROPIC_PROVIDER_TYPE -> new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                    messagesArray,
-                    connection.getMaxTokens(),
-                    connection.getTemperature(),
-                    connection.getTopP(),
-                    null);
-            case META_PROVIDER_TYPE -> new VertexAIMetaPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                    messagesArray,
-                    connection.getMaxTokens(),
-                    connection.getTemperature(),
-                    connection.getTopP(),
-                    false);
             default -> getDefaultVisionRequestPayloadDTO(connection,messagesArray);
         };
     }
-
-  private VertexAIAnthropicPayloadRecord<ChatPayloadRecord> getAnthropicRequestPayloadDTO(TextGenerationConnection connection,
-                                                                                          String prompt, String system) {
-
-    VertexAIAnthropicChatPayloadRecord vertexAIAnthropicChatPayloadRecord =
-        new VertexAIAnthropicChatPayloadRecord("text", prompt);
-
-    ChatPayloadRecord payloadDTO;
-    try {
-      payloadDTO = new ChatPayloadRecord("user",
-                                         objectMapper.writeValueAsString(
-                                                                         List.of(vertexAIAnthropicChatPayloadRecord)));
-    } catch (JsonProcessingException e) {
-      throw new ModuleException("Error parsing JSON to VertexAIAnthropicChatPayloadRecord",
-                                InferenceErrorType.CHAT_OPERATION_FAILURE);
-    }
-    return new VertexAIAnthropicPayloadRecord<>(VERTEX_AI_ANTHROPIC_VERSION_VALUE,
-                                                List.of(payloadDTO),
-                                                connection.getMaxTokens(),
-                                                connection.getTemperature(),
-                                                connection.getTopP(),
-                                                system);
-  }
 
   private DefaultRequestPayloadRecord getDefaultRequestPayloadDTO(TextGenerationConnection connection,
                                                                   List<ChatPayloadRecord> chatPayloadRecordList) {
