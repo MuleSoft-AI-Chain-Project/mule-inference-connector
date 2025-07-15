@@ -226,8 +226,15 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   private String getMimeTypeFromUrl(String imageUrl) {
-    return imageUrl != null && imageUrl.toLowerCase().trim().endsWith(".png")
-        ? "image/png"
-        : DEFAULT_MIME_TYPE;
+    if(imageUrl==null||imageUrl.isBlank()){return DEFAULT_MIME_TYPE;}
+
+    String trimmedUrl=imageUrl.trim();int lastDotIndex=trimmedUrl.lastIndexOf('.');
+
+    if(lastDotIndex==-1){return DEFAULT_MIME_TYPE;}
+
+    String extension=trimmedUrl.substring(lastDotIndex).toLowerCase();
+
+    return switch(extension){case".png"->"image/png";case".pdf"->"application/pdf";default->DEFAULT_MIME_TYPE;};
   }
+
 }
