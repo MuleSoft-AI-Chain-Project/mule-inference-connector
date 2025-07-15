@@ -35,10 +35,6 @@ public class DefaultNtlmProxyConfig extends DefaultProxyConfig implements HttpNt
     return ntlmDomain;
   }
 
-  public void setNtlmDomain(String ntlmDomain) {
-    this.ntlmDomain = ntlmDomain;
-  }
-
   @Override
   public boolean equals(Object o) {
     if (this == o) {

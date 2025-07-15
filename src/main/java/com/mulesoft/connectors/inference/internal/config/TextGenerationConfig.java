@@ -19,7 +19,6 @@ import com.mulesoft.connectors.inference.internal.connection.provider.github.Git
 import com.mulesoft.connectors.inference.internal.connection.provider.gpt4all.GPT4AllTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.groq.GroqTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.huggingface.HuggingFaceTextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.provider.ibmwatson.IBMWatsonTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.llmapi.LlmAPITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.lmstudio.LMStudioTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.mistralai.MistralAITextGenerationConnectionProvider;
@@ -32,7 +31,6 @@ import com.mulesoft.connectors.inference.internal.connection.provider.perplexity
 import com.mulesoft.connectors.inference.internal.connection.provider.portkey.PortkeyTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.together.TogetherTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.vertexai.VertexAIExpressTextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.provider.vertexai.VertexAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.xai.XAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.xinference.XInferenceTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.zhipuai.ZhipuAITextGenerationConnectionProvider;
@@ -55,7 +53,6 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
     GPT4AllTextGenerationConnectionProvider.class,
     GroqTextGenerationConnectionProvider.class,
     HuggingFaceTextGenerationConnectionProvider.class,
-    IBMWatsonTextGenerationConnectionProvider.class,
     LlmAPITextGenerationConnectionProvider.class,
     LMStudioTextGenerationConnectionProvider.class,
     MistralAITextGenerationConnectionProvider.class,
@@ -67,7 +64,6 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
     PerplexityTextGenerationConnectionProvider.class,
     PortkeyTextGenerationConnectionProvider.class,
     TogetherTextGenerationConnectionProvider.class,
-    VertexAITextGenerationConnectionProvider.class,
     VertexAIExpressTextGenerationConnectionProvider.class,
     XAITextGenerationConnectionProvider.class,
     XInferenceTextGenerationConnectionProvider.class,
