@@ -20,8 +20,8 @@ import com.mulesoft.connectors.inference.internal.llmmodels.heroku.providers.Her
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("heroku-ai")
-@DisplayName("Heroku AI")
+@Alias("heroku")
+@DisplayName("Heroku Managed Inference")
 public class HerokuTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(HerokuTextGenerationConnectionProvider.class);
@@ -36,6 +36,7 @@ public class HerokuTextGenerationConnectionProvider extends TextGenerationConnec
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Placement(order = 2)
+  @Optional(defaultValue = "https://us.inference.heroku.com")
   @DisplayName("Heroku Inference URL")
   private String herokuInferenceUrl;
 

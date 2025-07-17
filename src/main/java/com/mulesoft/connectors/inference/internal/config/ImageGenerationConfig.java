@@ -4,6 +4,7 @@ import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
 
+import com.mulesoft.connectors.inference.internal.connection.provider.heroku.HerokuImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.huggingface.HuggingFaceImageConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.openai.OpenAIImageGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.stabilityai.StabilityAIImageConnectionProvider;
@@ -12,6 +13,7 @@ import com.mulesoft.connectors.inference.internal.operation.ImageGenerationModel
 
 @Configuration(name = "image-generation-config")
 @ConnectionProviders({OpenAIImageGenerationConnectionProvider.class,
+    HerokuImageGenerationConnectionProvider.class,
     HuggingFaceImageConnectionProvider.class,
     StabilityAIImageConnectionProvider.class,
     XAIImageConnectionProvider.class})
