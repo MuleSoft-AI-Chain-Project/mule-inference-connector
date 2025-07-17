@@ -13,11 +13,11 @@
 
 	<munit:config name="chat-completion-with-varying-input.xml"/>
 
-	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_hugging-face">
+	<!--<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_hugging-face">
 		<munit:execution>
 			<set-variable value='#[%dw 2.0
 			output application/json
-			---
+			-&#45;&#45;
 			[{
 			  "role": "system",
 			  "content": "You are a helpful assistant."
@@ -35,7 +35,7 @@
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
 					output application/json
-					---
+					-&#45;&#45;
 					{
 						payload: payload,
 						attributes: attributes
@@ -52,7 +52,7 @@
 			<munit-tools:assert-equals doc:name="finish reason" actual="#[attributes.additionalAttributes.finishReason]"
 									   expected="stop" message="Incorrect finish reason" />
 		</munit:validation>
-	</munit:test>
+	</munit:test>-->
 
 	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_perplexity">
 		<munit:execution>

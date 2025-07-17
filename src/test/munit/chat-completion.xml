@@ -80,6 +80,12 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-heroku" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HerokuTextConfig" />
+					<munit:parameter propertyName="finishReason" value="stop" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
