@@ -11,6 +11,12 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="generate-image.xml" >
 		<munit:parameterizations >
+			<munit:parameterization name="config-heroku" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="HerokuImageGenConfig" />
+					<munit:parameter propertyName="imageGenModel" value="${heroku.imageGenModel}" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="hugging-face-config" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceImageGenConfig" />
