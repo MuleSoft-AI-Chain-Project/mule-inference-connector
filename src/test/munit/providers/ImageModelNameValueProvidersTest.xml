@@ -12,6 +12,13 @@
 
     <munit:config name="ImageModelNameValueProvidersTest.xml" />
 
+    <mtf:tooling-test name="heroku-image-model-name-values-test">
+        <mtf:get-values-from-config config-ref="HerokuImageGenConfig" parameter="herokuInferenceModel"/>
+        <mtf:validation>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
+        </mtf:validation>
+    </mtf:tooling-test>
+
     <mtf:tooling-test name="huggingface-image-model-name-values-test">
         <mtf:get-values-from-config config-ref="HuggingFaceImageGenConfig" parameter="huggingFaceModelName"/>
         <mtf:validation>
