@@ -17,12 +17,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="imageGenModel" value="${heroku.imageGenModel}" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="hugging-face-config" >
+<!--			<munit:parameterization name="hugging-face-config" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceImageGenConfig" />
 					<munit:parameter propertyName="imageGenModel" value="${hugging-face.imageGenModel}" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="openai-config" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIImageGen" />

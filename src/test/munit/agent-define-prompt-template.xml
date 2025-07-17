@@ -84,12 +84,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-hugging-face" >
+			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />

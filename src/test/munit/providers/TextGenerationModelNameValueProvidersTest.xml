@@ -169,7 +169,7 @@
     <mtf:tooling-test name="vertexai-express-model-name-values-test">
         <mtf:get-values-from-config config-ref="VertexAiExpressConfig" parameter="vertexAIExpressModelName"/>
         <mtf:validation>
-            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(6)]"/>
+            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(7)]"/>
         </mtf:validation>
     </mtf:tooling-test>
 
