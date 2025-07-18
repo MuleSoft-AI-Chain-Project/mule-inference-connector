@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.helpers.payload;
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
+import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureOpenAITextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.AzureOpenAIRequestPayloadRecord;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public class AzureOpenAIRequestPayloadHelper extends RequestPayloadHelper {
                                                connection.getMaxTokens(),
                                                connection.getTemperature(),
                                                connection.getTopP(),
+                                               ((AzureOpenAITextGenerationConnection) connection).getAzureOpenaiUser(),
                                                false, tools);
   }
 }

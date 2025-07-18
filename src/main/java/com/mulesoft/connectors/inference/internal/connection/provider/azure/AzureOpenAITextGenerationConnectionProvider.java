@@ -9,6 +9,7 @@ import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
@@ -46,6 +47,14 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
   @Placement(order = 3)
   private String azureOpenaiDeploymentId;
 
+  @Parameter
+  @Expression(ExpressionSupport.SUPPORTED)
+  @Optional
+  @DisplayName("[Azure OpenAI] User")
+  @Summary("A unique identifier representing your end-user, which can help to monitor and detect abuse.")
+  @Placement(order = 4)
+  private String azureOpenaiUser;
+
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
@@ -60,7 +69,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getTemperature(),
                                                                      textGenerationConnectionParameters.getTopP(),
                                                                      textGenerationConnectionParameters.getTimeout()),
-                                                   azureOpenaiResourceName, azureOpenaiDeploymentId,
+                                                   azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser,
                                                    textGenerationConnectionParameters.getMcpSseServers());
   }
 }

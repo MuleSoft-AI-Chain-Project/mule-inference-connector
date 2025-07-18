@@ -17,11 +17,15 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
   private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
 
+  private final String user;
+
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
                                              String azureOpenaiResourceName, String azureOpenaiDeploymentId,
+                                             String azureOpenaiUser,
                                              Map<String, String> mcpSseServers) {
     super(httpClient, objectMapper, parametersDTO, mcpSseServers,
           fetchApiURL(azureOpenaiResourceName, azureOpenaiDeploymentId));
+    this.user = azureOpenaiUser;
   }
 
   @Override
@@ -43,5 +47,9 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
         .replace("{resource-name}", openaiResourceName)
         .replace("{deployment-id}", openaiDeploymentId);
     return urlStr;
+  }
+
+  public String getAzureOpenaiUser() {
+    return user;
   }
 }
