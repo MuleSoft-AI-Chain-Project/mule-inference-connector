@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Alias("heroku-image")
-@DisplayName("Heroku Managed Inference")
+@DisplayName("Heroku AI")
 public class HerokuImageGenerationConnectionProvider extends ImageGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(HerokuImageGenerationConnectionProvider.class);
