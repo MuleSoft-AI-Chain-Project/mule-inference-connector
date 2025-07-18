@@ -22,10 +22,9 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [Docker Models](https://docs.docker.com/desktop/features/model-runner/)
 - [Fireworks](https://fireworks.ai/)
 - [GitHub Models](https://docs.github.com/en/github-models)
-- [Google Vertex AI](https://cloud.google.com/vertex-ai?hl=en)
 - [Groq AI](https://console.groq.com/)
+- [Heroku AI](https://devcenter.heroku.com/articles/heroku-inference-api-v1-chat-completions)
 - [Hugging Face](https://huggingface.co/)
-- [IBM Watson](https://www.ibm.com/products/watsonx-ai)
 - [LLM API](https://llmapi.com/)
 - [Mistral](https://www.mistral.ai/)
 - [NVIDIA](https://www.nvidia.com/en-sg/ai)
@@ -36,6 +35,7 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [Perplexity](https://www.perplexity.ai/)
 - [Portkey](https://portkey.ai/)
 - [Together.ai](https://www.together.ai/)
+- [Vertex AI Express](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview)
 - [XAI](https://x.ai/)
 - [Xinference](https://inference.readthedocs.io/)
 - [ZHIPU AI](https://open.bigmodel.cn/dev/api/normal-model/glm-4)
@@ -48,17 +48,18 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [Anthropic](https://www.anthropic.com/)
 - [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/)
 - [GitHub Models](https://docs.github.com/en/github-models)
-- [Google Vertex AI](https://cloud.google.com/vertex-ai?hl=en)
 - [Groq AI](https://console.groq.com/)
 - [Hugging Face](https://huggingface.co/)
 - [Mistral](https://docs.mistral.ai/capabilities/vision/)
+- [Ollama](https://ollama.com/)
 - [OpenAI](https://platform.openai.com/docs/guides/images?api-mode=chat)
-- [OpenAI Compatible Endpoints](https://platform.openai.com/docs/api-reference/introduction)
 - [OpenRouter](https://openrouter.ai/)
 - [Portkey](https://portkey.ai/)
+- [Vertex AI Express](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview)
 - [XAI](https://x.ai/)
 
 ## Supported Image Models Providers
+- [Heroku AI](https://devcenter.heroku.com/articles/heroku-inference-api-v1-images-generations)
 - [Hugging Face](https://huggingface.co/)
 - [OpenAI](https://platform.openai.com/docs/guides/images?api-mode=chat)
 - [Stability_AI](https://platform.stability.ai/docs/api-reference#tag/Generate/paths/~1v2beta~1stable-image~1generate~1sd3/post)
@@ -70,7 +71,7 @@ The MuleSoft Inference Connector support [TLS for Mule Apps](https://docs.muleso
 ## Requirements
 - The supported version for Java SDK is Java 17.
 - Compilation of the connector has to be done with Java 17.
-- Mule Runtimes with Java 17 are supported.
+- Minimum Mule Runtime version 4.9.4 is needed.
 
 ## Installation (using maven central dependency)
 

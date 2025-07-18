@@ -14,6 +14,6 @@ public class AnthropicTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(AnthropicModelName.values())
-        .filter(AnthropicModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(AnthropicModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

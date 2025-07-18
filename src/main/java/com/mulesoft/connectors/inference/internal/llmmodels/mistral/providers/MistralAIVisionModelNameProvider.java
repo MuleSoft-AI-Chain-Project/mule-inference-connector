@@ -17,6 +17,6 @@ public class MistralAIVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(MistralAIModelName.values())
-        .filter(MistralAIModelName::isVisionSupport).map(String::valueOf));
+        .filter(MistralAIModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

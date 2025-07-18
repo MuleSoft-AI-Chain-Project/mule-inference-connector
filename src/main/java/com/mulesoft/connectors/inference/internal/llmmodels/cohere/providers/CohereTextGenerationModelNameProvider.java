@@ -14,6 +14,6 @@ public class CohereTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(CohereModelName.values())
-        .filter(CohereModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(CohereModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

@@ -17,6 +17,6 @@ public class HerokuImageGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(HerokuModelName.values())
-        .filter(HerokuModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(HerokuModelName::supportsImageGeneration).sorted().map(String::valueOf));
   }
 }

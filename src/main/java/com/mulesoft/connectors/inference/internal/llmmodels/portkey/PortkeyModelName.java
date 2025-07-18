@@ -1,6 +1,9 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.portkey;
 
-public enum PortkeyModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum PortkeyModelName implements ModelCapabilities {
 
   GPT_4O("gpt-4o", true, false), CHATGPT_4O_LATEST("chatgpt-4o-latest", true, false), GPT_4O_MINI("gpt-4o-mini", true,
       false), MISTRAL_LARGE_LATEST("mistral-large-latest", true, false), MISTRAL_SMALL_LATEST("mistral-small-latest", true,
@@ -8,26 +11,20 @@ public enum PortkeyModelName {
               true,
               false), GPT_3_5_TURBO("gpt-3.5-turbo", true, false), GPT_4_VISION_PREVIEW("gpt-4-vision-preview", false, true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
-  private final boolean visionSupport;
+  private final ModelCapabilitySet capabilities;
 
   PortkeyModelName(String value, boolean textGenerationSupport, boolean visionSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
-    this.visionSupport = visionSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, visionSupport);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
-  }
-
-  public boolean isVisionSupport() {
-    return visionSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

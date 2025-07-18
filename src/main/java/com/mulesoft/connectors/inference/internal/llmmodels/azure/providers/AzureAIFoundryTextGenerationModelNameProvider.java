@@ -14,6 +14,6 @@ public class AzureAIFoundryTextGenerationModelNameProvider implements ValueProvi
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(AzureAIFoundryModelName.values())
-        .filter(AzureAIFoundryModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(AzureAIFoundryModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

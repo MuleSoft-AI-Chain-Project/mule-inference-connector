@@ -14,6 +14,6 @@ public class VertexAIExpressVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(VertexAIExpressModelName.values())
-        .filter(VertexAIExpressModelName::isVisionSupport).map(String::valueOf));
+        .filter(VertexAIExpressModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

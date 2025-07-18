@@ -14,6 +14,6 @@ public class HuggingFaceVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(HuggingFaceModelName.values())
-        .filter(HuggingFaceModelName::isVisionSupport).map(String::valueOf));
+        .filter(HuggingFaceModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

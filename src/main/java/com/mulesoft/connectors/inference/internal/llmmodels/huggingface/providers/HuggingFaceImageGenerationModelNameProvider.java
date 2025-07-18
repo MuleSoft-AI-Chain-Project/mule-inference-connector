@@ -14,6 +14,6 @@ public class HuggingFaceImageGenerationModelNameProvider implements ValueProvide
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(HuggingFaceModelName.values())
-        .filter(HuggingFaceModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(HuggingFaceModelName::supportsImageGeneration).sorted().map(String::valueOf));
   }
 }

@@ -17,6 +17,6 @@ public class HerokuTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(HerokuModelName.values())
-        .filter(HerokuModelName::isTextGenerationSupport).sorted().map(String::valueOf));
+        .filter(HerokuModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

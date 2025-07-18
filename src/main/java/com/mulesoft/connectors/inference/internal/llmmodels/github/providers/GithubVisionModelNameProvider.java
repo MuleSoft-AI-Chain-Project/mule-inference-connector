@@ -14,6 +14,6 @@ public class GithubVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(GithubModelName.values())
-        .filter(GithubModelName::isVisionSupport).map(String::valueOf));
+        .filter(GithubModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

@@ -14,6 +14,6 @@ public class AI21LabsTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(AI21LabsModelName.values())
-        .filter(AI21LabsModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(AI21LabsModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

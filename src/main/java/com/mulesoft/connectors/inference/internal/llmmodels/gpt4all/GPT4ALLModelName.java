@@ -1,23 +1,26 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.gpt4all;
 
-public enum GPT4ALLModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum GPT4ALLModelName implements ModelCapabilities {
 
   MISTRAL_SMALL_2402("mistral-small-2402", true), QWEN2_1_5B_INSTRUCT("Qwen2-1.5B-Instruct", true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
+  private final ModelCapabilitySet capabilities;
 
   GPT4ALLModelName(String value, boolean textGenerationSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, false);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

@@ -14,6 +14,6 @@ public class LlmAPITextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(LlmAPIModelName.values())
-        .filter(LlmAPIModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(LlmAPIModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

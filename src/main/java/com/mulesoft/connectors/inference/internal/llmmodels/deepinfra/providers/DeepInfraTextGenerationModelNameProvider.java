@@ -14,6 +14,6 @@ public class DeepInfraTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(DeepInfraModelName.values())
-        .filter(DeepInfraModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(DeepInfraModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

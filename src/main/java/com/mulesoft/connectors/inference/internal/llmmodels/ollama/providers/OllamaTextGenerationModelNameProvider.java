@@ -14,6 +14,6 @@ public class OllamaTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OllamaModelName.values())
-        .filter(OllamaModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(OllamaModelName::supportsTextGeneration).map(String::valueOf));
   }
 }

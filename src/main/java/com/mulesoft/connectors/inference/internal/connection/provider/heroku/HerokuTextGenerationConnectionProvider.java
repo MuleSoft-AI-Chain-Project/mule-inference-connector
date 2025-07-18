@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Alias("heroku")
-@DisplayName("Heroku Managed Inference")
+@DisplayName("Heroku AI")
 public class HerokuTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(HerokuTextGenerationConnectionProvider.class);

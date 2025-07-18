@@ -17,6 +17,6 @@ public class OpenAIImageGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenAIModelName.values())
-        .filter(OpenAIModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(OpenAIModelName::supportsImageGeneration).sorted().map(String::valueOf));
   }
 }

@@ -14,6 +14,6 @@ public class GPT4AllTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(GPT4ALLModelName.values())
-        .filter(GPT4ALLModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(GPT4ALLModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

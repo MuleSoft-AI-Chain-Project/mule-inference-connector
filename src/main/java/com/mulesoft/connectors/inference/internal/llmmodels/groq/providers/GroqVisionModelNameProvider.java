@@ -14,6 +14,6 @@ public class GroqVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(GroqModelName.values())
-        .filter(GroqModelName::isVisionSupport).map(String::valueOf));
+        .filter(GroqModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

@@ -1,24 +1,27 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.xinference;
 
-public enum XInferenceModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum XInferenceModelName implements ModelCapabilities {
 
   CHATGLM3_6("chatglm3-6b", true), QWEN25_72B_INSTRUCT("Qwen2.5-72B-Instruct", true), QWEN25_32B_INSTRUCT("Qwen2.5-32B-Instruct",
       true), QWEN25_CODER_7B_INSTRUCT("Qwen2.5-Coder-7B-Instruct", true), GLM_4_9B_CHAT("glm-4-9b-chat", true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
+  private final ModelCapabilitySet capabilities;
 
   XInferenceModelName(String value, boolean textGenerationSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, false);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

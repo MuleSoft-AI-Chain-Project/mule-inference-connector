@@ -1,23 +1,26 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.deepinfra;
 
-public enum DeepInfraModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum DeepInfraModelName implements ModelCapabilities {
 
   LLAMA_3_8B_INSTRUCT("meta-llama/Meta-Llama-3-8B-Instruct", true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
+  private final ModelCapabilitySet capabilities;
 
   DeepInfraModelName(String value, boolean textGenerationSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, false);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

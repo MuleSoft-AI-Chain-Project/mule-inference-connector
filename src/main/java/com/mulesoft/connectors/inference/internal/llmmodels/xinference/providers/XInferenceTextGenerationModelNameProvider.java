@@ -14,6 +14,6 @@ public class XInferenceTextGenerationModelNameProvider implements ValueProvider 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(XInferenceModelName.values())
-        .filter(XInferenceModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(XInferenceModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

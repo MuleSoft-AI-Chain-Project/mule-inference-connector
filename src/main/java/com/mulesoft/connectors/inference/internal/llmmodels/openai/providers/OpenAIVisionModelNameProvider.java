@@ -17,6 +17,6 @@ public class OpenAIVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenAIModelName.values())
-        .filter(OpenAIModelName::isVisionSupport).map(String::valueOf));
+        .filter(OpenAIModelName::supportsVision).sorted().map(String::valueOf));
   }
 }
