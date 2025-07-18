@@ -14,6 +14,6 @@ public class OllamaVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OllamaModelName.values())
-        .filter(OllamaModelName::isVisionSupport).map(String::valueOf));
+        .filter(OllamaModelName::supportsVision).map(String::valueOf));
   }
 }

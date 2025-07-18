@@ -17,6 +17,6 @@ public class XAIImageModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(XAIModelName.values())
-        .filter(XAIModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(XAIModelName::supportsImageGeneration).sorted().map(String::valueOf));
   }
 }

@@ -1,24 +1,27 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.docker;
 
-public enum DockerModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum DockerModelName implements ModelCapabilities {
 
   AI_DEEPSEEK_R1_DISTILL_LLAMA("ai/deepseek-r1-distill-llama", true), AI_GEMMA3("ai/gemma3", true), AI_LLAMA3_3("ai/llama3.3",
       true), AI_MISTRAL("ai/mistral", true), AI_MISTRAL_NEMO("ai/mistral-nemo", true), AI_PHI4("ai/phi4", true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
+  private final ModelCapabilitySet capabilities;
 
   DockerModelName(String value, boolean textGenerationSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, false);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

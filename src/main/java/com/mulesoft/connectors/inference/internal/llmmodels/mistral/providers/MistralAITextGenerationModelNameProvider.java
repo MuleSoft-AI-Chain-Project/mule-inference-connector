@@ -17,6 +17,6 @@ public class MistralAITextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(MistralAIModelName.values())
-        .filter(MistralAIModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(MistralAIModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

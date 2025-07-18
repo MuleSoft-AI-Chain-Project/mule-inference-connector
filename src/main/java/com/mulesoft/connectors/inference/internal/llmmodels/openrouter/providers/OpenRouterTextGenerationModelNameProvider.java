@@ -17,6 +17,6 @@ public class OpenRouterTextGenerationModelNameProvider implements ValueProvider 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenRouterModelName.values())
-        .filter(OpenRouterModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(OpenRouterModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

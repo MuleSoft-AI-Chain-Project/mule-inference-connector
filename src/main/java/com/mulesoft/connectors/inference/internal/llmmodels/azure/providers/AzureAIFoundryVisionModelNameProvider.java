@@ -17,6 +17,6 @@ public class AzureAIFoundryVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(AzureAIFoundryModelName.values())
-        .filter(AzureAIFoundryModelName::isVisionSupport).map(String::valueOf));
+        .filter(AzureAIFoundryModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

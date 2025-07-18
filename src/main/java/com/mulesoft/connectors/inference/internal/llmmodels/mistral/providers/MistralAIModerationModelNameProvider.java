@@ -17,6 +17,6 @@ public class MistralAIModerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(MistralAIModelName.values())
-        .filter(MistralAIModelName::isModerationSupport).map(String::valueOf));
+        .filter(MistralAIModelName::supportsModeration).sorted().map(String::valueOf));
   }
 }

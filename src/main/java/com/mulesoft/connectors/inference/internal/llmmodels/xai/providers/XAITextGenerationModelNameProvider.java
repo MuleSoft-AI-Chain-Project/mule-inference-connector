@@ -14,6 +14,6 @@ public class XAITextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(XAIModelName.values())
-        .filter(XAIModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(XAIModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

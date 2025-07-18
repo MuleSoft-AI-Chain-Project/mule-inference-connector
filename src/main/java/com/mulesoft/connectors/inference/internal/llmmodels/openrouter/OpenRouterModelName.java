@@ -1,6 +1,9 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.openrouter;
 
-public enum OpenRouterModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum OpenRouterModelName implements ModelCapabilities {
 
   ANTHROPIC_CLAUDE_3_5_SONNET("anthropic/claude-3.5-sonnet", true, false), ANTHROPIC_CLAUDE_3_5_SONNET_SELF_MODERATED(
       "anthropic/claude-3.5-sonnet:beta", true, false), MINISTRAL_8B("mistralai/ministral-8b", true, false), MINISTRAL_3B(
@@ -59,26 +62,20 @@ public enum OpenRouterModelName {
                                                                                                                           false,
                                                                                                                           true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
-  private final boolean visionSupport;
+  private final ModelCapabilitySet capabilities;
 
   OpenRouterModelName(String value, boolean textGenerationSupport, boolean visionSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
-    this.visionSupport = visionSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, visionSupport);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
-  }
-
-  public boolean isVisionSupport() {
-    return visionSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

@@ -14,6 +14,6 @@ public class VertexAIExpressTextGenerationModelNameProvider implements ValueProv
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(VertexAIExpressModelName.values())
-        .filter(VertexAIExpressModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(VertexAIExpressModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

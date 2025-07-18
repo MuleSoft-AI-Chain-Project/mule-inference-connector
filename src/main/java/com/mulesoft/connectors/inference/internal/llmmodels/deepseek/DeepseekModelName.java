@@ -1,23 +1,26 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.deepseek;
 
-public enum DeepseekModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum DeepseekModelName implements ModelCapabilities {
 
   DEEPSEEK_CHAT("deepseek-chat", true);
 
-  private final String value;
-  private final boolean textGenerationSupport;
+  private final ModelCapabilitySet capabilities;
 
   DeepseekModelName(String value, boolean textGenerationSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, false);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

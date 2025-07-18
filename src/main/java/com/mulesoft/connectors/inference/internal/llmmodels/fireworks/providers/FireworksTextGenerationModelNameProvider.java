@@ -14,6 +14,6 @@ public class FireworksTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(FireworksModelName.values())
-        .filter(FireworksModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(FireworksModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

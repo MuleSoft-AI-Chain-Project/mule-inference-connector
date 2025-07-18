@@ -17,6 +17,6 @@ public class OpenRouterVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenRouterModelName.values())
-        .filter(OpenRouterModelName::isVisionSupport).map(String::valueOf));
+        .filter(OpenRouterModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

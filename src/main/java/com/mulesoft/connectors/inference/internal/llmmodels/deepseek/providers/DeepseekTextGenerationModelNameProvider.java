@@ -14,6 +14,6 @@ public class DeepseekTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(DeepseekModelName.values())
-        .filter(DeepseekModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(DeepseekModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

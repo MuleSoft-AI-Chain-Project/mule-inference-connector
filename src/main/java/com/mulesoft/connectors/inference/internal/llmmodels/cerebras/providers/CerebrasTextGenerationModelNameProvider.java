@@ -14,6 +14,6 @@ public class CerebrasTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(CerebrasModelName.values())
-        .filter(CerebrasModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(CerebrasModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

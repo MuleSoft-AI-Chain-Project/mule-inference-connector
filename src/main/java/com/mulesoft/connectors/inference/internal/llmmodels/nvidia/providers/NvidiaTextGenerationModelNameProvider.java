@@ -14,6 +14,6 @@ public class NvidiaTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(NvidiaModelName.values())
-        .filter(NvidiaModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(NvidiaModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

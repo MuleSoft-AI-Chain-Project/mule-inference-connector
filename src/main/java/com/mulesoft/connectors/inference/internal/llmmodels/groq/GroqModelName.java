@@ -1,6 +1,9 @@
 package com.mulesoft.connectors.inference.internal.llmmodels.groq;
 
-public enum GroqModelName {
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilities;
+import com.mulesoft.connectors.inference.internal.llmmodels.ModelCapabilitySet;
+
+public enum GroqModelName implements ModelCapabilities {
 
   MIXTRAL_8X7B_32768("mixtral-8x7b-32768", true, false), LLAMA_3_2_3B_PREVIEW("llama-3.2-3b-preview", true,
       false), LLAMA_3_70B_8192("llama3-70b-8192", true, false), LLAMA_3_2_90B_VISION_PREVIEW("llama-3.2-90b-vision-preview", true,
@@ -15,26 +18,20 @@ public enum GroqModelName {
                                       true, false), LLAMA_3_1_70B_VERSATILE("llama-3.1-70b-versatile", true, false), GEMMA_7B_IT(
                                           "gemma-7b-it", true, false), LLAMA_GUARD_3_8B("llama-guard-3-8b", true, false);
 
-  private final String value;
-  private final boolean textGenerationSupport;
-  private final boolean visionSupport;
+  private final ModelCapabilitySet capabilities;
 
   GroqModelName(String value, boolean textGenerationSupport, boolean visionSupport) {
-    this.value = value;
-    this.textGenerationSupport = textGenerationSupport;
-    this.visionSupport = visionSupport;
+    this.capabilities =
+        new ModelCapabilitySet(value, textGenerationSupport, false, false, visionSupport);
   }
 
-  public boolean isTextGenerationSupport() {
-    return textGenerationSupport;
-  }
-
-  public boolean isVisionSupport() {
-    return visionSupport;
+  @Override
+  public ModelCapabilitySet getCapabilities() {
+    return this.capabilities;
   }
 
   @Override
   public String toString() {
-    return this.value;
+    return this.getModelName();
   }
 }

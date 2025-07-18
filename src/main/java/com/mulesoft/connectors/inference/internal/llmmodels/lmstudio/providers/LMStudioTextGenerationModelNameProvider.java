@@ -14,6 +14,6 @@ public class LMStudioTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(LMStudioModelName.values())
-        .filter(LMStudioModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(LMStudioModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

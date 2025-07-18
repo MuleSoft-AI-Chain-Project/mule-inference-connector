@@ -14,6 +14,6 @@ public class DockerTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(DockerModelName.values())
-        .filter(DockerModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(DockerModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

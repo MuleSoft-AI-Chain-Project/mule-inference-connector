@@ -17,6 +17,6 @@ public class OpenAIModerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenAIModelName.values())
-        .filter(OpenAIModelName::isModerationSupport).map(String::valueOf));
+        .filter(OpenAIModelName::supportsModeration).sorted().map(String::valueOf));
   }
 }

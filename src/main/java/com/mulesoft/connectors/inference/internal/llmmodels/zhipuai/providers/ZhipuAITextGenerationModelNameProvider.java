@@ -14,6 +14,6 @@ public class ZhipuAITextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(ChatGLMModelName.values())
-        .filter(ChatGLMModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(ChatGLMModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

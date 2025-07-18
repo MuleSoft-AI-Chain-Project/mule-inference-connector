@@ -14,6 +14,6 @@ public class AnthropicVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(AnthropicModelName.values())
-        .filter(AnthropicModelName::isVisionSupport).map(String::valueOf));
+        .filter(AnthropicModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

@@ -17,6 +17,6 @@ public class StabilityAIImageModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(StabilityAIModelName.values())
-        .filter(StabilityAIModelName::isImageGenerationSupport).map(String::valueOf));
+        .filter(StabilityAIModelName::supportsImageGeneration).sorted().map(String::valueOf));
   }
 }

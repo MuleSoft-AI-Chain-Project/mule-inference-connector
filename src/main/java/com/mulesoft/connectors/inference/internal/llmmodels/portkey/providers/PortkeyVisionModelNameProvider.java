@@ -14,6 +14,6 @@ public class PortkeyVisionModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(PortkeyModelName.values())
-        .filter(PortkeyModelName::isVisionSupport).map(String::valueOf));
+        .filter(PortkeyModelName::supportsVision).sorted().map(String::valueOf));
   }
 }

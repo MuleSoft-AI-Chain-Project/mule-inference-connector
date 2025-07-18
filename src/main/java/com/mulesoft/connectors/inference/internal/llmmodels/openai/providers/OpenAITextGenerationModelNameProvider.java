@@ -17,6 +17,6 @@ public class OpenAITextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(OpenAIModelName.values())
-        .filter(OpenAIModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(OpenAIModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

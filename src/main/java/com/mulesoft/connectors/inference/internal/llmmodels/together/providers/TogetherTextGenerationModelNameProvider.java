@@ -14,6 +14,6 @@ public class TogetherTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(TogetherModelName.values())
-        .filter(TogetherModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(TogetherModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

@@ -14,6 +14,6 @@ public class PortkeyTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(PortkeyModelName.values())
-        .filter(PortkeyModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(PortkeyModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

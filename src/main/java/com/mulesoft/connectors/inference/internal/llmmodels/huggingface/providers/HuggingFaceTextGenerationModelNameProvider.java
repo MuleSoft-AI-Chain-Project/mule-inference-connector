@@ -14,6 +14,6 @@ public class HuggingFaceTextGenerationModelNameProvider implements ValueProvider
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(HuggingFaceModelName.values())
-        .filter(HuggingFaceModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(HuggingFaceModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

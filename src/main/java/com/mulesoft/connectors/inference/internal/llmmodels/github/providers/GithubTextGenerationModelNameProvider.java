@@ -14,6 +14,6 @@ public class GithubTextGenerationModelNameProvider implements ValueProvider {
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(GithubModelName.values())
-        .filter(GithubModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(GithubModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }

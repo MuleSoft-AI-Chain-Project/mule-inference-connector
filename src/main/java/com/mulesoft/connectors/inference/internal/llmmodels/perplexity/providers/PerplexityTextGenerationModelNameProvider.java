@@ -14,6 +14,6 @@ public class PerplexityTextGenerationModelNameProvider implements ValueProvider 
   @Override
   public Set<Value> resolve() {
     return ValueBuilder.getValuesFor(Arrays.stream(PerplexityModelName.values())
-        .filter(PerplexityModelName::isTextGenerationSupport).map(String::valueOf));
+        .filter(PerplexityModelName::supportsTextGeneration).sorted().map(String::valueOf));
   }
 }
