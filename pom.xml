@@ -34,7 +34,7 @@
 		<maven.impsort.plugin.version>1.12.0</maven.impsort.plugin.version>
 
 		<runtimeProduct>MULE_EE</runtimeProduct>
-		<skip.unit.tests>true</skip.unit.tests>
+		<skip.unit.tests>false</skip.unit.tests>
 		<mtf.tools.version>1.2.0</mtf.tools.version>
 
 		<formatterConfigPath>formatter.xml</formatterConfigPath>
@@ -306,6 +306,19 @@
 			<groupId>io.modelcontextprotocol.sdk</groupId>
 			<artifactId>mcp-spring-webflux</artifactId>
 			<version>${mcp.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.10.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.10.1</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
