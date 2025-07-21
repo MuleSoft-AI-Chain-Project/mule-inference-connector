@@ -32,9 +32,9 @@
 		<javaFormatter.plugin.version>2.26.0</javaFormatter.plugin.version>
 		<maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
 		<maven.impsort.plugin.version>1.12.0</maven.impsort.plugin.version>
+		<maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
 
 		<runtimeProduct>MULE_EE</runtimeProduct>
-		<skip.unit.tests>false</skip.unit.tests>
 		<mtf.tools.version>1.2.0</mtf.tools.version>
 
 		<formatterConfigPath>formatter.xml</formatterConfigPath>
@@ -168,10 +168,20 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>${maven.surefire.plugin.version}</version>
 				<configuration>
-					<skipTests>${skip.unit.tests}</skipTests>
+					<argLine>-Dfile.encoding=UTF-8</argLine>
+					<argLine>
+						-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${session.executionRootDirectory}/target/jacoco.exec
+					</argLine>
 				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${jacoco.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>net.revelc.code.formatter</groupId>
