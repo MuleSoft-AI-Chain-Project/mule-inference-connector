@@ -52,7 +52,6 @@ public class XInferenceTextGenerationConnectionProvider extends TextGenerationCo
                                                                     textGenerationConnectionParameters.getTemperature(),
                                                                     textGenerationConnectionParameters.getTopP(),
                                                                     textGenerationConnectionParameters.getTimeout()),
-                                                  xInferenceUrl,
-                                                  textGenerationConnectionParameters.getMcpSseServers());
+                                                  xInferenceUrl);
   }
 }

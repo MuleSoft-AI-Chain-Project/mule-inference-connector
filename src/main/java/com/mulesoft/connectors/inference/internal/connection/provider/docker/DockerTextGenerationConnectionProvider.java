@@ -52,7 +52,7 @@ public class DockerTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
                                                                 textGenerationConnectionParameters.getTimeout()),
-                                              dockerModelUrl,
-                                              textGenerationConnectionParameters.getMcpSseServers());
+                                              dockerModelUrl);
+
   }
 }

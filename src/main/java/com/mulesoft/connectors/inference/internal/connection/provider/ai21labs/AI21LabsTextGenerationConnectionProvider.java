@@ -43,7 +43,6 @@ public class AI21LabsTextGenerationConnectionProvider extends TextGenerationConn
                                                                   textGenerationConnectionParameters.getMaxTokens(),
                                                                   textGenerationConnectionParameters.getTemperature(),
                                                                   textGenerationConnectionParameters.getTopP(),
-                                                                  textGenerationConnectionParameters.getTimeout()),
-                                                textGenerationConnectionParameters.getMcpSseServers());
+                                                                  textGenerationConnectionParameters.getTimeout()));
   }
 }

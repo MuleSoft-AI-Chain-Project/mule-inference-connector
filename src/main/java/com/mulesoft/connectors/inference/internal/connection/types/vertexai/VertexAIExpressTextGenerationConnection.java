@@ -23,8 +23,8 @@ public class VertexAIExpressTextGenerationConnection extends TextGenerationConne
   private VertexAIHttpResponseHelper httpResponseHelper;
 
   public VertexAIExpressTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                                 ParametersDTO parametersDTO, Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                                 ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(parametersDTO.modelName()));
   }
 

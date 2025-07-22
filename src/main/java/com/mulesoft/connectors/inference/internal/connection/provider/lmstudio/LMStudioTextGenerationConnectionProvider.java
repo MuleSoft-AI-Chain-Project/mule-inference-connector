@@ -53,7 +53,6 @@ public class LMStudioTextGenerationConnectionProvider extends TextGenerationConn
                                                                   textGenerationConnectionParameters.getTemperature(),
                                                                   textGenerationConnectionParameters.getTopP(),
                                                                   textGenerationConnectionParameters.getTimeout()),
-                                                lmStudioBaseURL,
-                                                textGenerationConnectionParameters.getMcpSseServers());
+                                                lmStudioBaseURL);
   }
 }

@@ -8,8 +8,6 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.CohereRequestP
 import com.mulesoft.connectors.inference.internal.helpers.response.CohereHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.CohereResponseMapper;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class CohereTextGenerationConnection extends TextGenerationConnection {
@@ -21,9 +19,8 @@ public class CohereTextGenerationConnection extends TextGenerationConnection {
   private CohereRequestPayloadHelper requestPayloadHelper;
   private CohereHttpResponseHelper httpResponseHelper;
 
-  public CohereTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                        Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+  public CohereTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

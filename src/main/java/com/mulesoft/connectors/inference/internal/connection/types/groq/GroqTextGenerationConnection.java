@@ -6,8 +6,6 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.GroqRequestPayloadHelper;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class GroqTextGenerationConnection extends TextGenerationConnection {
@@ -16,9 +14,8 @@ public class GroqTextGenerationConnection extends TextGenerationConnection {
   public static final String GROQ_URL = "https://api.groq.com/openai/v1";
   private GroqRequestPayloadHelper requestPayloadHelper;
 
-  public GroqTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                      Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+  public GroqTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

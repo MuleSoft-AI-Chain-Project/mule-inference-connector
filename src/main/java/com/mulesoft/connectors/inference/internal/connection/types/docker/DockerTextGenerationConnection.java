@@ -5,8 +5,6 @@ import org.mule.runtime.http.api.client.HttpClient;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class DockerTextGenerationConnection extends TextGenerationConnection {
@@ -15,9 +13,8 @@ public class DockerTextGenerationConnection extends TextGenerationConnection {
 
 
   public DockerTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                        ParametersDTO parametersDTO, String dockerModelUrl,
-                                        Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                        ParametersDTO parametersDTO, String dockerModelUrl) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(dockerModelUrl));
   }
 

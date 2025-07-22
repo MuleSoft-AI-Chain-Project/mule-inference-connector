@@ -21,9 +21,8 @@ public class AnthropicTextGenerationConnection extends TextGenerationConnection 
   private AnthropicResponseMapper responseMapper;
   private AnthropicHttpResponseHelper httpResponseHelper;
 
-  public AnthropicTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                           Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+  public AnthropicTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

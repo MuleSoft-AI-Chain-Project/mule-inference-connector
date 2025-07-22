@@ -2,7 +2,6 @@ package com.mulesoft.connectors.inference.internal.connection.types;
 
 import org.mule.runtime.http.api.client.HttpClient;
 
-import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
@@ -23,7 +22,7 @@ public class BaseConnection {
   private final String apiURL;
   private final ObjectMapper objectMapper;
   private RequestPayloadHelper requestPayloadHelper;
-  private McpHelper mcpHelper;
+
   private BaseService baseService;
 
   public BaseConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
@@ -48,12 +47,6 @@ public class BaseConnection {
     if (requestPayloadHelper == null)
       requestPayloadHelper = new RequestPayloadHelper(objectMapper);
     return requestPayloadHelper;
-  }
-
-  protected McpHelper getMcpHelper() {
-    if (mcpHelper == null)
-      mcpHelper = new McpHelper(this.getObjectMapper());
-    return mcpHelper;
   }
 
   protected HttpRequestHelper getHttpRequestHelper() {

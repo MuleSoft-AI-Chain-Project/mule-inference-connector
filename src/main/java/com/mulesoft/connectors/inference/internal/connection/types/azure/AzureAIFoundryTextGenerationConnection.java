@@ -16,8 +16,8 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
 
   public AzureAIFoundryTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
                                                 String azureAIFoundryResourceName,
-                                                String azureAIFoundryApiVersion, Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                                String azureAIFoundryApiVersion) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(azureAIFoundryResourceName, azureAIFoundryApiVersion));
   }
 

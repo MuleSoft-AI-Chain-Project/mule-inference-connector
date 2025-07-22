@@ -43,7 +43,6 @@ public class CohereTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getMaxTokens(),
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
-                                                                textGenerationConnectionParameters.getTimeout()),
-                                              textGenerationConnectionParameters.getMcpSseServers());
+                                                                textGenerationConnectionParameters.getTimeout()));
   }
 }

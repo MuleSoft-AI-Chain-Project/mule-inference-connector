@@ -43,7 +43,7 @@ public class FireworksTextGenerationConnectionProvider extends TextGenerationCon
                                                                    textGenerationConnectionParameters.getMaxTokens(),
                                                                    textGenerationConnectionParameters.getTemperature(),
                                                                    textGenerationConnectionParameters.getTopP(),
-                                                                   textGenerationConnectionParameters.getTimeout()),
-                                                 textGenerationConnectionParameters.getMcpSseServers());
+                                                                   textGenerationConnectionParameters.getTimeout()));
+
   }
 }

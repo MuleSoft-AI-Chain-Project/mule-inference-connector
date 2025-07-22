@@ -3,12 +3,10 @@ package com.mulesoft.connectors.inference.internal.service;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
-import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
-import com.mulesoft.connectors.inference.internal.helpers.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
@@ -17,7 +15,6 @@ import com.mulesoft.connectors.inference.internal.helpers.response.mapper.Defaul
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,17 +30,16 @@ public class TextGenerationService implements BaseService {
   private final HttpRequestHelper httpRequestHelper;
   private final HttpResponseHelper responseHelper;
   private final DefaultResponseMapper responseParser;
-  private final McpHelper mcpHelper;
+
   private final ObjectMapper objectMapper;
 
   public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                               HttpResponseHelper responseHelper, DefaultResponseMapper responseParser, McpHelper mcpHelper,
+                               HttpResponseHelper responseHelper, DefaultResponseMapper responseParser,
                                ObjectMapper objectMapper) {
     this.payloadHelper = requestPayloadHelper;
     this.httpRequestHelper = httpRequestHelper;
     this.responseHelper = responseHelper;
     this.responseParser = responseParser;
-    this.mcpHelper = mcpHelper;
     this.objectMapper = objectMapper;
   }
 
@@ -79,30 +75,6 @@ public class TextGenerationService implements BaseService {
 
     return executeToolsRequestAndFormatResponse(connection, payloadHelper
         .buildToolsTemplatePayload(connection, template, instructions, data, tools));
-  }
-
-  public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection, String template,
-                                                                    String instructions, String data)
-      throws IOException, TimeoutException {
-
-    var tools = mcpHelper.getMcpToolsFromMultiple(connection);
-
-    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-        .buildToolsTemplatePayload(connection, template, instructions, data, tools);
-
-    logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
-
-    TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
-
-    List<ToolResult> toolExecutionResult = mcpHelper.executeTools(mcpHelper.getMcpToolsArrayByServer(),
-                                                                  responseParser.mapToolCalls(chatResponse),
-                                                                  connection.getTimeout());
-
-    return ResponseHelper.createLLMResponse(
-                                            objectMapper.writeValueAsString(responseParser
-                                                .mapChatResponseWithToolExecutionResult(chatResponse, toolExecutionResult)),
-                                            responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
   }
 
   private Result<InputStream, LLMResponseAttributes> executeToolsRequestAndFormatResponse(TextGenerationConnection connection,

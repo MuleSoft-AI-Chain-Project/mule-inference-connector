@@ -43,7 +43,6 @@ public class ZhipuAITextGenerationConnectionProvider extends TextGenerationConne
                                                                  textGenerationConnectionParameters.getMaxTokens(),
                                                                  textGenerationConnectionParameters.getTemperature(),
                                                                  textGenerationConnectionParameters.getTopP(),
-                                                                 textGenerationConnectionParameters.getTimeout()),
-                                               textGenerationConnectionParameters.getMcpSseServers());
+                                                                 textGenerationConnectionParameters.getTimeout()));
   }
 }
