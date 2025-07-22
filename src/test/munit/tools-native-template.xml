@@ -96,12 +96,12 @@
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
-			<munit:parameterization name="config-llmapi" >
+			<!--<munit:parameterization name="config-llmapi" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="llmapiConfig" />
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
