@@ -15,10 +15,6 @@
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="GroqConfig" doc:name="MuleSoft Inference Text generation config" doc:id="124d73c2-8ad2-4daf-a74e-9c9835cf8dd8" >
         <mac-inference:groq-connection apiKey="${groq.apiKey}" groqModelName="${groq.llmModel}">
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
         </mac-inference:groq-connection>
     </mac-inference:text-generation-config>
 

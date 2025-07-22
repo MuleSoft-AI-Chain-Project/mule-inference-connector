@@ -15,10 +15,6 @@
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="NvidiaConfig" doc:name="MuleSoft Inference Text generation config" doc:id="cd9f05ad-1f37-4575-94f5-44e1ff6c8c09" >
         <mac-inference:nvidia-connection apiKey="${nvidia.apiKey}" nvidiaModelName="${nvidia.llmModel}">
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
         </mac-inference:nvidia-connection>
     </mac-inference:text-generation-config>
 </mule> 

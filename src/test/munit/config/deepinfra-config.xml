@@ -15,10 +15,7 @@
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="DeepinfraConfig" doc:name="Deepinfra Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
         <mac-inference:deepinfra-connection apiKey="${deepinfra.apiKey}" deepInfraModelName="${deepinfra.llmModel}" timeout="60000">
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
+
         </mac-inference:deepinfra-connection>
     </mac-inference:text-generation-config>
 </mule> 
