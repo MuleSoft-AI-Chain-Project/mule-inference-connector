@@ -25,7 +25,6 @@
 
 	<properties>
 		<slf4jApi.version>2.1.0-alpha1</slf4jApi.version>
-		<mcp.version>0.10.0</mcp.version>
 		<munit.extensions.maven.plugin.version>1.5.0</munit.extensions.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
 		<jacoco.version>0.8.13</jacoco.version>
@@ -310,12 +309,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.17.0</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.modelcontextprotocol.sdk</groupId>
-			<artifactId>mcp-spring-webflux</artifactId>
-			<version>${mcp.version}</version>
 		</dependency>
 
 		<dependency>
