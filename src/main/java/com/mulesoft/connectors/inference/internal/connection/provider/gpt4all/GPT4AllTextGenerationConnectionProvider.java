@@ -53,7 +53,6 @@ public class GPT4AllTextGenerationConnectionProvider extends TextGenerationConne
                                                                  textGenerationConnectionParameters.getTemperature(),
                                                                  textGenerationConnectionParameters.getTopP(),
                                                                  textGenerationConnectionParameters.getTimeout()),
-                                               gpt4AllBaseURL,
-                                               textGenerationConnectionParameters.getMcpSseServers());
+                                               gpt4AllBaseURL);
   }
 }

@@ -5,8 +5,6 @@ import org.mule.runtime.http.api.client.HttpClient;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OpenAICompatibleTextGenerationConnection extends TextGenerationConnection {
@@ -15,9 +13,8 @@ public class OpenAICompatibleTextGenerationConnection extends TextGenerationConn
   public static final String OPENAI_COMPATIBLE_ENDPOINT = "https://server.endpoint.com";
 
   public OpenAICompatibleTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                                  ParametersDTO parametersDTO, String openAICompatibleURL,
-                                                  Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                                  ParametersDTO parametersDTO, String openAICompatibleURL) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(openAICompatibleURL));
   }
 

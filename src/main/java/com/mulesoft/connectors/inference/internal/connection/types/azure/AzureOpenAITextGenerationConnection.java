@@ -21,9 +21,8 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
                                              String azureOpenaiResourceName, String azureOpenaiDeploymentId,
-                                             String azureOpenaiUser,
-                                             Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                             String azureOpenaiUser) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(azureOpenaiResourceName, azureOpenaiDeploymentId));
     this.user = azureOpenaiUser;
   }

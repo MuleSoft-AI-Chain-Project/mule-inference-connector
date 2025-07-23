@@ -52,7 +52,6 @@ public class PortkeyTextGenerationConnectionProvider extends TextGenerationConne
                                                                  textGenerationConnectionParameters.getTemperature(),
                                                                  textGenerationConnectionParameters.getTopP(),
                                                                  textGenerationConnectionParameters.getTimeout()),
-                                               virtualKey,
-                                               textGenerationConnectionParameters.getMcpSseServers());
+                                               virtualKey);
   }
 }

@@ -6,8 +6,6 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.Ai21labsResponseMapper;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class AI21LabsTextGenerationConnection extends TextGenerationConnection {
@@ -17,9 +15,8 @@ public class AI21LabsTextGenerationConnection extends TextGenerationConnection {
 
   private Ai21labsResponseMapper responseMapper;
 
-  public AI21LabsTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                          Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+  public AI21LabsTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

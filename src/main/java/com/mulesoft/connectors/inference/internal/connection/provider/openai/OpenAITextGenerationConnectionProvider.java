@@ -45,7 +45,6 @@ public class OpenAITextGenerationConnectionProvider extends TextGenerationConnec
                                                                 openAITextGenerationConnectionParameters.getMaxTokens(),
                                                                 openAITextGenerationConnectionParameters.getTemperature(),
                                                                 openAITextGenerationConnectionParameters.getTopP(),
-                                                                openAITextGenerationConnectionParameters.getTimeout()),
-                                              openAITextGenerationConnectionParameters.getMcpSseServers());
+                                                                openAITextGenerationConnectionParameters.getTimeout()));
   }
 }

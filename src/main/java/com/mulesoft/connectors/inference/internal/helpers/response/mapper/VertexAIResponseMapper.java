@@ -4,7 +4,6 @@ import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
-import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.vertexai.Candidate;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.vertexai.VertexAiChatCompletionResponse;
@@ -52,15 +51,13 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public TextGenerationResponse mapChatResponseWithToolExecutionResult(TextResponseDTO responseDTO,
-                                                                       List<ToolResult> toolExecutionResult) {
+  public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
 
     var chatCompletionResponse = (VertexAiChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
 
     return new TextGenerationResponse(chatRespFirstChoice.map(x -> x.content().parts().get(0).text()).orElse(null),
-                                      mapToolCalls(responseDTO),
-                                      toolExecutionResult);
+                                      mapToolCalls(responseDTO));
   }
 
 }

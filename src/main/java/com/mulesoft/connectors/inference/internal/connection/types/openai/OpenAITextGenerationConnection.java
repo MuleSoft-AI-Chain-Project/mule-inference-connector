@@ -6,8 +6,6 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.OpenAIRequestPayloadHelper;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OpenAITextGenerationConnection extends TextGenerationConnection {
@@ -16,9 +14,8 @@ public class OpenAITextGenerationConnection extends TextGenerationConnection {
   public static final String OPENAI_URL = "https://api.openai.com/v1";
   private OpenAIRequestPayloadHelper requestPayloadHelper;
 
-  public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                        Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+  public OpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
   }
 
   @Override

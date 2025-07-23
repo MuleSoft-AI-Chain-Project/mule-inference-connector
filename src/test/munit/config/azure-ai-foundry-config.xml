@@ -18,10 +18,6 @@
                                                    azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}"
                                                    azureAIFoundryResourceName="${azure-ai-foundry.resource}"
                                                    maxTokens="2000" >
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
         </mac-inference:azure-ai-foundry-connection>
     </mac-inference:text-generation-config>
 

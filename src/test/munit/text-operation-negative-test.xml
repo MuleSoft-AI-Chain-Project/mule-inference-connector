@@ -90,25 +90,4 @@
 			</mac-inference:tools-native-template>
 		</munit:execution>
 	</munit:test>
-
-	<!-- MCP tooling negative tests-->
-	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="mcp-tooling-invalid-model-Test" expectedErrorType="MAC-INFERENCE:CHAT_OPERATION_FAILURE">
-		<munit:execution>
-			<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9" config-ref="OpenAIInvalidModelConfig">
-				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
-				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
-				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
-			</mac-inference:mcp-tools-native-template>
-		</munit:execution>
-	</munit:test>
-
-	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="mcp-tooling-invalid-base-url-Test" expectedErrorType="MAC-INFERENCE:MCP_TOOLS_OPERATION_FAILURE">
-		<munit:execution>
-			<mac-inference:mcp-tools-native-template doc:name="[MCP] Tooling" config-ref="XInferenceInvalidConfig">
-				<mac-inference:template ><![CDATA[#['Some payload']]]></mac-inference:template>
-				<mac-inference:instructions ><![CDATA[#['Some payload']]]></mac-inference:instructions>
-				<mac-inference:data ><![CDATA[#['Some payload']]]></mac-inference:data>
-			</mac-inference:mcp-tools-native-template>
-		</munit:execution>
-	</munit:test>
 </mule>

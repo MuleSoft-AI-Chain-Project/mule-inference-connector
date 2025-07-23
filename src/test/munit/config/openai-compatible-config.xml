@@ -15,10 +15,6 @@
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="OpenAICompatibleConfig" doc:name="MuleSoft Inference Text generation config" doc:id="195e5441-3480-4fe9-8b8f-d41403861128" >
         <mac-inference:openai-compatible-connection apiKey="${openai-compatible.apiKey}" openAICompatibleModelName="${openai-compatible.llmModel}" openAICompatibleURL="${openai-compatible.baseUrl}">
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
         </mac-inference:openai-compatible-connection>
     </mac-inference:text-generation-config>
 

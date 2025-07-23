@@ -144,33 +144,5 @@ public class TextGenerationOperations {
     }
   }
 
-  /**
-   * Define a tools template with instructions, data and tools
-   *
-   * @param connection the connector connection
-   * @param template the template string
-   * @param instructions instructions for the LLM
-   * @param data the primary data content
-   * @return result containing the LLM response
-   * @throws ModuleException if an error occurs during the operation
-   */
-  @MediaType(value = APPLICATION_JSON, strict = false)
-  @Alias("Mcp-tools-native-template")
-  @DisplayName("[MCP] Tooling")
-  @OutputJsonType(schema = "api/response/Response.json")
-  @Summary("MCP Tooling support")
-  public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(
-                                                                     @Connection TextGenerationConnection connection,
-                                                                     @Content String template,
-                                                                     @Content String instructions,
-                                                                     @Content(primary = true) String data)
-      throws ModuleException {
-    try {
-      return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection, template, instructions, data);
-    } catch (ModuleException e) {
-      throw e;
-    } catch (Exception e) {
-      throw new ModuleException("Error in executing operation MCP tooling", InferenceErrorType.MCP_TOOLS_OPERATION_FAILURE, e);
-    }
-  }
+
 }

@@ -17,9 +17,8 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
   private final String virtualKey;
 
   public PortkeyTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                         ParametersDTO parametersDTO, String virtualKey,
-                                         Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers, fetchApiURL());
+                                         ParametersDTO parametersDTO, String virtualKey) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
     this.virtualKey = virtualKey;
   }
 

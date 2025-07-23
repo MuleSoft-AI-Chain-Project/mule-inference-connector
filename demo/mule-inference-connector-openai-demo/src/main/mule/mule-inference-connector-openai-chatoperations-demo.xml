@@ -11,9 +11,6 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 
 	<mac-inference:text-generation-config name="OpenAI_Text_generation_config" doc:name="MuleSoft Inference Text generation config" doc:id="3c24c806-bb9f-4512-bc9b-a51cda5c710a" >
 		<mac-inference:openai-connection openAIModelName="${config.llmModel}" apiKey="${config.apiKey}" timeout="60000" >
-			<mac-inference:mcp-sse-servers >
-				<mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-			</mac-inference:mcp-sse-servers>
 		</mac-inference:openai-connection>
 	</mac-inference:text-generation-config>
 

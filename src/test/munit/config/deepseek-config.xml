@@ -15,10 +15,6 @@
     <!-- Text Generation Configuration -->
     <mac-inference:text-generation-config name="DeepseekConfig" doc:name="Deepseek Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
         <mac-inference:deepseek-connection apiKey="${deepseek.apiKey}" deepseekModelName="${deepseek.llmModel}" timeout="60000">
-            <mac-inference:mcp-sse-servers >
-                <mac-inference:mcp-sse-server key="ERP Server" value="http://mcp-server-demo-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-                <mac-inference:mcp-sse-server key="CRM Server" value="http://mcp-server-demo-crm-b2jb0y.1d6nel.usa-e1.cloudhub.io" />
-            </mac-inference:mcp-sse-servers>
         </mac-inference:deepseek-connection>
     </mac-inference:text-generation-config>
 </mule> 

@@ -8,8 +8,6 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.OllamaRequestP
 import com.mulesoft.connectors.inference.internal.helpers.response.OllamaHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.OllamaResponseMapper;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class OllamaTextGenerationConnection extends TextGenerationConnection {
@@ -21,9 +19,8 @@ public class OllamaTextGenerationConnection extends TextGenerationConnection {
   private OllamaResponseMapper responseMapper;
 
   public OllamaTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper,
-                                        ParametersDTO parametersDTO, String ollamaUrl,
-                                        Map<String, String> mcpSseServers) {
-    super(httpClient, objectMapper, parametersDTO, mcpSseServers,
+                                        ParametersDTO parametersDTO, String ollamaUrl) {
+    super(httpClient, objectMapper, parametersDTO,
           fetchApiURL(ollamaUrl));
   }
 

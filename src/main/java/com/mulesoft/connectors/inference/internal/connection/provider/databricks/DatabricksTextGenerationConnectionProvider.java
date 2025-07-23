@@ -51,7 +51,6 @@ public class DatabricksTextGenerationConnectionProvider extends TextGenerationCo
                                                                     textGenerationConnectionParameters.getTemperature(),
                                                                     textGenerationConnectionParameters.getTopP(),
                                                                     textGenerationConnectionParameters.getTimeout()),
-                                                  servingEndpointUrlHost,
-                                                  textGenerationConnectionParameters.getMcpSseServers());
+                                                  servingEndpointUrlHost);
   }
 }

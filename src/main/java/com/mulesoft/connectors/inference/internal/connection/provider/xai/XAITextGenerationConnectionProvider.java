@@ -43,7 +43,6 @@ public class XAITextGenerationConnectionProvider extends TextGenerationConnectio
                                                              textGenerationConnectionParameters.getMaxTokens(),
                                                              textGenerationConnectionParameters.getTemperature(),
                                                              textGenerationConnectionParameters.getTopP(),
-                                                             textGenerationConnectionParameters.getTimeout()),
-                                           textGenerationConnectionParameters.getMcpSseServers());
+                                                             textGenerationConnectionParameters.getTimeout()));
   }
 }

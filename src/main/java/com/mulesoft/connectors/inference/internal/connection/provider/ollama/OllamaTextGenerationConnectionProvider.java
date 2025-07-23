@@ -52,7 +52,6 @@ public class OllamaTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
                                                                 textGenerationConnectionParameters.getTimeout()),
-                                              ollamaUrl,
-                                              textGenerationConnectionParameters.getMcpSseServers());
+                                              ollamaUrl);
   }
 }
