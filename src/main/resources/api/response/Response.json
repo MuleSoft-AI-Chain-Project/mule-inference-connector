@@ -3,7 +3,41 @@
   "type": "object",
   "properties": {
     "response": {
-      "type": "string"
+      "type": "string",
+      "description": "The generated text response from the LLM"
+    },
+    "tools": {
+      "type": "array",
+      "description": "Array of tool calls made by the LLM",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the tool call"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of tool call (typically 'function')"
+          },
+          "function": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the function to call"
+              },
+              "arguments": {
+                "type": "string",
+                "description": "JSON string containing function arguments"
+              }
+            },
+            "required": ["name", "arguments"]
+          }
+        },
+        "required": ["id", "type", "function"]
+      }
     }
-  }
+  },
+  "required": ["response", "tools"]
 }

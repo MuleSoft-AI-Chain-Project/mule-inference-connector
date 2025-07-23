@@ -36,7 +36,7 @@ public class ImageGenerationModelOperations {
   @MediaType(value = APPLICATION_JSON, strict = false)
   @Alias("Generate-image")
   @DisplayName("[Image] Generate (only Base64)")
-  @OutputJsonType(schema = "api/response/Response.json")
+  @OutputJsonType(schema = "api/response/ResponseImageGeneration.json")
   public Result<InputStream, ImageResponseAttributes> generateImage(
                                                                     @Connection ImageGenerationConnection connection,
                                                                     @Content String prompt)
