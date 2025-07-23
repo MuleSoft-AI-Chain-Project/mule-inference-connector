@@ -103,13 +103,6 @@
         </mtf:validation>
     </mtf:tooling-test>
 
-    <mtf:tooling-test name="llmapi-model-name-values-test">
-        <mtf:get-values-from-config config-ref="llmapiConfig" parameter="llmApiModelName"/>
-        <mtf:validation>
-            <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
-        </mtf:validation>
-    </mtf:tooling-test>
-
     <mtf:tooling-test name="mistralai-model-name-values-test">
         <mtf:get-values-from-config config-ref="MistralAIConfig" parameter="mistralAIModelName"/>
         <mtf:validation>

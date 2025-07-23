@@ -20,7 +20,6 @@ import com.mulesoft.connectors.inference.internal.connection.provider.gpt4all.GP
 import com.mulesoft.connectors.inference.internal.connection.provider.groq.GroqTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.heroku.HerokuTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.huggingface.HuggingFaceTextGenerationConnectionProvider;
-import com.mulesoft.connectors.inference.internal.connection.provider.llmapi.LlmAPITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.lmstudio.LMStudioTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.mistralai.MistralAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.nvidia.NvidiaTextGenerationConnectionProvider;
@@ -55,7 +54,6 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
     GroqTextGenerationConnectionProvider.class,
     HerokuTextGenerationConnectionProvider.class,
     HuggingFaceTextGenerationConnectionProvider.class,
-    LlmAPITextGenerationConnectionProvider.class,
     LMStudioTextGenerationConnectionProvider.class,
     MistralAITextGenerationConnectionProvider.class,
     NvidiaTextGenerationConnectionProvider.class,
