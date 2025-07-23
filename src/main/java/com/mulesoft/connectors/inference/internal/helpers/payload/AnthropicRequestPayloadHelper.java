@@ -41,18 +41,18 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
 
     logger.debug("toolsArray: {}", toolsRecord);
 
-    List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+    List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
+                                                                           template + " - " + instructions,
+                                                                           data);
 
-    return buildPayload(connection, messagesArray, toolsRecord);
+    return buildPayload(connection, messages, toolsRecord);
   }
 
   @Override
-  public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
+  public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messages,
                                                       List<FunctionDefinitionRecord> tools) {
     return new AnthropicRequestPayloadRecord(connection.getModelName(),
-                                             messagesArray,
+                                             messages,
                                              connection.getMaxTokens(),
                                              connection.getTemperature(),
                                              connection.getTopP(),
@@ -83,9 +83,9 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
   @Override
   public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
       throws IOException {
-    List<Content> contentArray = new ArrayList<>();
+    List<Content> contents = new ArrayList<>();
 
-    contentArray.add(new TextContent("text", prompt));
+    contents.add(new TextContent("text", prompt));
 
     // Add image content
     ImageSource imageSource;
@@ -94,9 +94,9 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
     } else {
       imageSource = new ImageSource("url", null, null, imageUrl);
     }
-    contentArray.add(new ImageContent("image", imageSource));
+    contents.add(new ImageContent("image", imageSource));
 
-    Message message = new Message("user", contentArray);
+    Message message = new Message("user", contents);
 
     return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                                                  List.of(message),

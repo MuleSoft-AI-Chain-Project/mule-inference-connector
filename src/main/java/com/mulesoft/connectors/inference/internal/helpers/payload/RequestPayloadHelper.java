@@ -50,19 +50,19 @@ public class RequestPayloadHelper {
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
                                                                             InputStream messages)
       throws IOException {
-    List<ChatPayloadRecord> messagesArray = objectMapper.readValue(
-                                                                   messages,
-                                                                   objectMapper.getTypeFactory()
-                                                                       .constructCollectionType(List.class,
-                                                                                                ChatPayloadRecord.class));
+    List<ChatPayloadRecord> messagesList = objectMapper.readValue(
+                                                                  messages,
+                                                                  objectMapper.getTypeFactory()
+                                                                      .constructCollectionType(List.class,
+                                                                                               ChatPayloadRecord.class));
 
-    return this.buildPayload(connection, messagesArray, null);
+    return this.buildPayload(connection, messagesList, null);
   }
 
-  public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
+  public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messages,
                                                       List<FunctionDefinitionRecord> tools) {
     return new DefaultRequestPayloadRecord(connection.getModelName(),
-                                           messagesArray,
+                                           messages,
                                            connection.getMaxTokens(),
                                            connection.getTemperature(),
                                            connection.getTopP(),
@@ -72,11 +72,11 @@ public class RequestPayloadHelper {
   public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template,
                                                                     String instructions, String data) {
 
-    List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+    List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
+                                                                           template + " - " + instructions,
+                                                                           data);
 
-    return buildPayload(connection, messagesArray, null);
+    return buildPayload(connection, messages, null);
   }
 
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
@@ -94,11 +94,11 @@ public class RequestPayloadHelper {
                                                                    String instructions, String data,
                                                                    List<FunctionDefinitionRecord> tools) {
 
-    List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+    List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
+                                                                           template + " - " + instructions,
+                                                                           data);
 
-    return buildPayload(connection, messagesArray, tools);
+    return buildPayload(connection, messages, tools);
   }
 
   public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
@@ -108,13 +108,13 @@ public class RequestPayloadHelper {
   public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
       throws IOException {
 
-    List<Content> contentArray = new ArrayList<>();
+    List<Content> contents = new ArrayList<>();
 
-    contentArray.add(new TextContent("text", prompt));
-    contentArray.add(new ImageUrlContent("image_url", new ImageUrl(getImageUrl(imageUrl))));
+    contents.add(new TextContent("text", prompt));
+    contents.add(new ImageUrlContent("image_url", new ImageUrl(getImageUrl(imageUrl))));
 
     // Create user message
-    Message message = new Message("user", contentArray);
+    Message message = new Message("user", contents);
     return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                                                  List.of(message),
                                                  connection.getMaxTokens(),
