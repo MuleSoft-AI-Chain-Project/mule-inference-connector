@@ -88,7 +88,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
                                                                             InputStream messages)
           throws IOException {
-      List<ContentRecord> messagesArray = objectMapper.readValue(
+      List<ContentRecord> messagesList = objectMapper.readValue(
               messages,
               objectMapper.getTypeFactory()
                       .constructCollectionType(List.class, ContentRecord.class));
@@ -97,7 +97,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
       return switch (provider) {
           case GOOGLE_PROVIDER_TYPE ->
-                  new VertexAIGooglePayloadRecord<>(messagesArray,
+                  new VertexAIGooglePayloadRecord<>(messagesList,
                           null,
                           buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
                           null,
