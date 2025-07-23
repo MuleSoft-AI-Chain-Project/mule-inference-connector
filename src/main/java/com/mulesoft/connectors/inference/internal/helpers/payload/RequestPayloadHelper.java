@@ -51,10 +51,10 @@ public class RequestPayloadHelper {
                                                                             InputStream messages)
       throws IOException {
     List<ChatPayloadRecord> messagesList = objectMapper.readValue(
-                                                                   messages,
-                                                                   objectMapper.getTypeFactory()
-                                                                       .constructCollectionType(List.class,
-                                                                                                ChatPayloadRecord.class));
+                                                                  messages,
+                                                                  objectMapper.getTypeFactory()
+                                                                      .constructCollectionType(List.class,
+                                                                                               ChatPayloadRecord.class));
 
     return this.buildPayload(connection, messagesList, null);
   }
@@ -73,8 +73,8 @@ public class RequestPayloadHelper {
                                                                     String instructions, String data) {
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+                                                                           template + " - " + instructions,
+                                                                           data);
 
     return buildPayload(connection, messages, null);
   }
@@ -95,8 +95,8 @@ public class RequestPayloadHelper {
                                                                    List<FunctionDefinitionRecord> tools) {
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+                                                                           template + " - " + instructions,
+                                                                           data);
 
     return buildPayload(connection, messages, tools);
   }

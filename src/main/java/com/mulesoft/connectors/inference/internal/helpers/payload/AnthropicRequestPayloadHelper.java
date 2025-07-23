@@ -42,8 +42,8 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
     logger.debug("toolsArray: {}", toolsRecord);
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
-                                                                                template + " - " + instructions,
-                                                                                data);
+                                                                           template + " - " + instructions,
+                                                                           data);
 
     return buildPayload(connection, messages, toolsRecord);
   }
