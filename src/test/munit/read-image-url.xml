@@ -85,7 +85,7 @@
 									---
 									{
 										"payload": {
-											"response": "Eiffel Tower"
+											"response": "Statue of Liberty"
 										}
 									}]]>
 							</ee:set-payload>
@@ -105,7 +105,7 @@
 		</try>
 		</munit:execution>
 		<munit:validation>
-			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Eiffel Tower') or contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
+			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
 		</munit:validation>
 	</munit:test>
@@ -116,7 +116,7 @@
 		    ---
 			{
 				"prompt":"What do you see",
-				"imageUrl":  if (p("config") == "GroqVision") "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg" else "https://tripfixers.com/wp-content/uploads/2019/11/eiffel-tower-with-snow.jpeg",
+				"imageUrl":"https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg",
 			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
 		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
 			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
