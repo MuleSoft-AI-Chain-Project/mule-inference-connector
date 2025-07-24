@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Text Generation Configuration -->
+    <mac-inference:text-generation-config name="XAiConfig" doc:name="xai Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:xai-connection apiKey="${xai.apiKey}" xAiModelName="${xai.llmModel}" timeout="60000">
+        </mac-inference:xai-connection>
+    </mac-inference:text-generation-config>
+
+    <!-- Image Generation Configuration -->
+    <mac-inference:image-generation-config name="XAiImageGenConfig" doc:name="XAi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <mac-inference:xai-image-connection apiKey="${xai.apiKey}" xAiModelName="${xai.imageGenModel}" timeout="60000"/>
+    </mac-inference:image-generation-config>
+
+    <!-- Vision Configuration -->
+    <mac-inference:vision-config name="XAiVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="2ed49ebd-4050-4b0b-acc1-aba75096c78a" >
+        <mac-inference:xai-vision-connection apiKey="${xai.apiKey}" xAiModelName="${xai.visionModel}" />
+    </mac-inference:vision-config>
+    
+</mule>

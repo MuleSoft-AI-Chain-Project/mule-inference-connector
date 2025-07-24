@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+
+	<munit:config name="toxicity-detection-negative-test.xml"/>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-apikey-Test" expectedErrorType="MAC-INFERENCE:TOXICITY_DETECTION_OPERATION_FAILURE">
+		<munit:execution>
+			<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+    			"prompt": "You are fat"
+   			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
+			<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection Invalid API key"
+												   config-ref="OpenAIInvalidApiKeyModerationConfig">
+				<mac-inference:text ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:text>
+			</mac-inference:toxicity-detection-text>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-payload-Test" expectedErrorType="MAC-INFERENCE:TOXICITY_DETECTION_OPERATION_FAILURE">
+		<munit:execution>
+			<mac-inference:toxicity-detection-text doc:name="[Toxicity] Detection Invalid Payload Test"
+												   config-ref="OpenAIModeration">
+				<mac-inference:text ><![CDATA[#['Some Payload']]]></mac-inference:text>
+			</mac-inference:toxicity-detection-text>
+		</munit:execution>
+	</munit:test>
+
+</mule>

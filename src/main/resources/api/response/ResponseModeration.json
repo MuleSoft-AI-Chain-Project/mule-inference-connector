@@ -3,15 +3,25 @@
   "type": "object",
   "properties": {
     "flagged": {
-      "type": "boolean"
+      "type": "boolean",
+      "description": "Whether the content was flagged as potentially harmful"
     },
     "categories": {
       "type": "array",
-      "items": [
-        {
-          "type": "object"
-        }    
-      ]
+      "description": "Array of category objects containing moderation scores",
+      "items": {
+        "type": "object",
+        "description": "Category scores object with category names as keys and confidence scores as values",
+        "patternProperties": {
+          "^[a-zA-Z_-]+$": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence score between 0 and 1 for this category"
+          }
+        },
+        "additionalProperties": false
+      }
     }
   },
   "required": [

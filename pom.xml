@@ -6,7 +6,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.mulesoft.connectors</groupId>
     <artifactId>mule4-inference-connector</artifactId>
-    <version>0.5.8</version>
+    <version>1.0.0</version>
     <packaging>mule-extension</packaging>
     <name>MuleSoft Inference Connector - Mule 4</name>
 	<description>MuleSoft Inference Connector for integrating LLM Inference APIs into MuleSoft.</description>
@@ -20,20 +20,70 @@
     <parent>
         <groupId>org.mule.extensions</groupId>
         <artifactId>mule-modules-parent</artifactId>
-        <version>1.9.0</version>
+        <version>1.9.4</version>
     </parent>
 
 	<properties>
-		<runtimeProduct>MULE_EE</runtimeProduct>
-		<slf4jApi.version>2.0.7</slf4jApi.version>
-		<mcp.version>0.9.0</mcp.version>
+		<slf4jApi.version>2.1.0-alpha1</slf4jApi.version>
 		<munit.extensions.maven.plugin.version>1.5.0</munit.extensions.maven.plugin.version>
 		<munit.version>3.4.0</munit.version>
-		<skip.unit.tests>true</skip.unit.tests>
+		<jacoco.version>0.8.13</jacoco.version>
+		<javaFormatter.plugin.version>2.26.0</javaFormatter.plugin.version>
+		<maven.checkstyle.plugin.version>3.3.1</maven.checkstyle.plugin.version>
+		<maven.impsort.plugin.version>1.12.0</maven.impsort.plugin.version>
+		<maven.surefire.plugin.version>3.2.5</maven.surefire.plugin.version>
+
+		<runtimeProduct>MULE_EE</runtimeProduct>
+		<mtf.tools.version>1.2.0</mtf.tools.version>
+
+		<formatterConfigPath>formatter.xml</formatterConfigPath>
+		<formatterGoal>validate</formatterGoal>
+		<skipVerifications>false</skipVerifications>
+		<importGoal>check</importGoal>
     </properties>
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<configuration>
+					<destFile>${session.executionRootDirectory}/target/jacoco-java.exec</destFile>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>merge</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>merge</goal>
+						</goals>
+						<configuration>
+							<destFile>${session.executionRootDirectory}/target/jacoco.exec</destFile>
+							<fileSets>
+								<fileSet>
+									<directory>${project.build.directory}</directory>
+									<includes>
+										<include>*.exec</include>
+									</includes>
+								</fileSet>
+							</fileSets>
+						</configuration>
+					</execution>
+					<execution>
+						<id>jacoco-site</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-gpg-plugin</artifactId>
@@ -64,6 +114,14 @@
 				<artifactId>munit-extensions-maven-plugin</artifactId>
 				<version>${munit.extensions.maven.plugin.version}</version>
 				<extensions>true</extensions>
+				<configuration>
+					<argLines>
+						<argLine>
+							-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${session.executionRootDirectory}/target/jacoco-munit.exec
+						</argLine>
+					</argLines>
+					<minMuleVersionConfig>CONNECTOR</minMuleVersionConfig>
+				</configuration>
 				<executions>
 					<execution>
 						<goals>
@@ -72,6 +130,20 @@
 						<phase>integration-test</phase>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.mulesoft.munit</groupId>
+						<artifactId>munit-tools</artifactId>
+						<version>${munit.version}</version>
+						<classifier>mule-plugin</classifier>
+					</dependency>
+					<dependency>
+						<groupId>com.mulesoft.munit</groupId>
+						<artifactId>mtf-tools</artifactId>
+						<version>${mtf.tools.version}</version>
+						<classifier>mule-plugin</classifier>
+					</dependency>
+				</dependencies>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -95,47 +167,121 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>3.2.5</version>
+				<version>${maven.surefire.plugin.version}</version>
 				<configuration>
-					<!-- Explicitly set the module path to include copied dependencies -->
+					<argLine>-Dfile.encoding=UTF-8</argLine>
 					<argLine>
-						--module-path ${project.build.directory}/dependency/slf4j-api.jar:${project.build.directory}/dependency/slf4j-simple.jar:${project.build.directory}/dependency/mule-module-jpms-utils.jar
-						--add-modules org.slf4j,org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang=org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang.reflect=org.mule.runtime.jpms.utils
-						--add-opens java.base/java.lang.invoke=org.mule.runtime.jpms.utils
-						--add-opens java.sql/java.sql=org.mule.runtime.jpms.utils
+						-javaagent:${settings.localRepository}/org/jacoco/org.jacoco.agent/${jacoco.version}/org.jacoco.agent-${jacoco.version}-runtime.jar=destfile=${session.executionRootDirectory}/target/jacoco.exec
 					</argLine>
-					<!-- Ensure dependencies are scanned for tests -->
-					<dependenciesToScan>
-						<dependency>org.slf4j:slf4j-api</dependency>
-						<dependency>org.slf4j:slf4j-simple</dependency>
-						<dependency>org.mule.runtime.boot:mule-module-jpms-utils</dependency>
-					</dependenciesToScan>
-					<skipTests>${skip.unit.tests}</skipTests>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.jacoco</groupId>
+						<artifactId>jacoco-maven-plugin</artifactId>
+						<version>${jacoco.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>net.revelc.code.formatter</groupId>
+				<artifactId>formatter-maven-plugin</artifactId>
+				<version>${javaFormatter.plugin.version}</version>
+				<configuration>
+					<compilerCompliance>${java.release.version}</compilerCompliance>
+					<compilerSource>${java.release.version}</compilerSource>
+					<compilerTargetPlatform>${java.release.version}</compilerTargetPlatform>
+					<configFile>${basedir}/${formatterConfigPath}</configFile>
+					<configJsFile>${basedir}/${formatterConfigPath}</configJsFile>
+					<aggregator>false</aggregator>
+					<executionRoot>true</executionRoot>
+				</configuration>
+				<executions>
+					<execution>
+						<id>apply-format</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>${formatterGoal}</goal>
+						</goals>
+						<configuration>
+							<skipFormatting>${skipVerifications}</skipFormatting>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>net.revelc.code</groupId>
+				<artifactId>impsort-maven-plugin</artifactId>
+				<version>${maven.impsort.plugin.version}</version>
+				<configuration>
+					<groups>org.mule.,com.mulesoft.,java.,javax.</groups>
+					<staticGroups>org.mule.,com.mulesoft.,java.,javax.</staticGroups>
+				</configuration>
+				<executions>
+					<execution>
+						<id>validate-imports</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>${importGoal}</goal>
+						</goals>
+						<configuration>
+							<skip>${skipVerifications}</skip>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<!-- Needed because of maven 3.9.0 backward compatibility issue,
+                         See : https://github.com/eclipse/leshan/issues/1410 -->
+					<dependency>
+						<groupId>org.codehaus.plexus</groupId>
+						<artifactId>plexus-utils</artifactId>
+						<version>3.5.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven.checkstyle.plugin.version}</version>
+				<executions>
+					<execution>
+						<id>verify-style</id>
+						<phase>process-classes</phase>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${skipVerifications}</skip>
+					<logViolationsToConsole>true</logViolationsToConsole>
+					<checkstyleRules>
+						<module name="Checker">
+							<module name="TreeWalker">
+								<module name="AvoidStarImport"/>
+								<module name="UnusedImports"/>
+							</module>
+						</module>
+					</checkstyleRules>
 				</configuration>
 			</plugin>
 		</plugins>
 	</build>
 
     <dependencies>
-
-    <dependency>
-  <groupId>com.google.auth</groupId>
-  <artifactId>google-auth-library-oauth2-http</artifactId>
-  <version>1.19.0</version> <!-- or latest -->
-</dependency>
-    
 	    <dependency>
             <groupId>org.mule.sdk</groupId>
             <artifactId>mule-sdk-api</artifactId>
-            <version>0.9.0-rc1</version>
+            <version>0.11.4</version>
         </dependency>
-
 		<dependency>
 			<groupId>org.json</groupId>
 			<artifactId>json</artifactId>
-			<version>20240303</version>
+			<version>20250517</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jsr310</artifactId>
+			<version>2.19.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -151,19 +297,25 @@
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.17.0</version>
+			<version>2.20.0</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jetbrains</groupId>
-			<artifactId>annotations</artifactId>
-			<version>26.0.1</version>
-			<scope>compile</scope>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.18.0</version>
 		</dependency>
 
 		<dependency>
-			<groupId>io.modelcontextprotocol.sdk</groupId>
-			<artifactId>mcp-spring-webflux</artifactId>
-			<version>${mcp.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<version>5.13.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.13.3</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 

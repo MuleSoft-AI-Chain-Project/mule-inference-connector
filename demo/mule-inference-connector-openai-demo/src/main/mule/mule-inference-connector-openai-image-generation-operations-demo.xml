@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+
+	<mac-inference:image-generation-config name="OpenAIImageGenConfig" doc:name="MuleSoft Inference Image generation config" doc:id="813d08c8-7e6d-4c9e-8259-b80a84093016" >
+		<mac-inference:openai-image-connection apiKey="${openai.apiKey}" openAIModelName="${openai.imageGenModel}" />
+	</mac-inference:image-generation-config>
+
+	<flow name="GenerateImageFlow" doc:id="698ff181-7968-4294-8f08-51387fbf1dfa" >
+		<http:listener doc:name="Listener" doc:id="3ae26012-7b44-41ee-8d6d-bdb51ed9e39e" config-ref="HTTP_Listener_config" path="/generateimage"/>
+		<set-variable value='#[%dw 2.0
+		   output application/json
+		    ---
+			{
+				"prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."
+			}]' doc:name="Set Variable" doc:id="55ffb06c-d91b-4419-8517-a2d83802413a" variableName="testPayload"/>
+		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="9c849d82-b443-4253-bdbd-1fad73df7a45" config-ref="OpenAIImageGenConfig">
+			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
+		</mac-inference:generate-image>
+	</flow>
+</mule>
