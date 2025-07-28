@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AzureOpenAITextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version=2024-10-21";
-  public static final String AZURE_OPENAI_URL = "https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}";
+  public static final String AZURE_OPENAI_URL = "https://{resource-name}/openai/deployments/{deployment-id}";
 
   private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
 
