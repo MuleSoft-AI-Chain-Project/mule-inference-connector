@@ -16,7 +16,7 @@
         </munit:execution>
     </munit:test>
 
-    <munit:test name="OpenAIVisionConnectionFailureTest" expectedErrorType="MAC-INFERENCE:INVALID_CONNECTION">
+    <munit:test name="OpenAIVisionConnectionFailureTest" expectedErrorType="MS-INFERENCE:INVALID_CONNECTION">
         <munit:execution>
             <mtf:test-connectivity config-ref="OpenAIInvalidApiKeyVisionConfig"/>
         </munit:execution>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
 	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
 	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
@@ -11,7 +11,7 @@
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
         http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
         http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
-        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
         http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
 	<munit:config name="tools-native-template.xml">
@@ -164,7 +164,7 @@
 			<try doc:name="Try">
 				<flow-ref doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="tools_native_template"/>
 			<error-handler>
-				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+				<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
 					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
 					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
 						<ee:message >
@@ -290,15 +290,15 @@
 				doc:name="Set Variable"
 				doc:id="e06c8f7b-0310-401c-a556-3cf46551bb7e"
 				variableName="testPayload" />
-		<mac-inference:tools-native-template
+		<ms-inference:tools-native-template
 				doc:name="[Tools] Native Template (Reasoning only)"
 				doc:id="fecbf1b9-366a-4164-baa4-56ded458b607"
 				config-ref="${config}">
-			<mac-inference:template><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
-			<mac-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
-			<mac-inference:data><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
-			<mac-inference:tools><![CDATA[#[vars.testPayload.tools]]]></mac-inference:tools>
-		</mac-inference:tools-native-template>
+			<ms-inference:template><![CDATA[#[vars.testPayload.template]]]></ms-inference:template>
+			<ms-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></ms-inference:instructions>
+			<ms-inference:data><![CDATA[#[vars.testPayload.dataset]]]></ms-inference:data>
+			<ms-inference:tools><![CDATA[#[vars.testPayload.tools]]]></ms-inference:tools>
+		</ms-inference:tools-native-template>
 		<ee:transform
 				doc:name="Transform Message"
 				doc:id="bba2fcbe-2617-497f-898f-b4b2e94c8c6f">

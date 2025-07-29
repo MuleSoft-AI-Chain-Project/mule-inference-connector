@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd    http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd    http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation=" http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd    http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd    http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd     http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
 	<munit:config name="read-image-url.xml">
 		<munit:parameterizations>
@@ -76,7 +76,7 @@
 			<try doc:name="Try">
 				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
 			<error-handler>
-				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+				<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
 					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
 					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
 						<ee:message >
@@ -118,10 +118,10 @@
 				"prompt":"What do you see",
 				"imageUrl":"https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg",
 			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
-		<mac-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
-			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
-			<mac-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></mac-inference:image-url>
-		</mac-inference:read-image>
+		<ms-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="${config}">
+			<ms-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></ms-inference:prompt>
+			<ms-inference:image-url ><![CDATA[#[vars.testPayload.imageUrl]]]></ms-inference:image-url>
+		</ms-inference:read-image>
 		<ee:transform doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" doc:name="Transform Message">
 			<ee:message>
 				<ee:set-payload><![CDATA[%dw 2.0

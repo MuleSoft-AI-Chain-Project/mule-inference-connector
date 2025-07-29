@@ -3,12 +3,12 @@
 	  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
-	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
 	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
 	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:schemaLocation="   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
 	<munit:config name="chat-completion-with-varying-input.xml"/>
@@ -27,10 +27,10 @@
 			  "content": "What is the capital of Switzerland!"
 			}
 			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithSystem"/>
-			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+			<ms-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
 											config-ref="HuggingFaceConfig">
-				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></mac-inference:messages>
-			</mac-inference:chat-completions>
+				<ms-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></ms-inference:messages>
+			</ms-inference:chat-completions>
 			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
@@ -68,10 +68,10 @@
 			  "content": "What is the capital of Switzerland!"
 			}
 			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithSystem"/>
-			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+			<ms-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
 											config-ref="PerplexityConfig">
-				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></mac-inference:messages>
-			</mac-inference:chat-completions>
+				<ms-inference:messages ><![CDATA[#[vars.testPayloadWithSystem]]]></ms-inference:messages>
+			</ms-inference:chat-completions>
 			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
@@ -113,10 +113,10 @@
 				}]
 			}
 			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayloadWithVetexAiInput"/>
-			<mac-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
+			<ms-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8"
 											config-ref="VertexAiExpressConfig">
-				<mac-inference:messages ><![CDATA[#[vars.testPayloadWithVetexAiInput]]]></mac-inference:messages>
-			</mac-inference:chat-completions>
+				<ms-inference:messages ><![CDATA[#[vars.testPayloadWithVetexAiInput]]]></ms-inference:messages>
+			</ms-inference:chat-completions>
 			<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
 				<ee:message >
 					<ee:set-payload ><![CDATA[%dw 2.0
