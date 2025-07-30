@@ -3,13 +3,13 @@
 	  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
 	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
 	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
-	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
 	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
 	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xsi:schemaLocation="
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd    http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
-	  http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
 	<munit:config name="chat-answer-prompt.xml">
@@ -174,7 +174,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<try doc:name="Try">
 					<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
 				<error-handler>
-					<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
 						<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
 						<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
 							<ee:message >
@@ -217,9 +217,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			{
 			    "prompt": "What is the capital of Germany?"
 			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
-		<mac-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
-			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
-		</mac-inference:chat-answer-prompt>
+		<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
+			<ms-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></ms-inference:prompt>
+		</ms-inference:chat-answer-prompt>
 		<ee:transform doc:name="Transform Message" doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0
