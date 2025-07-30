@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
-	  xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
 	  xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xsi:schemaLocation="
 		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
-http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<munit:config name="generate-image.xml" >
 		<munit:parameterizations >
@@ -49,7 +49,7 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 				<flow-ref doc:name="Flow-ref to image-gen" doc:id="18071295-7596-44d3-ab7e-168f5d95a85d" name="generate-image-operation"/>
 				<!--<logger level="DEBUG" doc:name="Logger" doc:id="288eb5f8-0683-46b8-baf5-53ce542d4885" message="#[payload]"/>-->
 			<error-handler>
-				<on-error-continue type="MAC-INFERENCE:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+				<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
 					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
 					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
 						<ee:message >
@@ -87,9 +87,9 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 			{
 				"prompt" : "Generate a picture of a penguin dancing on the beach being happy with an ice cream."
 			}]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
-		<mac-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="1e7f063a-6418-4c42-b2ee-7dd372f24d83" config-ref="${config}">
-			<mac-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></mac-inference:prompt>
-		</mac-inference:generate-image>
+		<ms-inference:generate-image doc:name="[Image] Generate (only Base64)" doc:id="1e7f063a-6418-4c42-b2ee-7dd372f24d83" config-ref="${config}">
+			<ms-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></ms-inference:prompt>
+		</ms-inference:generate-image>
 		<ee:transform doc:name="Transform Message" doc:id="1b42e80a-3268-4250-a4ca-9170841cf164" >
 			<ee:message >
 				<ee:set-payload ><![CDATA[%dw 2.0

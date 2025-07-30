@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference"
+<mule xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
       xmlns:http="http://www.mulesoft.org/schema/mule/http"
       xmlns="http://www.mulesoft.org/schema/mule/core"
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
       xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
       xsi:schemaLocation="
         http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
-        http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd
+        http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
         http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
     <configuration-properties file="automation-credentials.properties"/>
 
     <!-- Text Generation Configuration -->
-    <mac-inference:text-generation-config name="OllamaConfig" doc:name="llmapi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
-        <mac-inference:ollama-connection apiKey="fakeKey" ollamaModelName="llama3.2" ollamaUrl="http://localhost:11434/api" timeout="60000">
-        </mac-inference:ollama-connection>
-    </mac-inference:text-generation-config>
+    <ms-inference:text-generation-config name="OllamaConfig" doc:name="llmapi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <ms-inference:ollama-connection apiKey="fakeKey" ollamaModelName="llama3.2" ollamaUrl="http://localhost:11434/api" timeout="60000">
+        </ms-inference:ollama-connection>
+    </ms-inference:text-generation-config>
 
     <!-- Vision Configuration -->
-    <mac-inference:vision-config name="OllamaVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
-        <mac-inference:ollama-vision-connection apiKey="fakeKey" ollamaModelName="llama3.2-vision" />
-    </mac-inference:vision-config>
+    <ms-inference:vision-config name="OllamaVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <ms-inference:ollama-vision-connection apiKey="fakeKey" ollamaModelName="llama3.2-vision" />
+    </ms-inference:vision-config>
 
 </mule>
