@@ -141,7 +141,7 @@
 			<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
+					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<!--<munit:parameterization name="config-xinference" >
