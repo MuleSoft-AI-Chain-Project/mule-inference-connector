@@ -1,0 +1,208 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Tools Definition Array",
+  "description": "Array of function definitions that can be used as tools by the LLM",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Function Definition Record",
+    "description": "A function definition that can be called by the LLM",
+    "properties": {
+      "type": {
+        "type": "string",
+        "description": "The type of tool - typically 'function'",
+        "enum": ["function"],
+        "default": "function"
+      },
+      "function": {
+        "type": "object",
+        "title": "Function",
+        "description": "Function definition with name, description, and parameters schema",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the function to be called",
+            "pattern": "^[a-zA-Z_][a-zA-Z0-9_]*$",
+            "minLength": 1,
+            "maxLength": 64
+          },
+          "description": {
+            "type": "string",
+            "description": "A description of what the function does",
+            "minLength": 1,
+            "maxLength": 1000
+          },
+          "parameters": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "required": ["name", "description", "parameters"],
+        "additionalProperties": false
+      }
+    },
+    "required": ["type", "function"],
+    "additionalProperties": false
+  },
+  "minItems": 1,
+  "maxItems": 128,
+  "definitions": {
+    "functionSchema": {
+      "type": "object",
+      "title": "Function Schema",
+      "description": "JSON Schema definition for function parameters",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "The data type",
+          "enum": ["object", "array", "string", "number", "integer", "boolean", "null"]
+        },
+        "description": {
+          "type": "string",
+          "description": "Description of the parameter or property"
+        },
+        "enum": {
+          "type": "array",
+          "description": "List of allowed values",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "format": {
+          "type": "string",
+          "description": "Semantic format hint",
+          "enum": [
+            "date-time", "date", "time", "email", "hostname", "ipv4", "ipv6", 
+            "uri", "uri-reference", "uuid", "regex", "timezone", "iso-country-code"
+          ]
+        },
+        "examples": {
+          "type": "array",
+          "description": "Example values for this parameter",
+          "items": {}
+        },
+        "$defs": {
+          "type": "object",
+          "description": "Schema definitions that can be referenced",
+          "additionalProperties": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "allOf": {
+          "type": "array",
+          "description": "Must match all of these schemas",
+          "items": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "anyOf": {
+          "type": "array",
+          "description": "Must match any of these schemas",
+          "items": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "oneOf": {
+          "type": "array",
+          "description": "Must match exactly one of these schemas",
+          "items": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "$ref": {
+          "type": "string",
+          "description": "Reference to another schema definition"
+        },
+        "properties": {
+          "type": "object",
+          "description": "Properties for object type",
+          "additionalProperties": {
+            "$ref": "#/definitions/functionSchema"
+          }
+        },
+        "required": {
+          "type": "array",
+          "description": "Required property names for object type",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "additionalProperties": {
+          "type": "boolean",
+          "description": "Whether additional properties are allowed for object type",
+          "default": true
+        },
+        "minProperties": {
+          "type": "integer",
+          "description": "Minimum number of properties for object type",
+          "minimum": 0
+        },
+        "maxProperties": {
+          "type": "integer",
+          "description": "Maximum number of properties for object type",
+          "minimum": 0
+        },
+        "items": {
+          "$ref": "#/definitions/functionSchema",
+          "description": "Schema for array items"
+        },
+        "minItems": {
+          "type": "integer",
+          "description": "Minimum number of items for array type",
+          "minimum": 0
+        },
+        "maxItems": {
+          "type": "integer",
+          "description": "Maximum number of items for array type",
+          "minimum": 0
+        },
+        "uniqueItems": {
+          "type": "boolean",
+          "description": "Whether all array items must be unique",
+          "default": false
+        },
+        "minLength": {
+          "type": "integer",
+          "description": "Minimum string length",
+          "minimum": 0
+        },
+        "maxLength": {
+          "type": "integer",
+          "description": "Maximum string length",
+          "minimum": 0
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Regular expression pattern for string validation"
+        },
+        "minimum": {
+          "type": "number",
+          "description": "Minimum value for number/integer type"
+        },
+        "maximum": {
+          "type": "number",
+          "description": "Maximum value for number/integer type"
+        },
+        "exclusiveMinimum": {
+          "type": "boolean",
+          "description": "Whether minimum is exclusive",
+          "default": false
+        },
+        "exclusiveMaximum": {
+          "type": "boolean",
+          "description": "Whether maximum is exclusive",
+          "default": false
+        },
+        "const": {
+          "description": "Constant value - parameter must equal this exact value"
+        },
+        "default": {
+          "description": "Default value for the parameter"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}
