@@ -20,14 +20,16 @@ public class VertexAIHttpResponseHelper extends HttpResponseHelper {
   }
 
   @Override
-  public VertexAiChatCompletionResponse processChatResponse(HttpResponse response, InferenceErrorType errorType)
+  public ResponseWrapper processChatResponse(HttpResponse response, InferenceErrorType errorType)
       throws IOException {
 
     logger.debug("Processing VertexAI chat response. Response Code:{}", response.getStatusCode());
     int statusCode = response.getStatusCode();
+    byte[] byteArray = response.getEntity().getBytes();
+    String responseString = new String(byteArray);
 
     if (statusCode == 200) {
-      return objectMapper.readValue(response.getEntity().getBytes(), VertexAiChatCompletionResponse.class);
+      return new ResponseWrapper(objectMapper.readValue(response.getEntity().getBytes(), VertexAiChatCompletionResponse.class), responseString);
     }
     throw handleErrorResponse(response, statusCode, errorType);
   }

@@ -11,6 +11,7 @@ import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.ResponseWrapper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.DefaultResponseMapper;
 
 import java.io.IOException;
@@ -48,14 +49,14 @@ public class VisionModelService implements BaseService {
     logger.debug("payload sent to the LLM {}", visionPayload);
 
     var response = httpRequestHelper.executeVisionRestRequest(connection, connection.getApiURL(), visionPayload);
-
-    TextResponseDTO chatResponse =
-        responseHelper.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
+    ResponseWrapper wrapper = responseHelper.processChatResponse(response, InferenceErrorType.READ_IMAGE_OPERATION_FAILURE);
+    TextResponseDTO chatResponse = wrapper.getResponseDTO();
+        
     logger.debug("Response of vision REST request: {}", chatResponse);
 
     return ResponseHelper.createLLMResponse(objectMapper.writeValueAsString(
                                                                             responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName(), wrapper.getNativeResponse()));
   }
 }

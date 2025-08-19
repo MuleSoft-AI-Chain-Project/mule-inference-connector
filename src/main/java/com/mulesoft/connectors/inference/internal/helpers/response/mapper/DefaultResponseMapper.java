@@ -39,7 +39,7 @@ public class DefaultResponseMapper {
     return new TokenUsage(chatRespUsage.promptTokens(), chatRespUsage.completionTokens(), chatRespUsage.totalTokens());
   }
 
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName, String nativeResponse) {
 
     logger.debug("Map Additional attributes for model:{}", modelName);
 
@@ -47,7 +47,7 @@ public class DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
 
     return new AdditionalAttributes(chatCompletionResponse.id(), chatCompletionResponse.model(),
-                                    chatRespFirstChoice.finishReason());
+                                    chatRespFirstChoice.finishReason(), nativeResponse);
   }
 
   public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
