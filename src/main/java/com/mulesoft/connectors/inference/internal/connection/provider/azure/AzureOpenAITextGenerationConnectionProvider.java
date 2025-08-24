@@ -68,7 +68,8 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getMaxTokens(),
                                                                      textGenerationConnectionParameters.getTemperature(),
                                                                      textGenerationConnectionParameters.getTopP(),
-                                                                     textGenerationConnectionParameters.getTimeout()),
+                                                                     textGenerationConnectionParameters.getTimeout(),
+                                                                     textGenerationConnectionParameters.getCustomHeaders()),
                                                    azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser);
   }
 }

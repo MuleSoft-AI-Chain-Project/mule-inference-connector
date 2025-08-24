@@ -43,6 +43,7 @@ public class HuggingFaceTextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getMaxTokens(),
                                                                      textGenerationConnectionParameters.getTemperature(),
                                                                      textGenerationConnectionParameters.getTopP(),
-                                                                     textGenerationConnectionParameters.getTimeout()));
+                                                                     textGenerationConnectionParameters.getTimeout(),
+                                                                     textGenerationConnectionParameters.getCustomHeaders()));
   }
 }

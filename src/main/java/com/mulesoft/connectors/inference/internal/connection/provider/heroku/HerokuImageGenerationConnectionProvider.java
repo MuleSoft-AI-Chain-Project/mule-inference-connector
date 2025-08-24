@@ -47,7 +47,7 @@ public class HerokuImageGenerationConnectionProvider extends ImageGenerationConn
     logger.debug("ImageGenerationConnection connect ...");
 
     return new HerokuImageGenerationConnection(getHttpClient(), getObjectMapper(), herokuInferenceModel,
-                                               baseConnectionParameters.getApiKey(),
+                                               baseConnectionParameters.getApiKey(), baseConnectionParameters.getCustomHeaders(),
                                                baseConnectionParameters.getTimeout(),
                                                getImageGenerationAPIURL(herokuDiffusionUrl));
   }

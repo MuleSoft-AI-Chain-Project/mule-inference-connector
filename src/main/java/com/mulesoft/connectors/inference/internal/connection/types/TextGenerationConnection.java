@@ -16,7 +16,7 @@ public abstract class TextGenerationConnection extends BaseConnection {
 
   protected TextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
                                      String apiURL) {
-    super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(),
+    super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(), parametersDTO.customHeaders(),
           parametersDTO.timeout(), apiURL);
     this.maxTokens = parametersDTO.maxTokens();
     this.temperature = parametersDTO.temperature();

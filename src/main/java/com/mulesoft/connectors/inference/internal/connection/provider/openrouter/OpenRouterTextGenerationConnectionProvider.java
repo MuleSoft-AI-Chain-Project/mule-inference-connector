@@ -43,6 +43,7 @@ public class OpenRouterTextGenerationConnectionProvider extends TextGenerationCo
                                                                     textGenerationConnectionParameters.getMaxTokens(),
                                                                     textGenerationConnectionParameters.getTemperature(),
                                                                     textGenerationConnectionParameters.getTopP(),
-                                                                    textGenerationConnectionParameters.getTimeout()));
+                                                                    textGenerationConnectionParameters.getTimeout(),
+                                                                    textGenerationConnectionParameters.getCustomHeaders()));
   }
 }
