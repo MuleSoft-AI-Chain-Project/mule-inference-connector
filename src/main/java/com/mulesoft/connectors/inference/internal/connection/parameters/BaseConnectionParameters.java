@@ -4,11 +4,16 @@ import static org.mule.runtime.extension.api.annotation.param.display.Placement.
 
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.NullSafe;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
+import com.mulesoft.connectors.inference.api.request.RequestHeader;
+
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class BaseConnectionParameters {
@@ -22,6 +27,17 @@ public class BaseConnectionParameters {
   @DisplayName("API Key")
   @Placement(order = 1)
   private String apiKey;
+
+  /**
+   * Custom HTTP headers the requests should include.
+   */
+  @Parameter
+  @Optional
+  @NullSafe
+  @DisplayName("Custom headers")
+  @Summary("Custom headers that can be included in every single request sent.")
+  @Placement(order = 2)
+  private List<RequestHeader> customHeaders;
 
   /**
    * The response timeout value set for each inference HTTP request
@@ -43,6 +59,10 @@ public class BaseConnectionParameters {
 
   public String getApiKey() {
     return apiKey;
+  }
+
+  public List<RequestHeader> getCustomHeaders() {
+    return customHeaders;
   }
 
   public int getTimeout() {

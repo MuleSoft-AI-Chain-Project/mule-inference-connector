@@ -90,4 +90,17 @@
 			</ms-inference:tools-native-template>
 		</munit:execution>
 	</munit:test>
+
+
+	<!-- Custom header test using negative scenario : shows that actual apikey is overridden by one passed in custom header-->
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_custom_header_wrong_api_key_test" expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">
+		<munit:behavior>
+			<set-variable value="InvalidAPIKeyValue" doc:name="Set Variable" doc:id="ea8bbd6f-0147-4081-b75f-993f0db6931e" variableName="apikey"/>
+		</munit:behavior>
+		<munit:execution>
+			<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="azureAiFoundryInvalidConfig">
+				<ms-inference:prompt ><![CDATA[What is the capital of India?]]></ms-inference:prompt>
+			</ms-inference:chat-answer-prompt>
+		</munit:execution>
+	</munit:test>
 </mule>

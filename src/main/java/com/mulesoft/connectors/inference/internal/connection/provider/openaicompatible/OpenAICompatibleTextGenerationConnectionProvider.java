@@ -55,7 +55,9 @@ public class OpenAICompatibleTextGenerationConnectionProvider extends TextGenera
                                                                           openAITextGenerationConnectionParameters
                                                                               .getTemperature(),
                                                                           openAITextGenerationConnectionParameters.getTopP(),
-                                                                          openAITextGenerationConnectionParameters.getTimeout()),
+                                                                          openAITextGenerationConnectionParameters.getTimeout(),
+                                                                          openAITextGenerationConnectionParameters
+                                                                              .getCustomHeaders()),
                                                         openAICompatibleURL);
   }
 }

@@ -58,7 +58,8 @@ public class AzureAIFoundryTextGenerationConnectionProvider extends TextGenerati
                                                                         textGenerationConnectionParameters.getMaxTokens(),
                                                                         textGenerationConnectionParameters.getTemperature(),
                                                                         textGenerationConnectionParameters.getTopP(),
-                                                                        textGenerationConnectionParameters.getTimeout()),
+                                                                        textGenerationConnectionParameters.getTimeout(),
+                                                                        textGenerationConnectionParameters.getCustomHeaders()),
                                                       azureAIFoundryResourceName, azureAIFoundryApiVersion);
   }
 }

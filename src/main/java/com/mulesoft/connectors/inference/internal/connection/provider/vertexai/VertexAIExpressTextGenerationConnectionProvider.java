@@ -43,6 +43,7 @@ public class VertexAIExpressTextGenerationConnectionProvider extends TextGenerat
                                                                          textGenerationConnectionParameters.getMaxTokens(),
                                                                          textGenerationConnectionParameters.getTemperature(),
                                                                          textGenerationConnectionParameters.getTopP(),
-                                                                         textGenerationConnectionParameters.getTimeout()));
+                                                                         textGenerationConnectionParameters.getTimeout(),
+                                                                         textGenerationConnectionParameters.getCustomHeaders()));
   }
 }

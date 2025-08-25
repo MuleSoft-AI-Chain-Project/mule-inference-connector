@@ -53,7 +53,8 @@ public class HerokuTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 herokuTextGenerationConnectionParameters
                                                                     .getTemperature(),
                                                                 herokuTextGenerationConnectionParameters.getTopP(),
-                                                                herokuTextGenerationConnectionParameters.getTimeout()),
+                                                                herokuTextGenerationConnectionParameters.getTimeout(),
+                                                                herokuTextGenerationConnectionParameters.getCustomHeaders()),
                                               herokuInferenceUrl);
   }
 }

@@ -64,7 +64,9 @@ public class AzureAIFoundryVisionConnectionProvider extends VisionModelConnectio
                                                                 visionConnectionParameters
                                                                     .getTopP(),
                                                                 visionConnectionParameters
-                                                                    .getTimeout()),
+                                                                    .getTimeout(),
+                                                                visionConnectionParameters
+                                                                    .getCustomHeaders()),
                                               azureAIFoundryResourceName, azureAIFoundryApiVersion);
   }
 }
