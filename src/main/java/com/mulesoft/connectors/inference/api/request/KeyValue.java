@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.api.request;
 
 import static org.mule.runtime.api.meta.ExpressionSupport.NOT_SUPPORTED;
 
+import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 
@@ -15,7 +16,7 @@ public abstract class KeyValue {
   private String key;
 
   @Parameter
-  @Expression(NOT_SUPPORTED)
+  @Expression(ExpressionSupport.SUPPORTED)
   private String value;
 
   public void setKey(String key) {

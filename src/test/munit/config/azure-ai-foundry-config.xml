@@ -21,6 +21,17 @@
         </ms-inference:azure-ai-foundry-connection>
     </ms-inference:text-generation-config>
 
+    <!-- Text Generation Configuration negative test-->
+    <ms-inference:text-generation-config name="azureAiFoundryInvalidConfig" doc:name="MuleSoft Inference Text generation config" doc:id="8a9339fa-da4b-46e7-9f3c-926ebe705fad" >
+        <ms-inference:azure-ai-foundry-connection azureModelName="${azure-ai-foundry.llmModel}"
+                                                  azureAIFoundryApiVersion="${azure-ai-foundry.apiVersion}"
+                                                  azureAIFoundryResourceName="${azure-ai-foundry.resource}" apiKey="${azure-ai-foundry.apiKey}" >
+            <ms-inference:custom-headers >
+                <ms-inference:default-header key="api-key" value="#[vars.apikey]" />
+            </ms-inference:custom-headers>
+        </ms-inference:azure-ai-foundry-connection>
+    </ms-inference:text-generation-config>
+
     <!-- Vision Configuration -->
     <ms-inference:vision-config name="AzureAiFoundryVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="13da78c8-3d61-468a-8fd0-629dda8c57ee" >
         <ms-inference:azure-ai-foundry-vision-connection apiKey="${azure-ai-foundry.apiKey}" azureAIFoundryModelName="${azure-ai-foundry.visionModel}"
