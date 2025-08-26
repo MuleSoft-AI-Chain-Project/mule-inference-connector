@@ -29,11 +29,11 @@ public class CohereResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName, String nativeResponse) {
     var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(chatCompletionResponse.id(), modelName,
-                                    chatCompletionResponse.finishReason());
+                                    chatCompletionResponse.finishReason(), nativeResponse);
   }
 
   @Override

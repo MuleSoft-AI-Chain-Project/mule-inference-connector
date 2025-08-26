@@ -13,6 +13,7 @@ import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,11 +33,14 @@ public class HttpResponseHelper {
     this.objectMapper = objectMapper;
   }
 
-  public TextResponseDTO processChatResponse(HttpResponse response, InferenceErrorType errorType) throws IOException {
+  public ResponseWrapper processChatResponse(HttpResponse response, InferenceErrorType errorType) throws IOException {
     int statusCode = response.getStatusCode();
+    byte[] byteArray = response.getEntity().getBytes();
+    String responseString = new String(byteArray);
 
+    
     if (statusCode == 200) {
-      return objectMapper.readValue(response.getEntity().getBytes(), ChatCompletionResponse.class);
+      return new ResponseWrapper(objectMapper.readValue(byteArray, ChatCompletionResponse.class), responseString);
     }
     throw handleErrorResponse(response, statusCode, errorType);
   }

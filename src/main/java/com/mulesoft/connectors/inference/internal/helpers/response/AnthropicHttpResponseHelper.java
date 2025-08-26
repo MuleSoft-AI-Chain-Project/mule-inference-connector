@@ -20,15 +20,17 @@ public class AnthropicHttpResponseHelper extends HttpResponseHelper {
   }
 
   @Override
-  public AnthropicChatCompletionResponse processChatResponse(HttpResponse response, InferenceErrorType errorType)
+  public ResponseWrapper processChatResponse(HttpResponse response, InferenceErrorType errorType)
       throws IOException {
-
-    logger.debug("Processing Anthropic chat response. Response Code:{}", response.getStatusCode());
-    int statusCode = response.getStatusCode();
-
-    if (statusCode == 200) {
-      return objectMapper.readValue(response.getEntity().getBytes(), AnthropicChatCompletionResponse.class);
-    }
-    throw handleErrorResponse(response, statusCode, errorType);
+        logger.debug("Processing Anthropic chat response. Response Code:{}", response.getStatusCode());
+        int statusCode = response.getStatusCode();
+        byte[] byteArray = response.getEntity().getBytes();
+        String responseString = new String(byteArray);
+    
+        
+        if (statusCode == 200) {
+          return new ResponseWrapper(objectMapper.readValue(byteArray, AnthropicChatCompletionResponse.class), responseString);
+        }
+        throw handleErrorResponse(response, statusCode, errorType);
   }
 }

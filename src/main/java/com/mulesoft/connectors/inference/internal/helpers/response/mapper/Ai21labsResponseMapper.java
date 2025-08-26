@@ -13,10 +13,10 @@ public class Ai21labsResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName, String nativeResponse) {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
     return new AdditionalAttributes(chatCompletionResponse.id(), modelName,
-                                    chatRespFirstChoice.finishReason());
+                                    chatRespFirstChoice.finishReason(), nativeResponse);
   }
 }

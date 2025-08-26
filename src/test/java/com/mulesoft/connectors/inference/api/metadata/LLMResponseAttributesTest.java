@@ -10,8 +10,8 @@ class LLMResponseAttributesTest {
   void testEquals() {
     TokenUsage tokenUsage1 = new TokenUsage(10, 20, 30);
     TokenUsage tokenUsage2 = new TokenUsage(15, 25, 40);
-    AdditionalAttributes additionalAttrs1 = new AdditionalAttributes("id1", "model1", "stop");
-    AdditionalAttributes additionalAttrs2 = new AdditionalAttributes("id2", "model2", "continue");
+    AdditionalAttributes additionalAttrs1 = new AdditionalAttributes("id1", "model1", "stop", null);
+    AdditionalAttributes additionalAttrs2 = new AdditionalAttributes("id2", "model2", "continue", null);
 
     LLMResponseAttributes attrs1 = new LLMResponseAttributes(tokenUsage1, additionalAttrs1);
     LLMResponseAttributes attrs2 = new LLMResponseAttributes(tokenUsage1, additionalAttrs1);
@@ -47,8 +47,9 @@ class LLMResponseAttributesTest {
 
   @Test
   void testHashCode() {
+    String nativeResponse = "{}";
     TokenUsage tokenUsage = new TokenUsage(10, 20, 30);
-    AdditionalAttributes additionalAttrs = new AdditionalAttributes("id1", "model1", "stop");
+    AdditionalAttributes additionalAttrs = new AdditionalAttributes("id1", "model1", "stop", nativeResponse);
     LLMResponseAttributes attrs1 = new LLMResponseAttributes(tokenUsage, additionalAttrs);
     LLMResponseAttributes attrs2 = new LLMResponseAttributes(tokenUsage, additionalAttrs);
 
@@ -58,8 +59,9 @@ class LLMResponseAttributesTest {
 
   @Test
   void testToString() {
+    String nativeResponse = "{}";
     TokenUsage tokenUsage = new TokenUsage(10, 20, 30);
-    AdditionalAttributes additionalAttrs = new AdditionalAttributes("id1", "model1", "stop");
+    AdditionalAttributes additionalAttrs = new AdditionalAttributes("id1", "model1", "stop", nativeResponse);
     LLMResponseAttributes attrs = new LLMResponseAttributes(tokenUsage, additionalAttrs);
 
     // Covers: toString() method

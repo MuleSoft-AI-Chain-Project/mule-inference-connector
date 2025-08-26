@@ -43,11 +43,11 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName) {
+  public AdditionalAttributes mapAdditionalAttributes(TextResponseDTO responseDTO, String modelName, String nativeResponse) {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(null, chatCompletionResponse.model(),
-                                    chatCompletionResponse.doneReason());
+                                    chatCompletionResponse.doneReason(), nativeResponse);
   }
 
   @Override

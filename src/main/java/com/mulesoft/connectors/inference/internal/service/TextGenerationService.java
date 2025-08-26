@@ -11,7 +11,9 @@ import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.response.ResponseWrapper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.DefaultResponseMapper;
+import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -88,26 +90,28 @@ public class TextGenerationService implements BaseService {
                                                                                          TextGenerationRequestPayloadDTO requestPayloadDTO)
       throws IOException, TimeoutException {
 
-    TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
+    var response = executeChatRequest(connection, requestPayloadDTO);
+    logger.debug("Response of chat REST request: {}", response);
+    ResponseWrapper responseWrapper = responseHelper.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
+    TextResponseDTO chatResponse = responseWrapper.getResponseDTO();
+    
+
 
     return ResponseHelper.createLLMResponse(
                                             objectMapper.writeValueAsString(responseParser.mapChatResponse(chatResponse)),
                                             responseParser.mapTokenUsageFromResponse(chatResponse),
-                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName()));
+                                            responseParser.mapAdditionalAttributes(chatResponse, connection.getModelName(), responseWrapper.getNativeResponse()));
   }
 
-  private TextResponseDTO executeChatRequest(TextGenerationConnection connection,
+  private HttpResponse executeChatRequest(TextGenerationConnection connection,
                                              TextGenerationRequestPayloadDTO requestPayloadDTO)
       throws IOException, TimeoutException {
 
     logger.debug("Request payload: {} ", requestPayloadDTO);
 
-    var response = httpRequestHelper.executeChatRestRequest(connection,
+    HttpResponse response = httpRequestHelper.executeChatRestRequest(connection,
                                                             connection.getApiURL(), requestPayloadDTO);
 
-    TextResponseDTO chatResponse =
-        responseHelper.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
-    logger.debug("Response of chat REST request: {}", chatResponse);
-    return chatResponse;
+    return response;
   }
 }
