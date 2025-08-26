@@ -47,7 +47,8 @@ public class DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
 
     return new AdditionalAttributes(chatCompletionResponse.id(), chatCompletionResponse.model(),
-                                    chatRespFirstChoice.finishReason());
+                                    chatRespFirstChoice.finishReason(), chatRespFirstChoice.contentFilterResults(),
+                                    chatCompletionResponse.promptFilterResults());
   }
 
   public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {

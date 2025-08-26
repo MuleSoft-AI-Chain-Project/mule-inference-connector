@@ -43,7 +43,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(chatCompletionResponse.id(), chatCompletionResponse.model(),
-                                    chatCompletionResponse.stopReason());
+                                    chatCompletionResponse.stopReason(), null, null);
   }
 
   @Override
