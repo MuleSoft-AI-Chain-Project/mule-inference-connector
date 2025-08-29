@@ -19,7 +19,7 @@ import com.mulesoft.connectors.inference.internal.llmmodels.gemini.providers.Gem
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Alias("gemini-express")
+@Alias("gemini")
 @DisplayName("Gemini")
 public class GeminiTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 

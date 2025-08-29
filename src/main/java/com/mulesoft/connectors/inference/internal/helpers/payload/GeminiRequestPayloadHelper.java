@@ -2,7 +2,6 @@ package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.Function;
-import com.mulesoft.connectors.inference.api.request.OpenAITool;
 import com.mulesoft.connectors.inference.api.request.Parameters;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
@@ -13,6 +12,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.Func
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.GeminiFunction;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.GeminiGenerationConfigRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.GeminiPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.OpenAITool;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.SystemInstructionRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
