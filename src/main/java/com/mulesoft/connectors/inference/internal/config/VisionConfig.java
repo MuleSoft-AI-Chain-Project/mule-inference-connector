@@ -6,6 +6,7 @@ import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProvider
 
 import com.mulesoft.connectors.inference.internal.connection.provider.anthropic.AnthropicVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.azure.AzureAIFoundryVisionConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.gemini.GeminiVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.github.GithubVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.groq.GroqVisionConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.huggingface.HuggingFaceVisionConnectionProvider;
@@ -22,6 +23,7 @@ import com.mulesoft.connectors.inference.internal.operation.VisionModelOperation
 @ConnectionProviders({
     AnthropicVisionConnectionProvider.class,
     AzureAIFoundryVisionConnectionProvider.class,
+    GeminiVisionConnectionProvider.class,
     GithubVisionConnectionProvider.class,
     GroqVisionConnectionProvider.class,
     HuggingFaceVisionConnectionProvider.class,
