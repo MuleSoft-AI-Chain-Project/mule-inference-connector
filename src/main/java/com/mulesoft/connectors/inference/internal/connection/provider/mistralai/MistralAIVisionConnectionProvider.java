@@ -48,6 +48,8 @@ public class MistralAIVisionConnectionProvider extends VisionModelConnectionProv
                                                                                                visionConnectionParameters
                                                                                                    .getTopP(),
                                                                                                visionConnectionParameters
-                                                                                                   .getTimeout()));
+                                                                                                   .getTimeout(),
+                                                                                               visionConnectionParameters
+                                                                                                   .getCustomHeaders()));
   }
 }

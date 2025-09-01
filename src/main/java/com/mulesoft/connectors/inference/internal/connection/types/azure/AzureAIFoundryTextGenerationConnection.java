@@ -5,6 +5,7 @@ import org.mule.runtime.http.api.client.HttpClient;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,11 @@ public class AzureAIFoundryTextGenerationConnection extends TextGenerationConnec
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("api-key", this.getApiKey());
+    Map<String, String> headers = new HashMap<>();
+
+    headers.put("api-key", this.getApiKey());
+    headers.putAll(getCustomHeadersMap());
+    return headers;
   }
 
   private static String fetchApiURL(String azureAIFoundryResourceName, String azureAIFoundryApiVersion) {

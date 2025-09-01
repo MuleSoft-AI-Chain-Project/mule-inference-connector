@@ -23,7 +23,7 @@ import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
  * This is the main class of an extension, is the entry point from which configurations, connection providers, operations and
  * sources are going to be declared.
  */
-@Xml(prefix = "mac-inference")
+@Xml(prefix = "ms-inference")
 @Extension(name = "MuleSoft Inference", category = Category.SELECT)
 @ErrorTypes(InferenceErrorType.class)
 @JavaVersionSupport({JAVA_17})

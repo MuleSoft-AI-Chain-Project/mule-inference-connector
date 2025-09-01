@@ -4,6 +4,7 @@ import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICAT
 
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.error.Throws;
+import org.mule.runtime.extension.api.annotation.metadata.fixed.InputJsonType;
 import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
@@ -131,7 +132,8 @@ public class TextGenerationOperations {
                                                                   @Content String template,
                                                                   @Content String instructions,
                                                                   @Content(primary = true) String data,
-                                                                  @Content @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools)
+                                                                  @Content @InputJsonType(
+                                                                      schema = "api/request/ToolsDefinition.json") @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools)
       throws ModuleException {
     try {
       return connection.getService().getTextGenerationServiceInstance().executeToolsNativeTemplate(connection, template,

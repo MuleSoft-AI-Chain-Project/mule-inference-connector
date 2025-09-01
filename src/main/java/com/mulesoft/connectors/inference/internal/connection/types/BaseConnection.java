@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.connection.types;
 
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.api.request.RequestHeader;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
@@ -9,7 +10,11 @@ import com.mulesoft.connectors.inference.internal.helpers.response.mapper.Defaul
 import com.mulesoft.connectors.inference.internal.service.BaseService;
 
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,6 +23,7 @@ public class BaseConnection {
   private final HttpClient httpClient;
   private final String apiKey;
   private final String modelName;
+  private final List<RequestHeader> customHeaders;
   private final int timeout;
   private final String apiURL;
   private final ObjectMapper objectMapper;
@@ -26,11 +32,13 @@ public class BaseConnection {
   private BaseService baseService;
 
   public BaseConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
+                        List<RequestHeader> customHeaders,
                         int timeout, String apiURL) {
     this.httpClient = httpClient;
     this.objectMapper = objectMapper;
     this.apiKey = apiKey;
     this.modelName = modelName;
+    this.customHeaders = customHeaders;
     this.timeout = timeout;
     this.apiURL = apiURL;
   }
@@ -62,7 +70,12 @@ public class BaseConnection {
   }
 
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("Authorization", "Bearer " + this.getApiKey());
+
+    Map<String, String> headers = new HashMap<>();
+
+    headers.put("Authorization", "Bearer " + this.getApiKey());
+    headers.putAll(getCustomHeadersMap());
+    return headers;
   }
 
   public Map<String, String> getQueryParams() {
@@ -91,5 +104,14 @@ public class BaseConnection {
 
   public String getApiURL() {
     return apiURL;
+  }
+
+  protected Map<String, String> getCustomHeadersMap() {
+    return Optional.ofNullable(customHeaders)
+        .orElse(Collections.emptyList())
+        .stream()
+        .filter(header -> header.getKey() != null && header.getValue() != null)
+        .collect(Collectors.toMap(RequestHeader::getKey, RequestHeader::getValue,
+                                  (existing, replacement) -> replacement));
   }
 }

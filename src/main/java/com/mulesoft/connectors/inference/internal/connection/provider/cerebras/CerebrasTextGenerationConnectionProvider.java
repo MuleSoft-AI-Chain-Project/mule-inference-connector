@@ -43,6 +43,7 @@ public class CerebrasTextGenerationConnectionProvider extends TextGenerationConn
                                                                   textGenerationConnectionParameters.getMaxTokens(),
                                                                   textGenerationConnectionParameters.getTemperature(),
                                                                   textGenerationConnectionParameters.getTopP(),
-                                                                  textGenerationConnectionParameters.getTimeout()));
+                                                                  textGenerationConnectionParameters.getTimeout(),
+                                                                  textGenerationConnectionParameters.getCustomHeaders()));
   }
 }

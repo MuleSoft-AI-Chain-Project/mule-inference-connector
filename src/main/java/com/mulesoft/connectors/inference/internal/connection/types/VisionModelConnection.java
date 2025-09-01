@@ -16,7 +16,7 @@ public class VisionModelConnection extends BaseConnection {
   private VisionModelService visionModelService;
 
   protected VisionModelConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO, String apiUrl) {
-    super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(),
+    super(httpClient, objectMapper, parametersDTO.modelName(), parametersDTO.apiKey(), parametersDTO.customHeaders(),
           parametersDTO.timeout(), apiUrl);
     this.maxTokens = parametersDTO.maxTokens();
     this.temperature = parametersDTO.temperature();

@@ -87,7 +87,7 @@ The MuleSoft Inference Connector support [TLS for Mule Apps](https://docs.muleso
 
 ## Installation (building locally)
 
-To use this connector, first [build and install](https://mac-project.ai/docs/mac-inference/getting-started) the connector into your local maven repository.
+To use this connector, first [build and install](https://mac-project.ai/docs/ms-inference/getting-started) the connector into your local maven repository.
 Then add the following dependency to your application's `pom.xml`:
 
 ```xml

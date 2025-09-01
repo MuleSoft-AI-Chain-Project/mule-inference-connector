@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:mac-inference="http://www.mulesoft.org/schema/mule/mac-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference" xmlns:http="http://www.mulesoft.org/schema/mule/http"
 	  xmlns="http://www.mulesoft.org/schema/mule/core"
 	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
-http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema/mule/mac-inference/current/mule-mac-inference.xsd">
+http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd">
 	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="1d867172-d19a-4ab1-b194-52c2ad455d7f" >
 		<http:listener-connection host="0.0.0.0" port="8081" />
 	</http:listener-config>
 
-	<mac-inference:text-generation-config name="OpenAI_Text_generation_config" doc:name="MuleSoft Inference Text generation config" doc:id="3c24c806-bb9f-4512-bc9b-a51cda5c710a" >
-		<mac-inference:openai-connection openAIModelName="${config.llmModel}" apiKey="${config.apiKey}" timeout="60000" >
-		</mac-inference:openai-connection>
-	</mac-inference:text-generation-config>
+	<ms-inference:text-generation-config name="OpenAI_Text_generation_config" doc:name="MuleSoft Inference Text generation config" doc:id="3c24c806-bb9f-4512-bc9b-a51cda5c710a" >
+		<ms-inference:openai-connection openAIModelName="${config.llmModel}" apiKey="${config.apiKey}" timeout="60000" >
+		</ms-inference:openai-connection>
+	</ms-inference:text-generation-config>
 
 	<flow name="ToolsNativeTemplateFlow" doc:id="1ee32ee4-8c15-4636-9a49-0784f782cb98" >
 		<http:listener doc:name="Listener" doc:id="8725c446-5f45-4732-8fca-ea9006aabed6" config-ref="HTTP_Listener_config" path="/toolstemplate"/>
@@ -86,14 +86,14 @@ http://www.mulesoft.org/schema/mule/mac-inference http://www.mulesoft.org/schema
 				doc:name="Set Variable"
 				doc:id="9b80bd71-922a-4739-804b-29ac2ba7ef7a"
 				variableName="testPayload" />
-		<mac-inference:tools-native-template
+		<ms-inference:tools-native-template
 				doc:name="[Tools] Native Template (Reasoning only)"
 				doc:id="e87a2e5e-b19b-4c2d-a4a0-8e991291de97"
 				config-ref="OpenAI_Text_generation_config">
-			<mac-inference:template><![CDATA[#[vars.testPayload.template]]]></mac-inference:template>
-			<mac-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></mac-inference:instructions>
-			<mac-inference:data><![CDATA[#[vars.testPayload.dataset]]]></mac-inference:data>
-			<mac-inference:tools><![CDATA[#[vars.testPayload.tools]]]></mac-inference:tools>
-		</mac-inference:tools-native-template>
+			<ms-inference:template><![CDATA[#[vars.testPayload.template]]]></ms-inference:template>
+			<ms-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></ms-inference:instructions>
+			<ms-inference:data><![CDATA[#[vars.testPayload.dataset]]]></ms-inference:data>
+			<ms-inference:tools><![CDATA[#[vars.testPayload.tools]]]></ms-inference:tools>
+		</ms-inference:tools-native-template>
 	</flow>
 </mule>

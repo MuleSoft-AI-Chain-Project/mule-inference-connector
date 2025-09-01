@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 import com.mulesoft.connectors.inference.internal.helpers.payload.AzureOpenAIRequestPayloadHelper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,7 +37,11 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("api-key", this.getApiKey());
+    Map<String, String> headers = new HashMap<>();
+
+    headers.put("api-key", this.getApiKey());
+    headers.putAll(getCustomHeadersMap());
+    return headers;
   }
 
   private static String fetchApiURL(String openaiResourceName, String openaiDeploymentId) {

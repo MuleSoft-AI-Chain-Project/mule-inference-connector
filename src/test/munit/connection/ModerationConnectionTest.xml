@@ -16,7 +16,7 @@
         </munit:execution>
     </munit:test>
 
-    <munit:test name="OpenAIModerationConnectionFailureTest" expectedErrorType="MAC-INFERENCE:INVALID_CONNECTION">
+    <munit:test name="OpenAIModerationConnectionFailureTest" expectedErrorType="MS-INFERENCE:INVALID_CONNECTION">
         <munit:execution>
             <mtf:test-connectivity config-ref="OpenAIInvalidApiKeyModerationConfig"/>
         </munit:execution>
