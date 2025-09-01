@@ -47,7 +47,7 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(null, chatCompletionResponse.model(),
-                                    chatCompletionResponse.doneReason());
+                                    chatCompletionResponse.doneReason(), null, null);
   }
 
   @Override

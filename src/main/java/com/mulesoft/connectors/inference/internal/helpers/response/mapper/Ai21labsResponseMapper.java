@@ -17,6 +17,6 @@ public class Ai21labsResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
     return new AdditionalAttributes(chatCompletionResponse.id(), modelName,
-                                    chatRespFirstChoice.finishReason());
+                                    chatRespFirstChoice.finishReason(), null, null);
   }
 }
