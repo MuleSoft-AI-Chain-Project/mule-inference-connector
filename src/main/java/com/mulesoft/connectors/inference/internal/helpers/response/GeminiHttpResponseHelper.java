@@ -36,7 +36,7 @@ public class GeminiHttpResponseHelper extends HttpResponseHelper {
       GeminiChatCompletionResponse geminiResponse =
           objectMapper.readValue(responseBody, GeminiChatCompletionResponse.class);
 
-      // 🧠 Extract the first candidate's tool call (if it exists)
+      // Extract the first candidate's tool call (if it exists)
       if (geminiResponse.candidates() != null &&
           !geminiResponse.candidates().isEmpty() &&
           geminiResponse.candidates().get(0).content() != null &&
@@ -47,16 +47,12 @@ public class GeminiHttpResponseHelper extends HttpResponseHelper {
 
         if (part.functionCall() != null) {
           FunctionCall toolCall = part.functionCall();
-          logger.debug("🔧 Tool call detected: name={}, args={}", toolCall.name(), toolCall.args());
+          logger.debug("Tool call detected: name={}, args={}", toolCall.name(), toolCall.args());
         }
       }
 
       return geminiResponse;
     }
-
     throw handleErrorResponse(response, statusCode, errorType);
   }
-
-
-
 }

@@ -22,9 +22,6 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
 
   private static final Logger logger = LoggerFactory.getLogger(GeminiResponseMapper.class);
 
-  private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
-
-
   public GeminiResponseMapper(ObjectMapper objectMapper) {
     super(objectMapper);
   }
@@ -59,7 +56,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
         .filter(Objects::nonNull)
         .map(fc -> {
           try {
-            String argsJson = OBJECT_MAPPER.writeValueAsString(fc.args());
+            String argsJson = objectMapper.writeValueAsString(fc.args());
             return new ToolCall(
                                 UUID.randomUUID().toString(),
                                 "function",
@@ -70,8 +67,6 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
         })
         .toList();
   }
-
-
 
   @Override
   public TextGenerationResponse mapChatResponse(TextResponseDTO responseDTO) {
