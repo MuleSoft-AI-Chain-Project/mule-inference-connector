@@ -1,6 +1,5 @@
 package com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini;
 
-//import com.mulesoft.connectors.inference.api.request.Function;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 

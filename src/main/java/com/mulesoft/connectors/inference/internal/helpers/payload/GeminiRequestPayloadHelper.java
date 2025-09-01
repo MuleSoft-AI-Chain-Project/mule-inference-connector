@@ -28,7 +28,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -85,7 +84,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                                                                                                                  // expects
                                                                                                                                  // "model"
     default->msg.role(); // Keep "user" as is
-    };PartRecord part=new PartRecord(msg.content(),null);return new ContentRecord(role,List.of(part));}).collect(Collectors.toList());
+    };PartRecord part=new PartRecord(msg.content(),null);return new ContentRecord(role,List.of(part));}).toList();
 
     // Step 3: Build final Gemini payload
     return new GeminiPayloadRecord<>(geminiMessages,null, // Optional: systemInstruction if needed
@@ -118,7 +117,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                               mapGeminiCompatibleFunctionSchema(parameters));
         })
         .filter(Objects::nonNull)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   @Override
@@ -137,14 +136,15 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
 
     // STEP 3: Call Gemini payload builder (must support function_declarations)
 
-    GeminiPayloadRecord geminiPayload = buildGeminiPayload(
-                                                           connection,
-                                                           data,
-                                                           Collections.emptyList(), // prompt contents
-                                                           systemInstructionRecord,
-                                                           functionDeclarations // <-- Pass Gemini-compatible format
+    GeminiPayloadRecord<ContentRecord> geminiPayload = buildGeminiPayload(
+                                                                          connection,
+                                                                          data,
+                                                                          Collections.emptyList(), // prompt contents
+                                                                          systemInstructionRecord,
+                                                                          functionDeclarations // <-- Pass Gemini-compatible
+                                                                                               // format
     );
-    logger.debug("geminiPayload: {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString(geminiPayload));
+    logger.debug("geminiPayload: {}", objectMapper.writeValueAsString(geminiPayload));
 
 
     return geminiPayload;
@@ -156,7 +156,6 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
       throws IOException {
 
     Object content = getGoogleVisionContentRecord(prompt, imageUrl);
-
 
     return buildVisionRequestPayload(connection, List.of(content));
   }
@@ -180,7 +179,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return new VisionContentRecord("user", parts);
   }
 
-  private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
+  public VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
 
     return new GeminiPayloadRecord<>(messagesArray,
                                      null,

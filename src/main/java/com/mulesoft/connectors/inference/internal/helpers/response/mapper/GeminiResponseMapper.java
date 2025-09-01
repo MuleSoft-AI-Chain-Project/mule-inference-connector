@@ -12,7 +12,6 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ge
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,7 +68,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
             throw new RuntimeException("Failed to serialize function call args", e);
           }
         })
-        .collect(Collectors.toList());
+        .toList();
   }
 
 
