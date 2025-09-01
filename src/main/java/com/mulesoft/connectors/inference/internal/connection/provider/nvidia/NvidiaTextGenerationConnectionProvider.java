@@ -4,6 +4,7 @@ import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.Expression;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
@@ -31,6 +32,13 @@ public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnec
   @OfValues(NvidiaTextGenerationModelNameProvider.class)
   private String nvidiaModelName;
 
+  @Parameter
+  @Expression(ExpressionSupport.SUPPORTED)
+  @Optional(defaultValue = "https://integrate.api.nvidia.com")
+  @Placement(order = 2)
+  @DisplayName("[Nvidia] Base URL")
+  private String nvidiaUrl;
+
   @ParameterGroup(name = Placement.CONNECTION_TAB)
   private TextGenerationConnectionParameters textGenerationConnectionParameters;
 
@@ -43,6 +51,8 @@ public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getMaxTokens(),
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
-                                                                textGenerationConnectionParameters.getTimeout()));
+                                                                textGenerationConnectionParameters.getTimeout(),
+                                                                textGenerationConnectionParameters.getCustomHeaders()),
+                                              nvidiaUrl);
   }
 }

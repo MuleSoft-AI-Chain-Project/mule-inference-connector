@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+        http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+        http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
+        http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+	<munit:config name="tools-native-complete-tools-payload.xml">
+		<munit:parameterizations>
+			<munit:parameterization name="config-openai">
+				<munit:parameters>
+					<munit:parameter propertyName="config" value="OpenAIConfig" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test name="tools_native_template_complete_payload_test" doc:id="aa9159ad-0dca-48bc-a598-dc05a660c05c" description="Test">
+		<munit:execution>
+			<flow-ref doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="tools_native_template_complete_payload"/>
+		</munit:execution>
+		<munit:validation>
+			<logger level="INFO" message="#[payload]"/>
+			<munit-tools:assert-that
+					doc:name="Assert (tools has specific function) OR (response contains keyword)"
+					doc:id="a1b2c3d4-e5f6-a7b8-c9d0-1a2b3c4d5e6f"
+					expression="#[((sizeOf((payload.payload.tools default []) filter (tool) -> tool.function != null) > 0)
+					and (sizeOf((payload.payload.tools default []) filter (tool) -> (tool.function.name default &quot;&quot;)
+					 == &quot;update_user_profile&quot;) > 0)) or ((payload.payload.response default &quot;&quot;) contains &quot;update_user_profile&quot;)]"
+					is="#[MunitTools::equalTo(true)]"
+					message="The response must contain a tool with the 'update_user_profile' function or mention it in the response text." />
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow name="tools_native_template_complete_payload" doc:id="a474f4ff-286c-4810-bb5e-8cd5a3f643bf">
+		<set-variable
+				value="#[%dw 2.0
+            output application/json
+            ---
+            {
+                'template': 'You are an helpful assistant',
+                'instructions': 'Answer the request with politeness and return exact error in case of any issue',
+                'dataset': 'Hi, can you please update my profile? My username is jane_doe_94. I want to add the tags beta_tester and newsletter_subscriber.
+                Also, update my profile with a new primary shipping address: 123 Maple Street, Springfield, 90210.',
+                'tools': [
+                    {
+                        'type': 'function',
+                        'function': {
+						  'name': 'update_user_profile',
+						  'description': 'Updates a users profile information, notification preferences, and addresses.',
+						  'parameters': {
+							'type': 'object',
+							'\$defs': {
+							  'address_schema': {
+								'type': 'object',
+								'description': 'Standard address format for billing or shipping.',
+								'properties': {
+								  'street': {
+									'type': 'string'
+								  },
+								  'city': {
+									'type': 'string'
+								  },
+								  'zip_code': {
+									'type': 'string',
+									'pattern': '^[0-9]{5}(-[0-9]{4})?\$'
+								  }
+								},
+								'required': ['street', 'city', 'zip_code','is_primary']
+							  }
+							},
+							'properties': {
+							  'user_identifier': {
+								'description': 'The unique identifier for the user. Can be an ID, email, or username.',
+								'oneOf': [
+								  { 'type': 'integer', 'minimum': 1 },
+								  { 'type': 'string', 'format': 'email' },
+								  { 'type': 'string', 'pattern': '^[a-z0-9_-]{3,16}\$' }
+								]
+							  },
+							  'profile_version': {
+								'description': 'The schema version for this profile data.',
+								'const': '3.1'
+							  },
+							  'profile_type': {
+								'description': 'The type of user profile.',
+								'enum': ['personal', 'business', 'guest'],
+								'default': 'personal'
+							  },
+							  'tags': {
+								'type': 'array',
+								'description': 'A list of user-defined tags.',
+								'items': { 'type': 'string', 'maxLength': 20 },
+								'minItems': 1,
+								'maxItems': 10,
+								'uniqueItems': true
+							  },
+							  'billing_address': {
+								'\$ref': '#/\$defs/address_schema'
+							  },
+							  'shipping_address': {
+								'allOf': [
+								  { '\$ref': '#/\$defs/address_schema' },
+								  {
+									'properties': { 'is_primary': { 'type': 'boolean',
+									'description': 'Must be true if this is the primary shipping address.'} },
+									'required': ['is_primary']
+								  }
+								]
+							  },
+							  'last_updated_by': {
+								'type': 'string',
+								'description': 'Identifier of the system or user that last performed an update.',
+								'examples': ['system_batch_process', 'admin_user_x']
+							  },
+							  'api_key': {
+								'type': 'string',
+								'description': 'An API key for a specific integration.'
+							  },
+							  'legacy_contact_id': {
+								'type': 'integer',
+								'description': 'Contact ID from the old CRM system.'
+							  }
+							},
+							'required': ['user_identifier']
+						  }
+						}
+                    }
+                ]
+            }]"
+				doc:name="Set Variable"
+				doc:id="e06c8f7b-0310-401c-a556-3cf46551bb7e"
+				variableName="testPayload" />
+		<ms-inference:tools-native-template
+				doc:name="[Tools] Native Template (Reasoning only)"
+				doc:id="fecbf1b9-366a-4164-baa4-56ded458b607"
+				config-ref="${config}">
+			<ms-inference:template><![CDATA[#[vars.testPayload.template]]]></ms-inference:template>
+			<ms-inference:instructions><![CDATA[#[vars.testPayload.instructions]]]></ms-inference:instructions>
+			<ms-inference:data><![CDATA[#[vars.testPayload.dataset]]]></ms-inference:data>
+			<ms-inference:tools><![CDATA[#[vars.testPayload.tools]]]></ms-inference:tools>
+		</ms-inference:tools-native-template>
+		<ee:transform
+				doc:name="Transform Message"
+				doc:id="bba2fcbe-2617-497f-898f-b4b2e94c8c6f">
+			<ee:message>
+				<ee:set-payload><![CDATA[%dw 2.0
+                output application/json
+                ---
+                {
+                    payload: payload,
+                    attributes: attributes
+                }]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -2,9 +2,12 @@ package com.mulesoft.connectors.inference.internal.connection.types.huggingface;
 
 import org.mule.runtime.http.api.client.HttpClient;
 
+import com.mulesoft.connectors.inference.api.request.RequestHeader;
 import com.mulesoft.connectors.inference.internal.connection.types.ImageGenerationConnection;
 import com.mulesoft.connectors.inference.internal.helpers.payload.HuggingFaceRequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HuggingFaceHttpResponseHelper;
+
+import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -13,8 +16,8 @@ public class HuggingFaceImageGenerationConnection extends ImageGenerationConnect
   private HuggingFaceRequestPayloadHelper requestPayloadHelper;
 
   public HuggingFaceImageGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, String modelName, String apiKey,
-                                              int timeout, String apiURL) {
-    super(httpClient, objectMapper, modelName, apiKey, timeout, apiURL);
+                                              List<RequestHeader> customHeaders, int timeout, String apiURL) {
+    super(httpClient, objectMapper, modelName, apiKey, customHeaders, timeout, apiURL);
   }
 
   @Override
