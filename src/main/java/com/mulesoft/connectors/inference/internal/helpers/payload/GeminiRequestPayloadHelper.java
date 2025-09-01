@@ -2,7 +2,7 @@ package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.Function;
-import com.mulesoft.connectors.inference.api.request.Parameters;
+import com.mulesoft.connectors.inference.api.request.FunctionSchema;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
@@ -106,7 +106,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return openAITools.stream()
         .map(openAITool -> {
           Function function = openAITool.function();
-          Parameters parameters = function.parameters();
+          FunctionSchema parameters = function.parameters();
 
           if (function == null || parameters == null) {
             return null;
@@ -115,17 +115,11 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
           return new Function(
                               function.name(),
                               function.description(),
-                              new Parameters(
-                                             parameters.type(),
-                                             parameters.properties(),
-                                             parameters.required(),
-                                             false)); // ⬅️ This removes 'additionalProperties' from Gemini's JSON payload
+                              mapGeminiCompatibleFunctionSchema(parameters));
         })
         .filter(Objects::nonNull)
         .collect(Collectors.toList());
   }
-
-
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
@@ -273,4 +267,42 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return switch(extension){case".png"->"image/png";case".pdf"->"application/pdf";default->DEFAULT_MIME_TYPE;};
   }
 
+  /**
+   * Maps FunctionSchema to Gemini-compatible format using only supported OpenAPI schema attributes: - type: The data type
+   * (object, string, integer, boolean, array) - description: Clear explanation of the parameter's purpose - properties:
+   * Individual parameters for object type - required: Array of mandatory parameter names - enum: Fixed set of allowed values
+   * (optional)
+   */
+  private FunctionSchema mapGeminiCompatibleFunctionSchema(FunctionSchema parameters) {
+    return new FunctionSchema(
+                              parameters.type(), // type - supported (string, integer, boolean, array, object)
+                              parameters.description(), // description - supported
+                              parameters.enumValues(), // enum - supported (optional, for fixed value sets)
+                              null, // format - not in supported subset
+                              null, // examples - not in supported subset
+                              null, // defs - not in supported subset
+                              null, // allOf - not in supported subset
+                              null, // anyOf - not in supported subset
+                              null, // oneOf - not in supported subset
+                              null, // ref - not in supported subset
+                              parameters.properties(), // properties - supported (for object type)
+                              parameters.required(), // required - supported (array of mandatory parameters)
+                              false, // additionalProperties - explicitly disabled for Gemini
+                              null, // minProperties - not in supported subset
+                              null, // maxProperties - not in supported subset
+                              null, // items - not explicitly mentioned in supported subset
+                              null, // minItems - not in supported subset
+                              null, // maxItems - not in supported subset
+                              null, // uniqueItems - not in supported subset
+                              null, // minLength - not in supported subset
+                              null, // maxLength - not in supported subset
+                              null, // pattern - not in supported subset
+                              null, // minimum - not in supported subset
+                              null, // maximum - not in supported subset
+                              null, // exclusiveMinimum - not in supported subset
+                              null, // exclusiveMaximum - not in supported subset
+                              null, // constValue - not in supported subset
+                              null // defaultValue - not in supported subset
+    );
+  }
 }

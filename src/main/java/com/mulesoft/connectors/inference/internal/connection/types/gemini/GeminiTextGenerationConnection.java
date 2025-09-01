@@ -8,7 +8,6 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.GeminiRequestP
 import com.mulesoft.connectors.inference.internal.helpers.response.GeminiHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.GeminiResponseMapper;
 
-import java.util.Collections;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -56,7 +55,7 @@ public class GeminiTextGenerationConnection extends TextGenerationConnection {
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Collections.emptyMap();
+    return getCustomHeadersMap();
   }
 
   private static String fetchApiURL(String modelName) {

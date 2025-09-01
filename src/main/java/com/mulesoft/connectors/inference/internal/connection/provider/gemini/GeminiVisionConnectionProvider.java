@@ -48,6 +48,8 @@ public class GeminiVisionConnectionProvider extends VisionModelConnectionProvide
                                                                                             textGenerationConnectionParameters
                                                                                                 .getTopP(),
                                                                                             textGenerationConnectionParameters
-                                                                                                .getTimeout()));
+                                                                                                .getTimeout(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getCustomHeaders()));
   }
 }

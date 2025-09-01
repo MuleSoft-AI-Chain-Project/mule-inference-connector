@@ -48,7 +48,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
 
     return new AdditionalAttributes(chatCompletionResponse.responseId(), chatCompletionResponse.modelVersion(),
-                                    chatRespFirstChoice.map(Candidate::finishReason).orElse("Unknown"));
+                                    chatRespFirstChoice.map(Candidate::finishReason).orElse("Unknown"), null, null);
   }
 
   @Override
