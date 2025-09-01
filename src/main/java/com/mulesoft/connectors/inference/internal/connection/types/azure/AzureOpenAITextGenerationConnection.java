@@ -14,17 +14,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AzureOpenAITextGenerationConnection extends TextGenerationConnection {
 
   private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version=2024-10-21";
-  public static final String AZURE_OPENAI_URL = "https://{resource-name}/openai/deployments/{deployment-id}";
+  public static final String AZURE_OPENAI_URI = "/openai/deployments/{deployment-id}";
 
   private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
 
   private final String user;
 
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                             String azureOpenaiResourceName, String azureOpenaiDeploymentId,
+                                             String azureOpenAiEndpoint, String azureOpenaiDeploymentId,
                                              String azureOpenaiUser) {
     super(httpClient, objectMapper, parametersDTO,
-          fetchApiURL(azureOpenaiResourceName, azureOpenaiDeploymentId));
+          fetchApiURL(azureOpenAiEndpoint, azureOpenaiDeploymentId));
     this.user = azureOpenaiUser;
   }
 
@@ -44,11 +44,10 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
     return headers;
   }
 
-  private static String fetchApiURL(String openaiResourceName, String openaiDeploymentId) {
+  private static String fetchApiURL(String azureOpenAiEndpoint, String openaiDeploymentId) {
 
-    String urlStr = AZURE_OPENAI_URL + URI_CHAT_COMPLETIONS;
+    String urlStr = azureOpenAiEndpoint + AZURE_OPENAI_URI + URI_CHAT_COMPLETIONS;
     urlStr = urlStr
-        .replace("{resource-name}", openaiResourceName)
         .replace("{deployment-id}", openaiDeploymentId);
     return urlStr;
   }

@@ -8,6 +8,7 @@ import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.ParameterGroup;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
+import org.mule.runtime.extension.api.annotation.param.display.Example;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
@@ -35,14 +36,13 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @Optional
-  @DisplayName("[Azure OpenAI] Resource Name")
+  @DisplayName("[Azure OpenAI] Endpoint")
+  @Example("https://{resource-name}.openai.azure.com")
   @Placement(order = 2)
-  private String azureOpenaiResourceName;
+  private String azureOpenAiEndpoint;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @Optional
   @DisplayName("[Azure OpenAI] Deployment ID")
   @Placement(order = 3)
   private String azureOpenaiDeploymentId;
@@ -70,6 +70,6 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getTopP(),
                                                                      textGenerationConnectionParameters.getTimeout(),
                                                                      textGenerationConnectionParameters.getCustomHeaders()),
-                                                   azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser);
+                                                   azureOpenAiEndpoint, azureOpenaiDeploymentId, azureOpenaiUser);
   }
 }
