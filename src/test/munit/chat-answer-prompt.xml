@@ -69,6 +69,12 @@ http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/
 					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
+			<munit:parameterization name="config-gemini" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GeminiConfig" />
+					<munit:parameter propertyName="finishReason" value="STOP" />
+				</munit:parameters>
+			</munit:parameterization>
 			<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />

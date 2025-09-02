@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <!-- Text Generation Configuration -->
+    <ms-inference:text-generation-config name="GeminiConfig" doc:name="MuleSoft Inference Text generation config" doc:id="124d73c2-8ad2-4daf-a74e-9c9835cf8dd8" >
+        <ms-inference:gemini-connection apiKey="${gemini.apiKey}" geminiModelName="${gemini.llmModel}">
+        </ms-inference:gemini-connection>
+    </ms-inference:text-generation-config>
+
+    <!-- Vision Configuration -->
+    <ms-inference:vision-config name="GeminiVision" doc:name="MuleSoft Inference Vision config" doc:id="249c7f56-3d4b-40d5-8c17-266b2f02be13" >
+        <ms-inference:gemini-vision-connection apiKey="${gemini.apiKey}" geminiModelName="${gemini.llmModel}" />
+    </ms-inference:vision-config>
+</mule>

@@ -226,7 +226,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                               null, // ref - not in supported subset
                               parameters.properties(), // properties - supported (for object type)
                               parameters.required(), // required - supported (array of mandatory parameters)
-                              false, // additionalProperties - explicitly disabled for Gemini
+                              null, // additionalProperties - explicitly disabled for Gemini
                               null, // minProperties - not in supported subset
                               null, // maxProperties - not in supported subset
                               null, // items - not explicitly mentioned in supported subset
