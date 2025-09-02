@@ -36,15 +36,27 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
+  @Optional
   @DisplayName("[Azure OpenAI] Endpoint")
-  @Example("https://{resource-name}.openai.azure.com")
+  @Example("https://<resource-name>.openai.azure.com/openai/deployments/<deployment-id>")
   @Placement(order = 2)
+  @Summary("The complete endpoint for the Azure OpenAI service with corresponding values of resource-name and deployment-id.")
   private String azureOpenAiEndpoint;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @DisplayName("[Azure OpenAI] Deployment ID")
+  @Optional
+  @DisplayName("[Azure OpenAI] Resource Name")
   @Placement(order = 3)
+  @Summary("The resource name of the Azure OpenAI service used to construct the endpoint.")
+  private String azureOpenaiResourceName;
+
+  @Parameter
+  @Expression(ExpressionSupport.SUPPORTED)
+  @Optional
+  @DisplayName("[Azure OpenAI] Deployment ID")
+  @Placement(order = 4)
+  @Summary("The Deployment ID of the Azure OpenAI service used to construct the endpoint.")
   private String azureOpenaiDeploymentId;
 
   @Parameter
@@ -52,7 +64,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
   @Optional
   @DisplayName("[Azure OpenAI] User")
   @Summary("A unique identifier representing your end-user, which can help to monitor and detect abuse.")
-  @Placement(order = 4)
+  @Placement(order = 5)
   private String azureOpenaiUser;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
@@ -70,6 +82,6 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getTopP(),
                                                                      textGenerationConnectionParameters.getTimeout(),
                                                                      textGenerationConnectionParameters.getCustomHeaders()),
-                                                   azureOpenAiEndpoint, azureOpenaiDeploymentId, azureOpenaiUser);
+                                                   azureOpenAiEndpoint, azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser);
   }
 }
