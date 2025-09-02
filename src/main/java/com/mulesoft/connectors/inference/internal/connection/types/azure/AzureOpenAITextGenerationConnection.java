@@ -1,6 +1,5 @@
 package com.mulesoft.connectors.inference.internal.connection.types.azure;
 
-import org.apache.commons.lang3.StringUtils;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
@@ -11,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 
 public class AzureOpenAITextGenerationConnection extends TextGenerationConnection {
 
@@ -22,10 +22,11 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
   private final String user;
 
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                             String azureOpenAiEndpoint, String azureOpenaiResourceName, String azureOpenaiDeploymentId,
+                                             String azureOpenAiEndpoint, String azureOpenaiResourceName,
+                                             String azureOpenaiDeploymentId,
                                              String azureOpenaiUser) {
     super(httpClient, objectMapper, parametersDTO,
-          fetchApiURL(azureOpenAiEndpoint,azureOpenaiResourceName, azureOpenaiDeploymentId));
+          fetchApiURL(azureOpenAiEndpoint, azureOpenaiResourceName, azureOpenaiDeploymentId));
     this.user = azureOpenaiUser;
   }
 
@@ -47,13 +48,13 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
 
   private static String fetchApiURL(String azureOpenAiEndpoint, String openaiResourceName, String openaiDeploymentId) {
 
-    if(StringUtils.isNotBlank(azureOpenAiEndpoint))
+    if (StringUtils.isNotBlank(azureOpenAiEndpoint))
       return azureOpenAiEndpoint + URI_CHAT_COMPLETIONS;
 
     String urlStr = AZURE_OPENAI_DEFAULT_URL + URI_CHAT_COMPLETIONS;
     urlStr = urlStr
-            .replace("{resource-name}", openaiResourceName)
-            .replace("{deployment-id}", openaiDeploymentId);
+        .replace("{resource-name}", openaiResourceName)
+        .replace("{deployment-id}", openaiDeploymentId);
     return urlStr;
   }
 
