@@ -41,7 +41,8 @@ public class TextGenerationOperations {
   @Summary("Native chat completion operation")
   public Result<InputStream, LLMResponseAttributes> chatCompletion(
                                                                    @Connection TextGenerationConnection connection,
-                                                                   @Content InputStream messages)
+                                                                   @InputJsonType(
+                                                                       schema = "api/request/ChatCompletionMessagesSchema.json") @Content InputStream messages)
       throws ModuleException {
     try {
       return connection.getService().getTextGenerationServiceInstance().executeChatCompletion(connection, messages);
