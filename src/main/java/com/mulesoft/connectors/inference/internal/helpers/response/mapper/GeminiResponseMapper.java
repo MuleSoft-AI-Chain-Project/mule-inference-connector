@@ -5,12 +5,14 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini.Candidate;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini.GeminiChatCompletionResponse;
 
 import java.util.List;
-import java.util.Objects;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -52,19 +54,14 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     GeminiChatCompletionResponse geminiResponse = (GeminiChatCompletionResponse) responseDTO;
 
     return geminiResponse.candidates().stream()
+        .filter(candidate -> candidate.content().parts() != null && !candidate.content().parts().isEmpty())
         .map(candidate -> candidate.content().parts().get(0).functionCall())
-        .filter(Objects::nonNull)
-        .map(fc -> {
-          try {
-            String argsJson = objectMapper.writeValueAsString(fc.args());
-            return new ToolCall(
-                                UUID.randomUUID().toString(),
-                                "function",
-                                new Function(fc.name(), argsJson));
-          } catch (JsonProcessingException e) {
-            throw new RuntimeException("Failed to serialize function call args", e);
-          }
-        })
+        .flatMap(fc -> Optional.ofNullable(fc).stream()
+            .map(functionCall -> new ToolCall(
+                                              UUID.randomUUID().toString(),
+                                              "function",
+                                              new Function(functionCall.name(),
+                                                           convertToJsonString(functionCall.args())))))
         .toList();
   }
 
@@ -74,8 +71,22 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (GeminiChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
 
-    return new TextGenerationResponse(chatRespFirstChoice.map(x -> x.content().parts().get(0).text()).orElse(null),
+    return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
                                       mapToolCalls(responseDTO));
+  }
+
+  private static String mapTextResponse(Candidate x) {
+    return Optional.ofNullable(x.content().parts())
+        .flatMap(partRecords -> Optional.ofNullable(partRecords.get(0)).map(PartRecord::text)).orElse(null);
+  }
+
+  private String convertToJsonString(Map<String, Object> input) {
+    try {
+      return objectMapper.writeValueAsString(input);
+    } catch (JsonProcessingException e) {
+      logger.error("Error converting input to JSON string for tool call. Value for input field: {}", input, e);
+      return null;
+    }
   }
 
 }
