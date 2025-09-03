@@ -34,7 +34,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(AzureOpenAITextGenerationModelNameProvider.class)
-  private String azureOpenaiModelName;
+  private String azureModelName;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
@@ -62,7 +62,7 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
     logger.debug("AzureTextGenerationConnection connect ...");
     return new AzureOpenAITextGenerationConnection(
                                                    getHttpClient(), getObjectMapper(),
-                                                   new ParametersDTO(azureOpenaiModelName,
+                                                   new ParametersDTO(azureModelName,
                                                                      textGenerationConnectionParameters.getApiKey(),
                                                                      textGenerationConnectionParameters.getMaxTokens(),
                                                                      textGenerationConnectionParameters.getTemperature(),

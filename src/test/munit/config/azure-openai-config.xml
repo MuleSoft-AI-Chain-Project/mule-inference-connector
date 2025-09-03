@@ -14,7 +14,9 @@
 
     <!-- Text Generation Configuration -->
     <ms-inference:text-generation-config name="AzureOpenAIConfig" doc:name="MuleSoft Inference Text generation config" doc:id="9d6a6703-45e0-4cba-92e9-b479535128e3" >
-        <ms-inference:azure-openai-connection apiKey="${azure-openai.apiKey}" azureModelName="${azure-openai.llmModel}" azureOpenaiResourceName="${azure-openai.resource}" azureOpenaiDeploymentId="${azure-openai.deploymentId}" azureOpenaiUser="${azure-openai.user}">
+        <ms-inference:azure-openai-connection apiKey="${azure-openai.apiKey}" azureModelName="${azure-openai.llmModel}"
+                                              azureOpenAiEndpoint="https://${azure-openai.resource}.services.ai.azure.com/openai/deployments/${azure-openai.deploymentId}"
+                                              azureOpenaiUser="${azure-openai.user}">
         </ms-inference:azure-openai-connection>
     </ms-inference:text-generation-config>
 </mule> 
