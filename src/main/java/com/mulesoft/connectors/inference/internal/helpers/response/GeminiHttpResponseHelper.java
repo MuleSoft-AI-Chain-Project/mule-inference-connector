@@ -2,8 +2,8 @@ package com.mulesoft.connectors.inference.internal.helpers.response;
 
 import org.mule.runtime.http.api.domain.message.response.HttpResponse;
 
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.FunctionCall;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
+//import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.FunctionCall;
+//import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini.GeminiChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 
@@ -36,20 +36,23 @@ public class GeminiHttpResponseHelper extends HttpResponseHelper {
       GeminiChatCompletionResponse geminiResponse =
           objectMapper.readValue(responseBody, GeminiChatCompletionResponse.class);
 
+      logger.debug("Gemini response: {}", geminiResponse);
+
+
       // Extract the first candidate's tool call (if it exists)
-      if (geminiResponse.candidates() != null &&
-          !geminiResponse.candidates().isEmpty() &&
-          geminiResponse.candidates().get(0).content() != null &&
-          geminiResponse.candidates().get(0).content().parts() != null &&
-          !geminiResponse.candidates().get(0).content().parts().isEmpty()) {
-
-        PartRecord part = geminiResponse.candidates().get(0).content().parts().get(0);
-
-        if (part.functionCall() != null) {
-          FunctionCall toolCall = part.functionCall();
-          logger.debug("Tool call detected: name={}, args={}", toolCall.name(), toolCall.args());
-        }
-      }
+      // if (geminiResponse.candidates() != null &&
+      // !geminiResponse.candidates().isEmpty() &&
+      // geminiResponse.candidates().get(0).content() != null &&
+      // geminiResponse.candidates().get(0).content().parts() != null &&
+      // !geminiResponse.candidates().get(0).content().parts().isEmpty()) {
+      //
+      // PartRecord part = geminiResponse.candidates().get(0).content().parts().get(0);
+      //
+      // if (part.functionCall() != null) {
+      // FunctionCall toolCall = part.functionCall();
+      // logger.debug("Tool call detected: name={}, args={}", toolCall.name(), toolCall.args());
+      // }
+      // }
 
       return geminiResponse;
     }
