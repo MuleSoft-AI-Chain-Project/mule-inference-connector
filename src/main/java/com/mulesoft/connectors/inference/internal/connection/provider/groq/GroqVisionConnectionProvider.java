@@ -48,6 +48,8 @@ public class GroqVisionConnectionProvider extends VisionModelConnectionProvider 
                                                                                           textGenerationConnectionParameters
                                                                                               .getTopP(),
                                                                                           textGenerationConnectionParameters
-                                                                                              .getTimeout()));
+                                                                                              .getTimeout(),
+                                                                                          textGenerationConnectionParameters
+                                                                                              .getCustomHeaders()));
   }
 }

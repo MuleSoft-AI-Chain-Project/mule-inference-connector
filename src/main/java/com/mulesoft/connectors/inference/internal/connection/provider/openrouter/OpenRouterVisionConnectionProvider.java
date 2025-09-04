@@ -48,6 +48,8 @@ public class OpenRouterVisionConnectionProvider extends VisionModelConnectionPro
                                                                                                 visionConnectionParameters
                                                                                                     .getTopP(),
                                                                                                 visionConnectionParameters
-                                                                                                    .getTimeout()));
+                                                                                                    .getTimeout(),
+                                                                                                visionConnectionParameters
+                                                                                                    .getCustomHeaders()));
   }
 }

@@ -48,6 +48,8 @@ public class VertexAIExpressVisionConnectionProvider extends VisionModelConnecti
                                                                                                      textGenerationConnectionParameters
                                                                                                          .getTopP(),
                                                                                                      textGenerationConnectionParameters
-                                                                                                         .getTimeout()));
+                                                                                                         .getTimeout(),
+                                                                                                     textGenerationConnectionParameters
+                                                                                                         .getCustomHeaders()));
   }
 }

@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Messages Array",
+  "description": "Array of chat messages for chat completion requests",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "title": "Chat Message",
+    "description": "A single chat message with role and content",
+    "properties": {
+      "role": {
+        "type": "string",
+        "description": "The role of the message sender",
+        "enum": ["system", "user", "assistant", "tool"],
+        "examples": ["system", "user", "assistant"]
+      },
+      "content": {
+        "type": "string",
+        "description": "The content of the message",
+        "minLength": 1,
+        "maxLength": 32768,
+        "examples": [
+          "You are a helpful assistant.",
+          "What is the weather like today?",
+          "The weather is sunny with a temperature of 72°F."
+        ]
+      }
+    },
+    "required": ["role", "content"],
+    "additionalProperties": false
+  },
+  "minItems": 1,
+  "maxItems": 100,
+  "examples": [
+    [
+      {
+        "role": "system",
+        "content": "You are a helpful assistant."
+      },
+      {
+        "role": "user", 
+        "content": "Hello, how can you help me today?"
+      }
+    ]
+  ]
+}

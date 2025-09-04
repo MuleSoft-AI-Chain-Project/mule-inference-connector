@@ -5,6 +5,7 @@ import org.mule.runtime.http.api.client.HttpClient;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +25,12 @@ public class PortkeyTextGenerationConnection extends TextGenerationConnection {
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("x-portkey-api-key", this.getApiKey(), "x-portkey-virtual-key", this.virtualKey);
+    Map<String, String> headers = new HashMap<>();
+
+    headers.put("x-portkey-api-key", this.getApiKey());
+    headers.put("x-portkey-virtual-key", this.virtualKey);
+    headers.putAll(getCustomHeadersMap());
+    return headers;
   }
 
   private static String fetchApiURL() {

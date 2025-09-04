@@ -43,7 +43,8 @@ public class GithubTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getMaxTokens(),
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
-                                                                textGenerationConnectionParameters.getTimeout()));
+                                                                textGenerationConnectionParameters.getTimeout(),
+                                                                textGenerationConnectionParameters.getCustomHeaders()));
 
   }
 }

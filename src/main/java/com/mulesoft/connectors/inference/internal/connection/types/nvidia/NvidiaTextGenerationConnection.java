@@ -9,14 +9,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class NvidiaTextGenerationConnection extends TextGenerationConnection {
 
-  private static final String URI_CHAT_COMPLETIONS = "/chat/completions";
-  public static final String NVIDIA_URL = "https://integrate.api.nvidia.com/v1";
+  private static final String URI_CHAT_COMPLETIONS = "/v1/chat/completions";
 
-  public NvidiaTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO) {
-    super(httpClient, objectMapper, parametersDTO, fetchApiURL());
+  public NvidiaTextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
+                                        String nvidiaBaseUrl) {
+    super(httpClient, objectMapper, parametersDTO, fetchApiURL(nvidiaBaseUrl));
   }
 
-  private static String fetchApiURL() {
-    return NVIDIA_URL + URI_CHAT_COMPLETIONS;
+  private static String fetchApiURL(String nvidiaBaseUrl) {
+    return nvidiaBaseUrl + URI_CHAT_COMPLETIONS;
   }
 }

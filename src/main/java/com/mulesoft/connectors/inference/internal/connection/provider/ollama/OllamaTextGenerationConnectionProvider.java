@@ -51,7 +51,8 @@ public class OllamaTextGenerationConnectionProvider extends TextGenerationConnec
                                                                 textGenerationConnectionParameters.getMaxTokens(),
                                                                 textGenerationConnectionParameters.getTemperature(),
                                                                 textGenerationConnectionParameters.getTopP(),
-                                                                textGenerationConnectionParameters.getTimeout()),
+                                                                textGenerationConnectionParameters.getTimeout(),
+                                                                textGenerationConnectionParameters.getCustomHeaders()),
                                               ollamaUrl);
   }
 }

@@ -41,4 +41,13 @@ public class TokenUsage implements Serializable {
   public int hashCode() {
     return Objects.hash(inputCount, outputCount, totalCount);
   }
+
+  @Override
+  public String toString() {
+    return "TokenUsage{" +
+        "inputCount=" + inputCount +
+        ", outputCount=" + outputCount +
+        ", totalCount=" + totalCount +
+        '}';
+  }
 }

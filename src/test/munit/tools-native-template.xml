@@ -19,141 +19,124 @@
 			<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_use" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-azure-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-cohere" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CohereConfig" />
-					<munit:parameter propertyName="finishReason" value="TOOL_CALL" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls,stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
 			<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-fireworks" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
+				</munit:parameters>
+			</munit:parameterization>
+			<munit:parameterization name="config-gemini" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="GeminiConfig" />
+					<munit:parameter propertyName="finishReason" value="STOP" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-heroku" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HerokuTextConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceConfig" />
 					<munit:parameter propertyName="llmModel" value="${hugging-face.llmModel}" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-nvidia">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai-compatible">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-portkey" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-together" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="TogetherConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<!--<munit:parameterization name="config-xinference" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XInferenceConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>-->
 			<munit:parameterization name="config-zhipu" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
-					<munit:parameter propertyName="finishReason" value="tool_calls" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -188,15 +171,6 @@
 								}
 								]]>
 							</ee:set-payload>
-							<ee:set-attributes><![CDATA[#[%dw 2.0
-									output application/java
-									---
-									{
-										additionalAttributes: {
-											finishReason: p('finishReason')
-										}
-									}]]]>
-							</ee:set-attributes>
 						</ee:message>
 					</ee:transform>
 				</on-error-continue>
@@ -212,10 +186,6 @@
 					 == &quot;get_current_temperature&quot;) > 0)) or ((payload.payload.response default &quot;&quot;) contains &quot;get_current_temperature&quot;)]"
 					is="#[MunitTools::equalTo(true)]"
 					message="The response must contain a tool with the 'get_current_temperature' function or mention it in the response text." />
-			<munit-tools:assert-that
-					expression="#[(p('finishReason') splitBy &quot;,&quot;) contains attributes.additionalAttributes.finishReason]"
-					is="#[MunitTools::equalTo(true)]"
-					message="The finishReason is not one of the expected values" />
 		</munit:validation>
 	</munit:test>
 

@@ -33,7 +33,7 @@ public class CohereResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
 
     return new AdditionalAttributes(chatCompletionResponse.id(), modelName,
-                                    chatCompletionResponse.finishReason());
+                                    chatCompletionResponse.finishReason(), null, null);
   }
 
   @Override
