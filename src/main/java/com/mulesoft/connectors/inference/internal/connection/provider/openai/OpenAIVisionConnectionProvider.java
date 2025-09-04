@@ -47,6 +47,8 @@ public class OpenAIVisionConnectionProvider extends VisionModelConnectionProvide
                                                                                                 .getTemperature(),
                                                                                             visionConnectionParameters.getTopP(),
                                                                                             visionConnectionParameters
-                                                                                                .getTimeout()));
+                                                                                                .getTimeout(),
+                                                                                            visionConnectionParameters
+                                                                                                .getCustomHeaders()));
   }
 }

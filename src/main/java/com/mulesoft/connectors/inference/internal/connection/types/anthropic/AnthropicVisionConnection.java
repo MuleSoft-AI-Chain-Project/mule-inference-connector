@@ -8,6 +8,7 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.AnthropicReque
 import com.mulesoft.connectors.inference.internal.helpers.response.AnthropicHttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.AnthropicResponseMapper;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -49,7 +50,12 @@ public class AnthropicVisionConnection extends VisionModelConnection {
 
   @Override
   public Map<String, String> getAdditionalHeaders() {
-    return Map.of("x-api-key", this.getApiKey(), "anthropic-version", "2023-06-01");
+    Map<String, String> headers = new HashMap<>();
+
+    headers.put("x-api-key", this.getApiKey());
+    headers.put("anthropic-version", "2023-06-01");
+    headers.putAll(getCustomHeadersMap());
+    return headers;
   }
 
   private static String fetchApiURL() {

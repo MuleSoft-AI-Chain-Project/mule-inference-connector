@@ -42,7 +42,7 @@ public class XAIImageConnectionProvider extends ImageGenerationConnectionProvide
     logger.debug("XAIImageConnection connect ...");
 
     return new XAIImageGenerationConnection(getHttpClient(), getObjectMapper(), xAiModelName,
-                                            baseConnectionParameters.getApiKey(),
+                                            baseConnectionParameters.getApiKey(), baseConnectionParameters.getCustomHeaders(),
                                             baseConnectionParameters.getTimeout(), getImageGenerationAPIURL());
   }
 

@@ -58,7 +58,9 @@ public class PortkeyVisionConnectionProvider extends VisionModelConnectionProvid
                                                                                              textGenerationConnectionParameters
                                                                                                  .getTopP(),
                                                                                              textGenerationConnectionParameters
-                                                                                                 .getTimeout()),
+                                                                                                 .getTimeout(),
+                                                                                             textGenerationConnectionParameters
+                                                                                                 .getCustomHeaders()),
                                        virtualKey);
   }
 }

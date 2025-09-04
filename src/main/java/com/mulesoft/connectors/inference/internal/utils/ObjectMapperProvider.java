@@ -13,7 +13,7 @@ public class ObjectMapperProvider {
   public static ObjectMapper create() {
     ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_ABSENT);
+    objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
     objectMapper.registerModule(new JavaTimeModule());
     return objectMapper;
   }

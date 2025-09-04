@@ -39,7 +39,8 @@ public class OpenAIModerationConnectionProvider extends ModerationConnectionProv
   public ModerationConnection connect() {
     logger.debug("ModerationConnection connect ...");
 
-    return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(), openAIModelName,
+    return new ModerationConnection(getHttpClient(), getObjectMapper(), baseConnectionParameters.getApiKey(),
+                                    baseConnectionParameters.getCustomHeaders(), openAIModelName,
                                     baseConnectionParameters.getTimeout(), getModerationAPIURL());
   }
 

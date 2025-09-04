@@ -50,6 +50,8 @@ public class XAIVisionConnectionProvider extends VisionModelConnectionProvider {
                                                                                          textGenerationConnectionParameters
                                                                                              .getTopP(),
                                                                                          textGenerationConnectionParameters
-                                                                                             .getTimeout()));
+                                                                                             .getTimeout(),
+                                                                                         textGenerationConnectionParameters
+                                                                                             .getCustomHeaders()));
   }
 }
