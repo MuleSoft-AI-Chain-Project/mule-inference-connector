@@ -15,6 +15,7 @@ import com.mulesoft.connectors.inference.internal.connection.provider.deepinfra.
 import com.mulesoft.connectors.inference.internal.connection.provider.deepseek.DeepseekTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.docker.DockerTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.fireworks.FireworksTextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.gemini.GeminiTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.github.GithubTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.gpt4all.GPT4AllTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.groq.GroqTextGenerationConnectionProvider;
@@ -49,6 +50,7 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
     DeepseekTextGenerationConnectionProvider.class,
     DockerTextGenerationConnectionProvider.class,
     FireworksTextGenerationConnectionProvider.class,
+    GeminiTextGenerationConnectionProvider.class,
     GithubTextGenerationConnectionProvider.class,
     GPT4AllTextGenerationConnectionProvider.class,
     GroqTextGenerationConnectionProvider.class,

@@ -6,22 +6,16 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.ContentRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.PartRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.SystemInstructionRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGoogleGenerationConfigRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.vertexai.google.VertexAIGooglePayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
-import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.FileData;
-import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.InlineData;
-import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.Part;
-import com.mulesoft.connectors.inference.internal.dto.vision.vertexai.VisionContentRecord;
+import com.mulesoft.connectors.inference.internal.dto.vision.gemini.FileData;
+import com.mulesoft.connectors.inference.internal.dto.vision.gemini.InlineData;
+import com.mulesoft.connectors.inference.internal.dto.vision.gemini.Part;
+import com.mulesoft.connectors.inference.internal.dto.vision.gemini.VisionContentRecord;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,8 +33,11 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   public static final String VERTEX_AI_ANTHROPIC_VERSION_VALUE = "vertex-2023-10-16";
   private static final String DEFAULT_MIME_TYPE = "image/jpeg";
 
+  private final GeminiRequestPayloadHelper geminiRequestPayloadHelper;
+
   public VertexAIRequestPayloadHelper(ObjectMapper objectMapper) {
     super(objectMapper);
+    geminiRequestPayloadHelper = new GeminiRequestPayloadHelper(objectMapper);
   }
 
   @Override
@@ -49,12 +46,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> buildVertexAIGooglePayload(
-                    connection,
-                    prompt,
-                    Collections.emptyList(),
-                    null,
-                    Collections.emptyList());
+            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildChatAnswerPromptPayload(connection,prompt);
             default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadRecord("user", prompt)));
         };
     }
@@ -65,16 +57,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> {
-                PartRecord partRecord = new PartRecord(template + " - " + instructions);
-                SystemInstructionRecord systemInstructionRecord = new SystemInstructionRecord(List.of(partRecord));
-                yield buildVertexAIGooglePayload(
-                        connection,
-                        data,
-                        Collections.emptyList(),
-                        systemInstructionRecord,
-                        Collections.emptyList());
-            }
+            case GOOGLE_PROVIDER_TYPE ->  geminiRequestPayloadHelper.buildPromptTemplatePayload(connection,template,instructions,data);
             default -> {
                 List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                          template + " - " + instructions, data);
@@ -88,20 +71,10 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
                                                                             InputStream messages)
           throws IOException {
-      List<ContentRecord> messagesList = objectMapper.readValue(
-              messages,
-              objectMapper.getTypeFactory()
-                      .constructCollectionType(List.class, ContentRecord.class));
-
       String provider = getProviderByModel(connection.getModelName());
 
       return switch (provider) {
-          case GOOGLE_PROVIDER_TYPE ->
-                  new VertexAIGooglePayloadRecord<>(messagesList,
-                          null,
-                          buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),connection.getTemperature(),connection.getTopP()),
-                          null,
-                          null);
+          case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.parseAndBuildChatCompletionPayload(connection,messages);
           default -> throw new UnsupportedOperationException("Model not supported: " + connection.getModelName());
       };
   }
@@ -173,11 +146,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> new VertexAIGooglePayloadRecord<>(messagesArray,
-                    null,
-                    buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),connection.getTopP()),
-                    null,
-                    null);
+            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildVisionRequestPayload(connection,messagesArray);
             default -> getDefaultVisionRequestPayloadDTO(connection,messagesArray);
         };
     }
@@ -198,31 +167,6 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
                                                  connection.getTopP());
-  }
-
-  private VertexAIGooglePayloadRecord<ContentRecord> buildVertexAIGooglePayload(TextGenerationConnection connection,
-                                                                                String prompt,
-                                                                                List<String> safetySettings,
-                                                                                SystemInstructionRecord systemInstruction,
-                                                                                List<FunctionDefinitionRecord> tools) {
-
-    PartRecord partRecord = new PartRecord(prompt);
-    ContentRecord contentRecord = new ContentRecord("user", List.of(partRecord));
-
-    return new VertexAIGooglePayloadRecord<>(List.of(contentRecord),
-                                             systemInstruction,
-                                             buildVertexAIGoogleGenerationConfig(connection.getMaxTokens(),
-                                                                                 connection.getTemperature(),
-                                                                                 connection.getTopP()),
-                                             safetySettings,
-                                             tools != null && !tools.isEmpty() ? tools : null);
-  }
-
-  private VertexAIGoogleGenerationConfigRecord buildVertexAIGoogleGenerationConfig(Number maxTokens, Number temperature,
-                                                                                   Number topP) {
-    // create the generationConfig
-    return new VertexAIGoogleGenerationConfigRecord(List.of("TEXT"), temperature,
-                                                    topP, maxTokens);
   }
 
   private String getMimeTypeFromUrl(String imageUrl) {
