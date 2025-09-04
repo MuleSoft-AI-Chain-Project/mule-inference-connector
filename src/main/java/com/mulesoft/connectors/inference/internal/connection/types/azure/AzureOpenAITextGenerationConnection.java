@@ -8,23 +8,26 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.AzureOpenAIReq
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.commons.lang3.StringUtils;
 
 public class AzureOpenAITextGenerationConnection extends TextGenerationConnection {
 
-  private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version=2024-10-21";
-  public static final String AZURE_OPENAI_URL = "https://{resource-name}.openai.azure.com/openai/deployments/{deployment-id}";
+  private static final String URI_CHAT_COMPLETIONS = "/chat/completions?api-version={api-version}";
+  public static final String AZURE_OPENAI_DEFAULT_URL = "https://{resource-name}/openai/deployments/{deployment-id}";
 
   private AzureOpenAIRequestPayloadHelper requestPayloadHelper;
 
   private final String user;
 
   public AzureOpenAITextGenerationConnection(HttpClient httpClient, ObjectMapper objectMapper, ParametersDTO parametersDTO,
-                                             String azureOpenaiResourceName, String azureOpenaiDeploymentId,
+                                             String azureOpenAiEndpoint, String azureOpenaiResourceName,
+                                             String azureOpenaiDeploymentId, String azureOpenaiApiVersion,
                                              String azureOpenaiUser) {
     super(httpClient, objectMapper, parametersDTO,
-          fetchApiURL(azureOpenaiResourceName, azureOpenaiDeploymentId));
+          fetchApiURL(azureOpenAiEndpoint, azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiApiVersion));
     this.user = azureOpenaiUser;
   }
 
@@ -44,13 +47,20 @@ public class AzureOpenAITextGenerationConnection extends TextGenerationConnectio
     return headers;
   }
 
-  private static String fetchApiURL(String openaiResourceName, String openaiDeploymentId) {
+  private static String fetchApiURL(String azureOpenAiEndpoint, String openaiResourceName, String openaiDeploymentId,
+                                    String azureOpenaiApiVersion) {
 
-    String urlStr = AZURE_OPENAI_URL + URI_CHAT_COMPLETIONS;
-    urlStr = urlStr
-        .replace("{resource-name}", openaiResourceName)
-        .replace("{deployment-id}", openaiDeploymentId);
-    return urlStr;
+    String baseUrl = Optional.ofNullable(azureOpenAiEndpoint)
+        .filter(StringUtils::isNotBlank)
+        .orElseGet(() -> buildDefaultUrl(openaiResourceName, openaiDeploymentId));
+
+    return (baseUrl + URI_CHAT_COMPLETIONS).replace("{api-version}", azureOpenaiApiVersion);
+  }
+
+  private static String buildDefaultUrl(String resourceName, String deploymentId) {
+    return AZURE_OPENAI_DEFAULT_URL
+        .replace("{resource-name}", resourceName)
+        .replace("{deployment-id}", deploymentId);
   }
 
   public String getAzureOpenaiUser() {
