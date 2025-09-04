@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.dto.vision.vertexai;
+package com.mulesoft.connectors.inference.internal.dto.vision.gemini;
 
 import java.util.List;
 

@@ -15,7 +15,7 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Optional(defaultValue = "500")
-  @Placement(order = 2)
+  @Placement(order = 3)
   private Number maxTokens;
 
   /**
@@ -24,7 +24,7 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Optional(defaultValue = "0.9")
-  @Placement(order = 3)
+  @Placement(order = 4)
   @Summary("Controls randomness; low is predictable, high is random")
   private Number temperature;
 
@@ -35,7 +35,7 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Optional(defaultValue = "0.9")
-  @Placement(order = 4)
+  @Placement(order = 5)
   @Summary("Controls diversity by limiting choices to the most probable options.")
   private Number topP;
 

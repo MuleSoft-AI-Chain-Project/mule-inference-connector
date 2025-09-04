@@ -58,7 +58,9 @@ public class OllamaVisionConnectionProvider extends VisionModelConnectionProvide
                                                                                             textGenerationConnectionParameters
                                                                                                 .getTopP(),
                                                                                             textGenerationConnectionParameters
-                                                                                                .getTimeout()),
+                                                                                                .getTimeout(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getCustomHeaders()),
                                       ollamaUrl);
   }
 }

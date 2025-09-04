@@ -50,6 +50,8 @@ public class HuggingFaceVisionConnectionProvider extends VisionModelConnectionPr
                                                                                                  textGenerationConnectionParameters
                                                                                                      .getTopP(),
                                                                                                  textGenerationConnectionParameters
-                                                                                                     .getTimeout()));
+                                                                                                     .getTimeout(),
+                                                                                                 textGenerationConnectionParameters
+                                                                                                     .getCustomHeaders()));
   }
 }

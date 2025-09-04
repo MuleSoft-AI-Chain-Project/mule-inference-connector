@@ -1,5 +1,7 @@
 package com.mulesoft.connectors.inference.internal.connection.provider.azure;
 
+import static org.mule.runtime.extension.api.annotation.param.display.Placement.ADVANCED_TAB;
+
 import org.mule.runtime.api.connection.ConnectionException;
 import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Alias;
@@ -12,6 +14,7 @@ import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.annotation.values.OfValues;
 
+import com.mulesoft.connectors.inference.internal.connection.parameters.AzureOpenAIConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.parameters.TextGenerationConnectionParameters;
 import com.mulesoft.connectors.inference.internal.connection.provider.TextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureOpenAITextGenerationConnection;
@@ -35,24 +38,20 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @Optional
-  @DisplayName("[Azure OpenAI] Resource Name")
-  @Placement(order = 2)
-  private String azureOpenaiResourceName;
+  @Optional(defaultValue = "2024-10-21")
+  @DisplayName("[Azure OpenAI] API Version")
+  @Placement(order = 5)
+  private String azureOpenaiApiVersion;
 
-  @Parameter
-  @Expression(ExpressionSupport.SUPPORTED)
-  @Optional
-  @DisplayName("[Azure OpenAI] Deployment ID")
-  @Placement(order = 3)
-  private String azureOpenaiDeploymentId;
+  @ParameterGroup(name = "Required: Enter URL or Parameters")
+  private AzureOpenAIConnectionParameters azureOpenAIConnectionParameters;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Optional
   @DisplayName("[Azure OpenAI] User")
   @Summary("A unique identifier representing your end-user, which can help to monitor and detect abuse.")
-  @Placement(order = 4)
+  @Placement(tab = ADVANCED_TAB, order = 1)
   private String azureOpenaiUser;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
@@ -68,7 +67,12 @@ public class AzureOpenAITextGenerationConnectionProvider extends TextGenerationC
                                                                      textGenerationConnectionParameters.getMaxTokens(),
                                                                      textGenerationConnectionParameters.getTemperature(),
                                                                      textGenerationConnectionParameters.getTopP(),
-                                                                     textGenerationConnectionParameters.getTimeout()),
-                                                   azureOpenaiResourceName, azureOpenaiDeploymentId, azureOpenaiUser);
+                                                                     textGenerationConnectionParameters.getTimeout(),
+                                                                     textGenerationConnectionParameters.getCustomHeaders()),
+                                                   azureOpenAIConnectionParameters.getAzureOpenAiEndpoint(),
+                                                   azureOpenAIConnectionParameters.getAzureOpenaiResourceName(),
+                                                   azureOpenAIConnectionParameters.getAzureOpenaiDeploymentId(),
+                                                   azureOpenaiApiVersion,
+                                                   azureOpenaiUser);
   }
 }

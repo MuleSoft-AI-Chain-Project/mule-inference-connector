@@ -50,6 +50,8 @@ public class GithubVisionConnectionProvider extends VisionModelConnectionProvide
                                                                                             textGenerationConnectionParameters
                                                                                                 .getTopP(),
                                                                                             textGenerationConnectionParameters
-                                                                                                .getTimeout()));
+                                                                                                .getTimeout(),
+                                                                                            textGenerationConnectionParameters
+                                                                                                .getCustomHeaders()));
   }
 }

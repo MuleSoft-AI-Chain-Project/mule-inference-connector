@@ -1,4 +1,4 @@
-package com.mulesoft.connectors.inference.internal.dto.textgeneration.response.vertexai;
+package com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini;
 
 import java.util.List;
 
