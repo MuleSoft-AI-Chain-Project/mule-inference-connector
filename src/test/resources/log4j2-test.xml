@@ -7,7 +7,7 @@
     </Appenders>
 
     <Loggers>
-        <AsyncLogger name="org.mule.service.http.impl.service.HttpMessageLogger" level="INFO"/>
+        <AsyncLogger name="org.mule.service.http.impl.service.HttpMessageLogger" level="DEBUG"/>
         <AsyncLogger name="org.mule.service.http" level="WARN"/>
         <AsyncLogger name="org.mule.extension.http" level="WARN"/>
 
