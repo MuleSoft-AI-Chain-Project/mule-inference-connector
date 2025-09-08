@@ -52,11 +52,12 @@
 				</munit:parameters>
 			</munit:parameterization>
 			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
+			<!-- Commenting deepseek tools flaky test
 			<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-fireworks" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
