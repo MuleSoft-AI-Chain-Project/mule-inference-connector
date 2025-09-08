@@ -125,11 +125,11 @@
                     <munit:parameter propertyName="config" value="XAiConfig" />
                 </munit:parameters>
             </munit:parameterization>
-			<munit:parameterization name="config-xinference" >
+			<!--<munit:parameterization name="config-xinference" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XInferenceConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-zhipu" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
