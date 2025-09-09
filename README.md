@@ -21,6 +21,7 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [DeepSeek](https://api-docs.deepseek.com/)
 - [Docker Models](https://docs.docker.com/desktop/features/model-runner/)
 - [Fireworks](https://fireworks.ai/)
+- [Gemini](https://ai.google.dev/gemini-api/docs)
 - [GitHub Models](https://docs.github.com/en/github-models)
 - [GPT4ALL](https://docs.gpt4all.io/index.html)
 - [Groq AI](https://console.groq.com/)
@@ -48,6 +49,7 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 ## Supported Vision Model Providers
 - [Anthropic](https://www.anthropic.com/)
 - [Azure AI Foundry](https://learn.microsoft.com/en-us/azure/ai-foundry/)
+- [Gemini](https://ai.google.dev/gemini-api/docs)
 - [GitHub Models](https://docs.github.com/en/github-models)
 - [Groq AI](https://console.groq.com/)
 - [Hugging Face](https://huggingface.co/)
