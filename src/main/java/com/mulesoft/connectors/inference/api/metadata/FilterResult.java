@@ -2,4 +2,11 @@ package com.mulesoft.connectors.inference.api.metadata;
 
 import java.io.Serializable;
 
-public record FilterResult(Boolean filtered,Boolean detected,String severity)implements Serializable{}
+public record FilterResult(Boolean filtered,Boolean detected,String severity)implements Serializable{
+
+
+public Boolean getFiltered(){return filtered;}
+
+public Boolean getDetected(){return detected;}
+
+public String getSeverity(){return severity;}}
