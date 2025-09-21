@@ -51,6 +51,6 @@ public class CohereResponseMapper extends DefaultResponseMapper {
         .flatMap(msg -> Optional.ofNullable(msg.content()).map(contents -> contents.get(0))).orElse(null);
 
     return new TextGenerationResponse(Optional.ofNullable(chatRespFirstChoice).map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO));
+                                      mapToolCalls(responseDTO), null);
   }
 }

@@ -31,7 +31,7 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new TextGenerationResponse(chatCompletionResponse.message().content(),
-                                      this.mapToolCalls(responseDTO));
+                                      this.mapToolCalls(responseDTO), null);
   }
 
   @Override

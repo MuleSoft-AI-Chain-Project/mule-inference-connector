@@ -72,7 +72,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
 
     return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
-                                      mapToolCalls(responseDTO));
+                                      mapToolCalls(responseDTO), null);
   }
 
   private static String mapTextResponse(Candidate x) {

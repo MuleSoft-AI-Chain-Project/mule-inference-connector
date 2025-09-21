@@ -4,6 +4,7 @@ import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 
@@ -27,9 +28,16 @@ public class DefaultResponseMapper {
     var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
     return new TextGenerationResponse(chatRespFirstChoice
-        .message().content(),
+        .message().content(), mapToolCalls(responseDTO), null);
+  }
+
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+    var chatCompletionResponse = (ChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = chatCompletionResponse.choices().get(0);
+    return new TextGenerationResponse(chatCompletionResponse.choices().get(0).message().content(),
                                       chatRespFirstChoice
-                                          .message().toolCalls());
+                                          .message().toolCalls(),
+                                      toolExecutionResult);
   }
 
   public TokenUsage mapTokenUsageFromResponse(TextResponseDTO responseDTO) {

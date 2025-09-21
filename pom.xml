@@ -304,6 +304,12 @@
 			<artifactId>commons-lang3</artifactId>
 			<version>3.18.0</version>
 		</dependency>
+		<dependency>
+			<groupId>org.mule.runtime</groupId>
+			<artifactId>mule-extensions-api</artifactId>
+			<version>1.9.8</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>

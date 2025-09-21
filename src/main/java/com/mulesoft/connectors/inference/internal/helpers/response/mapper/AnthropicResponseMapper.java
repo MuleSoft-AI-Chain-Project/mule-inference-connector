@@ -66,7 +66,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.content().stream()
         .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
     return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO));
+                                      mapToolCalls(responseDTO), null);
   }
 
   private String convertToJsonString(Map<String, Object> input) {
