@@ -53,7 +53,7 @@ public class CohereResponseMapper extends DefaultResponseMapper {
     return chatResp
         .message().toolCalls().stream()
         .map(toolCall -> {
-          McpToolRecord toolRecord = collectedTools.get(toolCall.function().name());
+          McpToolRecord toolRecord = collectedTools != null ? collectedTools.get(toolCall.function().name()) : null;
           String originalName = toolRecord != null ? toolRecord.originalName() : toolCall.function().name();
           return new ToolCall(toolCall.id(), toolCall.type(),
                               new Function(originalName, toolCall.function().arguments()));
