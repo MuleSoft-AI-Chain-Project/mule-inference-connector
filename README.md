@@ -36,6 +36,7 @@ The MuleSoft Inference Connector supports the following Inference Offerings:
 - [OpenRouter](https://openrouter.ai/)
 - [Perplexity](https://www.perplexity.ai/)
 - [Portkey](https://portkey.ai/)
+- [Swisscom AI-Platform](https://digital.swisscom.com/products/swiss-ai-platform/info)
 - [Together.ai](https://www.together.ai/)
 - [Vertex AI Express](https://cloud.google.com/vertex-ai/generative-ai/docs/start/express-mode/overview)
 - [XAI](https://x.ai/)

@@ -1,13 +1,20 @@
 package com.mulesoft.connectors.inference.internal.service;
 
+import org.mule.runtime.api.scheduler.SchedulerService;
+import org.mule.runtime.extension.api.client.ExtensionsClient;
+import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
+import com.mulesoft.connectors.inference.api.mcp.McpConfig;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
+import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.error.InferenceErrorType;
 import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
+import com.mulesoft.connectors.inference.internal.helpers.mcp.McpHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
@@ -15,6 +22,7 @@ import com.mulesoft.connectors.inference.internal.helpers.response.mapper.Defaul
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,15 +39,17 @@ public class TextGenerationService implements BaseService {
   private final HttpResponseHelper responseHelper;
   private final DefaultResponseMapper responseParser;
 
+  private final McpHelper mcpHelper;
   private final ObjectMapper objectMapper;
 
   public TextGenerationService(RequestPayloadHelper requestPayloadHelper, HttpRequestHelper httpRequestHelper,
-                               HttpResponseHelper responseHelper, DefaultResponseMapper responseParser,
+                               HttpResponseHelper responseHelper, DefaultResponseMapper responseParser, McpHelper mcpHelper,
                                ObjectMapper objectMapper) {
     this.payloadHelper = requestPayloadHelper;
     this.httpRequestHelper = httpRequestHelper;
     this.responseHelper = responseHelper;
     this.responseParser = responseParser;
+    this.mcpHelper = mcpHelper;
     this.objectMapper = objectMapper;
   }
 
@@ -75,6 +85,55 @@ public class TextGenerationService implements BaseService {
 
     return executeToolsRequestAndFormatResponse(connection, payloadHelper
         .buildToolsTemplatePayload(connection, template, instructions, data, tools));
+  }
+
+
+  public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection,
+                                                                    SchedulerService schedulerService,
+                                                                    ExtensionsClient extensionsClient,
+                                                                    List<McpConfig> mcpConfigs, String template,
+                                                                    String instructions, String data) {
+
+    return mcpHelper.getTools(mcpConfigs, schedulerService, extensionsClient)
+        .thenApply(collectedTools -> {
+          try {
+            var toolFunctions = collectedTools.values().stream()
+                .map(mcpTool -> new FunctionDefinitionRecord("function", mcpTool.function()))
+                .toList();
+
+            // send tools list to mcp
+            TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
+                .buildToolsTemplatePayload(connection, template, instructions, data, toolFunctions);
+
+            logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
+
+            TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
+
+            List<ToolResult> toolExecutionResult = mcpHelper.executeTools(collectedTools,
+                                                                          responseParser.mapToolCalls(chatResponse,
+                                                                                                      // don't pass collected
+                                                                                                      // tools to keep prefixed
+                                                                                                      // func name
+                                                                                                      null),
+                                                                          extensionsClient);
+            logger.debug("Tool Execution result:{}", toolExecutionResult);
+            return ResponseHelper.createLLMResponse(
+                                                    objectMapper.writeValueAsString(responseParser
+                                                        .mapMcpExecuteToolsResponse(chatResponse, toolExecutionResult,
+                                                                                    collectedTools)),
+                                                    responseParser.mapTokenUsageFromResponse(chatResponse),
+                                                    responseParser.mapAdditionalAttributes(chatResponse,
+                                                                                           connection.getModelName()));
+          } catch (Exception e) {
+            throw new ModuleException("Error processing MCP tools", InferenceErrorType.MCP_SERVER_ERROR, e);
+          }
+        })
+        .exceptionally(throwable -> {
+          // Handle exceptions from getTools() or any upstream failures
+          Throwable cause = throwable.getCause() != null ? throwable.getCause() : throwable;
+          throw new ModuleException("Error in getting MCP tools", InferenceErrorType.MCP_SERVER_ERROR, cause);
+        })
+        .join();
   }
 
   private Result<InputStream, LLMResponseAttributes> executeToolsRequestAndFormatResponse(TextGenerationConnection connection,

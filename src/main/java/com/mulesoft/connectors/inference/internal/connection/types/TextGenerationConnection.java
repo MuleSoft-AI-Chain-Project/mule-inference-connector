@@ -3,6 +3,7 @@ package com.mulesoft.connectors.inference.internal.connection.types;
 import org.mule.runtime.http.api.client.HttpClient;
 
 import com.mulesoft.connectors.inference.internal.dto.ParametersDTO;
+import com.mulesoft.connectors.inference.internal.helpers.mcp.McpHelper;
 import com.mulesoft.connectors.inference.internal.service.TextGenerationService;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +42,12 @@ public abstract class TextGenerationConnection extends BaseConnection {
     if (textGenerationService == null)
       textGenerationService = new TextGenerationService(this.getRequestPayloadHelper(), this.getHttpRequestHelper(),
                                                         this.getResponseHelper(), this.getResponseMapper(),
+                                                        getMcpHelper(),
                                                         this.getObjectMapper());
     return textGenerationService;
+  }
+
+  private McpHelper getMcpHelper() {
+    return new McpHelper(this.getObjectMapper());
   }
 }
