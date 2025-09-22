@@ -4,9 +4,11 @@ import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.internal.dto.mcp.McpToolRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -31,9 +33,9 @@ public class VertexAIResponseMapper extends DefaultResponseMapper {
 
 
   @Override
-  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
+  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO, Map<String, McpToolRecord> collectedTools) {
 
-    return geminiResponseMapper.mapToolCalls(responseDTO);
+    return geminiResponseMapper.mapToolCalls(responseDTO, collectedTools);
   }
 
   @Override

@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
+import com.mulesoft.connectors.inference.internal.dto.mcp.McpToolRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ollama.OllamaChatCompletionResponse;
 
@@ -32,15 +33,16 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new TextGenerationResponse(chatCompletionResponse.message().content(),
-                                      this.mapToolCalls(responseDTO), null);
+                                      this.mapToolCalls(responseDTO, null), null);
   }
 
   @Override
-  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult,
+                                                           Map<String, McpToolRecord> collectedTools) {
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
     return new TextGenerationResponse(chatCompletionResponse.message().content(),
-                                      this.mapToolCalls(responseDTO),
+                                      this.mapToolCalls(responseDTO, collectedTools),
                                       toolExecutionResult);
   }
 
@@ -61,7 +63,7 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
+  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO, Map<String, McpToolRecord> collectedTools) {
 
     var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
 
@@ -71,10 +73,19 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
                                           null,
                                           "function",
                                           new Function(
-                                                       toolCall.function().name(),
+                                                       convertToolCallsWithOriginalNames(toolCall.function().name(),
+                                                                                         collectedTools),
                                                        convertToJsonString(toolCall.function().arguments()))))
             .toList())
         .orElse(Collections.emptyList());
+  }
+
+  private String convertToolCallsWithOriginalNames(String funcName,
+                                                   Map<String, McpToolRecord> collectedTools) {
+    return Optional.ofNullable(collectedTools)
+        .map(toolMap -> Optional.ofNullable(collectedTools.get(funcName))
+            .map(McpToolRecord::originalName).orElse(funcName))
+        .orElse(funcName);
   }
 
   private String convertToJsonString(Map<String, Object> input) {

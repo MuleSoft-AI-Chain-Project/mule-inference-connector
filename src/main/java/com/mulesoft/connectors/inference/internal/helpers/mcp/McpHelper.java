@@ -87,15 +87,14 @@ public class McpHelper {
 
   private ToolResult parseArgumentsAndExecute(McpToolRecord tool, ToolCall toolCall, ExtensionsClient extensionsClient) {
 
-    String toolName = toolCall.function().name();
-
+    logger.debug("Executing tool call:{}", tool);
     try {
       Map<String, Object> args = objectMapper.readValue(toolCall.function().arguments(),
                                                         objectMapper.getTypeFactory().constructMapType(Map.class, String.class,
                                                                                                        Object.class));
-      return executeToolWithErrorHandling(tool, args, extensionsClient, toolName);
+      return executeToolWithErrorHandling(tool, args, extensionsClient);
     } catch (JsonProcessingException e) {
-      throw new ModuleException("Failed to execute tool '" + toolName + "': " + e.getMessage(), MCP_SERVER_ERROR, e);
+      throw new ModuleException("Failed to execute tool '" + tool.getName() + "': " + e.getMessage(), MCP_SERVER_ERROR, e);
     }
   }
 
@@ -103,11 +102,10 @@ public class McpHelper {
    * Executes tool with comprehensive error handling.
    */
   private ToolResult executeToolWithErrorHandling(McpToolRecord tool, Map<String, Object> args,
-                                                  ExtensionsClient extensionsClient, String toolName) {
+                                                  ExtensionsClient extensionsClient) {
     return invokeMcpCallTool(tool, args, extensionsClient)
         .exceptionally(toolException -> {
-          logger.error("Error executing tool {}: {}", toolName, toolException.getMessage(), toolException);
-          throw new ModuleException("Error executing tool '" + toolName + "': " + toolException.getMessage(),
+          throw new ModuleException("Error executing tool '" + tool.getName() + "': " + toolException.getMessage(),
                                     MCP_SERVER_ERROR, toolException);
         })
         .join();

@@ -167,7 +167,7 @@ public class TextGenerationOperations {
   @MediaType(value = APPLICATION_JSON, strict = false)
   @Alias("Mcp-tools-native-template")
   @DisplayName("[MCP] Tooling")
-  @OutputJsonType(schema = "api/response/Response.json")
+  @OutputJsonType(schema = "api/response/McpToolingResponse.json")
   @Summary("MCP tooling support for the inference connector")
   public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(@Config TextGenerationConfig config,
                                                                      @Connection TextGenerationConnection connection,

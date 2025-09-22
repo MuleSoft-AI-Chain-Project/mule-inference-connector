@@ -6,12 +6,14 @@ import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
+import com.mulesoft.connectors.inference.internal.dto.mcp.McpToolRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.anthropic.AnthropicChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.anthropic.Content;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -48,7 +50,7 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
+  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO, Map<String, McpToolRecord> collectedTools) {
 
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
 
@@ -57,7 +59,8 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
         .map(content -> new ToolCall(
                                      content.id(),
                                      "function",
-                                     new Function(content.name(), convertToJsonString(content.input()))))
+                                     new Function(convertToolCallsWithOriginalNames(content.name(), collectedTools),
+                                                  convertToJsonString(content.input()))))
         .toList();
   }
 
@@ -67,16 +70,17 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.content().stream()
         .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
     return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO), null);
+                                      mapToolCalls(responseDTO, null), null);
   }
 
   @Override
-  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult,
+                                                           Map<String, McpToolRecord> collectedTools) {
     var chatCompletionResponse = (AnthropicChatCompletionResponse) responseDTO;
     var chatRespFirstChoice = chatCompletionResponse.content().stream()
         .filter(x -> "text".equals(x.type()) && StringUtils.isNotBlank(x.text())).findFirst();
     return new TextGenerationResponse(chatRespFirstChoice.map(Content::text).orElse(null),
-                                      mapToolCalls(responseDTO),
+                                      mapToolCalls(responseDTO, collectedTools),
                                       toolExecutionResult);
   }
 
@@ -87,5 +91,13 @@ public class AnthropicResponseMapper extends DefaultResponseMapper {
       logger.error("Error converting input to JSON string for tool call. Value for input field: {}", input, e);
       return null;
     }
+  }
+
+  private String convertToolCallsWithOriginalNames(String funcName,
+                                                   Map<String, McpToolRecord> collectedTools) {
+    return Optional.ofNullable(collectedTools)
+        .map(toolMap -> Optional.ofNullable(collectedTools.get(funcName))
+            .map(McpToolRecord::originalName).orElse(funcName))
+        .orElse(funcName);
   }
 }

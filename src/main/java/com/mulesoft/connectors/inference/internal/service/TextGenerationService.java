@@ -110,12 +110,17 @@ public class TextGenerationService implements BaseService {
             TextResponseDTO chatResponse = executeChatRequest(connection, requestPayloadDTO);
 
             List<ToolResult> toolExecutionResult = mcpHelper.executeTools(collectedTools,
-                                                                          responseParser.mapToolCalls(chatResponse),
+                                                                          responseParser.mapToolCalls(chatResponse,
+                                                                                                      // don't pass collected
+                                                                                                      // tools to keep prefixed
+                                                                                                      // func name
+                                                                                                      null),
                                                                           extensionsClient);
-
+            logger.debug("Tool Execution result:{}", toolExecutionResult);
             return ResponseHelper.createLLMResponse(
                                                     objectMapper.writeValueAsString(responseParser
-                                                        .mapMcpExecuteToolsResponse(chatResponse, toolExecutionResult)),
+                                                        .mapMcpExecuteToolsResponse(chatResponse, toolExecutionResult,
+                                                                                    collectedTools)),
                                                     responseParser.mapTokenUsageFromResponse(chatResponse),
                                                     responseParser.mapAdditionalAttributes(chatResponse,
                                                                                            connection.getModelName()));
