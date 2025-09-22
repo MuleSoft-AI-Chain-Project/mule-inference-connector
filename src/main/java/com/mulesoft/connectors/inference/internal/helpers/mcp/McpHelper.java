@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.helpers.mcp;
 
-import static com.mulesoft.connectors.inference.internal.error.InferenceErrorType.TOOL_ERROR;
+import static com.mulesoft.connectors.inference.internal.error.InferenceErrorType.MCP_SERVER_ERROR;
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
@@ -80,7 +80,7 @@ public class McpHelper {
         .map(tool -> parseArgumentsAndExecute(tool, toolCall, extensionsClient))
         .orElseThrow(() -> {
           logger.error("Tool '{}' not found in collected tools", toolName);
-          return new ModuleException("Tool '" + toolName + "' not found in collected tools", TOOL_ERROR);
+          return new ModuleException("Tool '" + toolName + "' not found in collected tools", MCP_SERVER_ERROR);
         });
   }
 
@@ -95,7 +95,7 @@ public class McpHelper {
                                                                                                        Object.class));
       return executeToolWithErrorHandling(tool, args, extensionsClient, toolName);
     } catch (JsonProcessingException e) {
-      throw new ModuleException("Failed to execute tool '" + toolName + "': " + e.getMessage(), TOOL_ERROR, e);
+      throw new ModuleException("Failed to execute tool '" + toolName + "': " + e.getMessage(), MCP_SERVER_ERROR, e);
     }
   }
 
@@ -108,7 +108,7 @@ public class McpHelper {
         .exceptionally(toolException -> {
           logger.error("Error executing tool {}: {}", toolName, toolException.getMessage(), toolException);
           throw new ModuleException("Error executing tool '" + toolName + "': " + toolException.getMessage(),
-                                    TOOL_ERROR, toolException);
+                                    MCP_SERVER_ERROR, toolException);
         })
         .join();
   }
@@ -231,7 +231,7 @@ public class McpHelper {
                                    new ModuleException(
                                                        "Exception obtaining toolList from MCP client config %s: %s"
                                                            .formatted(mcpConfigRef, t.getMessage()),
-                                                       TOOL_ERROR, t));
+                                                       MCP_SERVER_ERROR, t));
       countDown.set(-1);
     }
   }

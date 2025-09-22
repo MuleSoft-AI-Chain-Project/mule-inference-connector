@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.inference.internal.config;
 
+import org.mule.runtime.api.scheduler.SchedulerService;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
@@ -37,6 +38,8 @@ import com.mulesoft.connectors.inference.internal.connection.provider.xinference
 import com.mulesoft.connectors.inference.internal.connection.provider.zhipuai.ZhipuAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperations;
 
+import javax.inject.Inject;
+
 @Configuration(name = "text-generation-config")
 @ConnectionProviders({
     AI21LabsTextGenerationConnectionProvider.class,
@@ -73,4 +76,11 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
 })
 @Operations(TextGenerationOperations.class)
 public class TextGenerationConfig {
+
+  @Inject
+  SchedulerService schedulerService;
+
+  public SchedulerService getSchedulerService() {
+    return schedulerService;
+  }
 }

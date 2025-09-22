@@ -120,13 +120,13 @@ public class TextGenerationService implements BaseService {
                                                     responseParser.mapAdditionalAttributes(chatResponse,
                                                                                            connection.getModelName()));
           } catch (Exception e) {
-            throw new ModuleException("Error processing MCP tools", InferenceErrorType.TOOL_ERROR, e);
+            throw new ModuleException("Error processing MCP tools", InferenceErrorType.MCP_SERVER_ERROR, e);
           }
         })
         .exceptionally(throwable -> {
           // Handle exceptions from getTools() or any upstream failures
           Throwable cause = throwable.getCause() != null ? throwable.getCause() : throwable;
-          throw new ModuleException("Error in getting MCP tools", InferenceErrorType.TOOL_ERROR, cause);
+          throw new ModuleException("Error in getting MCP tools", InferenceErrorType.MCP_SERVER_ERROR, cause);
         })
         .join();
   }

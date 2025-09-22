@@ -22,7 +22,7 @@ public enum InferenceErrorType implements ErrorTypeDefinition<InferenceErrorType
 
   MCP_TOOLS_OPERATION_FAILURE(MuleErrors.ANY),
 
-  TOOL_ERROR(MuleErrors.ANY),
+  MCP_SERVER_ERROR(MuleErrors.ANY),
 
   INVALID_PROVIDER(MuleErrors.CONNECTIVITY),
 
