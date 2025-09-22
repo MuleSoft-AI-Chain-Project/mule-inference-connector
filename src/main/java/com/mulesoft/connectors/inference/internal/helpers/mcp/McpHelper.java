@@ -9,7 +9,7 @@ import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
-import com.mulesoft.connectors.inference.api.mcp.McpServer;
+import com.mulesoft.connectors.inference.api.mcp.McpConfig;
 import com.mulesoft.connectors.inference.api.request.Function;
 import com.mulesoft.connectors.inference.api.request.FunctionSchema;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
@@ -53,12 +53,12 @@ public class McpHelper {
 
   private final Map<String, List<McpToolRecord>> toolsByServer = new ConcurrentHashMap<>();
 
-  public CompletableFuture<Map<String, McpToolRecord>> getTools(List<McpServer> mcpServers, SchedulerService schedulerService,
+  public CompletableFuture<Map<String, McpToolRecord>> getTools(List<McpConfig> mcpConfigs, SchedulerService schedulerService,
                                                                 ExtensionsClient extensionsClient) {
-    if (null == mcpServers || mcpServers.isEmpty()) {
+    if (null == mcpConfigs || mcpConfigs.isEmpty()) {
       return completedFuture(Collections.emptyMap());
     }
-    return new McpDiscovery(mcpServers, schedulerService, extensionsClient).getDiscoveredTools();
+    return new McpDiscovery(mcpConfigs, schedulerService, extensionsClient).getDiscoveredTools();
   }
 
   public List<ToolResult> executeTools(Map<String, McpToolRecord> collectedTools, List<ToolCall> toolCalls,
@@ -115,29 +115,29 @@ public class McpHelper {
 
   private class McpDiscovery {
 
-    private final List<McpServer> mcpServers;
+    private final List<McpConfig> mcpConfigs;
     private final Map<String, McpToolRecord> discoveredTools = new ConcurrentHashMap<>();
     private final AtomicInteger countDown;
     private final CompletableFuture<Map<String, McpToolRecord>> future = new CompletableFuture<>();
     private final SchedulerService schedulerService;
     private final ExtensionsClient extensionsClient;
 
-    private McpDiscovery(List<McpServer> mcpServers, SchedulerService schedulerService, ExtensionsClient extensionsClient) {
-      this.mcpServers = mcpServers;
-      countDown = new AtomicInteger(mcpServers.size());
+    private McpDiscovery(List<McpConfig> mcpConfigs, SchedulerService schedulerService, ExtensionsClient extensionsClient) {
+      this.mcpConfigs = mcpConfigs;
+      countDown = new AtomicInteger(mcpConfigs.size());
       this.schedulerService = schedulerService;
       this.extensionsClient = extensionsClient;
     }
 
     public CompletableFuture<Map<String, McpToolRecord>> getDiscoveredTools() {
       try {
-        for (McpServer mcpServer : mcpServers) {
-          final String mcpConfigRef = mcpServer.getMcpClientConfigRef();
+        for (McpConfig mcpConfig : mcpConfigs) {
+          final String mcpConfigRef = mcpConfig.getMcpClientConfigRef();
           List<McpToolRecord> mcpMcpToolRecords = toolsByServer.get(mcpConfigRef);
           if (mcpMcpToolRecords != null) {
             collect(mcpMcpToolRecords);
           } else {
-            schedulerService.ioScheduler().submit(() -> invokeMcpListTools(mcpServer));
+            schedulerService.ioScheduler().submit(() -> invokeMcpListTools(mcpConfig));
           }
         }
       } catch (Exception ex) {
@@ -155,11 +155,11 @@ public class McpHelper {
      * tools collection.
      * </p>
      *
-     * @param mcpServer the MCP server configuration from which to fetch tools. Must contain a valid MCP client configuration
+     * @param mcpConfig the MCP server configuration from which to fetch tools. Must contain a valid MCP client configuration
      *        reference.
      */
-    private void invokeMcpListTools(McpServer mcpServer) {
-      final String mcpConfigRef = mcpServer.getMcpClientConfigRef();
+    private void invokeMcpListTools(McpConfig mcpConfig) {
+      final String mcpConfigRef = mcpConfig.getMcpClientConfigRef();
 
       extensionsClient.execute(MCP, "listTools", params -> params.withConfigRef(mcpConfigRef))
           .whenComplete((result, t) -> Optional.ofNullable(t)
@@ -252,7 +252,7 @@ public class McpHelper {
    */
   private CompletableFuture<ToolResult> invokeMcpCallTool(McpToolRecord tool, Map<String, Object> args,
                                                           ExtensionsClient extensionsClient) {
-    return extensionsClient.execute("MCP", "callTool",
+    return extensionsClient.execute(MCP, "callTool",
                                     params -> params.withConfigRef(tool.configRef())
                                         .withParameter("toolName", tool.originalName())
                                         .withParameter("arguments", args))

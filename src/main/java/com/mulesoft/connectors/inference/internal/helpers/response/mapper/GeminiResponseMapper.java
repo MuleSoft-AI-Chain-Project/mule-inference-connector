@@ -5,6 +5,7 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini.Candidate;
@@ -73,6 +74,16 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
 
     return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
                                       mapToolCalls(responseDTO), null);
+  }
+
+  @Override
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+    var chatCompletionResponse = (GeminiChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
+
+    return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
+                                      mapToolCalls(responseDTO),
+                                      toolExecutionResult);
   }
 
   private static String mapTextResponse(Candidate x) {

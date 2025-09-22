@@ -5,7 +5,7 @@ import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
-import com.mulesoft.connectors.inference.api.mcp.McpServer;
+import com.mulesoft.connectors.inference.api.mcp.McpConfig;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.api.response.ToolResult;
@@ -91,10 +91,10 @@ public class TextGenerationService implements BaseService {
   public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection,
                                                                     SchedulerService schedulerService,
                                                                     ExtensionsClient extensionsClient,
-                                                                    List<McpServer> mcpServers, String template,
+                                                                    List<McpConfig> mcpConfigs, String template,
                                                                     String instructions, String data) {
 
-    return mcpHelper.getTools(mcpServers, schedulerService, extensionsClient)
+    return mcpHelper.getTools(mcpConfigs, schedulerService, extensionsClient)
         .thenApply(collectedTools -> {
           try {
             var toolFunctions = collectedTools.values().stream()

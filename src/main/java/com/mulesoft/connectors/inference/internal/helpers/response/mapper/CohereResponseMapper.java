@@ -4,6 +4,7 @@ import com.mulesoft.connectors.inference.api.metadata.AdditionalAttributes;
 import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.cohere.CohereChatCompletionResponse;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.cohere.Content;
@@ -52,5 +53,16 @@ public class CohereResponseMapper extends DefaultResponseMapper {
 
     return new TextGenerationResponse(Optional.ofNullable(chatRespFirstChoice).map(Content::text).orElse(null),
                                       mapToolCalls(responseDTO), null);
+  }
+
+  @Override
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+    var chatCompletionResponse = (CohereChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = Optional.ofNullable(chatCompletionResponse.message())
+        .flatMap(msg -> Optional.ofNullable(msg.content()).map(contents -> contents.get(0))).orElse(null);
+
+    return new TextGenerationResponse(Optional.ofNullable(chatRespFirstChoice).map(Content::text).orElse(null),
+                                      mapToolCalls(responseDTO),
+                                      toolExecutionResult);
   }
 }

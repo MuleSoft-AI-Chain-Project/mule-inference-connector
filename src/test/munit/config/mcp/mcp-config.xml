@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mcp="http://www.mulesoft.org/schema/mule/mcp"
+      xmlns:http="http://www.mulesoft.org/schema/mule/http"
+      xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+      xsi:schemaLocation="
+        http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+        http://www.mulesoft.org/schema/mule/mcp http://www.mulesoft.org/schema/mule/mcp/current/mule-mcp.xsd
+        http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+
+    <configuration-properties file="automation-credentials.properties"/>
+
+    <mcp:client-config name="MCP_Client_SSE_ERP" doc:name="MCP Client" doc:id="fd3bb75d-82e1-4aed-a1e3-f7c7ca6e28fb" clientName="MCP_Client_SSE_ERP" clientVersion="1.0.0">
+        <mcp:sse-client-connection requestTimeout="60" serverUrl="${mcp.erpServer}" />
+    </mcp:client-config>
+    <mcp:client-config name="MCP_Client_HTTP" doc:name="MCP Client" doc:id="163c2f4f-86bd-4860-b3b1-5606259f324f" clientName="MCP_Client_HTTP" clientVersion="1.0.0" >
+        <mcp:streamable-http-client-connection serverUrl="${mcp.httpServer}" >
+            <mcp:default-request-headers >
+                <mcp:default-request-header key="client_id" value="${mcp.httpServer.clientId}" />
+                <mcp:default-request-header key="client_secret" value="${mcp.httpServer.clientSecret}" />
+            </mcp:default-request-headers>
+        </mcp:streamable-http-client-connection>
+    </mcp:client-config>
+
+</mule> 

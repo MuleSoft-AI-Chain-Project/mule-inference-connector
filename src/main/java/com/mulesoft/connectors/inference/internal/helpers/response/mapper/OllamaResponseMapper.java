@@ -5,6 +5,7 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.ollama.OllamaChatCompletionResponse;
 
@@ -32,6 +33,15 @@ public class OllamaResponseMapper extends DefaultResponseMapper {
 
     return new TextGenerationResponse(chatCompletionResponse.message().content(),
                                       this.mapToolCalls(responseDTO), null);
+  }
+
+  @Override
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult) {
+    var chatCompletionResponse = (OllamaChatCompletionResponse) responseDTO;
+
+    return new TextGenerationResponse(chatCompletionResponse.message().content(),
+                                      this.mapToolCalls(responseDTO),
+                                      toolExecutionResult);
   }
 
   @Override

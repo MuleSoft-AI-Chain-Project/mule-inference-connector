@@ -11,15 +11,13 @@ import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
-import org.mule.runtime.extension.api.annotation.param.NullSafe;
-import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
-import com.mulesoft.connectors.inference.api.mcp.McpServer;
+import com.mulesoft.connectors.inference.api.mcp.McpConfig;
 import com.mulesoft.connectors.inference.api.metadata.LLMResponseAttributes;
 import com.mulesoft.connectors.inference.internal.config.TextGenerationConfig;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
@@ -174,7 +172,7 @@ public class TextGenerationOperations {
   public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(@Config TextGenerationConfig config,
                                                                      @Connection TextGenerationConnection connection,
                                                                      @ParameterDsl(
-                                                                         allowReferences = false) @Optional @NullSafe List<McpServer> mcpServers,
+                                                                         allowReferences = false) List<McpConfig> mcpConfigReferences,
                                                                      @Content String template,
                                                                      @Content String instructions,
                                                                      @Content(primary = true) String data,
@@ -183,7 +181,7 @@ public class TextGenerationOperations {
     try {
       return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection, config.getSchedulerService(),
                                                                                         extensionsClient,
-                                                                                        mcpServers,
+                                                                                        mcpConfigReferences,
                                                                                         template, instructions, data);
     } catch (CompletionException e) {
       // Unwrap CompletionException to get the original ModuleException

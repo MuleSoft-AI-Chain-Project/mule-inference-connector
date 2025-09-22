@@ -143,6 +143,12 @@
 						<version>${mtf.tools.version}</version>
 						<classifier>mule-plugin</classifier>
 					</dependency>
+					<dependency>
+						<groupId>com.mulesoft.connectors</groupId>
+						<artifactId>mule-mcp-connector</artifactId>
+						<version>1.2.0</version>
+						<classifier>mule-plugin</classifier>
+					</dependency>
 				</dependencies>
 			</plugin>
 			<plugin>
