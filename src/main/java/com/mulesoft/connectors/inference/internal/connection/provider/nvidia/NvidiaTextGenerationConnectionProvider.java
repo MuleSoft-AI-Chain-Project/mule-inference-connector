@@ -30,7 +30,7 @@ public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnec
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(NvidiaTextGenerationModelNameProvider.class)
-  @DisplayName("NVIDIA model name")
+  @DisplayName("NVIDIA Model Name")
   private String nvidiaModelName;
 
   @Parameter
