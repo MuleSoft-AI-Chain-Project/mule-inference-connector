@@ -1,9 +1,11 @@
 package com.mulesoft.connectors.inference.internal.dto.imagegeneration;
 
+import com.mulesoft.connectors.inference.internal.dto.BaseRequestPayloadDTO;
+
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public interface ImageGenerationRequestPayloadDTO {
+public interface ImageGenerationRequestPayloadDTO extends BaseRequestPayloadDTO {
 
 }

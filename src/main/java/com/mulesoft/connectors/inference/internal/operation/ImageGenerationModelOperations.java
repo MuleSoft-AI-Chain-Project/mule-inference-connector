@@ -8,7 +8,9 @@ import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
+import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
 
@@ -39,10 +41,12 @@ public class ImageGenerationModelOperations {
   @OutputJsonType(schema = "api/response/ResponseImageGeneration.json")
   public Result<InputStream, ImageResponseAttributes> generateImage(
                                                                     @Connection ImageGenerationConnection connection,
-                                                                    @Content String prompt)
+                                                                    @Content String prompt,
+                                                                    @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream additionalRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getImageGenerationServiceInstance().executeGenerateImage(connection, prompt);
+      return connection.getService().getImageGenerationServiceInstance().executeGenerateImage(connection, prompt,
+                                                                                              additionalRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {

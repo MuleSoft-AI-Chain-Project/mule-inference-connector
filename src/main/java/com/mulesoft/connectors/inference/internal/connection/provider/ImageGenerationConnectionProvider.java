@@ -28,7 +28,7 @@ public abstract class ImageGenerationConnectionProvider extends BaseConnectionPr
     logger.debug("Validating ImageGenerationConnection... ");
     try {
       var resp = connection.getImageGenerationService().executeGenerateImage(connection,
-                                                                             "Generate a picture of a penguin dancing.");
+                                                                             "Generate a picture of a penguin dancing.", null);
       var imageGenerationResponse = this.getObjectMapper().readValue(resp.getOutput(), ImageGenerationResponse.class);
 
       if (StringUtils.isNotBlank(imageGenerationResponse.response())) {

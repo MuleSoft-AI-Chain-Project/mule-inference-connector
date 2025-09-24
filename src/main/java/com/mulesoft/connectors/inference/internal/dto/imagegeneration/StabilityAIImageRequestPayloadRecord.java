@@ -1,5 +1,11 @@
 package com.mulesoft.connectors.inference.internal.dto.imagegeneration;
 
-public record StabilityAIImageRequestPayloadRecord(String prompt,String responseFormat)implements ImageGenerationRequestPayloadDTO{
+import java.util.Map;
 
-}
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public record StabilityAIImageRequestPayloadRecord(String prompt,String responseFormat,
+
+@JsonIgnore Map<String,Object>additionalRequestAttributes)implements ImageGenerationRequestPayloadDTO{
+
+@Override public Map<String,Object>getAdditionalRequestAttributesMap(){return additionalRequestAttributes;}}

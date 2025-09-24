@@ -12,6 +12,7 @@ import com.mulesoft.connectors.inference.internal.helpers.ResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayloadHelper;
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
+import com.mulesoft.connectors.inference.internal.utils.ParseUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,11 +40,13 @@ public class ImageGenerationService implements BaseService {
     this.objectMapper = objectMapper;
   }
 
-  public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt)
+  public Result<InputStream, ImageResponseAttributes> executeGenerateImage(ImageGenerationConnection connection, String prompt,
+                                                                           InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
     ImageGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-        .createRequestImageGeneration(connection.getModelName(), prompt);
+        .createRequestImageGeneration(connection.getModelName(), prompt,
+                                      ParseUtils.parseAdditionalRequestAttributes(additionalRequestAttributes, objectMapper));
 
     URL imageGenerationUrl = new URL(connection.getApiURL());
     logger.debug("Generate Image with {}", imageGenerationUrl);

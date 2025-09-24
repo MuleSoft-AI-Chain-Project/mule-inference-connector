@@ -1,5 +1,11 @@
 package com.mulesoft.connectors.inference.internal.dto.imagegeneration;
 
-public record HugginFaceImageRequestPayloadRecord(String inputs)implements ImageGenerationRequestPayloadDTO{
+import java.util.Map;
 
-}
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+public record HugginFaceImageRequestPayloadRecord(String inputs,
+
+@JsonIgnore Map<String,Object>additionalRequestAttributes)implements ImageGenerationRequestPayloadDTO{
+
+@Override public Map<String,Object>getAdditionalRequestAttributesMap(){return additionalRequestAttributes;}}

@@ -108,8 +108,9 @@ public class RequestPayloadHelper {
     return buildPayload(connection, messages, tools, additionalRequestAttributes);
   }
 
-  public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {
-    return new DefaultImageRequestPayloadRecord(model, prompt, "b64_json");
+  public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt,
+                                                                       Map<String, Object> additionalRequestAttributes) {
+    return new DefaultImageRequestPayloadRecord(model, prompt, "b64_json", additionalRequestAttributes);
   }
 
   public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
