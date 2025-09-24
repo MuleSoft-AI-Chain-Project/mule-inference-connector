@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.internal.connection.types.TextGeneratio
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.OpenAIRequestPayloadRecord;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -19,12 +20,13 @@ public class GroqRequestPayloadHelper extends RequestPayloadHelper {
   @Override
   public OpenAIRequestPayloadRecord buildPayload(TextGenerationConnection connection,
                                                  List<ChatPayloadRecord> messagesArray,
-                                                 List<FunctionDefinitionRecord> tools) {
+                                                 List<FunctionDefinitionRecord> tools,
+                                                 Map<String, Object> additionalRequestAttributes) {
 
     return new OpenAIRequestPayloadRecord(connection.getModelName(),
                                           messagesArray,
                                           connection.getMaxTokens(),
                                           connection.getTemperature(),
-                                          connection.getTopP(), tools);
+                                          connection.getTopP(), tools, additionalRequestAttributes);
   }
 }

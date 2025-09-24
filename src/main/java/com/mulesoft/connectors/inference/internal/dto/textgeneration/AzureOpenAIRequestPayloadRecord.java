@@ -4,7 +4,12 @@ import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 
 import java.util.List;
+import java.util.Map;
 
-public record AzureOpenAIRequestPayloadRecord(List<ChatPayloadRecord>messages,Number maxCompletionTokens,Number temperature,Number topP,String user,boolean stream,List<FunctionDefinitionRecord>tools)implements TextGenerationRequestPayloadDTO{
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-}
+public record AzureOpenAIRequestPayloadRecord(List<ChatPayloadRecord>messages,Number maxCompletionTokens,Number temperature,Number topP,String user,boolean stream,List<FunctionDefinitionRecord>tools,
+
+@JsonIgnore Map<String,Object>additionalRequestAttributes)implements TextGenerationRequestPayloadDTO{
+
+@Override public Map<String,Object>getAdditionalRequestAttributesMap(){return additionalRequestAttributes;}}

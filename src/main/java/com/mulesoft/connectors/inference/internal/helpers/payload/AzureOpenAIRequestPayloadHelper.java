@@ -7,6 +7,7 @@ import com.mulesoft.connectors.inference.internal.connection.types.azure.AzureOp
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.AzureOpenAIRequestPayloadRecord;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,7 +21,8 @@ public class AzureOpenAIRequestPayloadHelper extends RequestPayloadHelper {
   @Override
   public AzureOpenAIRequestPayloadRecord buildPayload(TextGenerationConnection connection,
                                                       List<ChatPayloadRecord> messagesArray,
-                                                      List<FunctionDefinitionRecord> tools) {
+                                                      List<FunctionDefinitionRecord> tools,
+                                                      Map<String, Object> additionalRequestAttributes) {
 
     return new AzureOpenAIRequestPayloadRecord(
                                                messagesArray,
@@ -28,6 +30,6 @@ public class AzureOpenAIRequestPayloadHelper extends RequestPayloadHelper {
                                                connection.getTemperature(),
                                                connection.getTopP(),
                                                ((AzureOpenAITextGenerationConnection) connection).getAzureOpenaiUser(),
-                                               false, tools);
+                                               false, tools, additionalRequestAttributes);
   }
 }

@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -41,40 +42,40 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-    public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+    public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt, Map<String, Object> additionalRequestAttributes) {
 
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildChatAnswerPromptPayload(connection,prompt);
-            default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadRecord("user", prompt)));
+            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildChatAnswerPromptPayload(connection,prompt, additionalRequestAttributes);
+            default -> getDefaultRequestPayloadDTO(connection, List.of(new ChatPayloadRecord("user", prompt)),additionalRequestAttributes);
         };
     }
 
   @Override
-    public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data) {
+    public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template, String instructions, String data, Map<String, Object> additionalRequestAttributes) {
 
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE ->  geminiRequestPayloadHelper.buildPromptTemplatePayload(connection,template,instructions,data);
+            case GOOGLE_PROVIDER_TYPE ->  geminiRequestPayloadHelper.buildPromptTemplatePayload(connection,template,instructions,data, additionalRequestAttributes);
             default -> {
                 List<ChatPayloadRecord> messagesArray = createMessagesArrayWithSystemPrompt(
                          template + " - " + instructions, data);
 
-                yield buildPayload(connection, messagesArray,null);
+                yield buildPayload(connection, messagesArray,null, additionalRequestAttributes);
             }
         };
     }
 
   @Override
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
-                                                                            InputStream messages)
+                                                                            InputStream messages, Map<String, Object> additionalRequestAttributes)
           throws IOException {
       String provider = getProviderByModel(connection.getModelName());
 
       return switch (provider) {
-          case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.parseAndBuildChatCompletionPayload(connection,messages);
+          case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.parseAndBuildChatCompletionPayload(connection,messages, additionalRequestAttributes);
           default -> throw new UnsupportedOperationException("Model not supported: " + connection.getModelName());
       };
   }
@@ -82,14 +83,16 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
                                                                    String instructions, String data,
-                                                                   List<FunctionDefinitionRecord> tools) {
+                                                                   List<FunctionDefinitionRecord> tools,
+                                                                   Map<String, Object> additionalRequestAttributes) {
 
     throw new UnsupportedOperationException("Currently not supported");
   }
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data, InputStream tools)
+                                                                   String instructions, String data, InputStream tools,
+                                                                   Map<String, Object> additionalRequestAttributes)
       throws IOException {
     String provider = getProviderByModel(connection.getModelName());
 
@@ -152,12 +155,13 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     }
 
   private DefaultRequestPayloadRecord getDefaultRequestPayloadDTO(TextGenerationConnection connection,
-                                                                  List<ChatPayloadRecord> chatPayloadRecordList) {
+                                                                  List<ChatPayloadRecord> chatPayloadRecordList,
+                                                                  Map<String, Object> additionalRequestAttributes) {
     return new DefaultRequestPayloadRecord(connection.getModelName(),
                                            chatPayloadRecordList,
                                            connection.getMaxTokens(),
                                            connection.getTemperature(),
-                                           connection.getTopP(), null);
+                                           connection.getTopP(), null, additionalRequestAttributes);
   }
 
   private DefaultVisionRequestPayloadRecord getDefaultVisionRequestPayloadDTO(VisionModelConnection connection,

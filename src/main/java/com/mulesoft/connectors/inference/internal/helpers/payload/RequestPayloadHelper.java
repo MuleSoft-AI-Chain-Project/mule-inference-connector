@@ -24,6 +24,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
@@ -39,16 +40,18 @@ public class RequestPayloadHelper {
     this.objectMapper = objectMapper;
   }
 
-  public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+  public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt,
+                                                                      Map<String, Object> additionalRequestAttributes) {
     return buildPayload(
                         connection,
                         List.of(
                                 new ChatPayloadRecord("user", prompt)),
-                        null);
+                        null, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
-                                                                            InputStream messages)
+                                                                            InputStream messages,
+                                                                            Map<String, Object> additionalRequestAttributes)
       throws IOException {
     List<ChatPayloadRecord> messagesList = objectMapper.readValue(
                                                                   messages,
@@ -56,49 +59,53 @@ public class RequestPayloadHelper {
                                                                       .constructCollectionType(List.class,
                                                                                                ChatPayloadRecord.class));
 
-    return this.buildPayload(connection, messagesList, null);
+    return this.buildPayload(connection, messagesList, null, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messages,
-                                                      List<FunctionDefinitionRecord> tools) {
+                                                      List<FunctionDefinitionRecord> tools,
+                                                      Map<String, Object> additionalRequestAttributes) {
     return new DefaultRequestPayloadRecord(connection.getModelName(),
                                            messages,
                                            connection.getMaxTokens(),
                                            connection.getTemperature(),
                                            connection.getTopP(),
-                                           tools);
+                                           tools, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template,
-                                                                    String instructions, String data) {
+                                                                    String instructions, String data,
+                                                                    Map<String, Object> additionalRequestAttributes) {
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
                                                                            template + " - " + instructions,
                                                                            data);
 
-    return buildPayload(connection, messages, null);
+    return buildPayload(connection, messages, null, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data, InputStream tools)
+                                                                   String instructions, String data, InputStream tools,
+                                                                   Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
     List<FunctionDefinitionRecord> toolsRecord = parseInputStreamToTools(tools);
 
     logger.debug("toolsArray: {}", toolsRecord);
 
-    return buildToolsTemplatePayload(connection, template, instructions, data, toolsRecord);
+    return buildToolsTemplatePayload(connection, template, instructions, data, toolsRecord, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
                                                                    String instructions, String data,
-                                                                   List<FunctionDefinitionRecord> tools) {
+                                                                   List<FunctionDefinitionRecord> tools,
+                                                                   Map<String, Object> additionalRequestAttributes) {
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
                                                                            template + " - " + instructions,
                                                                            data);
 
-    return buildPayload(connection, messages, tools);
+    return buildPayload(connection, messages, tools, additionalRequestAttributes);
   }
 
   public ImageGenerationRequestPayloadDTO createRequestImageGeneration(String model, String prompt) {

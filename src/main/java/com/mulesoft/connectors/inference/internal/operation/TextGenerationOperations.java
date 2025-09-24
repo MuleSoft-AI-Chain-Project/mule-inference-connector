@@ -11,6 +11,7 @@ import org.mule.runtime.extension.api.annotation.param.Config;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
@@ -49,10 +50,13 @@ public class TextGenerationOperations {
   public Result<InputStream, LLMResponseAttributes> chatCompletion(
                                                                    @Connection TextGenerationConnection connection,
                                                                    @InputJsonType(
-                                                                       schema = "api/request/ChatCompletionMessagesSchema.json") @Content InputStream messages)
+                                                                       schema = "api/request/ChatCompletionMessagesSchema.json") @Content(
+                                                                           primary = true) InputStream messages,
+                                                                   @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream additionalRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getTextGenerationServiceInstance().executeChatCompletion(connection, messages);
+      return connection.getService().getTextGenerationServiceInstance().executeChatCompletion(connection, messages,
+                                                                                              additionalRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {
@@ -75,10 +79,12 @@ public class TextGenerationOperations {
   @Summary("Simple chat answer prompt")
   public Result<InputStream, LLMResponseAttributes> chatAnswerPrompt(
                                                                      @Connection TextGenerationConnection connection,
-                                                                     @Content String prompt)
+                                                                     @Content(primary = true) String prompt,
+                                                                     @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream chatRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getTextGenerationServiceInstance().executeChatAnswerPrompt(connection, prompt);
+      return connection.getService().getTextGenerationServiceInstance().executeChatAnswerPrompt(connection, prompt,
+                                                                                                chatRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {
@@ -106,11 +112,13 @@ public class TextGenerationOperations {
                                                                    @Connection TextGenerationConnection connection,
                                                                    @Content String template,
                                                                    @Content String instructions,
-                                                                   @Content(primary = true) String data)
+                                                                   @Content(primary = true) String data,
+                                                                   @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream promptRequestAttributes)
+
       throws ModuleException {
     try {
       return connection.getService().getTextGenerationServiceInstance().definePromptTemplate(connection, template, instructions,
-                                                                                             data);
+                                                                                             data, promptRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {
@@ -141,11 +149,13 @@ public class TextGenerationOperations {
                                                                   @Content String instructions,
                                                                   @Content(primary = true) String data,
                                                                   @Content @InputJsonType(
-                                                                      schema = "api/request/ToolsDefinition.json") @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools)
+                                                                      schema = "api/request/ToolsDefinition.json") @Summary("JSON Array defining the tools set to be used in the template so that the LLM can use them if required") InputStream tools,
+                                                                  @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream toolsRequestAttributes)
       throws ModuleException {
     try {
       return connection.getService().getTextGenerationServiceInstance().executeToolsNativeTemplate(connection, template,
-                                                                                                   instructions, data, tools);
+                                                                                                   instructions, data, tools,
+                                                                                                   toolsRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {
@@ -168,7 +178,7 @@ public class TextGenerationOperations {
   @Alias("Mcp-tools-native-template")
   @DisplayName("[MCP] Tooling")
   @OutputJsonType(schema = "api/response/McpToolingResponse.json")
-  @Summary("MCP tooling support for the inference connector")
+  @Summary("MCP Tooling: Run tools using your defined prompt template")
   public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(@Config TextGenerationConfig config,
                                                                      @Connection TextGenerationConnection connection,
                                                                      @ParameterDsl(
@@ -176,13 +186,15 @@ public class TextGenerationOperations {
                                                                      @Content String template,
                                                                      @Content String instructions,
                                                                      @Content(primary = true) String data,
+                                                                     @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream mcpRequestAttributes,
                                                                      ExtensionsClient extensionsClient)
       throws ModuleException {
     try {
       return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection, config.getSchedulerService(),
                                                                                         extensionsClient,
                                                                                         mcpConfigReferences,
-                                                                                        template, instructions, data);
+                                                                                        template, instructions, data,
+                                                                                        mcpRequestAttributes);
     } catch (CompletionException e) {
       // Unwrap CompletionException to get the original ModuleException
       Throwable cause = e.getCause();

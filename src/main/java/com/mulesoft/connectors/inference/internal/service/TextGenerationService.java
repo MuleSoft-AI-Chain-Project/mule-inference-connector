@@ -23,6 +23,7 @@ import com.mulesoft.connectors.inference.internal.helpers.response.mapper.Defaul
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -53,38 +54,47 @@ public class TextGenerationService implements BaseService {
     this.objectMapper = objectMapper;
   }
 
-  public Result<InputStream, LLMResponseAttributes> executeChatAnswerPrompt(TextGenerationConnection connection, String prompt)
+  public Result<InputStream, LLMResponseAttributes> executeChatAnswerPrompt(TextGenerationConnection connection, String prompt,
+                                                                            InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
     return executeChatRequestAndFormatResponse(connection,
-                                               payloadHelper.buildChatAnswerPromptPayload(connection, prompt));
+                                               payloadHelper.buildChatAnswerPromptPayload(connection, prompt,
+                                                                                          parseAdditionalRequestAttributes(additionalRequestAttributes)));
   }
 
   public Result<InputStream, LLMResponseAttributes> executeChatCompletion(TextGenerationConnection connection,
-                                                                          InputStream messages)
+                                                                          InputStream messages,
+                                                                          InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
-    TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper.parseAndBuildChatCompletionPayload(connection, messages);
+    TextGenerationRequestPayloadDTO requestPayloadDTO =
+        payloadHelper.parseAndBuildChatCompletionPayload(connection, messages,
+                                                         parseAdditionalRequestAttributes(additionalRequestAttributes));
 
     return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
   }
 
   public Result<InputStream, LLMResponseAttributes> definePromptTemplate(TextGenerationConnection connection, String template,
-                                                                         String instructions, String data)
+                                                                         String instructions, String data,
+                                                                         InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
     return executeChatRequestAndFormatResponse(connection,
                                                payloadHelper.buildPromptTemplatePayload(connection, template, instructions,
-                                                                                        data));
+                                                                                        data,
+                                                                                        parseAdditionalRequestAttributes(additionalRequestAttributes)));
   }
 
   public Result<InputStream, LLMResponseAttributes> executeToolsNativeTemplate(TextGenerationConnection connection,
                                                                                String template, String instructions,
-                                                                               String data, InputStream tools)
+                                                                               String data, InputStream tools,
+                                                                               InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
     return executeToolsRequestAndFormatResponse(connection, payloadHelper
-        .buildToolsTemplatePayload(connection, template, instructions, data, tools));
+        .buildToolsTemplatePayload(connection, template, instructions, data, tools,
+                                   parseAdditionalRequestAttributes(additionalRequestAttributes)));
   }
 
 
@@ -92,7 +102,8 @@ public class TextGenerationService implements BaseService {
                                                                     SchedulerService schedulerService,
                                                                     ExtensionsClient extensionsClient,
                                                                     List<McpConfig> mcpConfigs, String template,
-                                                                    String instructions, String data) {
+                                                                    String instructions, String data,
+                                                                    InputStream additionalRequestAttributes) {
 
     return mcpHelper.getTools(mcpConfigs, schedulerService, extensionsClient)
         .thenApply(collectedTools -> {
@@ -103,7 +114,8 @@ public class TextGenerationService implements BaseService {
 
             // send tools list to mcp
             TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
-                .buildToolsTemplatePayload(connection, template, instructions, data, toolFunctions);
+                .buildToolsTemplatePayload(connection, template, instructions, data, toolFunctions,
+                                           parseAdditionalRequestAttributes(additionalRequestAttributes));
 
             logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
 
@@ -168,5 +180,20 @@ public class TextGenerationService implements BaseService {
         responseHelper.processChatResponse(response, InferenceErrorType.CHAT_OPERATION_FAILURE);
     logger.debug("Response of chat REST request: {}", chatResponse);
     return chatResponse;
+  }
+
+  /**
+   * Parses the InputStream additionalRequestAttributes into a Map<String, Object>. If the InputStream is null or empty, returns
+   * an empty map.
+   */
+  private Map<String, Object> parseAdditionalRequestAttributes(InputStream additionalRequestAttributes) throws IOException {
+    if (additionalRequestAttributes == null) {
+      return Map.of();
+    }
+    // Parse the InputStream as JSON into a Map<String, Object>
+    Map<String, Object> parsedMap = objectMapper.readValue(additionalRequestAttributes,
+                                                           objectMapper.getTypeFactory()
+                                                               .constructMapType(Map.class, String.class, Object.class));
+    return parsedMap != null ? parsedMap : Map.of();
   }
 }

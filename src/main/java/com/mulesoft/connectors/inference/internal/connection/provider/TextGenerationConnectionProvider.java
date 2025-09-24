@@ -26,7 +26,8 @@ public abstract class TextGenerationConnectionProvider extends BaseConnectionPro
 
     logger.debug("Validating TextGenerationConnection ... ");
     try {
-      var resp = connection.getTextGenerationService().executeChatAnswerPrompt(connection, "What is the capital of France?");
+      var resp = connection.getTextGenerationService().executeChatAnswerPrompt(connection, "What is the capital of France?",
+                                                                               null);
       var textResponse = this.getObjectMapper().readValue(resp.getOutput(), TextGenerationResponse.class);
 
       if (textResponse.response().contains("Paris")) {
