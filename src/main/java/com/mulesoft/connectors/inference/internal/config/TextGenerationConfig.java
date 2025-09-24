@@ -31,6 +31,7 @@ import com.mulesoft.connectors.inference.internal.connection.provider.openaicomp
 import com.mulesoft.connectors.inference.internal.connection.provider.openrouter.OpenRouterTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.perplexity.PerplexityTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.portkey.PortkeyTextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.swisscom.SwisscomTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.together.TogetherTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.vertexai.VertexAIExpressTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.xai.XAITextGenerationConnectionProvider;
@@ -68,6 +69,7 @@ import javax.inject.Inject;
     OpenRouterTextGenerationConnectionProvider.class,
     PerplexityTextGenerationConnectionProvider.class,
     PortkeyTextGenerationConnectionProvider.class,
+    SwisscomTextGenerationConnectionProvider.class,
     TogetherTextGenerationConnectionProvider.class,
     VertexAIExpressTextGenerationConnectionProvider.class,
     XAITextGenerationConnectionProvider.class,
