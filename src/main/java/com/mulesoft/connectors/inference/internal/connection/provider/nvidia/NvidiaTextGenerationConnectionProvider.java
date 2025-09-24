@@ -21,7 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Alias("nvidia")
-@DisplayName("Nvidia")
+@DisplayName("NVIDIA")
 public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnectionProvider {
 
   private static final Logger logger = LoggerFactory.getLogger(NvidiaTextGenerationConnectionProvider.class);
@@ -30,13 +30,14 @@ public class NvidiaTextGenerationConnectionProvider extends TextGenerationConnec
   @Placement(order = 1)
   @Expression(ExpressionSupport.SUPPORTED)
   @OfValues(NvidiaTextGenerationModelNameProvider.class)
+  @DisplayName("NVIDIA Model Name")
   private String nvidiaModelName;
 
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
   @Optional(defaultValue = "https://integrate.api.nvidia.com")
   @Placement(order = 2)
-  @DisplayName("[Nvidia] Base URL")
+  @DisplayName("NVIDIA Base URL")
   private String nvidiaUrl;
 
   @ParameterGroup(name = Placement.CONNECTION_TAB)
