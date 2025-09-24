@@ -16,6 +16,7 @@ import com.mulesoft.connectors.inference.internal.dto.vision.ImageUrlContent;
 import com.mulesoft.connectors.inference.internal.dto.vision.Message;
 import com.mulesoft.connectors.inference.internal.dto.vision.TextContent;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.utils.ParseUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -132,9 +133,13 @@ public class RequestPayloadHelper {
                                                  additionalRequestAttributes);
   }
 
-  public ModerationRequestPayloadRecord getModerationRequestPayload(String modelName, InputStream text) throws IOException {
+  public ModerationRequestPayloadRecord getModerationRequestPayload(String modelName, InputStream text,
+                                                                    InputStream additionalRequestAttributes)
+      throws IOException {
     Object input = objectMapper.readValue(text, Object.class);
-    return new ModerationRequestPayloadRecord(input, modelName);
+    return new ModerationRequestPayloadRecord(input, modelName,
+                                              ParseUtils.parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                          objectMapper));
   }
 
   protected List<ChatPayloadRecord> createMessagesArrayWithSystemPrompt(
