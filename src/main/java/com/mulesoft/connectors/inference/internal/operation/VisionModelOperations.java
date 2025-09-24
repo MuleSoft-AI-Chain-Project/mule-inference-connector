@@ -8,6 +8,7 @@ import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
@@ -43,10 +44,12 @@ public class VisionModelOperations {
                                                               @Connection VisionModelConnection connection,
                                                               @Content String prompt,
                                                               @Content(
-                                                                  primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl)
+                                                                  primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl,
+                                                              @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream additionalRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getVisionModelServiceInstance().readImage(connection, prompt, imageUrl);
+      return connection.getService().getVisionModelServiceInstance().readImage(connection, prompt, imageUrl,
+                                                                               additionalRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {

@@ -19,11 +19,11 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayload
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.DefaultResponseMapper;
+import com.mulesoft.connectors.inference.internal.utils.ParseUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeoutException;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +60,9 @@ public class TextGenerationService implements BaseService {
 
     return executeChatRequestAndFormatResponse(connection,
                                                payloadHelper.buildChatAnswerPromptPayload(connection, prompt,
-                                                                                          parseAdditionalRequestAttributes(additionalRequestAttributes)));
+                                                                                          ParseUtils
+                                                                                              .parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                                                                objectMapper)));
   }
 
   public Result<InputStream, LLMResponseAttributes> executeChatCompletion(TextGenerationConnection connection,
@@ -70,7 +72,8 @@ public class TextGenerationService implements BaseService {
 
     TextGenerationRequestPayloadDTO requestPayloadDTO =
         payloadHelper.parseAndBuildChatCompletionPayload(connection, messages,
-                                                         parseAdditionalRequestAttributes(additionalRequestAttributes));
+                                                         ParseUtils.parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                                     objectMapper));
 
     return executeChatRequestAndFormatResponse(connection, requestPayloadDTO);
   }
@@ -83,7 +86,9 @@ public class TextGenerationService implements BaseService {
     return executeChatRequestAndFormatResponse(connection,
                                                payloadHelper.buildPromptTemplatePayload(connection, template, instructions,
                                                                                         data,
-                                                                                        parseAdditionalRequestAttributes(additionalRequestAttributes)));
+                                                                                        ParseUtils
+                                                                                            .parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                                                              objectMapper)));
   }
 
   public Result<InputStream, LLMResponseAttributes> executeToolsNativeTemplate(TextGenerationConnection connection,
@@ -94,7 +99,7 @@ public class TextGenerationService implements BaseService {
 
     return executeToolsRequestAndFormatResponse(connection, payloadHelper
         .buildToolsTemplatePayload(connection, template, instructions, data, tools,
-                                   parseAdditionalRequestAttributes(additionalRequestAttributes)));
+                                   ParseUtils.parseAdditionalRequestAttributes(additionalRequestAttributes, objectMapper)));
   }
 
 
@@ -115,7 +120,8 @@ public class TextGenerationService implements BaseService {
             // send tools list to mcp
             TextGenerationRequestPayloadDTO requestPayloadDTO = payloadHelper
                 .buildToolsTemplatePayload(connection, template, instructions, data, toolFunctions,
-                                           parseAdditionalRequestAttributes(additionalRequestAttributes));
+                                           ParseUtils.parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                       objectMapper));
 
             logger.debug(PAYLOAD_LOGGER_MSG, requestPayloadDTO);
 
@@ -182,18 +188,4 @@ public class TextGenerationService implements BaseService {
     return chatResponse;
   }
 
-  /**
-   * Parses the InputStream additionalRequestAttributes into a Map<String, Object>. If the InputStream is null or empty, returns
-   * an empty map.
-   */
-  private Map<String, Object> parseAdditionalRequestAttributes(InputStream additionalRequestAttributes) throws IOException {
-    if (additionalRequestAttributes == null) {
-      return Map.of();
-    }
-    // Parse the InputStream as JSON into a Map<String, Object>
-    Map<String, Object> parsedMap = objectMapper.readValue(additionalRequestAttributes,
-                                                           objectMapper.getTypeFactory()
-                                                               .constructMapType(Map.class, String.class, Object.class));
-    return parsedMap != null ? parsedMap : Map.of();
-  }
 }

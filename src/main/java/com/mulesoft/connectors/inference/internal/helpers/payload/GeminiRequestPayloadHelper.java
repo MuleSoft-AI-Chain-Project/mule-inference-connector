@@ -138,12 +138,13 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
+  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                       Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
     Object content = getGoogleVisionContentRecord(prompt, imageUrl);
 
-    return buildVisionRequestPayload(connection, List.of(content));
+    return buildVisionRequestPayload(connection, List.of(content), additionalRequestAttributes);
   }
 
   private List<Function> getGeminiCompatibleFunctionList(List<FunctionDefinitionRecord> openAIFormatTools) {
@@ -174,7 +175,8 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return new VisionContentRecord("user", parts);
   }
 
-  public VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
+  public VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray,
+                                                           Map<String, Object> additionalRequestAttributes) {
 
     return new GeminiPayloadRecord<>(messagesArray,
                                      null,
@@ -182,7 +184,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                                                  connection.getTopP()),
                                      null,
                                      null,
-                                     null); // No additional request attributes for vision
+                                     additionalRequestAttributes);
 
   }
 

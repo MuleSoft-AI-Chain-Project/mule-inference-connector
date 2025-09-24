@@ -101,7 +101,8 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-    public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl) throws IOException {
+    public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                         Map<String, Object> additionalRequestAttributes) throws IOException {
 
         String provider = getProviderByModel(connection.getModelName());
 
@@ -110,7 +111,7 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
             default -> throw new IllegalArgumentException("Unknown provider");
         };
 
-        return buildVisionRequestPayload(connection, List.of(content));
+        return buildVisionRequestPayload(connection, List.of(content), additionalRequestAttributes);
     }
 
   public static String getProviderByModel(String modelName) {
@@ -144,13 +145,14 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
     return new VisionContentRecord("user", parts);
   }
 
-  private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
+  private VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray,
+                                                          Map<String, Object> additionalRequestAttributes) {
 
         String provider = getProviderByModel(connection.getModelName());
 
         return switch (provider) {
-            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildVisionRequestPayload(connection,messagesArray);
-            default -> getDefaultVisionRequestPayloadDTO(connection,messagesArray);
+            case GOOGLE_PROVIDER_TYPE -> geminiRequestPayloadHelper.buildVisionRequestPayload(connection,messagesArray, additionalRequestAttributes);
+            default -> getDefaultVisionRequestPayloadDTO(connection,messagesArray, additionalRequestAttributes);
         };
     }
 
@@ -165,12 +167,14 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   private DefaultVisionRequestPayloadRecord getDefaultVisionRequestPayloadDTO(VisionModelConnection connection,
-                                                                              List<Object> chatPayloadRecordList) {
+                                                                              List<Object> chatPayloadRecordList,
+                                                                              Map<String, Object> additionalRequestAttributes) {
     return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                                                  chatPayloadRecordList,
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 
   private String getMimeTypeFromUrl(String imageUrl) {

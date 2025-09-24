@@ -27,7 +27,8 @@ public abstract class VisionModelConnectionProvider extends BaseConnectionProvid
     logger.debug("Validating VisionModelConnection... ");
     try {
       var resp = connection.getVisionModelService().readImage(connection, "What do you see?",
-                                                              "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg");
+                                                              "https://cdn.britannica.com/61/93061-050-99147DCE/Statue-of-Liberty-Island-New-York-Bay.jpg",
+                                                              null);
       var textResponse = this.getObjectMapper().readValue(resp.getOutput(), TextGenerationResponse.class);
 
       if (textResponse.response().contains("Statue of Liberty")) {

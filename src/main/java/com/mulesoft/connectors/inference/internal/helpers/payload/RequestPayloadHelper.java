@@ -112,7 +112,8 @@ public class RequestPayloadHelper {
     return new DefaultImageRequestPayloadRecord(model, prompt, "b64_json");
   }
 
-  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
+  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                       Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
     List<Content> contents = new ArrayList<>();
@@ -126,7 +127,8 @@ public class RequestPayloadHelper {
                                                  List.of(message),
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 
   public ModerationRequestPayloadRecord getModerationRequestPayload(String modelName, InputStream text) throws IOException {

@@ -84,7 +84,8 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
+  public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                                 Map<String, Object> additionalRequestAttributes)
       throws IOException {
     List<Content> contents = new ArrayList<>();
 
@@ -105,6 +106,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
                                                  List.of(message),
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 }

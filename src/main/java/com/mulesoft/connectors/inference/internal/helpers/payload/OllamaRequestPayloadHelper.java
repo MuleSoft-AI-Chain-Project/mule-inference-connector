@@ -36,12 +36,14 @@ public class OllamaRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt,
-                                                                 String imageUrl) {
+                                                                 String imageUrl,
+                                                                 Map<String, Object> additionalRequestAttributes) {
 
     return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                                                  List.of(new OllamaMessageRecord("user", prompt, List.of(imageUrl))),
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 }
