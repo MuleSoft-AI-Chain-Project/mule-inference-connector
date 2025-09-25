@@ -142,7 +142,7 @@
 		<munit:execution>
 			<try doc:name="Try">
 				<flow-ref doc:id="c3cd44a2-cf3c-4a7f-89be-65357b7242cc" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
-				<logger level="INFO" message="#[payload]"/>
+				<logger level="DEBUG" message="#[payload]"/>
 			<error-handler>
 				<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
 					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>

@@ -86,8 +86,8 @@
 			<flow-ref doc:id="857e9da2-0d1d-45ca-bd2f-3909efff3841" doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" name="mcp_tooling"/>
 		</munit:execution>
 		<munit:validation>
-			<logger level="INFO" message="#[payload]"/>
-			<logger level="INFO" message="#[attributes]"/>
+			<logger level="DEBUG" message="#[payload]"/>
+			<logger level="DEBUG" message="#[attributes]"/>
 			<!-- Fixed: Use payload.payload.tools -->
 			<munit-tools:assert-that doc:id="034ef6d8-64a0-4be0-b441-7d80c059f748" doc:name="payload.tools" expression="#[(sizeOf((payload.payload.tools default [])) == 0) as Boolean]" is="#[MunitTools::equalTo(false)]" message="The tools array should not be empty"/>
 			<!-- Fixed: Use payload.payload.tools -->

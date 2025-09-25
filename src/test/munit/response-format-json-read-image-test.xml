@@ -58,7 +58,7 @@
 				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to read_image_url_operation with json format" name="read_image_url_operation"/>
 		</munit:execution>
 		<munit:validation>
-			<logger level="INFO" message="#[payload]"/>
+			<logger level="DEBUG" message="#[payload]"/>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
 			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
 			<!-- Check if response can be parsed as JSON -->

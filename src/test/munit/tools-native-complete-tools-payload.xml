@@ -28,7 +28,7 @@
 			<flow-ref doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" doc:id="5b407e10-0484-45f0-8fce-cafe8c6cd720" name="tools_native_template_complete_payload"/>
 		</munit:execution>
 		<munit:validation>
-			<logger level="INFO" message="#[payload]"/>
+			<logger level="DEBUG" message="#[payload]"/>
 			<munit-tools:assert-that
 					doc:name="Assert (tools has specific function) OR (response contains keyword)"
 					doc:id="a1b2c3d4-e5f6-a7b8-c9d0-1a2b3c4d5e6f"
