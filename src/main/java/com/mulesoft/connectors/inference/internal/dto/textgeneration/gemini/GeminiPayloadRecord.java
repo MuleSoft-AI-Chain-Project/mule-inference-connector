@@ -4,10 +4,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerat
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 
 import java.util.List;
-import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -20,12 +17,6 @@ public record GeminiPayloadRecord<T>(
     List<String> safetySettings,
 
     @JsonProperty("tools")
-    List<FunctionDeclarationsWrapper> tools,
-
-    @JsonIgnore Map<String, Object> additionalRequestAttributes
+    List<FunctionDeclarationsWrapper> tools
 ) implements TextGenerationRequestPayloadDTO, VisionRequestPayloadDTO {
-
-    @JsonAnyGetter
-    public Map<String,Object>getAdditionalAttributes(){return additionalRequestAttributes!=null?additionalRequestAttributes:Map.of();}
-
 }

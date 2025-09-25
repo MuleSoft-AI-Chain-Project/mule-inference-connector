@@ -86,10 +86,9 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     // Step 3: Build final Gemini payload
     return new GeminiPayloadRecord<>(contentRecords, null, // Optional: systemInstruction if needed
                                      buildGeminiGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      null, // Optional: safetySettings
-                                     null, // Optional: tools
-                                     additionalRequestAttributes // Additional request attributes
+                                     null // Optional: tools
     );
   }
 
@@ -181,10 +180,9 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return new GeminiPayloadRecord<>(messagesArray,
                                      null,
                                      buildGeminiGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      null,
-                                     null,
-                                     additionalRequestAttributes);
+                                     null);
 
   }
 
@@ -211,18 +209,16 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                      buildGeminiGenerationConfig(
                                                                  connection.getMaxTokens(),
                                                                  connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      safetySettings != null ? safetySettings : Collections.emptyList(),
-                                     tools,
-                                     additionalRequestAttributes); // Additional request attributes will be set by the service
-                                                                   // layer
+                                     tools);
   }
 
   private GeminiGenerationConfigRecord buildGeminiGenerationConfig(Number maxTokens, Number temperature,
-                                                                   Number topP) {
+                                                                   Number topP, Map<String, Object> additionalRequestAttributes) {
     // create the generationConfig
     return new GeminiGenerationConfigRecord(List.of("TEXT"), temperature,
-                                            topP, maxTokens);
+                                            topP, maxTokens, additionalRequestAttributes);
   }
 
   /**
