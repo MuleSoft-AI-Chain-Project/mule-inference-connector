@@ -6,6 +6,7 @@ import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloa
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
@@ -24,8 +25,7 @@ public record GeminiPayloadRecord<T>(
     @JsonIgnore Map<String, Object> additionalRequestAttributes
 ) implements TextGenerationRequestPayloadDTO, VisionRequestPayloadDTO {
 
-    @Override
-    public Map<String, Object> getAdditionalRequestAttributesMap() {
-        return additionalRequestAttributes;
-    }
+    @JsonAnyGetter
+    public Map<String,Object>getAdditionalAttributes(){return additionalRequestAttributes!=null?additionalRequestAttributes:Map.of();}
+
 }

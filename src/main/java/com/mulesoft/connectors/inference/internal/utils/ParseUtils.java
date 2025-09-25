@@ -18,8 +18,8 @@ public final class ParseUtils {
   }
 
   /**
-   * Parses the InputStream additionalRequestAttributes into a Map<String, Object>. If the InputStream is null or empty, returns
-   * an empty map.
+   * Parses the InputStream additionalRequestAttributes into a Map<String, Object>. If the InputStream is null, returns an empty
+   * map.
    */
   public static Map<String, Object> parseAdditionalRequestAttributes(InputStream additionalRequestAttributes,
                                                                      ObjectMapper objectMapper)
