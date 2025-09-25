@@ -28,12 +28,12 @@ import java.io.InputStream;
 public class VisionModelOperations {
 
   /**
-   * Chat completions by messages array including system, users messages i.e. conversation history
+   * Analyze and describe images using AI vision models based on a text prompt and image input
    *
    * @param connection the connector connection
-   * @param prompt the users prompt
-   * @param imageUrl the image Url to be sent to the Vision Model
-   * @return result containing the LLM response
+   * @param prompt the text prompt describing what to analyze or ask about the image
+   * @param imageUrl the image URL or Base64 encoded image to be analyzed by the Vision Model
+   * @return result containing the vision model response
    * @throws ModuleException if an error occurs during the operation
    */
   @MediaType(value = APPLICATION_JSON, strict = false)

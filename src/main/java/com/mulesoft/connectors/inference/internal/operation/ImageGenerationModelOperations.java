@@ -28,11 +28,11 @@ import java.io.InputStream;
 public class ImageGenerationModelOperations {
 
   /**
-   * Chat completions by messages array including system, users messages i.e. conversation history
+   * Generate images based on a text prompt using AI image generation models
    *
    * @param connection the connector connection
-   * @param prompt the users prompt
-   * @return result containing the LLM response
+   * @param prompt the text prompt describing the desired image
+   * @return result containing the generated image response
    * @throws ModuleException if an error occurs during the operation
    */
   @MediaType(value = APPLICATION_JSON, strict = false)

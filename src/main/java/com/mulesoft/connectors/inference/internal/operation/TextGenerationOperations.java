@@ -165,10 +165,10 @@ public class TextGenerationOperations {
   }
 
   /**
-   * Define a tools template with instructions, data and tools(fetched directly from MCP servers)
+   * Execute MCP tools using a defined template with instructions, data and tools (fetched directly from MCP servers)
    *
    * @param connection the connector connection
-   * @param template the template string
+   * @param template the template string for tool execution
    * @param instructions instructions for the LLM
    * @param data the primary data content
    * @return result containing the LLM response
