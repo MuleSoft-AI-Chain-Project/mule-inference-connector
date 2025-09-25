@@ -15,7 +15,7 @@
 	Inference API will return the response in a JSON format of its choice
 The test uses additional request attributes to specify the response format with json_object type.-->
 
-	<munit:config name="response_format_json_object-test.xml">
+	<munit:config name="response-format-json-object-test.xml">
 		<munit:parameterizations >
 			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
