@@ -50,8 +50,9 @@ public class CohereResponseMapper extends DefaultResponseMapper {
 
   private List<ToolCall> convertToolCallsWithOriginalNames(CohereChatCompletionResponse chatResp,
                                                            Map<String, McpToolRecord> collectedTools) {
-    return chatResp
-        .message().toolCalls().stream()
+    return Optional.ofNullable(chatResp.message().toolCalls())
+        .stream()
+        .flatMap(List::stream)
         .map(toolCall -> {
           McpToolRecord toolRecord = collectedTools != null ? collectedTools.get(toolCall.function().name()) : null;
           String originalName = toolRecord != null ? toolRecord.originalName() : toolCall.function().name();

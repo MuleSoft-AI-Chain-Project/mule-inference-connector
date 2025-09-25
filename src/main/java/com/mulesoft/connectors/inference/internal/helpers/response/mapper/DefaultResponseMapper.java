@@ -72,8 +72,9 @@ public class DefaultResponseMapper {
 
   private List<ToolCall> convertToolCallsWithOriginalNames(Choice chatRespFirstChoice,
                                                            Map<String, McpToolRecord> collectedTools) {
-    return chatRespFirstChoice
-        .message().toolCalls().stream()
+    return Optional.ofNullable(chatRespFirstChoice.message().toolCalls())
+        .stream()
+        .flatMap(List::stream)
         .map(toolCall -> {
           McpToolRecord toolRecord = collectedTools != null ? collectedTools.get(toolCall.function().name()) : null;
           String originalName = toolRecord != null ? toolRecord.originalName() : toolCall.function().name();
