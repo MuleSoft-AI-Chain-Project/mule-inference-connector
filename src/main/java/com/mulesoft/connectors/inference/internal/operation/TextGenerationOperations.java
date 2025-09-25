@@ -178,7 +178,7 @@ public class TextGenerationOperations {
   @Alias("Mcp-tools-native-template")
   @DisplayName("[MCP] Tooling")
   @OutputJsonType(schema = "api/response/McpToolingResponse.json")
-  @Summary("MCP Tooling: Run tools using your defined prompt template")
+  @Summary("Run tools using your defined prompt template")
   public Result<InputStream, LLMResponseAttributes> mcpToolsTemplate(@Config TextGenerationConfig config,
                                                                      @Connection TextGenerationConnection connection,
                                                                      @ParameterDsl(
