@@ -4,7 +4,7 @@ import static com.mulesoft.connectors.inference.internal.error.InferenceErrorTyp
 
 import static java.util.concurrent.CompletableFuture.completedFuture;
 
-import org.mule.runtime.api.scheduler.SchedulerService;
+import org.mule.runtime.api.scheduler.Scheduler;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
@@ -53,12 +53,12 @@ public class McpHelper {
 
   private final Map<String, List<McpToolRecord>> toolsByServer = new ConcurrentHashMap<>();
 
-  public CompletableFuture<Map<String, McpToolRecord>> getTools(List<McpConfig> mcpConfigs, SchedulerService schedulerService,
+  public CompletableFuture<Map<String, McpToolRecord>> getTools(List<McpConfig> mcpConfigs, Scheduler scheduler,
                                                                 ExtensionsClient extensionsClient) {
     if (null == mcpConfigs || mcpConfigs.isEmpty()) {
       return completedFuture(Collections.emptyMap());
     }
-    return new McpDiscovery(mcpConfigs, schedulerService, extensionsClient).getDiscoveredTools();
+    return new McpDiscovery(mcpConfigs, scheduler, extensionsClient).getDiscoveredTools();
   }
 
   public List<ToolResult> executeTools(Map<String, McpToolRecord> collectedTools, List<ToolCall> toolCalls,
@@ -117,13 +117,13 @@ public class McpHelper {
     private final Map<String, McpToolRecord> discoveredTools = new ConcurrentHashMap<>();
     private final AtomicInteger countDown;
     private final CompletableFuture<Map<String, McpToolRecord>> future = new CompletableFuture<>();
-    private final SchedulerService schedulerService;
+    private final Scheduler scheduler;
     private final ExtensionsClient extensionsClient;
 
-    private McpDiscovery(List<McpConfig> mcpConfigs, SchedulerService schedulerService, ExtensionsClient extensionsClient) {
+    private McpDiscovery(List<McpConfig> mcpConfigs, Scheduler scheduler, ExtensionsClient extensionsClient) {
       this.mcpConfigs = mcpConfigs;
       countDown = new AtomicInteger(mcpConfigs.size());
-      this.schedulerService = schedulerService;
+      this.scheduler = scheduler;
       this.extensionsClient = extensionsClient;
     }
 
@@ -135,7 +135,7 @@ public class McpHelper {
           if (mcpMcpToolRecords != null) {
             collect(mcpMcpToolRecords);
           } else {
-            schedulerService.ioScheduler().submit(() -> invokeMcpListTools(mcpConfig));
+            scheduler.submit(() -> invokeMcpListTools(mcpConfig));
           }
         }
       } catch (Exception ex) {

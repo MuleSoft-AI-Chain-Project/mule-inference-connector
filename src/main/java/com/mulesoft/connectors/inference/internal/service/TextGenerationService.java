@@ -1,6 +1,6 @@
 package com.mulesoft.connectors.inference.internal.service;
 
-import org.mule.runtime.api.scheduler.SchedulerService;
+import org.mule.runtime.api.scheduler.Scheduler;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
 import org.mule.runtime.extension.api.exception.ModuleException;
 import org.mule.runtime.extension.api.runtime.operation.Result;
@@ -104,13 +104,13 @@ public class TextGenerationService implements BaseService {
 
 
   public Result<InputStream, LLMResponseAttributes> executeMcpTools(TextGenerationConnection connection,
-                                                                    SchedulerService schedulerService,
+                                                                    Scheduler scheduler,
                                                                     ExtensionsClient extensionsClient,
                                                                     List<McpConfig> mcpConfigs, String template,
                                                                     String instructions, String data,
                                                                     InputStream additionalRequestAttributes) {
 
-    return mcpHelper.getTools(mcpConfigs, schedulerService, extensionsClient)
+    return mcpHelper.getTools(mcpConfigs, scheduler, extensionsClient)
         .thenApply(collectedTools -> {
           try {
             var toolFunctions = collectedTools.values().stream()

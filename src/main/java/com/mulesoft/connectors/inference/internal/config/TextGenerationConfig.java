@@ -1,5 +1,6 @@
 package com.mulesoft.connectors.inference.internal.config;
 
+import org.mule.runtime.api.scheduler.SchedulerConfig;
 import org.mule.runtime.api.scheduler.SchedulerService;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
@@ -82,7 +83,15 @@ public class TextGenerationConfig {
   @Inject
   SchedulerService schedulerService;
 
+  @Inject
+  SchedulerConfig schedulerConfig;
+
   public SchedulerService getSchedulerService() {
     return schedulerService;
   }
+
+  public SchedulerConfig getSchedulerConfig() {
+    return schedulerConfig;
+  }
+
 }

@@ -2,6 +2,7 @@ package com.mulesoft.connectors.inference.internal.operation;
 
 import static org.mule.runtime.extension.api.annotation.param.MediaType.APPLICATION_JSON;
 
+import org.mule.runtime.api.scheduler.Scheduler;
 import org.mule.runtime.extension.api.annotation.Alias;
 import org.mule.runtime.extension.api.annotation.dsl.xml.ParameterDsl;
 import org.mule.runtime.extension.api.annotation.error.Throws;
@@ -189,8 +190,10 @@ public class TextGenerationOperations {
                                                                      @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream mcpRequestAttributes,
                                                                      ExtensionsClient extensionsClient)
       throws ModuleException {
+    Scheduler scheduler = null;
     try {
-      return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection, config.getSchedulerService(),
+      scheduler = config.getSchedulerService().ioScheduler(config.getSchedulerConfig().withName("mcp-discovery-scheduler"));
+      return connection.getService().getTextGenerationServiceInstance().executeMcpTools(connection, scheduler,
                                                                                         extensionsClient,
                                                                                         mcpConfigReferences,
                                                                                         template, instructions, data,
@@ -206,6 +209,9 @@ public class TextGenerationOperations {
       }
     } catch (Exception e) {
       throw new ModuleException("Error in executing operation MCP tooling", InferenceErrorType.MCP_TOOLS_OPERATION_FAILURE, e);
+    } finally {
+      if (scheduler != null)
+        scheduler.stop();
     }
   }
 
