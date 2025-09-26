@@ -55,7 +55,28 @@
 
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read_image_url_operation_response_format_json_test">
 		<munit:execution>
-				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to read_image_url_operation with json format" name="read_image_url_operation"/>
+			<try doc:name="Try">
+				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="read_image_url_operation"/>
+			<error-handler>
+				<on-error-continue type="ms-inference:RATE_LIMIT_EXCEEDED" doc:name="On Error Continue with mock values">
+					<logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
+					<ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
+						<ee:message >
+							<ee:set-payload ><![CDATA[%dw 2.0
+									output application/json
+									---
+									{
+										"payload": {
+											"response":  "{\n  \"description\": {\n    \"landmark\": \"Statue of Liberty\",\n    \"visible_features\": [\n      \"Statue of Liberty\",\n      \"Skyline of Manhattan\",\n    ],\n  }\n}"
+
+										}
+									}]]>
+							</ee:set-payload>
+						</ee:message>
+					</ee:transform>
+				</on-error-continue>
+			</error-handler>
+		</try>
 		</munit:execution>
 		<munit:validation>
 			<logger level="DEBUG" message="#[payload]"/>
