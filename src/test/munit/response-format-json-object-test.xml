@@ -20,7 +20,6 @@ The test uses additional request attributes to specify the response format with 
 			<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>

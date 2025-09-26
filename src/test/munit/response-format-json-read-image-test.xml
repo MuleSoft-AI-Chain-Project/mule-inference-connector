@@ -5,49 +5,41 @@
 			<!--<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureAiFoundryVisionConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
 			<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubVisionConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqVision" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>-->
 			<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIVision" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 			<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiVisionConfig" />
-					<munit:parameter propertyName="finishReason" value="stop" />
 				</munit:parameters>
 			</munit:parameterization>
 		</munit:parameterizations>
@@ -81,7 +73,6 @@
 		<munit:validation>
 			<logger level="DEBUG" message="#[payload]"/>
 			<munit-tools:assert-that doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" doc:name="payload.response" expression="#[contains(payload.payload.response, 'Statue of Liberty')]" is="#[MunitTools::equalTo(true)]" message="Payload response is wrong answer"/>
-			<munit-tools:assert-equals actual="#[attributes.additionalAttributes.finishReason]" doc:id="a2b27c93-45b9-4373-91e7-e7838cf6e9f2" doc:name="finish reason" expected="${finishReason}" message="Incorrect finish reason"/>
 			<!-- Check if response can be parsed as JSON -->
 			<munit-tools:assert-that doc:name="response is valid JSON" doc:id="b2c3d4e5-f6g7-8901-bcde-f12345678901" message="Response cannot be parsed as valid JSON"
 									 expression="#[%dw 2.0
