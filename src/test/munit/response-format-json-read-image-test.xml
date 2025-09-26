@@ -59,7 +59,7 @@
 									---
 									{
 										"payload": {
-											"response":  "{\n  \"description\": {\n    \"landmark\": \"Statue of Liberty\",\n    \"visible_features\": [\n      \"Statue of Liberty\",\n      \"Skyline of Manhattan\",\n    ],\n  }\n}"
+											"response":  "{\n  \"description\": {\n    \"landmark\": \"Statue of Liberty\",\n    \"visible_features\": [\n      \"Statue of Liberty\",\n      \"Skyline of Manhattan\"\n    ]\n  }\n}"
 
 										}
 									}]]>

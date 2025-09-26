@@ -139,8 +139,8 @@
 										---
 										{
 											"payload": {
-												"response": "Bern"
-											}
+												"response": "{\"countryName\": \"Switzerland\", \"cityName\": \"Bern\"}"
+											  }
 										}]]>
 								</ee:set-payload>
 							</ee:message>
