@@ -13,7 +13,7 @@
     <configuration-properties file="automation-credentials.properties"/>
 
     <!-- Text Generation Configuration -->
-    <ms-inference:text-generation-config name="OllamaConfig" doc:name="llmapi Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+    <ms-inference:text-generation-config name="OllamaConfig" doc:name="Mulesoft Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
         <ms-inference:ollama-connection apiKey="fakeKey" ollamaModelName="llama3.2" ollamaUrl="http://localhost:11434/api" timeout="60000">
         </ms-inference:ollama-connection>
     </ms-inference:text-generation-config>

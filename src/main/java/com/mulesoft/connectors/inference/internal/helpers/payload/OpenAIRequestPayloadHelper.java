@@ -7,6 +7,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.OpenAIReque
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -20,29 +21,32 @@ public class OpenAIRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public OpenAIRequestPayloadRecord buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
-                                                 List<FunctionDefinitionRecord> tools) {
+                                                 List<FunctionDefinitionRecord> tools,
+                                                 Map<String, Object> additionalRequestAttributes) {
 
     return Arrays.asList(NO_TEMPERATURE_MODELS).contains(connection.getModelName())
-        ? getRequestPayloadDTOWithoutTempAndTopPvalues(connection, messagesArray, tools)
-        : getOpenAIRequestPayloadDTO(connection, messagesArray, tools);
+        ? getRequestPayloadDTOWithoutTempAndTopPvalues(connection, messagesArray, tools, additionalRequestAttributes)
+        : getOpenAIRequestPayloadDTO(connection, messagesArray, tools, additionalRequestAttributes);
   }
 
   private OpenAIRequestPayloadRecord getRequestPayloadDTOWithoutTempAndTopPvalues(TextGenerationConnection connection,
                                                                                   List<ChatPayloadRecord> messagesArray,
-                                                                                  List<FunctionDefinitionRecord> tools) {
+                                                                                  List<FunctionDefinitionRecord> tools,
+                                                                                  Map<String, Object> additionalRequestAttributes) {
     return new OpenAIRequestPayloadRecord(connection.getModelName(),
                                           messagesArray,
-                                          connection.getMaxTokens(), null, null, tools);
+                                          connection.getMaxTokens(), null, null, tools, additionalRequestAttributes);
   }
 
   private OpenAIRequestPayloadRecord getOpenAIRequestPayloadDTO(TextGenerationConnection connection,
                                                                 List<ChatPayloadRecord> messagesArray,
-                                                                List<FunctionDefinitionRecord> tools) {
+                                                                List<FunctionDefinitionRecord> tools,
+                                                                Map<String, Object> additionalRequestAttributes) {
     return new OpenAIRequestPayloadRecord(connection.getModelName(),
                                           messagesArray,
                                           connection.getMaxTokens(),
                                           connection.getTemperature(),
-                                          connection.getTopP(), tools);
+                                          connection.getTopP(), tools, additionalRequestAttributes);
   }
 
 }

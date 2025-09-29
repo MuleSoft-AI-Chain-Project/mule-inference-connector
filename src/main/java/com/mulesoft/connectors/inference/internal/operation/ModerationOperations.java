@@ -8,6 +8,7 @@ import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
@@ -30,10 +31,12 @@ public class ModerationOperations {
   public Result<InputStream, Void> textModeration(
                                                   @Connection ModerationConnection connection,
                                                   @Content(
-                                                      primary = true) @Summary("Text to moderate. Can be a single string or an array of strings") InputStream text)
+                                                      primary = true) @Summary("Text to moderate. Can be a single string or an array of strings") InputStream text,
+                                                  @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream additionalRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getModerationServiceInstance().executeTextModeration(connection, text);
+      return connection.getService().getModerationServiceInstance().executeTextModeration(connection, text,
+                                                                                          additionalRequestAttributes);
 
     } catch (ModuleException e) {
       throw e;

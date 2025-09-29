@@ -12,6 +12,7 @@ import com.mulesoft.connectors.inference.internal.helpers.payload.RequestPayload
 import com.mulesoft.connectors.inference.internal.helpers.request.HttpRequestHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.HttpResponseHelper;
 import com.mulesoft.connectors.inference.internal.helpers.response.mapper.DefaultResponseMapper;
+import com.mulesoft.connectors.inference.internal.utils.ParseUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,10 +41,14 @@ public class VisionModelService implements BaseService {
     this.objectMapper = objectMapper;
   }
 
-  public Result<InputStream, LLMResponseAttributes> readImage(VisionModelConnection connection, String prompt, String imageUrl)
+  public Result<InputStream, LLMResponseAttributes> readImage(VisionModelConnection connection, String prompt, String imageUrl,
+                                                              InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
 
-    VisionRequestPayloadDTO visionPayload = payloadHelper.createRequestImageURL(connection, prompt, imageUrl);
+    VisionRequestPayloadDTO visionPayload = payloadHelper.createRequestImageURL(connection, prompt, imageUrl,
+                                                                                ParseUtils
+                                                                                    .parseAdditionalRequestAttributes(additionalRequestAttributes,
+                                                                                                                      objectMapper));
 
     logger.debug("payload sent to the LLM {}", visionPayload);
 

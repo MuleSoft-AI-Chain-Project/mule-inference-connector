@@ -2,6 +2,8 @@ package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.mulesoft.connectors.inference.internal.dto.imagegeneration.StabilityAIImageRequestPayloadRecord;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class StabilityAIRequestPayloadHelper extends RequestPayloadHelper {
@@ -11,7 +13,8 @@ public class StabilityAIRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public StabilityAIImageRequestPayloadRecord createRequestImageGeneration(String model, String prompt) {
-    return new StabilityAIImageRequestPayloadRecord(prompt, null);
+  public StabilityAIImageRequestPayloadRecord createRequestImageGeneration(String model, String prompt,
+                                                                           Map<String, Object> additionalRequestAttributes) {
+    return new StabilityAIImageRequestPayloadRecord(prompt, null, additionalRequestAttributes);
   }
 }

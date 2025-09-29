@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+      xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+      xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference" xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+      xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	           http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	           http://www.mulesoft.org/schema/mule/munit-tools http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd
+	           http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
+	                    http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+
+    <munit:config name="mcp-tooling-negative-test.xml" />
+
+    <munit:test description="MCP_Tooling_Missing_MCP_Config"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MS-INFERENCE:MCP_TOOLS_OPERATION_FAILURE"
+                name="MCP_Tooling_Missing_MCP_Config">
+        <munit:execution>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
+        </munit:execution>
+    </munit:test>
+
+    <munit:test description="MCP_Tooling_MCP_Config_HTTP_AuthIssue"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MCP:SERVER_ERROR"
+                name="MCP_Tooling_MCP_Config_HTTP_AuthIssue">
+        <munit:execution>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:mcp-config-references>
+                    <ms-inference:mcp-config mcpClientConfigRef="MCP_Negative_Config_MissingAuth" />
+                </ms-inference:mcp-config-references>
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
+        </munit:execution>
+    </munit:test>
+
+    <munit:test description="MCP_Tooling_MCP_InvalidConfig"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MS-INFERENCE:CONNECTIVITY"
+                name="MCP_Tooling_MCP_InvalidConfig">
+        <munit:execution>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:mcp-config-references>
+                    <ms-inference:mcp-config mcpClientConfigRef="MCP_IncorrectURL" />
+                </ms-inference:mcp-config-references>
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
+        </munit:execution>
+    </munit:test>
+
+</mule>

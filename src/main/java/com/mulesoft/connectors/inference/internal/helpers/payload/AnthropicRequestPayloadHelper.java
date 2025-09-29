@@ -5,7 +5,7 @@ import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.AnthropicRequestPayloadRecord;
-import com.mulesoft.connectors.inference.internal.dto.textgeneration.AnthropicTollCallRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.AnthropicToolCallRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.Content;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,34 +35,36 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data, InputStream tools)
+                                                                   String instructions, String data, InputStream tools,
+                                                                   Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
-    List<FunctionDefinitionRecord> toolsRecord = parseInputStreamToTools(tools);
+    List<FunctionDefinitionRecord> toolRecords = parseInputStreamToTools(tools);
 
-    logger.debug("toolsArray: {}", toolsRecord);
+    logger.debug("toolsArray: {}", toolRecords);
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
                                                                            template + " - " + instructions,
                                                                            data);
 
-    return buildPayload(connection, messages, toolsRecord);
+    return buildPayload(connection, messages, toolRecords, additionalRequestAttributes);
   }
 
   @Override
   public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messages,
-                                                      List<FunctionDefinitionRecord> tools) {
+                                                      List<FunctionDefinitionRecord> tools,
+                                                      Map<String, Object> additionalRequestAttributes) {
     return new AnthropicRequestPayloadRecord(connection.getModelName(),
                                              messages,
                                              connection.getMaxTokens(),
                                              connection.getTemperature(),
                                              connection.getTopP(),
-                                             getList(tools));
+                                             getList(tools), additionalRequestAttributes);
   }
 
-  private List<AnthropicTollCallRecord> getList(List<FunctionDefinitionRecord> tools) {
+  private List<AnthropicToolCallRecord> getList(List<FunctionDefinitionRecord> tools) {
     return Optional.ofNullable(tools).map(list -> list.stream()
-        .map(tool -> new AnthropicTollCallRecord(tool.function().name(),
+        .map(tool -> new AnthropicToolCallRecord(tool.function().name(),
                                                  tool.function().description(),
                                                  tool.function().parameters()))
         .toList()).orElse(null);
@@ -81,7 +84,8 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
+  public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                                 Map<String, Object> additionalRequestAttributes)
       throws IOException {
     List<Content> contents = new ArrayList<>();
 
@@ -102,6 +106,7 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
                                                  List.of(message),
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 }

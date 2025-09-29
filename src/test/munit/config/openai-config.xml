@@ -42,6 +42,10 @@
         <ms-inference:openai-connection apiKey="InvalidApiKey" openAIModelName="${openai.llmModel}" timeout="60000" />
     </ms-inference:text-generation-config>
 
+    <ms-inference:text-generation-config name="OpenAIConfigWithO4MiniModelAndInvalidAPIKey" doc:name="Open AI Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <ms-inference:openai-connection apiKey="InvalidAPIKey" openAIModelName="o4-mini" timeout="60000" />
+    </ms-inference:text-generation-config>
+
     <!-- Moderation Incorrect Configuration -->
 
     <ms-inference:moderation-config name="OpenAIInvalidApiKeyModerationConfig" doc:name="MuleSoft Inference Moderation config" doc:id="8bd9c1fe-3176-4319-9d91-090e4e6da3cc" >

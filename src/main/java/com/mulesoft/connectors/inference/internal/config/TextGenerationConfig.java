@@ -1,5 +1,7 @@
 package com.mulesoft.connectors.inference.internal.config;
 
+import org.mule.runtime.api.scheduler.SchedulerConfig;
+import org.mule.runtime.api.scheduler.SchedulerService;
 import org.mule.runtime.extension.api.annotation.Configuration;
 import org.mule.runtime.extension.api.annotation.Operations;
 import org.mule.runtime.extension.api.annotation.connectivity.ConnectionProviders;
@@ -30,12 +32,15 @@ import com.mulesoft.connectors.inference.internal.connection.provider.openaicomp
 import com.mulesoft.connectors.inference.internal.connection.provider.openrouter.OpenRouterTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.perplexity.PerplexityTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.portkey.PortkeyTextGenerationConnectionProvider;
+import com.mulesoft.connectors.inference.internal.connection.provider.swisscom.SwisscomTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.together.TogetherTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.vertexai.VertexAIExpressTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.xai.XAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.xinference.XInferenceTextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.connection.provider.zhipuai.ZhipuAITextGenerationConnectionProvider;
 import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperations;
+
+import javax.inject.Inject;
 
 @Configuration(name = "text-generation-config")
 @ConnectionProviders({
@@ -65,6 +70,7 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
     OpenRouterTextGenerationConnectionProvider.class,
     PerplexityTextGenerationConnectionProvider.class,
     PortkeyTextGenerationConnectionProvider.class,
+    SwisscomTextGenerationConnectionProvider.class,
     TogetherTextGenerationConnectionProvider.class,
     VertexAIExpressTextGenerationConnectionProvider.class,
     XAITextGenerationConnectionProvider.class,
@@ -73,4 +79,19 @@ import com.mulesoft.connectors.inference.internal.operation.TextGenerationOperat
 })
 @Operations(TextGenerationOperations.class)
 public class TextGenerationConfig {
+
+  @Inject
+  SchedulerService schedulerService;
+
+  @Inject
+  SchedulerConfig schedulerConfig;
+
+  public SchedulerService getSchedulerService() {
+    return schedulerService;
+  }
+
+  public SchedulerConfig getSchedulerConfig() {
+    return schedulerConfig;
+  }
+
 }

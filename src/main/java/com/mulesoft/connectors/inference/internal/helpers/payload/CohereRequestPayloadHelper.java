@@ -7,6 +7,7 @@ import com.mulesoft.connectors.inference.internal.dto.textgeneration.CohereReque
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -18,11 +19,12 @@ public class CohereRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messagesArray,
-                                                      List<FunctionDefinitionRecord> tools) {
+                                                      List<FunctionDefinitionRecord> tools,
+                                                      Map<String, Object> additionalRequestAttributes) {
     return new CohereRequestPayloadRecord(connection.getModelName(),
                                           messagesArray,
                                           connection.getMaxTokens(),
                                           connection.getTemperature(),
-                                          tools);
+                                          tools, additionalRequestAttributes);
   }
 }

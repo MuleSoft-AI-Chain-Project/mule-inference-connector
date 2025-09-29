@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	  xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	  xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	  xmlns:munit="http://www.mulesoft.org/schema/mule/munit"
+	  xmlns:ms-inference="http://www.mulesoft.org/schema/mule/ms-inference"
+	  xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:schemaLocation="   http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
+	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+
+	<!-- This test validates the response_format functionality with just a json object using ChatAnswerPrompt operation.
+	Inference API will return the response in a JSON format of its choice
+The test uses additional request attributes to specify the response format with json_object type.-->
+
+	<munit:config name="response-format-json-object-test.xml">
+		<munit:parameterizations >
+			<munit:parameterization name="config-deepinfra" >
+				<munit:parameters >
+					<munit:parameter propertyName="config" value="DeepinfraConfig" />
+				</munit:parameters>
+			</munit:parameterization>
+		</munit:parameterizations>
+	</munit:config>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_answer_prompt_with_custom_attributes-Test">
+
+		<munit:execution>
+				<flow-ref doc:id="a79786d9-29f4-4966-996f-fef6f2abcfc7" doc:name="Flow-ref to chat_completion_operation" name="chat_answer_prompt_operation"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer"
+									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Berlin')]" />
+
+			<!-- Check if response can be parsed as JSON -->
+			<munit-tools:assert-that doc:name="response is valid JSON" doc:id="b2c3d4e5-f6g7-8901-bcde-f12345678901" message="Response cannot be parsed as valid JSON"
+									 expression="#[%dw 2.0
+									 import * from dw::Runtime
+									 var parsedResponse = try(() -> read(payload.payload.response, 'application/json'))
+									 ---
+									 parsedResponse.success]"
+									 is="#[MunitTools::equalTo(true)]" />
+		</munit:validation>
+
+	</munit:test>
+
+	<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_with_custom_attributes-test">
+		<munit:execution>
+				<flow-ref doc:id="c3cd44a2-cf3c-4a7f-89be-65357b7242cc" doc:name="Flow-ref to chat_completion_operation" name="chat_completion_operation"/>
+		</munit:execution>
+		<munit:validation>
+			<munit-tools:assert-that doc:name="payload.response" doc:id="e45fe6bd-e51a-40e6-9c18-e1cc92295832" message="Payload response is wrong answer"
+									 expression="#[payload.payload.response]" is="#[MunitTools::containsString('Bern')]" />
+
+			<!-- Check if response can be parsed as JSON -->
+			<munit-tools:assert-that doc:name="response is valid JSON" doc:id="b2c3d4e5-f6g7-8901-bcde-f12345678901" message="Response cannot be parsed as valid JSON"
+									 expression="#[%dw 2.0
+									 import * from dw::Runtime
+									 var parsedResponse = try(() -> read(payload.payload.response, 'application/json'))
+									 ---
+									 parsedResponse.success]"
+									 is="#[MunitTools::equalTo(true)]" />
+		</munit:validation>
+	</munit:test>
+
+	<sub-flow name="chat_answer_prompt_operation" doc:id="7e25d6d8-11ce-48d0-9451-bd47f9a923a6">
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			{
+			    "prompt": "What is the capital of Germany? Provide only the answer in JSON format with country and city for both"
+			}]' doc:name="Set Variable" doc:id="9c40489f-6ff6-4bbc-90ae-50c8873a124b" variableName="testPayload"/>
+		<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="${config}">
+			<ms-inference:prompt ><![CDATA[#[vars.testPayload.prompt]]]></ms-inference:prompt>
+			<ms-inference:chat-request-attributes ><![CDATA[{
+			  "response_format": {
+				"type": "json_object"
+			  }
+			}]]></ms-inference:chat-request-attributes>
+		</ms-inference:chat-answer-prompt>
+		<ee:transform doc:name="Transform Message" doc:id="02c49472-abaf-4e69-8a23-431c8b698b07" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+
+	<sub-flow name="chat_completion_operation" >
+		<set-variable value='#[%dw 2.0
+			output application/json
+			---
+			[{
+			  "role": "assistant",
+			  "content": "You are a helpful assistant."
+			},
+			{
+			  "role": "user",
+			  "content": "What is the capital of Switzerland! Provide only the answer in JSON format with country and city"
+			}
+			]]' doc:name="Set Variable" doc:id="00231872-9564-4fad-b580-4f745c16ac9d" variableName="testPayload"/>
+		<ms-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="${config}">
+			<ms-inference:messages ><![CDATA[#[vars.testPayload]]]></ms-inference:messages>
+			<ms-inference:additional-request-attributes ><![CDATA[{
+				  "response_format": {
+					"type": "json_object"
+				  }
+				}]]>
+			</ms-inference:additional-request-attributes>
+		</ms-inference:chat-completions>
+		<ee:transform doc:name="Transform Message" doc:id="e0299e83-2c5c-447e-a77d-c15c15cdcc79" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+					output application/json
+					---
+					{
+						payload: payload,
+						attributes: attributes
+					}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</sub-flow>
+</mule>

@@ -22,7 +22,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -38,19 +40,21 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
   }
 
   @Override
-  public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt) {
+  public TextGenerationRequestPayloadDTO buildChatAnswerPromptPayload(TextGenerationConnection connection, String prompt,
+                                                                      Map<String, Object> additionalRequestAttributes) {
 
     return buildGeminiPayload(
                               connection,
                               prompt,
                               Collections.emptyList(),
                               null,
-                              Collections.emptyList());
+                              Collections.emptyList(), additionalRequestAttributes);
   }
 
   @Override
   public TextGenerationRequestPayloadDTO buildPromptTemplatePayload(TextGenerationConnection connection, String template,
-                                                                    String instructions, String data) {
+                                                                    String instructions, String data,
+                                                                    Map<String, Object> additionalRequestAttributes) {
 
     PartRecord partRecord = new PartRecord(template + " - " + instructions, null);
 
@@ -60,12 +64,13 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                               data,
                               Collections.emptyList(),
                               systemInstructionRecord,
-                              Collections.emptyList());
+                              Collections.emptyList(), additionalRequestAttributes);
   }
 
   @Override
   public TextGenerationRequestPayloadDTO parseAndBuildChatCompletionPayload(TextGenerationConnection connection,
-                                                                            InputStream messages)
+                                                                            InputStream messages,
+                                                                            Map<String, Object> additionalRequestAttributes)
       throws IOException {
     // Step 1: Parse OpenAI-style messages
     List<ChatPayloadRecord> openAIFormatMessages = objectMapper.readValue(messages,
@@ -81,7 +86,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     // Step 3: Build final Gemini payload
     return new GeminiPayloadRecord<>(contentRecords, null, // Optional: systemInstruction if needed
                                      buildGeminiGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      null, // Optional: safetySettings
                                      null // Optional: tools
     );
@@ -89,11 +94,27 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data, InputStream tools)
+                                                                   String instructions, String data, InputStream tools,
+                                                                   Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
+    List<FunctionDefinitionRecord> openAIFormatTools = objectMapper.readValue(
+                                                                              tools,
+                                                                              objectMapper.getTypeFactory()
+                                                                                  .constructCollectionType(List.class,
+                                                                                                           FunctionDefinitionRecord.class));
+
+    return buildToolsTemplatePayload(connection, template, instructions, data, openAIFormatTools, additionalRequestAttributes);
+  }
+
+  @Override
+  public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
+                                                                   String instructions, String data,
+                                                                   List<FunctionDefinitionRecord> openAIFormatTools,
+                                                                   Map<String, Object> additionalRequestAttributes) {
+
     // STEP 1: Parse to Gemini-compatible function declarations
-    List<Function> functionDeclarations = parseInputStreamToFunctionDeclarations(tools);
+    List<Function> functionDeclarations = getGeminiCompatibleFunctionList(openAIFormatTools);
     logger.debug("functionDeclarations: {}", functionDeclarations);
 
     // STEP 2: Create System Instruction
@@ -106,34 +127,26 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     GeminiPayloadRecord<ContentRecord> geminiPayload = buildGeminiPayload(
                                                                           connection,
                                                                           data,
-                                                                          Collections.emptyList(), // prompt contents
+                                                                          Collections.emptyList(), // safety settings
                                                                           systemInstructionRecord,
-                                                                          functionDeclarations // <-- Pass Gemini-compatible
-                                                                                               // format
-    );
+                                                                          functionDeclarations, // Pass Gemini-compatible format
+                                                                          additionalRequestAttributes);
     logger.debug("geminiPayload: {}", geminiPayload);
 
     return geminiPayload;
   }
 
-
   @Override
-  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl)
+  public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,
+                                                       Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
     Object content = getGoogleVisionContentRecord(prompt, imageUrl);
 
-    return buildVisionRequestPayload(connection, List.of(content));
+    return buildVisionRequestPayload(connection, List.of(content), additionalRequestAttributes);
   }
 
-  private List<Function> parseInputStreamToFunctionDeclarations(InputStream inputStream) throws IOException {
-
-    List<FunctionDefinitionRecord> openAIFormatTools = objectMapper.readValue(
-                                                                              inputStream,
-                                                                              objectMapper.getTypeFactory()
-                                                                                  .constructCollectionType(List.class,
-                                                                                                           FunctionDefinitionRecord.class));
-
+  private List<Function> getGeminiCompatibleFunctionList(List<FunctionDefinitionRecord> openAIFormatTools) {
     return Optional.ofNullable(openAIFormatTools)
         .map(tools -> tools.stream()
             .map(FunctionDefinitionRecord::function)
@@ -161,12 +174,13 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return new VisionContentRecord("user", parts);
   }
 
-  public VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray) {
+  public VisionRequestPayloadDTO buildVisionRequestPayload(VisionModelConnection connection, List<Object> messagesArray,
+                                                           Map<String, Object> additionalRequestAttributes) {
 
     return new GeminiPayloadRecord<>(messagesArray,
                                      null,
                                      buildGeminiGenerationConfig(connection.getMaxTokens(), connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      null,
                                      null);
 
@@ -176,7 +190,8 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                                                 String prompt,
                                                                 List<String> safetySettings,
                                                                 SystemInstructionRecord systemInstruction,
-                                                                List<Function> functions) {
+                                                                List<Function> functions,
+                                                                Map<String, Object> additionalRequestAttributes) {
 
     PartRecord partRecord = new PartRecord(prompt, null);
 
@@ -194,25 +209,30 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                      buildGeminiGenerationConfig(
                                                                  connection.getMaxTokens(),
                                                                  connection.getTemperature(),
-                                                                 connection.getTopP()),
+                                                                 connection.getTopP(), additionalRequestAttributes),
                                      safetySettings != null ? safetySettings : Collections.emptyList(),
                                      tools);
   }
 
   private GeminiGenerationConfigRecord buildGeminiGenerationConfig(Number maxTokens, Number temperature,
-                                                                   Number topP) {
+                                                                   Number topP, Map<String, Object> additionalRequestAttributes) {
     // create the generationConfig
     return new GeminiGenerationConfigRecord(List.of("TEXT"), temperature,
-                                            topP, maxTokens);
+                                            topP, maxTokens, additionalRequestAttributes);
   }
 
   /**
    * Maps FunctionSchema to Gemini-compatible format using only supported OpenAPI schema attributes: - type: The data type
    * (object, string, integer, boolean, array) - description: Clear explanation of the parameter's purpose - properties:
    * Individual parameters for object type - required: Array of mandatory parameter names - enum: Fixed set of allowed values
-   * (optional)
+   * (optional) This method recursively sanitizes a FunctionSchema object and all its nested properties to ensure Gemini
+   * compatibility. It performs a deep clone-like operation while filtering out unsupported attributes.
    */
   private FunctionSchema mapGeminiCompatibleFunctionSchema(FunctionSchema parameters) {
+    if (parameters == null) {
+      return null;
+    }
+
     return new FunctionSchema(
                               parameters.type(), // type - supported (string, integer, boolean, array, object)
                               parameters.description(), // description - supported
@@ -224,12 +244,13 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                               null, // anyOf - not in supported subset
                               null, // oneOf - not in supported subset
                               null, // ref - not in supported subset
-                              parameters.properties(), // properties - supported (for object type)
+                              deepSanitizeProperties(parameters.properties()), // properties - recursively sanitized - supported
+                                                                               // (for object type)
                               parameters.required(), // required - supported (array of mandatory parameters)
                               null, // additionalProperties - explicitly disabled for Gemini
                               null, // minProperties - not in supported subset
                               null, // maxProperties - not in supported subset
-                              null, // items - not explicitly mentioned in supported subset
+                              mapGeminiCompatibleFunctionSchema(parameters.items()), // items - recursively sanitized for arrays
                               null, // minItems - not in supported subset
                               null, // maxItems - not in supported subset
                               null, // uniqueItems - not in supported subset
@@ -244,6 +265,22 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                               null // defaultValue - not in supported subset
     );
   }
+
+  /**
+   * Deep sanitizes properties map by recursively applying Gemini-compatible sanitization to all nested FunctionSchema objects.
+   */
+  private Map<String, FunctionSchema> deepSanitizeProperties(Map<String, FunctionSchema> properties) {
+    if (properties == null || properties.isEmpty()) {
+      return properties;
+    }
+
+    Map<String, FunctionSchema> sanitizedProperties = new HashMap<>();
+    for (Map.Entry<String, FunctionSchema> entry : properties.entrySet()) {
+      sanitizedProperties.put(entry.getKey(), mapGeminiCompatibleFunctionSchema(entry.getValue()));
+    }
+    return sanitizedProperties;
+  }
+
 
   private ContentRecord convertToGeminiFormat(ChatPayloadRecord msg) {
     String role = "assistant".equals(msg.role()) ? "model" : msg.role();

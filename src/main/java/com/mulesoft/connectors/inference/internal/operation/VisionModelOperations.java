@@ -8,6 +8,7 @@ import org.mule.runtime.extension.api.annotation.metadata.fixed.OutputJsonType;
 import org.mule.runtime.extension.api.annotation.param.Connection;
 import org.mule.runtime.extension.api.annotation.param.Content;
 import org.mule.runtime.extension.api.annotation.param.MediaType;
+import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.display.DisplayName;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 import org.mule.runtime.extension.api.exception.ModuleException;
@@ -27,12 +28,12 @@ import java.io.InputStream;
 public class VisionModelOperations {
 
   /**
-   * Chat completions by messages array including system, users messages i.e. conversation history
+   * Analyze and describe images using AI vision models based on a text prompt and image input
    *
    * @param connection the connector connection
-   * @param prompt the users prompt
-   * @param imageUrl the image Url to be sent to the Vision Model
-   * @return result containing the LLM response
+   * @param prompt the text prompt describing what to analyze or ask about the image
+   * @param imageUrl the image URL or Base64 encoded image to be analyzed by the Vision Model
+   * @return result containing the vision model response
    * @throws ModuleException if an error occurs during the operation
    */
   @MediaType(value = APPLICATION_JSON, strict = false)
@@ -43,10 +44,12 @@ public class VisionModelOperations {
                                                               @Connection VisionModelConnection connection,
                                                               @Content String prompt,
                                                               @Content(
-                                                                  primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl)
+                                                                  primary = true) @DisplayName("Image") @Summary("An Image URL or a Base64 Image") String imageUrl,
+                                                              @Content @Optional @DisplayName("Additional Request Attributes") @Summary("JSON object with additional request attributes that will be flattened into the root level of the request payload") InputStream additionalRequestAttributes)
       throws ModuleException {
     try {
-      return connection.getService().getVisionModelServiceInstance().readImage(connection, prompt, imageUrl);
+      return connection.getService().getVisionModelServiceInstance().readImage(connection, prompt, imageUrl,
+                                                                               additionalRequestAttributes);
     } catch (ModuleException e) {
       throw e;
     } catch (Exception e) {

@@ -35,9 +35,11 @@ public class ModerationService implements BaseService {
     this.objectMapper = objectMapper;
   }
 
-  public Result<InputStream, Void> executeTextModeration(ModerationConnection connection, InputStream text)
+  public Result<InputStream, Void> executeTextModeration(ModerationConnection connection, InputStream text,
+                                                         InputStream additionalRequestAttributes)
       throws IOException, TimeoutException {
-    ModerationRequestPayloadRecord payload = payloadHelper.getModerationRequestPayload(connection.getModelName(), text);
+    ModerationRequestPayloadRecord payload =
+        payloadHelper.getModerationRequestPayload(connection.getModelName(), text, additionalRequestAttributes);
     logger.debug("Moderation payload that will be sent to the LLM {}", payload);
 
     var response = httpRequestHelper.executeModerationRestRequest(connection, connection.getApiURL(), payload);

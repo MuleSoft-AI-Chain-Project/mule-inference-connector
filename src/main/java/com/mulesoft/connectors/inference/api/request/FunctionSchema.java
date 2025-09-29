@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public record FunctionSchema(
@@ -18,7 +19,9 @@ String format,List<Object>examples,
 @JsonProperty("$defs")Map<String,FunctionSchema>defs,List<FunctionSchema>allOf,List<FunctionSchema>anyOf,List<FunctionSchema>oneOf,@JsonProperty("$ref")String ref,
 
 // --- For 'object' type ---
-Map<String,FunctionSchema>properties,List<String>required,Boolean additionalProperties,Integer minProperties,Integer maxProperties,
+@JsonInclude(JsonInclude.Include.NON_NULL)Map<String,FunctionSchema>properties,
+
+List<String>required,Boolean additionalProperties,Integer minProperties,Integer maxProperties,
 
 // --- For 'array' type ---
 FunctionSchema items,Integer minItems,Integer maxItems,Boolean uniqueItems,

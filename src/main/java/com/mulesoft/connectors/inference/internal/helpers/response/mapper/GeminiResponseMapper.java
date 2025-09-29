@@ -5,6 +5,8 @@ import com.mulesoft.connectors.inference.api.metadata.TokenUsage;
 import com.mulesoft.connectors.inference.api.response.Function;
 import com.mulesoft.connectors.inference.api.response.TextGenerationResponse;
 import com.mulesoft.connectors.inference.api.response.ToolCall;
+import com.mulesoft.connectors.inference.api.response.ToolResult;
+import com.mulesoft.connectors.inference.internal.dto.mcp.McpToolRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.TextResponseDTO;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.response.gemini.Candidate;
@@ -50,7 +52,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
   }
 
   @Override
-  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO) {
+  public List<ToolCall> mapToolCalls(TextResponseDTO responseDTO, Map<String, McpToolRecord> collectedTools) {
     GeminiChatCompletionResponse geminiResponse = (GeminiChatCompletionResponse) responseDTO;
 
     return geminiResponse.candidates().stream()
@@ -60,7 +62,7 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
             .map(functionCall -> new ToolCall(
                                               UUID.randomUUID().toString(),
                                               "function",
-                                              new Function(functionCall.name(),
+                                              new Function(convertToolCallsWithOriginalNames(functionCall.name(), collectedTools),
                                                            convertToJsonString(functionCall.args())))))
         .toList();
   }
@@ -72,7 +74,18 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
 
     return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
-                                      mapToolCalls(responseDTO));
+                                      mapToolCalls(responseDTO, null), null);
+  }
+
+  @Override
+  public TextGenerationResponse mapMcpExecuteToolsResponse(TextResponseDTO responseDTO, List<ToolResult> toolExecutionResult,
+                                                           Map<String, McpToolRecord> collectedTools) {
+    var chatCompletionResponse = (GeminiChatCompletionResponse) responseDTO;
+    var chatRespFirstChoice = chatCompletionResponse.candidates().stream().findFirst();
+
+    return new TextGenerationResponse(chatRespFirstChoice.map(GeminiResponseMapper::mapTextResponse).orElse(null),
+                                      mapToolCalls(responseDTO, collectedTools),
+                                      toolExecutionResult);
   }
 
   private static String mapTextResponse(Candidate x) {
@@ -89,4 +102,11 @@ public class GeminiResponseMapper extends DefaultResponseMapper {
     }
   }
 
+  private String convertToolCallsWithOriginalNames(String funcName,
+                                                   Map<String, McpToolRecord> collectedTools) {
+    return Optional.ofNullable(collectedTools)
+        .map(toolMap -> Optional.ofNullable(collectedTools.get(funcName))
+            .map(McpToolRecord::originalName).orElse(funcName))
+        .orElse(funcName);
+  }
 }

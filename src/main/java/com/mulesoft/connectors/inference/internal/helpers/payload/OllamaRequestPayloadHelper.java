@@ -9,6 +9,7 @@ import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionReques
 import com.mulesoft.connectors.inference.internal.dto.vision.OllamaMessageRecord;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -22,24 +23,27 @@ public class OllamaRequestPayloadHelper extends RequestPayloadHelper {
   @Override
   public OllamaRequestPayloadRecord buildPayload(TextGenerationConnection connection,
                                                  List<ChatPayloadRecord> messagesArray,
-                                                 List<FunctionDefinitionRecord> tools) {
+                                                 List<FunctionDefinitionRecord> tools,
+                                                 Map<String, Object> additionalRequestAttributes) {
 
     return new OllamaRequestPayloadRecord(connection.getModelName(),
                                           messagesArray,
                                           connection.getMaxTokens(),
                                           connection.getTemperature(),
                                           connection.getTopP(),
-                                          false, tools);
+                                          false, tools, additionalRequestAttributes);
   }
 
   @Override
   public DefaultVisionRequestPayloadRecord createRequestImageURL(VisionModelConnection connection, String prompt,
-                                                                 String imageUrl) {
+                                                                 String imageUrl,
+                                                                 Map<String, Object> additionalRequestAttributes) {
 
     return new DefaultVisionRequestPayloadRecord(connection.getModelName(),
                                                  List.of(new OllamaMessageRecord("user", prompt, List.of(imageUrl))),
                                                  connection.getMaxTokens(),
                                                  connection.getTemperature(),
-                                                 connection.getTopP());
+                                                 connection.getTopP(),
+                                                 additionalRequestAttributes);
   }
 }

@@ -17,6 +17,6 @@ public record GeminiPayloadRecord<T>(
     List<String> safetySettings,
 
     @JsonProperty("tools")
-    List<FunctionDeclarationsWrapper> tools // ✅ now wrapped correctly
+    List<FunctionDeclarationsWrapper> tools
 ) implements TextGenerationRequestPayloadDTO, VisionRequestPayloadDTO {
 }

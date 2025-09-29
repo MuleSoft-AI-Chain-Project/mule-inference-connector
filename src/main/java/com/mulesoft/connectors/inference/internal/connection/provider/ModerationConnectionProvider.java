@@ -31,7 +31,8 @@ public abstract class ModerationConnectionProvider extends BaseConnectionProvide
       var resp = connection.getModerationService().executeTextModeration(connection,
                                                                          IOUtils
                                                                              .toInputStream("\"You are fat\"",
-                                                                                            Charset.defaultCharset()));
+                                                                                            Charset.defaultCharset()),
+                                                                         null);
       var moderationResponse = this.getObjectMapper().readValue(resp.getOutput(), ModerationResponse.class);
 
       if (moderationResponse.flagged()) {

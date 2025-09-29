@@ -2,9 +2,19 @@
 
 	<munit:config name="read-image-url-negative-test.xml"/>
 
-	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-apikey-Test" expectedErrorType="ms-inference:READ_IMAGE_OPERATION_FAILURE">
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read-image-invalid-apikey-Test" expectedErrorType="ms-inference:READ_IMAGE_OPERATION_FAILURE">
 		<munit:execution>
 			<ms-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84" config-ref="OpenAIInvalidApiKeyVisionConfig">
+				<ms-inference:prompt ><![CDATA[#['Some payload']]]></ms-inference:prompt>
+				<ms-inference:image-url ><![CDATA[#['Some URL']]]></ms-inference:image-url>
+			</ms-inference:read-image>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="read-image-invalid-model-Test_vertexaiexpress" expectedErrorType="ms-inference:READ_IMAGE_OPERATION_FAILURE">
+		<munit:execution>
+			<ms-inference:read-image doc:name="[Image] Read by (Url or Base64)" doc:id="f2d53937-53d0-4964-b3e5-272c779ffd84"
+									 config-ref="VertexAiExpressInvalidModelVisionConfig">
 				<ms-inference:prompt ><![CDATA[#['Some payload']]]></ms-inference:prompt>
 				<ms-inference:image-url ><![CDATA[#['Some URL']]]></ms-inference:image-url>
 			</ms-inference:read-image>
