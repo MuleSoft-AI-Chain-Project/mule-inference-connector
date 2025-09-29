@@ -55,10 +55,10 @@ public class RequestPayloadHelper {
                                                                             Map<String, Object> additionalRequestAttributes)
       throws IOException {
     List<ChatPayloadRecord> messageRecords = objectMapper.readValue(
-                                                                  messages,
-                                                                  objectMapper.getTypeFactory()
-                                                                      .constructCollectionType(List.class,
-                                                                                               ChatPayloadRecord.class));
+                                                                    messages,
+                                                                    objectMapper.getTypeFactory()
+                                                                        .constructCollectionType(List.class,
+                                                                                                 ChatPayloadRecord.class));
 
     return this.buildPayload(connection, messageRecords, null, additionalRequestAttributes);
   }

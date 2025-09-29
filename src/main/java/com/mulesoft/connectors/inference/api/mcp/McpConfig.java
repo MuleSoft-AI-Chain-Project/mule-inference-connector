@@ -3,6 +3,8 @@ package com.mulesoft.connectors.inference.api.mcp;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
 import org.mule.runtime.extension.api.annotation.param.reference.ConfigReference;
 
+import java.util.Objects;
+
 public class McpConfig {
 
   @Parameter
@@ -11,5 +13,18 @@ public class McpConfig {
 
   public String getMcpClientConfigRef() {
     return mcpClientConfigRef;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass())
+      return false;
+    McpConfig mcpConfig = (McpConfig) o;
+    return Objects.equals(mcpClientConfigRef, mcpConfig.mcpClientConfigRef);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hashCode(mcpClientConfigRef);
   }
 }
