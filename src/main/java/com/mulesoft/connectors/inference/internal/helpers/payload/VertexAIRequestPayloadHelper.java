@@ -180,7 +180,9 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
   private String getMimeTypeFromUrl(String imageUrl) {
     if(imageUrl==null||imageUrl.isBlank()){return DEFAULT_MIME_TYPE;}
 
-    String trimmedUrl=imageUrl.trim();int lastDotIndex=trimmedUrl.lastIndexOf('.');
+    String trimmedUrl=imageUrl.trim();
+
+    int lastDotIndex=trimmedUrl.lastIndexOf('.');
 
     if(lastDotIndex==-1){return DEFAULT_MIME_TYPE;}
 

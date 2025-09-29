@@ -39,15 +39,15 @@ public class AnthropicRequestPayloadHelper extends RequestPayloadHelper {
                                                                    Map<String, Object> additionalRequestAttributes)
       throws IOException {
 
-    List<FunctionDefinitionRecord> toolsRecord = parseInputStreamToTools(tools);
+    List<FunctionDefinitionRecord> toolRecords = parseInputStreamToTools(tools);
 
-    logger.debug("toolsArray: {}", toolsRecord);
+    logger.debug("toolsArray: {}", toolRecords);
 
     List<ChatPayloadRecord> messages = createMessagesArrayWithSystemPrompt(
                                                                            template + " - " + instructions,
                                                                            data);
 
-    return buildPayload(connection, messages, toolsRecord, additionalRequestAttributes);
+    return buildPayload(connection, messages, toolRecords, additionalRequestAttributes);
   }
 
   @Override

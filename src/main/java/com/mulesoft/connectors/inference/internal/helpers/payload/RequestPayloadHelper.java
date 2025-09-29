@@ -54,13 +54,13 @@ public class RequestPayloadHelper {
                                                                             InputStream messages,
                                                                             Map<String, Object> additionalRequestAttributes)
       throws IOException {
-    List<ChatPayloadRecord> messagesList = objectMapper.readValue(
+    List<ChatPayloadRecord> messageRecords = objectMapper.readValue(
                                                                   messages,
                                                                   objectMapper.getTypeFactory()
                                                                       .constructCollectionType(List.class,
                                                                                                ChatPayloadRecord.class));
 
-    return this.buildPayload(connection, messagesList, null, additionalRequestAttributes);
+    return this.buildPayload(connection, messageRecords, null, additionalRequestAttributes);
   }
 
   public TextGenerationRequestPayloadDTO buildPayload(TextGenerationConnection connection, List<ChatPayloadRecord> messages,
