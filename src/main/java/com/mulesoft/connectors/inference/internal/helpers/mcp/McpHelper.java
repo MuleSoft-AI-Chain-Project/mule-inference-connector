@@ -1,8 +1,7 @@
 package com.mulesoft.connectors.inference.internal.helpers.mcp;
 
 import static com.mulesoft.connectors.inference.internal.error.InferenceErrorType.MCP_SERVER_ERROR;
-
-import static java.util.concurrent.CompletableFuture.completedFuture;
+import static com.mulesoft.connectors.inference.internal.error.InferenceErrorType.MCP_TOOLS_OPERATION_FAILURE;
 
 import org.mule.runtime.api.scheduler.Scheduler;
 import org.mule.runtime.extension.api.client.ExtensionsClient;
@@ -20,7 +19,6 @@ import com.mulesoft.connectors.inference.internal.dto.mcp.McpToolRecord;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +54,7 @@ public class McpHelper {
   public CompletableFuture<Map<String, McpToolRecord>> getTools(List<McpConfig> mcpConfigs, Scheduler scheduler,
                                                                 ExtensionsClient extensionsClient) {
     if (null == mcpConfigs || mcpConfigs.isEmpty()) {
-      return completedFuture(Collections.emptyMap());
+      throw new ModuleException("MCP configuration is required", MCP_TOOLS_OPERATION_FAILURE);
     }
     return new McpDiscovery(mcpConfigs, scheduler, extensionsClient).getDiscoveredTools();
   }

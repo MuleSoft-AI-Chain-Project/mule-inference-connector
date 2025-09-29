@@ -24,4 +24,12 @@
         </mcp:streamable-http-client-connection>
     </mcp:client-config>
 
+    <mcp:client-config name="MCP_Negative_Config_MissingAuth" doc:name="MCP Client" doc:id="163c2f4f-86bd-4860-b3b1-5606259f324f" clientName="MCP_Client_HTTP" clientVersion="1.0.0" >
+        <mcp:streamable-http-client-connection serverUrl="${mcp.httpServer}" />
+    </mcp:client-config>
+
+    <mcp:client-config name="MCP_IncorrectURL" doc:name="MCP Client" doc:id="fd3bb75d-77e1-4aed-a1e3-f7c7ca6e28fb"
+                       clientName="MCP_IncorrectURL" clientVersion="1.0.0">
+        <mcp:sse-client-connection requestTimeout="60" serverUrl="${mcp.httpServer}/test" />
+    </mcp:client-config>
 </mule> 

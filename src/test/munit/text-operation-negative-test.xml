@@ -20,9 +20,28 @@
 		</munit:execution>
 	</munit:test>
 
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_invalid-request-Test_vertexaiexpress"
+				expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e"
+											 config-ref="VertexAiExpressConfigInvalidModel">
+				<ms-inference:prompt ><![CDATA[#["What is the capital of Germany?"]]]></ms-inference:prompt>
+			</ms-inference:chat-answer-prompt>
+		</munit:execution>
+	</munit:test>
+
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_invalid-base-url-Test" expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">
 		<munit:execution>
 			<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e" config-ref="XInferenceInvalidConfig">
+				<ms-inference:prompt ><![CDATA[#['Some payload']]]></ms-inference:prompt>
+			</ms-inference:chat-answer-prompt>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_failure_withopenai_omodels" expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<ms-inference:chat-answer-prompt doc:name="[CHAT] Answer Prompt" doc:id="8c08db9d-91a5-4771-959e-751cf848093e"
+											 config-ref="OpenAIConfigWithO4MiniModelAndInvalidAPIKey">
 				<ms-inference:prompt ><![CDATA[#['Some payload']]]></ms-inference:prompt>
 			</ms-inference:chat-answer-prompt>
 		</munit:execution>
@@ -66,6 +85,14 @@
 		</munit:execution>
 	</munit:test>
 
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_completion-invalid-model-Test_vertexaiexpress" expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">
+		<munit:execution>
+			<ms-inference:chat-completions doc:name="[Chat] Completions" doc:id="80433396-b05a-4ca6-8e89-18845c897cf8" config-ref="VertexAiExpressConfigInvalidModel">
+				<ms-inference:messages ><![CDATA[#['Some payload']]]></ms-inference:messages>
+			</ms-inference:chat-completions>
+		</munit:execution>
+	</munit:test>
+
 	<!-- Tools native template tests-->
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="tools-native-template-invalid-model-Test" expectedErrorType="ms-inference:TOOLS_OPERATION_FAILURE">
 		<munit:execution>
@@ -83,6 +110,18 @@
 		<munit:execution>
 			<ms-inference:tools-native-template
 					config-ref="XInferenceInvalidConfig">
+				<ms-inference:template><![CDATA[#['Some payload']]]></ms-inference:template>
+				<ms-inference:instructions><![CDATA[#['Some payload']]]></ms-inference:instructions>
+				<ms-inference:data><![CDATA[#['Some payload']]]></ms-inference:data>
+				<ms-inference:tools><![CDATA[#['Some payload']]]></ms-inference:tools>
+			</ms-inference:tools-native-template>
+		</munit:execution>
+	</munit:test>
+
+	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="tools-native-template-missing_operation_vertexaiexpress" expectedErrorType="ms-inference:TOOLS_OPERATION_FAILURE">
+		<munit:execution>
+			<ms-inference:tools-native-template
+					config-ref="VertexAiExpressConfig">
 				<ms-inference:template><![CDATA[#['Some payload']]]></ms-inference:template>
 				<ms-inference:instructions><![CDATA[#['Some payload']]]></ms-inference:instructions>
 				<ms-inference:data><![CDATA[#['Some payload']]]></ms-inference:data>

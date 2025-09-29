@@ -10,57 +10,51 @@
 	           http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 	                    http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-    <munit:config name="mcp-tooling-negative-test.xml" minMuleVersion="4.9.6" />
+    <munit:config name="mcp-tooling-negative-test.xml" />
 
-    <munit:test description="MCP_Tooling_Empty_MCP_Config_Negative_Test" doc:id="da368b58-d280-4c01-975a-f443d8038e53" name="MCP_TOOLING_OPERATION_EMPTY_MCP_CONFIG_NEGATIVE_TEST">
+    <munit:test description="MCP_Tooling_Missing_MCP_Config"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MS-INFERENCE:MCP_TOOLS_OPERATION_FAILURE"
+                name="MCP_Tooling_Missing_MCP_Config">
         <munit:execution>
-            <try doc:name="Try">
-                <flow-ref doc:id="857e9da2-0d1d-45ca-bd2f-3909efff3841" doc:name="Flow-ref to TOOLS_NATIVE_TEMPLATE_OPERATION" name="mcp_tooling"/>
-                <error-handler>
-                    <on-error-continue type="MS-INFERENCE:MCP_SERVER_ERROR" doc:name="On Error Continue with mock values">
-                        <logger level="INFO" message="Continuing with the flow as rate limit exceeded"/>
-                        <ee:transform doc:name="Transform Message" doc:id="510a60ca-08b6-4311-b979-cb5f67e8ce4d" >
-                            <ee:message >
-                                <ee:set-payload ><![CDATA[%dw 2.0
-									output application/json
-									---
-									{
-									    "payload": {
-									        "response":"I understand you'd like to check the inventory for \"MULETEST0.\"\n\nAs an AI, I don't have direct access to real-time inventory databases or specific company systems. To get the current stock level for \"MULETEST0,\" you would typically need to:\n\n1.  **Access your company's inventory management system:** This might be a software application, a website, or an internal database.\n2.  **Contact the relevant department:** For example, your warehouse, logistics, or purchasing team.\n\nIf you can provide me with information that you *already* have access to (like a screenshot of an inventory report or a data export), I might be able to help you analyze it, but I cannot query a live system."
-									    }
-									}]]>
-                                </ee:set-payload>
-                            </ee:message>
-                        </ee:transform>
-                    </on-error-continue>
-                </error-handler>
-            </try>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
         </munit:execution>
-        <munit:validation>
-            <logger level="DEBUG" message="The payload is #[payload]"/>
-            <logger level="DEBUG" message="#[attributes]"/>
-            <munit-tools:assert-that doc:id="034ef6d8-64a0-4be0-b441-7d80c059f748" doc:name="payload.tools" expression="#[(sizeOf((payload.payload.tools default [])) == 0) as Boolean]" is="#[MunitTools::equalTo(true)]" message="The tools array should be empty"/>
-            <!-- Fixed: Use payload.payload.tools -->
-            <munit-tools:assert-that doc:name="payload.toolExecutionReport" doc:id="701a8e8c-1286-4ce5-a050-53f5c22fc480" message="The tools array should not contain a tool execution report" expression="#[(sizeOf(payload.payload.toolsExecutionReport default []) == 0) as Boolean]" is="#[MunitTools::equalTo(true)]" />
-        </munit:validation>
     </munit:test>
 
-    <sub-flow doc:id="71465f76-1597-41ec-bcb7-3d4aa45c3cac" name="mcp_tooling">
-        <set-variable doc:id="7edeecec-4d47-4bfe-a699-23987b60ac14" doc:name="Set Variable"
-                      value="#[%dw 2.0
-							output application/java
-							---
-							{
-								'template': 'You are an helpful assistant',
-								'instructions':'Answer the request with politeness.',
-								'dataset': 'Check Inventory for MULETEST0'
-							}]"
-                      variableName="testPayload"/>
-        <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
-                                                config-ref="GeminiConfig">
-            <ms-inference:template ><![CDATA[#[vars.testPayload.template]]]></ms-inference:template>
-            <ms-inference:instructions ><![CDATA[#[vars.testPayload.instructions]]]></ms-inference:instructions>
-            <ms-inference:data ><![CDATA[#[vars.testPayload.dataset]]]></ms-inference:data>
-        </ms-inference:mcp-tools-native-template>
-    </sub-flow>
+    <munit:test description="MCP_Tooling_MCP_Config_HTTP_AuthIssue"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MCP:SERVER_ERROR"
+                name="MCP_Tooling_MCP_Config_HTTP_AuthIssue">
+        <munit:execution>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:mcp-config-references>
+                    <ms-inference:mcp-config mcpClientConfigRef="MCP_Negative_Config_MissingAuth" />
+                </ms-inference:mcp-config-references>
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
+        </munit:execution>
+    </munit:test>
+
+    <munit:test description="MCP_Tooling_MCP_InvalidConfig"
+                doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MS-INFERENCE:CONNECTIVITY"
+                name="MCP_Tooling_MCP_InvalidConfig">
+        <munit:execution>
+            <ms-inference:mcp-tools-native-template doc:name="[MCP] Tooling" doc:id="6783c672-bc72-49c7-bf3a-3f3379e3c9a9"
+                                                    config-ref="OpenAIConfig">
+                <ms-inference:mcp-config-references>
+                    <ms-inference:mcp-config mcpClientConfigRef="MCP_IncorrectURL" />
+                </ms-inference:mcp-config-references>
+                <ms-inference:template ><![CDATA[#['You are an helpful assistant']]]></ms-inference:template>
+                <ms-inference:instructions ><![CDATA[#['Answer the request with politeness.']]]></ms-inference:instructions>
+                <ms-inference:data ><![CDATA[#['Check Inventory for MULETEST0']]]></ms-inference:data>
+            </ms-inference:mcp-tools-native-template>
+        </munit:execution>
+    </munit:test>
+
 </mule>

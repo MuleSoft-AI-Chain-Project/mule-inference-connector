@@ -19,9 +19,21 @@
         </ms-inference:vertexai-express-connection>
     </ms-inference:text-generation-config>
 
+    <ms-inference:text-generation-config name="VertexAiExpressConfigInvalidModel" doc:name="zhipu Text generation config" doc:id="1ef66d01-d3ec-442a-bf61-99919d73f97e" >
+        <ms-inference:vertexai-express-connection apiKey="${vertexaiexpress.apiKey}" vertexAIExpressModelName="InvalidModel"
+                                                  maxTokens="5000" timeout="6000">
+        </ms-inference:vertexai-express-connection>
+    </ms-inference:text-generation-config>
+
     <!-- Vision Configuration -->
     <ms-inference:vision-config name="VertexAiExpressVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
         <ms-inference:vertexai-express-vision-connection apiKey="${vertexaiexpress.apiKey}" vertexAIExpressModelName="${vertexaiexpress.llmModel}"
                                                           maxTokens="15000" />
+    </ms-inference:vision-config>
+
+    <!-- Vision Incorrect Configuration -->
+    <ms-inference:vision-config name="VertexAiExpressInvalidModelVisionConfig" doc:name="MuleSoft Inference Vision config" doc:id="797661b2-a4ac-493d-8550-45d05d03da17" >
+        <ms-inference:vertexai-express-vision-connection apiKey="${vertexaiexpress.apiKey}" vertexAIExpressModelName="InvalidModel"
+                                                         maxTokens="15000" />
     </ms-inference:vision-config>
 </mule>

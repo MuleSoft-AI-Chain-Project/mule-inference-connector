@@ -7,6 +7,14 @@ import java.util.Objects;
 
 public class McpConfig {
 
+  /**
+   * Reference to the MCP client configuration defined as part of configuration from the MCP connector.
+   *
+   * <p>
+   * This value must match the {@code name} of a {@code mcp:client-config} declared in the global configuration. It is used to
+   * discover and execute tools against the targeted MCP server.
+   * </p>
+   */
   @Parameter
   @ConfigReference(namespace = "MCP", name = "CLIENT")
   private String mcpClientConfigRef;
