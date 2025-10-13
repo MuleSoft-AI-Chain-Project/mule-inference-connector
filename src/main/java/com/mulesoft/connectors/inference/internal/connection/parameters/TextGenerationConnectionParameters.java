@@ -4,6 +4,7 @@ import org.mule.runtime.api.meta.ExpressionSupport;
 import org.mule.runtime.extension.api.annotation.Expression;
 import org.mule.runtime.extension.api.annotation.param.Optional;
 import org.mule.runtime.extension.api.annotation.param.Parameter;
+import org.mule.runtime.extension.api.annotation.param.display.Example;
 import org.mule.runtime.extension.api.annotation.param.display.Placement;
 import org.mule.runtime.extension.api.annotation.param.display.Summary;
 
@@ -34,9 +35,10 @@ public class TextGenerationConnectionParameters extends BaseConnectionParameters
    */
   @Parameter
   @Expression(ExpressionSupport.SUPPORTED)
-  @Optional(defaultValue = "0.9")
+  @Optional
   @Placement(order = 5)
   @Summary("Controls diversity by limiting choices to the most probable options.")
+  @Example("0.9")
   private Number topP;
 
   public Number getMaxTokens() {
