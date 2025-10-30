@@ -1,17 +1,23 @@
 package com.mulesoft.connectors.inference.internal.helpers.payload;
 
 import com.mulesoft.connectors.inference.api.request.ChatPayloadRecord;
+import com.mulesoft.connectors.inference.api.request.Function;
 import com.mulesoft.connectors.inference.api.request.FunctionDefinitionRecord;
 import com.mulesoft.connectors.inference.internal.connection.types.TextGenerationConnection;
 import com.mulesoft.connectors.inference.internal.connection.types.VisionModelConnection;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.DefaultRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.textgeneration.TextGenerationRequestPayloadDTO;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.ContentRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.GeminiPayloadRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.PartRecord;
+import com.mulesoft.connectors.inference.internal.dto.textgeneration.gemini.SystemInstructionRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.DefaultVisionRequestPayloadRecord;
 import com.mulesoft.connectors.inference.internal.dto.vision.VisionRequestPayloadDTO;
 import com.mulesoft.connectors.inference.internal.dto.vision.gemini.FileData;
 import com.mulesoft.connectors.inference.internal.dto.vision.gemini.InlineData;
 import com.mulesoft.connectors.inference.internal.dto.vision.gemini.Part;
 import com.mulesoft.connectors.inference.internal.dto.vision.gemini.VisionContentRecord;
+import com.mulesoft.connectors.inference.internal.helpers.payload.GeminiRequestPayloadHelper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -82,23 +88,52 @@ public class VertexAIRequestPayloadHelper extends RequestPayloadHelper {
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data,
-                                                                   List<FunctionDefinitionRecord> tools,
-                                                                   Map<String, Object> additionalRequestAttributes) {
+                                                                   String instructions, String data, InputStream tools,
+                                                                   Map<String, Object> additionalRequestAttributes)
+      throws IOException {
 
-    throw new UnsupportedOperationException("Currently not supported");
+    List<FunctionDefinitionRecord> openAIFormatTools = objectMapper.readValue(
+                                                                              tools,
+                                                                              objectMapper.getTypeFactory()
+                                                                                  .constructCollectionType(List.class,
+                                                                                                           FunctionDefinitionRecord.class));
+
+    return buildToolsTemplatePayload(connection, template, instructions, data, openAIFormatTools, additionalRequestAttributes);
   }
 
   @Override
   public TextGenerationRequestPayloadDTO buildToolsTemplatePayload(TextGenerationConnection connection, String template,
-                                                                   String instructions, String data, InputStream tools,
-                                                                   Map<String, Object> additionalRequestAttributes)
-      throws IOException {
-    String provider = getProviderByModel(connection.getModelName());
+                                                                   String instructions, String data,
+                                                                   List<FunctionDefinitionRecord> openAIFormatTools,
+                                                                   Map<String, Object> additionalRequestAttributes) {
 
-    throw new IllegalArgumentException(provider + ":" + connection.getModelName()
-        + " on Vertex AI do not currently support function calling at this time.");
+    // STEP 1: Parse to Gemini-compatible function declarations
+    List<Function> functionDeclarations = GeminiRequestPayloadHelper.getGeminiCompatibleFunctionList(openAIFormatTools);
+    logger.debug("functionDeclarations: {}", functionDeclarations);
+
+    // STEP 2: Create System Instruction
+    PartRecord partRecord = new PartRecord(template + " - " + instructions, null);
+
+    SystemInstructionRecord systemInstructionRecord = new SystemInstructionRecord(List.of(partRecord));
+
+    // STEP 3: Call Gemini payload builder (must support function_declarations)
+
+    GeminiPayloadRecord<ContentRecord> geminiPayload = GeminiRequestPayloadHelper.buildGeminiPayload(
+                                                                                                     connection,
+                                                                                                     data,
+                                                                                                     Collections.emptyList(), // safety
+                                                                                                                              // settings
+                                                                                                     systemInstructionRecord,
+                                                                                                     functionDeclarations, // Pass
+                                                                                                                           // Gemini-compatible
+                                                                                                                           // format
+                                                                                                     additionalRequestAttributes);
+    logger.debug("geminiPayload: {}", geminiPayload);
+
+    return geminiPayload;
   }
+
+
 
   @Override
     public VisionRequestPayloadDTO createRequestImageURL(VisionModelConnection connection, String prompt, String imageUrl,

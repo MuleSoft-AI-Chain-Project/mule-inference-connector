@@ -146,7 +146,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
     return buildVisionRequestPayload(connection, List.of(content), additionalRequestAttributes);
   }
 
-  private List<Function> getGeminiCompatibleFunctionList(List<FunctionDefinitionRecord> openAIFormatTools) {
+  public static List<Function> getGeminiCompatibleFunctionList(List<FunctionDefinitionRecord> openAIFormatTools) {
     return Optional.ofNullable(openAIFormatTools)
         .map(tools -> tools.stream()
             .map(FunctionDefinitionRecord::function)
@@ -186,12 +186,12 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
 
   }
 
-  private GeminiPayloadRecord<ContentRecord> buildGeminiPayload(TextGenerationConnection connection,
-                                                                String prompt,
-                                                                List<String> safetySettings,
-                                                                SystemInstructionRecord systemInstruction,
-                                                                List<Function> functions,
-                                                                Map<String, Object> additionalRequestAttributes) {
+  public static GeminiPayloadRecord<ContentRecord> buildGeminiPayload(TextGenerationConnection connection,
+                                                                      String prompt,
+                                                                      List<String> safetySettings,
+                                                                      SystemInstructionRecord systemInstruction,
+                                                                      List<Function> functions,
+                                                                      Map<String, Object> additionalRequestAttributes) {
 
     PartRecord partRecord = new PartRecord(prompt, null);
 
@@ -214,8 +214,9 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
                                      tools);
   }
 
-  private GeminiGenerationConfigRecord buildGeminiGenerationConfig(Number maxTokens, Number temperature,
-                                                                   Number topP, Map<String, Object> additionalRequestAttributes) {
+  public static GeminiGenerationConfigRecord buildGeminiGenerationConfig(Number maxTokens, Number temperature,
+                                                                         Number topP,
+                                                                         Map<String, Object> additionalRequestAttributes) {
     // create the generationConfig
     return new GeminiGenerationConfigRecord(List.of("TEXT"), temperature,
                                             topP, maxTokens, additionalRequestAttributes);
@@ -228,7 +229,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
    * (optional) This method recursively sanitizes a FunctionSchema object and all its nested properties to ensure Gemini
    * compatibility. It performs a deep clone-like operation while filtering out unsupported attributes.
    */
-  private FunctionSchema mapGeminiCompatibleFunctionSchema(FunctionSchema parameters) {
+  public static FunctionSchema mapGeminiCompatibleFunctionSchema(FunctionSchema parameters) {
     if (parameters == null) {
       return null;
     }
@@ -269,7 +270,7 @@ public class GeminiRequestPayloadHelper extends RequestPayloadHelper {
   /**
    * Deep sanitizes properties map by recursively applying Gemini-compatible sanitization to all nested FunctionSchema objects.
    */
-  private Map<String, FunctionSchema> deepSanitizeProperties(Map<String, FunctionSchema> properties) {
+  public static Map<String, FunctionSchema> deepSanitizeProperties(Map<String, FunctionSchema> properties) {
     if (properties == null || properties.isEmpty()) {
       return properties;
     }
