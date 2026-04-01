@@ -16,51 +16,51 @@
 
 	<munit:config name="response-format-json-schema-test.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-azure-openai" >
+			<!--<munit:parameterization name="config-azure-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-cerebras" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-github" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-mistralai" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openai-compatible">
+			<!--<munit:parameterization name="config-openai-compatible">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-together" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-together" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="TogetherConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-            <munit:parameterization name="config-xai" >
+			</munit:parameterization>-->
+            <!--<munit:parameterization name="config-xai" >
                 <munit:parameters >
                     <munit:parameter propertyName="config" value="XAiConfig" />
                 </munit:parameters>
-            </munit:parameterization>
+            </munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 

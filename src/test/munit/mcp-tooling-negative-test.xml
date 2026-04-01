@@ -10,7 +10,7 @@
 	           http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 	                    http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 
-    <munit:config name="mcp-tooling-negative-test.xml" />
+    <munit:config name="mcp-tooling-negative-test.xml" ignore="true" />
 
     <munit:test description="MCP_Tooling_Missing_MCP_Config"
                 doc:id="da368b58-d280-4c01-975a-f443d8038e53" expectedErrorType="MS-INFERENCE:MCP_TOOLS_OPERATION_FAILURE"

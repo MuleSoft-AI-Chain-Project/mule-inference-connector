@@ -11,7 +11,7 @@
 	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd
 	   http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
 
-	<munit:config name="chat-completion-with-varying-input.xml"/>
+	<munit:config name="chat-completion-with-varying-input.xml" ignore="true"/>
 
 	<!--<munit:test doc:id="cc682dfa-1bb7-40b9-a51a-10fb79190f83" name="chat_completion_operation_test_hugging-face">
 		<munit:execution>

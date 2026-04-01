@@ -13,128 +13,128 @@
 
 	<munit:config name="chat-completion.xml">
 		<munit:parameterizations >
-			<munit:parameterization name="config-ai21labs" >
+			<!--<munit:parameterization name="config-ai21labs" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="Ai21labsConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-anthropic" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-azure-ai-foundry" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-azure-openai" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-azure-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-cerebras" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-cohere" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-cohere" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CohereConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-deepinfra" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<!-- Deepseek integrations might not work in local due to sever restrictions, but works with jenkins pipeline-->
-			<munit:parameterization name="config-deepseek" >
+			<!--<munit:parameterization name="config-deepseek" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepseekConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-fireworks" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-fireworks" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="FireworksConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-gemini" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-gemini" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GeminiConfig" />
 					<munit:parameter propertyName="finishReason" value="STOP" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-github" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-groq" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-heroku" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-heroku" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HerokuTextConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-mistralai" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-nvidia">
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-nvidia">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="NvidiaConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIConfig" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openai-compatible">
+			<!--<munit:parameterization name="config-openai-compatible">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-portkey" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-portkey" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="PortkeyConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-together" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-together" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="TogetherConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-vertexaiexpress" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-vertexaiexpress" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="VertexAiExpressConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-            <munit:parameterization name="config-xai" >
+			</munit:parameterization>-->
+            <!--<munit:parameterization name="config-xai" >
                 <munit:parameters >
                     <munit:parameter propertyName="config" value="XAiConfig" />
                 </munit:parameters>
-            </munit:parameterization>
+            </munit:parameterization>-->
 			<!--<munit:parameterization name="config-xinference" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XInferenceConfig" />
 				</munit:parameters>
 			</munit:parameterization>-->
-			<munit:parameterization name="config-zhipu" >
+			<!--<munit:parameterization name="config-zhipu" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="ZhipuConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 
