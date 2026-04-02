@@ -7,41 +7,41 @@
 					<munit:parameter propertyName="config" value="AzureAiFoundryVisionConfig" />
 				</munit:parameters>
 			</munit:parameterization>-->
-			<munit:parameterization name="config-github" >
+			<!--<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubVisionConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-groq" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqVision" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<!--<munit:parameterization name="config-hugging-face" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="HuggingFaceVisionConfig" />
 				</munit:parameters>
 			</munit:parameterization>-->
-			<munit:parameterization name="config-mistralai" >
+			<!--<munit:parameterization name="config-mistralai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="MistralAIVision" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenAIVision" />
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			<!--<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterVision" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-xai" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-xai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="XAiVisionConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 

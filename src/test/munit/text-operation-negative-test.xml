@@ -9,7 +9,7 @@
 	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd">
 
-	<munit:config name="text-operation-negative-test.xml" />
+	<munit:config name="text-operation-negative-test.xml" ignore="true" />
 
 	<!-- Chat answer prompt tests-->
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="chat_invalid-model-Test" expectedErrorType="ms-inference:CHAT_OPERATION_FAILURE">

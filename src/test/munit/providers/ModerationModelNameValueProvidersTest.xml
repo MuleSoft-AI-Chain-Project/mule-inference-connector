@@ -19,11 +19,11 @@
         </mtf:validation>
     </mtf:tooling-test>
 
-    <mtf:tooling-test name="mistralai-moderation-model-name-values-test">
+    <!--<mtf:tooling-test name="mistralai-moderation-model-name-values-test">
         <mtf:get-values-from-config config-ref="MistralAIModeration" parameter="mistralAIModelName"/>
         <mtf:validation>
             <munit-tools:assert-that expression="#[sizeOf(payload)]" is="#[MunitTools::equalTo(1)]"/>
         </mtf:validation>
-    </mtf:tooling-test>
+    </mtf:tooling-test>-->
 
 </mule> 

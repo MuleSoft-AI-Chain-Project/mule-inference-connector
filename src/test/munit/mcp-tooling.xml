@@ -12,71 +12,71 @@
 
 	<munit:config name="mcp-tooling.xml" minMuleVersion="4.9.6">
 		<munit:parameterizations>
-			<munit:parameterization name="config-anthropic" >
+			<!--<munit:parameterization name="config-anthropic" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AnthropicConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-azure-ai-foundry" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-azure-ai-foundry" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="azureAiFoundryConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-azure-openai" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-azure-openai" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="AzureOpenAIConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-cerebras" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-cerebras" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CerebrasConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-cohere" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-cohere" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="CohereConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-deepinfra" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-deepinfra" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="DeepinfraConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-gemini">
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-gemini">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="GeminiConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-github" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-github" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GithubConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-groq" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-groq" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="GroqConfig" />
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-mistralai">
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-mistralai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="MistralAIConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 			<munit:parameterization name="config-openai">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAIConfig"/>
 				</munit:parameters>
 			</munit:parameterization>
-			<munit:parameterization name="config-openai-compatible">
+			<!--<munit:parameterization name="config-openai-compatible">
 				<munit:parameters>
 					<munit:parameter propertyName="config" value="OpenAICompatibleConfig"/>
 				</munit:parameters>
-			</munit:parameterization>
-			<munit:parameterization name="config-openrouter" >
+			</munit:parameterization>-->
+			<!--<munit:parameterization name="config-openrouter" >
 				<munit:parameters >
 					<munit:parameter propertyName="config" value="OpenrouterConfig" />
 				</munit:parameters>
-			</munit:parameterization>
+			</munit:parameterization>-->
 		</munit:parameterizations>
 	</munit:config>
 

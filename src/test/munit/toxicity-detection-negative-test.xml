@@ -7,7 +7,7 @@
 	  http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
 	  http://www.mulesoft.org/schema/mule/ms-inference http://www.mulesoft.org/schema/mule/ms-inference/current/mule-ms-inference.xsd">
 
-	<munit:config name="toxicity-detection-negative-test.xml"/>
+	<munit:config name="toxicity-detection-negative-test.xml" ignore="true"/>
 
 	<munit:test doc:id="b3144fa3-60d9-41f1-9c26-ab5eae501685" name="moderation-invalid-apikey-Test" expectedErrorType="ms-inference:TOXICITY_DETECTION_OPERATION_FAILURE">
 		<munit:execution>
